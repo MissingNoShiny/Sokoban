@@ -1,7 +1,7 @@
 
 public class Player {
 	
-	int x, y;
+	int x, y, oldX, oldY;
 	
 	public Player() {
 		this(0, 0);
@@ -10,6 +10,17 @@ public class Player {
 	public Player(int xInput, int yInput) {
 		x = xInput;
 		y = yInput;
+		oldX = x;
+		oldY = y;		
+	}
+	
+	//Accesseurs
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
 	}
 	
 	//Déplacements
@@ -29,4 +40,12 @@ public class Player {
 		y -= 1;
 	}
 	
+	//Pour détecter si le joueur a bougé entre deux exécutions de la fonction
+	public boolean hasMoved() {
+		if (x == oldX && y == oldY)
+			return false;
+		oldX = x;
+		oldY = y;
+		return true;
+	}
 }
