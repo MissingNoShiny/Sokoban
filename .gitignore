@@ -68,3 +68,4 @@ bin
 .settings
 .classpath
 .project
+*.metadata
