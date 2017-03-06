@@ -64,7 +64,7 @@ public class Player {
 	}
 	
 	//Pour détecter si le joueur a bougé entre deux exécutions de la fonction
-	public boolean maybeMoved() {
+	public boolean hasMoved() {
 		if (x == oldX && y == oldY)
 			return false;
 		oldX = x;
