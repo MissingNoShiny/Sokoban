@@ -24,6 +24,29 @@ public class Player {
 	}
 	
 	//Déplacements
+	public void move(int dir){ //1 pour Up, 2 pour Right, 3 pour Down, 4 pour Left
+		switch (dir) {
+		case 1:  //A chaque fois, un test pour voir si le mouvement est possible est nécessaire
+			this.moveUp();
+			break;
+		case 2:
+			this.moveRight();
+			break;
+		case 3:
+			this.moveDown();
+			break;
+		case 4:
+			this.moveLeft();
+			break;
+		default :
+			break; // Un pass serait peut être plus approprié
+		}
+	
+	}
+	/*public void possibleMove(int dir, qqch qui permette de voir si le mvt est possible){
+	 * 
+	 * } */
+	
 	public void moveUp() {
 		y += 1;
 	}
@@ -41,7 +64,7 @@ public class Player {
 	}
 	
 	//Pour détecter si le joueur a bougé entre deux exécutions de la fonction
-	public boolean hasMoved() {
+	public boolean maybeMoved() {
 		if (x == oldX && y == oldY)
 			return false;
 		oldX = x;
