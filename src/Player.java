@@ -2,29 +2,19 @@
 import javax.imageio.*;
 import java.awt.image.*;
 
-public class Player {
+public class Player extends Position {
 	
-	int x, y, oldX, oldY;
+	int oldX, oldY;
 	
 	public Player() {
 		this(0, 0, new BufferedImage(16, 16, Image));
 	}
 	
 	public Player(int xInput, int yInput, Image img) {
-		x = xInput;
-		y = yInput;
+		super(xInput, yInput);
 		oldX = x;
 		oldY = y;
 		sprite = img;
-	}
-	
-	//Accesseurs
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
 	}
 	
 	//Déplacements
