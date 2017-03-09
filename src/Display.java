@@ -3,7 +3,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
-public class Display extends JFrame implements KeyListener{	
+public class Display extends JFrame {	
 	
 	public static void main(String[] args) {
 		Display fenetre = new Display();
@@ -20,43 +20,47 @@ public class Display extends JFrame implements KeyListener{
 		
 		setVisible(true);
 		
-		addKeyListener(this);
+		addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) { 
+				int input = e.getKeyCode();
+				switch (input){
+				case KeyEvent.VK_ENTER:
+					System.out.println("Coordonnées du joueur: ");
+					System.out.print(play.getX() + ", " + play.getY());
+					break;
+				case KeyEvent.VK_UP:
+					System.out.println("UP");
+					play.moveUp();
+					break;
+				case KeyEvent.VK_RIGHT :
+					System.out.println("RIGHT");
+					play.moveRight();
+					break;
+				case KeyEvent.VK_DOWN:
+					System.out.println("DOWN");
+					play.moveDown();
+					break;
+				case KeyEvent.VK_LEFT:
+					System.out.println("LEFT");
+					play.moveLeft();
+					break;
+				case KeyEvent.VK_M:
+					System.out.println("Le joueur a bougé: " + play.hasMoved())
+					break;
+				default :
+				}
+			}
+			    
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+			
+		}
+		);
 	}
 	
-    public void keyPressed(KeyEvent e) { 
-    	int input = e.getKeyCode();
-    	switch (input){
-    	case KeyEvent.VK_ENTER:
-        	System.out.println("Vous avez appuy� sur Enter");
-        	break;
-    	case KeyEvent.VK_UP:
-    		System.out.println("UP");
-    		break;
-    	case KeyEvent.VK_RIGHT :
-    		System.out.println("RIGHT");
-    		break;
-    	case KeyEvent.VK_DOWN:
-    		System.out.println("DOWN");
-    		break;
-    	case KeyEvent.VK_LEFT:
-    		System.out.println("LEFT");
-    		break;
-    	case KeyEvent.VK_J:
-    		System.out.println("J");
-    		break;
-    	default :
-    	}
-    }
-    
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }
