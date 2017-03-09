@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 public class Display extends JFrame {	
 	
 	public static void main(String[] args) {
+		
 		Display fenetre = new Display();
+		Panel p = new Panel();
 	}
 	
 	public Display() {
@@ -16,17 +18,17 @@ public class Display extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		
-		Panel p = new Panel();
-		
 		setVisible(true);
+		
+		Player play = new Player();
 		
 		addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) { 
 				int input = e.getKeyCode();
 				switch (input){
 				case KeyEvent.VK_ENTER:
-					System.out.println("CoordonnÃ©es du joueur: ");
-					System.out.print(play.getX() + ", " + play.getY());
+					System.out.print("Coordonnées du joueur: ");
+					System.out.println(play.getX() + ", " + play.getY());
 					break;
 				case KeyEvent.VK_UP:
 					System.out.println("UP");
@@ -45,7 +47,7 @@ public class Display extends JFrame {
 					play.moveLeft();
 					break;
 				case KeyEvent.VK_M:
-					System.out.println("Le joueur a bougÃ©: " + play.hasMoved())
+					System.out.println("Le joueur a bougé: " + play.hasMoved());
 					break;
 				default :
 				}

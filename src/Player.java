@@ -1,13 +1,14 @@
 
-import javax.imageio.*;
-import java.awt.image.*;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 public class Player extends Position {
 	
 	int oldX, oldY;
+	Image sprite;
 	
 	public Player() {
-		this(0, 0, new BufferedImage(16, 16, Image));
+		this(0, 0, new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB));
 	}
 	
 	public Player(int xInput, int yInput, Image img) {
@@ -17,7 +18,7 @@ public class Player extends Position {
 		sprite = img;
 	}
 	
-	//Déplacements
+	//D�placements
 	public void moveUp() {
 		y += 1;
 	}
@@ -33,7 +34,6 @@ public class Player extends Position {
 		x -= 1;
 	}
 	
-	//Pour détecter si le joueur a bougé entre deux exécutions de la fonction
 	public boolean hasMoved() {
 		if (x == oldX && y == oldY)
 			return false;
