@@ -1,17 +1,21 @@
 
+import javax.imageio.*;
+import java.awt.image.*;
+
 public class Player {
 	
 	int x, y, oldX, oldY;
 	
 	public Player() {
-		this(0, 0);
+		this(0, 0, new BufferedImage(16, 16, Image));
 	}
 	
-	public Player(int xInput, int yInput) {
+	public Player(int xInput, int yInput, Image img) {
 		x = xInput;
 		y = yInput;
 		oldX = x;
-		oldY = y;		
+		oldY = y;
+		sprite = img;
 	}
 	
 	//Accesseurs
@@ -30,8 +34,7 @@ public class Player {
 	
 	public void moveDown() {
 		y -= 1;
-	}
-	
+	}	
 	public void moveRight() {
 		x += 1;
 	}
