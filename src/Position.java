@@ -8,12 +8,12 @@ public class Position {
 	/**
 	 * The X-coordinate of the object.
 	 */
-	private int x;
+	public int x;
 	
 	/**
 	 * The Y-coordinate of the object.
 	 */
-	private int y;
+	public int y;
 	
 	/**
 	 * Creates a position with the specified coordinates in input.
