@@ -18,7 +18,7 @@ public class Player extends Position {
 		sprite = img;
 	}
 	
-	//Dï¿½placements
+	//Déplacements
 	public void moveUp() {
 		y += 1;
 	}
@@ -34,6 +34,7 @@ public class Player extends Position {
 		x -= 1;
 	}
 	
+	//Pour détecter si le joueur a changé de position entre deux exécutions de la fonction
 	public boolean hasMoved() {
 		if (x == oldX && y == oldY)
 			return false;

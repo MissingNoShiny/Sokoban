@@ -1,10 +1,10 @@
 
-public class Game {
+public class Grid {
 	
 	Position [][] matrix;
 	int height, width;
 	
-	public Game (int height, int width) {
+	public Grid (int height, int width) {
 		matrix = new Position [height][width];
 		this.height = height;
 		this.width = width;
