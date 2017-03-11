@@ -27,7 +27,7 @@ public class Grid {
 	}
 	
 	public boolean moveUp(int x, int y) {
-		if (matrix[y][x] != null && y!= 0) {
+		if (matrix[y][x] != null && y!= 0 && matrix[y-1][x] == null) {
 			matrix[y-1][x] = matrix[y][x];
 			matrix[y][x] = null;
 			return true;
@@ -36,7 +36,7 @@ public class Grid {
 	}
 	
 	public boolean moveDown(int x, int y) {
-		if (matrix[y][x] != null && y!= height-1) {
+		if (matrix[y][x] != null && y!= height-1 && matrix[y+1][x] == null) {
 			matrix[y+1][x] = matrix[y][x];
 			matrix[y][x] = null;
 			return true;
@@ -45,7 +45,7 @@ public class Grid {
 	}
 	
 	public boolean moveRight(int x, int y) {
-		if (matrix[y][x] != null && x!= width-1) {
+		if (matrix[y][x] != null && x!= width-1 && matrix[y][x+1] == null) {
 			matrix[y][x+1] = matrix[y][x];
 			matrix[y][x] = null;
 			return true;
@@ -54,7 +54,7 @@ public class Grid {
 	}
 	
 	public boolean moveLeft(int x, int y) {
-		if (matrix[y][x] != null && x!= 0) {
+		if (matrix[y][x] != null && x!= 0 && matrix[y][x-1] == null) {
 			matrix[y][x-1] = matrix[y][x];
 			matrix[y][x] = null;
 			return true;

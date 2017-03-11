@@ -10,9 +10,14 @@ import javax.swing.JFrame;
 
 public class Display extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6826804177182624245L;
+
 	public static void main(String[] args) {
 		
-		Grid grid = new Grid(5, 5);		
+		Grid grid = new Grid(10, 10);		
 		
 		BufferedImage img = null;
 		try {
@@ -23,7 +28,15 @@ public class Display extends JFrame {
 		Player player = new Player(0, 0, img);
 		grid.placeOnGrid(player.getX(), player.getY(), player);
 		
-		Display fenetre = new Display(32*5, 32*5);
+		try {
+		    img = ImageIO.read(new File("resources/wall.jpg"));
+		} catch (IOException e) {
+		}
+		
+		Wall wall = new Wall(5, 5, img);
+		grid.placeOnGrid(wall.getX(), wall.getY(), wall);
+		
+		Display fenetre = new Display(32*grid.getWidth(), 32*grid.getHeight());
 		Panel p = new Panel(grid);
 		fenetre.setContentPane(p);
 		
