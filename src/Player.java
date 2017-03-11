@@ -8,24 +8,22 @@ public class Player extends Position {
 	Image sprite;
 	
 	public Player() {
-		this(0, 0, new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB));
+		super(0, 0, new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB));
 	}
 	
 	public Player(int xInput, int yInput, Image img) {
-		super(xInput, yInput);
-		oldX = x;
-		oldY = y;
-		sprite = img;
+		super(xInput, yInput, img);
 	}
 	
 	//Déplacements
 	public void moveUp() {
-		y += 1;
+		y -= 1;
 	}
 	
 	public void moveDown() {
-		y -= 1;
+		y += 1;
 	}	
+	
 	public void moveRight() {
 		x += 1;
 	}

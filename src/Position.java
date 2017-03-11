@@ -1,3 +1,4 @@
+import java.awt.Image;
 
 /**
  * Description
@@ -16,13 +17,20 @@ public class Position {
 	public int y;
 	
 	/**
+	 * The sprite of the object.
+	 */
+	Image sprite;
+	
+	/**
 	 * Creates a position with the specified coordinates in input.
 	 * @param inputX the X-coordinate of the object
 	 * @param inputY the Y-coordinate of the object
+	 * @param img the sprite of the object
 	 */
-	public Position (int inputX, int inputY) {
+	public Position (int inputX, int inputY, Image img) {
 		x = inputX;
 		y = inputY;
+		sprite = img;
 	}
 	
 	/**
@@ -39,6 +47,14 @@ public class Position {
 	 */
 	public int getY () {
 		return y;
+	}
+	
+	/**
+	 * Gets the sprite of the object.
+	 * @return The sprite of the object
+	 */
+	public Image getSprite() {
+		return sprite;
 	}
 	
 	/**
@@ -62,7 +78,7 @@ public class Position {
 	 * @param other the object to compare the coordinates with
 	 * @return true if the objects have the same coordinates, false else
 	 */
-	public boolean equals (Position other) {
+	public boolean equals(Position other) {
 			
 		if (this.x != other.x)
 			return false;
