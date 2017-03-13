@@ -1,3 +1,4 @@
+import java.io.*;
 
 public class Grid {
 	
@@ -61,6 +62,44 @@ public class Grid {
 		}
 		return false;
 	}
+
+
+	/*public static Grid read_grid (String name) {
+		FileInputStream flux = new FileInputStream (name);
+		InputStreamReader read = new InputStreamReader(flux); 
+		BufferedReader buff=new BufferedReader(read);
+		String ligne;
+		int height = 0, width;
+		while ((ligne=buff.readLine())!=null){
+			height++;
+		}
+		width = ligne.length();
+		Grid grid = new Grid(height, width);
+		char character;
+		for (int i = 0; i < height; i++){
+			ligne = buff.readLine();
+			for (int j = 0; j < width; j++) {
+				character = ligne[j];
+				switch (character) {  //ici, une structure analogue au dictionnaire serait plus pratique qu'un switch puisque le bloc exécuté est toujours le même
+				case ("#") :
+					grid.placeOnGrid(i, j, wall);
+					break;
+				case ("$"):
+					grid.placeOnGrid(i, j, "caisse");
+					break;
+				case(" ") :
+					break;
+				case(".") :
+					grid.placeOnGrid(i, j, "objectif);
+					break;
+				case ("@"):
+					grid.placeOnGrid(i, j, Player);
+				}
+			}
+		}
+		return grid;
+	}
+	*/
 	
 	/*public boolean isFree(int posX, int posY) {
 		if ((posX < height) && (posY < width)) {
