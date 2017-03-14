@@ -1,38 +1,29 @@
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
-public class Player extends Position {
+public class Player extends Crate {
 	
 	int oldX, oldY;
-	Image sprite;
 	
 	public Player() {
-		super(0, 0, new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB));
+		super(0, 0);
 	}
 	
-	public Player(int xInput, int yInput, Image img) {
-		super(xInput, yInput, img);
+	public Player(int xInput, int yInput) {
+		super(xInput, yInput);
 	}
 	
-	//Déplacements
-	public void moveUp() {
-		y -= 1;
+	@Override
+	public void setSprite() {
+		try {
+		    sprite = ImageIO.read(new File("resources/banana.gif"));
+		} catch (IOException e) {
+		}
 	}
 	
-	public void moveDown() {
-		y += 1;
-	}	
-	
-	public void moveRight() {
-		x += 1;
-	}
-	
-	public void moveLeft() {
-		x -= 1;
-	}
-	
-	//Pour détecter si le joueur a changé de position entre deux exécutions de la fonction
+	//Pour détecter si le joueur a change de position entre deux executions de la fonction
 	public boolean hasMoved() {
 		if (x == oldX && y == oldY)
 			return false;

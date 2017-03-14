@@ -18,23 +18,21 @@ public class Display extends JFrame {
 	public static void main(String[] args) {
 		
 		Grid grid = new Grid(10, 10);		
+				
+		Player player = new Player(0, 0);
+		grid.placeOnGrid(player);
 		
 		BufferedImage img = null;
-		try {
-		    img = ImageIO.read(new File("resources/banana.gif"));
-		} catch (IOException e) {
-		}
-		
-		Player player = new Player(0, 0, img);
-		grid.placeOnGrid(player.getX(), player.getY(), player);
-		
 		try {
 		    img = ImageIO.read(new File("resources/wall.jpg"));
 		} catch (IOException e) {
 		}
 		
+		Crate crate = new Crate(8, 8);
+		grid.placeOnGrid(crate);
+		
 		Wall wall = new Wall(5, 5, img);
-		grid.placeOnGrid(wall.getX(), wall.getY(), wall);
+		grid.placeOnGrid(wall);
 		
 		Display fenetre = new Display(32*grid.getWidth(), 32*grid.getHeight());
 		Panel p = new Panel(grid);
