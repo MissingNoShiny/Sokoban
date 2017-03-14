@@ -1,4 +1,4 @@
-//import java.io.*;
+import java.io.*;
 
 public class Grid {
 	
@@ -23,8 +23,8 @@ public class Grid {
 		return matrix[y][x];
 	}
 	
-	public void placeOnGrid(Position p) {
-		matrix[p.getX()][p.getY()] = p;
+	public void placeOnGrid(int x, int y, Position p) {
+		matrix[y][x] = p;
 	}
 	
 	public boolean moveUp(int x, int y) {
@@ -64,7 +64,7 @@ public class Grid {
 	}
 
 
-	/*public static Grid readGrid (String name) {
+	/*public static Grid read_grid (String name) {
 		FileInputStream flux = new FileInputStream (name);
 		InputStreamReader read = new InputStreamReader(flux); 
 		BufferedReader buff=new BufferedReader(read);
