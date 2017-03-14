@@ -23,11 +23,11 @@ public class Position {
 	
 	/**
 	 * Creates a position with the specified coordinates in input.
-	 * @param inputX the X-coordinate of the object
-	 * @param inputY the Y-coordinate of the object
-	 * @param img the sprite of the object
+	 * @param inputX The X-coordinate of the object
+	 * @param inputY The Y-coordinate of the object
+	 * @param img The sprite of the object
 	 */
-	public Position (int inputX, int inputY, Image img) {
+	public Position(int inputX, int inputY, Image img) {
 		x = inputX;
 		y = inputY;
 		sprite = img;
@@ -37,7 +37,7 @@ public class Position {
 	 * Gets the current position of the object on the X-axis.
 	 * @return The X-coordinate of the object
 	 */
-	public int getX () {
+	public int getX() {
 		return x;
 	}
 	
@@ -45,7 +45,7 @@ public class Position {
 	 * Gets the current position of the object on the Y-axis.
 	 * @return The Y-coordinate of the object
 	 */
-	public int getY () {
+	public int getY() {
 		return y;
 	}
 	
@@ -59,7 +59,7 @@ public class Position {
 	
 	/**
 	 * Sets the X-coordinate of the object to a new value.
-	 * @param inputX the new X-coordinate
+	 * @param inputX The new X-coordinate
 	 */
 	public void setX(int inputX) {
 		x = inputX;
@@ -67,7 +67,7 @@ public class Position {
 	
 	/**
 	 * Sets the Y-coordinate of the object to a new value.
-	 * @param inputY the new Y-coordinate
+	 * @param inputY The new Y-coordinate
 	 */
 	public void setY(int inputY) {
 		y = inputY;
@@ -75,7 +75,7 @@ public class Position {
 	
 	/**
 	 * Compares the coordinate of the object with the coordinates of another.
-	 * @param other the object to compare the coordinates with
+	 * @param other The object to compare the coordinates with
 	 * @return true if the objects have the same coordinates, false else
 	 */
 	public boolean equals(Position other) {

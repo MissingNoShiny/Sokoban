@@ -37,7 +37,7 @@ public class Display extends JFrame {
 		grid.placeOnGrid(wall.getX(), wall.getY(), wall);
 		
 		Display fenetre = new Display(32*grid.getWidth(), 32*grid.getHeight());
-		Panel p = new Panel(grid);
+		Panel p = new Panel(grid, player);
 		fenetre.setContentPane(p);
 		
 		//Pour une raison que j'ignore, si le print juste en dessous est supprimé ou si des commentaires sont insérés

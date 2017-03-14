@@ -15,7 +15,6 @@ public class Player extends Position {
 		super(xInput, yInput, img);
 	}
 	
-	//Déplacements
 	public void moveUp() {
 		y -= 1;
 	}
