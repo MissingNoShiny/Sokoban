@@ -69,10 +69,17 @@ public class Grid {
 	 * @return true if the move has been made successfully, false else
 	 */
 	public boolean moveUp(int x, int y) {
-		if (matrix[y][x] != null && y!= 0 && matrix[y-1][x] == null) {
-			matrix[y-1][x] = matrix[y][x];
-			matrix[y][x] = null;
-			return true;
+		if (matrix[y][x] != null && y != 0) {
+			if (matrix[y-1][x] == null) {
+				matrix[y-1][x] = matrix[y][x];
+				matrix[y][x] = null;
+				return true;
+			} else if (matrix[y-1][x].getClass().getName() == "Crate") {
+				if (moveUp(x, y-1)) {
+					matrix[y-2][x].moveUp();
+					return moveUp(x, y);
+				}
+			}	
 		}
 		return false;
 	}
@@ -84,10 +91,17 @@ public class Grid {
 	 * @return true if the move has been made successfully, false else
 	 */
 	public boolean moveDown(int x, int y) {
-		if (matrix[y][x] != null && y!= height-1 && matrix[y+1][x] == null) {
-			matrix[y+1][x] = matrix[y][x];
-			matrix[y][x] = null;
-			return true;
+		if (matrix[y][x] != null && y != height-1) {
+			if (matrix[y+1][x] == null) {
+				matrix[y+1][x] = matrix[y][x];
+				matrix[y][x] = null;
+				return true;
+			} else if (matrix[y+1][x].getClass().getName() == "Crate") {
+				if (moveDown(x, y+1)) {
+					matrix[y+2][x].moveDown();
+					return moveDown(x, y);
+				}
+			}	
 		}
 		return false;
 	}
@@ -99,10 +113,17 @@ public class Grid {
 	 * @return true if the move has been made successfully, false else
 	 */
 	public boolean moveRight(int x, int y) {
-		if (matrix[y][x] != null && x!= width-1 && matrix[y][x+1] == null) {
-			matrix[y][x+1] = matrix[y][x];
-			matrix[y][x] = null;
-			return true;
+		if (matrix[y][x] != null && x != width-1) {
+			if (matrix[y][x+1] == null) {
+				matrix[y][x+1] = matrix[y][x];
+				matrix[y][x] = null;
+				return true;
+			} else if (matrix[y][x+1].getClass().getName() == "Crate") {
+				if (moveRight(x+1, y)) {
+					matrix[y][x+2].moveRight();
+					return moveRight(x, y);
+				}
+			}	
 		}
 		return false;
 	}
@@ -114,10 +135,17 @@ public class Grid {
 	 * @return true if the move has been made successfully, false else
 	 */
 	public boolean moveLeft(int x, int y) {
-		if (matrix[y][x] != null && x!= 0 && matrix[y][x-1] == null) {
-			matrix[y][x-1] = matrix[y][x];
-			matrix[y][x] = null;
-			return true;
+		if (matrix[y][x] != null && x != 0) {
+			if (matrix[y][x-1] == null) {
+				matrix[y][x-1] = matrix[y][x];
+				matrix[y][x] = null;
+				return true;
+			} else if (matrix[y][x-1].getClass().getName() == "Crate") {
+				if (moveLeft(x-1, y)) {
+					matrix[y][x-2].moveLeft();
+					return moveLeft(x, y);
+				}
+			}	
 		}
 		return false;
 	}

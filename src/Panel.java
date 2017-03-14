@@ -30,14 +30,13 @@ public class Panel extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
-		if (player.hasMoved()) {
-			super.paintComponent(g);
-			for (j = 0; j < grid.getHeight(); j++) {
-				for (i = 0; i < grid.getWidth(); i++) {
-					if (grid.getPositionAt(i, j) != null)
-						g.drawImage(grid.getPositionAt(i, j).getSprite(), i*32, j*32, null);
-				}
+		super.paintComponent(g);
+		for (j = 0; j < grid.getHeight(); j++) {
+			for (i = 0; i < grid.getWidth(); i++) {
+				if (grid.getPositionAt(i, j) != null)
+					g.drawImage(grid.getPositionAt(i, j).getSprite(), i*32, j*32, null);
 			}
-		}	
+		}
+			
 	}
 }

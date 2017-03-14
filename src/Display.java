@@ -28,8 +28,11 @@ public class Display extends JFrame {
 		} catch (IOException e) {
 		}
 		
-		Crate crate = new Crate(8, 8);
-		grid.placeOnGrid(crate);
+		Crate crate1 = new Crate(8, 8);
+		grid.placeOnGrid(crate1);
+		
+		Crate crate2 = new Crate(2,8);
+		grid.placeOnGrid(crate2);
 		
 		Wall wall = new Wall(5, 5, img);
 		grid.placeOnGrid(wall);
