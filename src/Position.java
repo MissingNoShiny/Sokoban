@@ -1,4 +1,3 @@
-import java.awt.Image;
 
 /**
  * Description
@@ -19,7 +18,6 @@ public class Position {
 	/**
 	 * The sprite of the object.
 	 */
-	Image sprite;
 	
 	/**
 	 * Creates a position with the specified coordinates in input.
@@ -27,10 +25,9 @@ public class Position {
 	 * @param inputY The Y-coordinate of the object
 	 * @param img The sprite of the object
 	 */
-	public Position(int inputX, int inputY, Image img) {
+	public Position(int inputX, int inputY) {
 		x = inputX;
 		y = inputY;
-		sprite = img;
 	}
 	
 	/**
@@ -53,10 +50,7 @@ public class Position {
 	 * Gets the sprite of the object.
 	 * @return The sprite of the object
 	 */
-	public Image getSprite() {
-		return sprite;
-	}
-	
+
 	/**
 	 * Sets the X-coordinate of the object to a new value.
 	 * @param inputX The new X-coordinate
@@ -87,16 +81,5 @@ public class Position {
 		
 		return true;		
 	}
-	
-	public void moveUp() {
-	}
-	
-	public void moveDown() {
-	}	
-	
-	public void moveRight() {
-	}
-	
-	public void moveLeft() {
-	}
+
 }

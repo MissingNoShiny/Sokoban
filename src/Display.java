@@ -18,24 +18,23 @@ public class Display extends JFrame {
 	public static void main(String[] args) {
 		
 		Grid grid = new Grid(10, 10);		
-				
-		Player player = new Player(0, 0);
-		grid.placeOnGrid(player);
 		
-		BufferedImage img = null;
-		try {
-		    img = ImageIO.read(new File("resources/wall.jpg"));
-		} catch (IOException e) {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) 
+				grid.placeOnGrid(i, j, Component.GROUND);
 		}
 		
-		Crate crate1 = new Crate(8, 8);
-		grid.placeOnGrid(crate1);
+		grid.setNumberCrates(3);
+		grid.addCrate(2, 3);
+		grid.addCrate(5, 4);
+		grid.addCrate(2, 2);
 		
-		Crate crate2 = new Crate(2,8);
-		grid.placeOnGrid(crate2);
+		Player player = new Player(0, 0, grid);
+		grid.placeOnGrid(player.getY(), player.getY(), Component.PLAYER);
 		
-		Wall wall = new Wall(5, 5, img);
-		grid.placeOnGrid(wall);
+		grid.placeOnGrid(5,5,Component.WALL);
+		grid.placeOnGrid(6,7,Component.WALL);
+		grid.placeOnGrid(9,9,Component.WALL);
 		
 		Display fenetre = new Display(32*grid.getWidth(), 32*grid.getHeight());
 		Panel p = new Panel(grid, player);
@@ -59,29 +58,30 @@ public class Display extends JFrame {
 					break;
 				case KeyEvent.VK_UP:
 					System.out.println("UP");
-					if (grid.moveUp(player.getX(), player.getY()))
-						player.moveUp();
+					if (player.canMove(grid, Direction.UP))
+						player.moveUp(grid);
 					break;
 				case KeyEvent.VK_DOWN :
 					System.out.println("DOWN");
-					if (grid.moveDown(player.getX(), player.getY()))
-						player.moveDown();
+					if (player.canMove(grid, Direction.DOWN))
+						player.moveDown(grid);
 					break;
 				case KeyEvent.VK_RIGHT:
 					System.out.println("RIGHT");
-					if (grid.moveRight(player.getX(), player.getY()))
-						player.moveRight();
+					if (player.canMove(grid, Direction.RIGHT))
+						player.moveRight(grid);
 					break;
 				case KeyEvent.VK_LEFT:
 					System.out.println("LEFT");
-					if (grid.moveLeft(player.getX(), player.getY()))
-						player.moveLeft();
+					if (player.canMove(grid, Direction.LEFT))
+						player.moveLeft(grid);
 					break;
-				case KeyEvent.VK_M:
-					System.out.println("Le joueur a bougé: " + player.hasMoved());
-					break;
+				case KeyEvent.VK_0:
+					grid.placeOnGrid(4,0, Component.WALL);
 				default :
+					System.out.println("On a appuyé");
 				}
+				System.out.println(player.getX() + ", " + player.getY());
 				p.revalidate();
 				p.repaint();
 			}

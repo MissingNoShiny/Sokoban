@@ -1,4 +1,3 @@
-//import java.io.*;
 
 /**
  * Description
@@ -9,8 +8,9 @@ public class Grid {
 	/**
 	 * The matrix containing the data of a level.
 	 */
-	Position[][] matrix;
+	Component[][] matrix;
 	
+	Crate[] crates; 
 	/**
 	 * The height of the matrix.
 	 */
@@ -27,11 +27,27 @@ public class Grid {
 	 * @param width The width of the matrix
 	 */
 	public Grid(int height, int width) {
-		matrix = new Position[height][width];
+		matrix = new Component[height][width];
 		this.height = height;
 		this.width = width;
 	}
 	
+	/*Pour que l'attribut matrix de l'objet Grid ne serve plus qu'à l'affichage, j'ai remplacé les positions de la 
+	 matrix par des Component. C'est mieux à certains égards par contre ca implique de créer une liste des caisses.
+	 Je ne sais pas s'il est préférable de créer une liste de taille fixe ou bien d'implémenter une liste de taille 
+	 variable à laquelle on ajoutera les caisses une à une. Pour aujourd'hui, pour aller plus vite, je laisse fixe.
+	*/
+	public void setNumberCrates(int numberCrates) {
+		crates = new Crate [numberCrates];
+	}
+	
+	public void addCrate(int x, int y) {
+		int i = 0;
+		while (crates[i] != null)
+			i += 1;
+		if (i < crates.length)
+			crates[i] = new Crate(x, y, this);
+	}
 	/**
 	 * Gets the height of the matrix.
 	 * @return The height of the matrix
@@ -54,12 +70,21 @@ public class Grid {
 	 * @param y The y-coordinate of the cell to get data from
 	 * @return The data contained in specified cell
 	 */
-	public Position getPositionAt(int x, int y) {
+	public Component getComponentAt(int x, int y) {
 		return matrix[y][x];
 	}
 	
-	public void placeOnGrid(Position p) {
-		matrix[p.getX()][p.getY()] = p;
+	public void placeOnGrid(int x, int y, Component comp) {
+		matrix[x][y] = comp;
+	}
+	
+	public Crate getCrateAt(int x, int y) {
+		for (int i = 0; i < crates.length; i++) {
+			if (x == crates[i].getX() && y == crates[i].getY())
+				return crates[i];
+		}
+		System.out.println("Caisse pas trouvée");
+		return null; //Cette ligne n'existe que pour contenter Eclipse, concrètement on appelle cette méthode que lorsqu'on est sur qu'il y a une caisse aux x et y donnés
 	}
 	
 	/**
@@ -68,43 +93,15 @@ public class Grid {
 	 * @param y The Y-coordinate of the object
 	 * @return true if the move has been made successfully, false else
 	 */
-	public boolean moveUp(int x, int y) {
-		if (matrix[y][x] != null && y != 0) {
-			if (matrix[y-1][x] == null) {
-				matrix[y-1][x] = matrix[y][x];
-				matrix[y][x] = null;
-				return true;
-			} else if (matrix[y-1][x].getClass().getName() == "Crate") {
-				if (moveUp(x, y-1)) {
-					matrix[y-2][x].moveUp();
-					return moveUp(x, y);
-				}
-			}	
-		}
-		return false;
-	}
 
+	
 	/**
 	 * Tries to move down a Position object at specified coordinates in the matrix.
 	 * @param x The X-coordinate of the object
 	 * @param y The Y-coordinate of the object
 	 * @return true if the move has been made successfully, false else
 	 */
-	public boolean moveDown(int x, int y) {
-		if (matrix[y][x] != null && y != height-1) {
-			if (matrix[y+1][x] == null) {
-				matrix[y+1][x] = matrix[y][x];
-				matrix[y][x] = null;
-				return true;
-			} else if (matrix[y+1][x].getClass().getName() == "Crate") {
-				if (moveDown(x, y+1)) {
-					matrix[y+2][x].moveDown();
-					return moveDown(x, y);
-				}
-			}	
-		}
-		return false;
-	}
+
 
 	/**
 	 * Tries to move right a Position object at specified coordinates in the matrix.
@@ -112,21 +109,7 @@ public class Grid {
 	 * @param y The Y-coordinate of the object
 	 * @return true if the move has been made successfully, false else
 	 */
-	public boolean moveRight(int x, int y) {
-		if (matrix[y][x] != null && x != width-1) {
-			if (matrix[y][x+1] == null) {
-				matrix[y][x+1] = matrix[y][x];
-				matrix[y][x] = null;
-				return true;
-			} else if (matrix[y][x+1].getClass().getName() == "Crate") {
-				if (moveRight(x+1, y)) {
-					matrix[y][x+2].moveRight();
-					return moveRight(x, y);
-				}
-			}	
-		}
-		return false;
-	}
+
 
 	/**
 	 * Tries to move left a Position object at specified coordinates in the matrix.
@@ -134,21 +117,6 @@ public class Grid {
 	 * @param y The Y-coordinate of the object
 	 * @return true if the move has been made successfully, false else
 	 */
-	public boolean moveLeft(int x, int y) {
-		if (matrix[y][x] != null && x != 0) {
-			if (matrix[y][x-1] == null) {
-				matrix[y][x-1] = matrix[y][x];
-				matrix[y][x] = null;
-				return true;
-			} else if (matrix[y][x-1].getClass().getName() == "Crate") {
-				if (moveLeft(x-1, y)) {
-					matrix[y][x-2].moveLeft();
-					return moveLeft(x, y);
-				}
-			}	
-		}
-		return false;
-	}
 
 
 	/*public static Grid readGrid (String name) {

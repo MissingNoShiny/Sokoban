@@ -1,34 +1,83 @@
 
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
 public class Player extends Crate {
 	
-	int oldX, oldY;
-	
-	public Player() {
+	/*
+	*public Player() {
 		super(0, 0);
 	}
+	*/
 	
-	public Player(int xInput, int yInput) {
+	public Player(int xInput, int yInput, Grid grid) {
 		super(xInput, yInput);
+		grid.placeOnGrid(xInput, yInput, Component.PLAYER);
 	}
 	
 	@Override
-	public void setSprite() {
-		try {
-		    sprite = ImageIO.read(new File("resources/banana.gif"));
-		} catch (IOException e) {
+	public boolean canMove(Grid grid, Direction dir) {
+		boolean test = true;
+		switch (dir) {
+		case UP:
+			if (y-1 < 0 || grid.getComponentAt(x, y-1).equals(Component.WALL))       
+				test = false;
+			else if (grid.getComponentAt(x, y-1).equals(Component.CRATE)) 
+				test = grid.getCrateAt(x, y-1).canMove(grid, Direction.UP);
+			break;
+		case RIGHT:
+			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).equals(Component.WALL))
+				test = false;
+			else if (grid.getComponentAt(x+1, y).equals(Component.CRATE)) 
+				test = grid.getCrateAt(x+1, y).canMove(grid, Direction.RIGHT);
+			break;
+		case DOWN:
+			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).equals(Component.WALL))
+				test = false;
+			else if (grid.getComponentAt(x, y+1).equals(Component.CRATE)) 
+				test = grid.getCrateAt(x, y+1).canMove(grid, Direction.DOWN);
+			break;
+		case LEFT:
+			if (x-1 < 0 || grid.getComponentAt(x-1, y).equals(Component.WALL))
+				test = false;
+			else if (grid.getComponentAt(x-1, y).equals(Component.CRATE)) 
+				test = grid.getCrateAt(x-1, y).canMove(grid, Direction.UP);
+			break;
 		}
+		return test;
 	}
 	
-	//Pour détecter si le joueur a change de position entre deux executions de la fonction
-	public boolean hasMoved() {
-		if (x == oldX && y == oldY)
-			return false;
-		oldX = x;
-		oldY = y;
-		return true;
+	@Override
+	public void moveUp(Grid grid) {
+		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
+				grid.getCrateAt(x-1, y).moveUp(grid);
+		grid.placeOnGrid(x, y, Component.GROUND);
+		grid.placeOnGrid(x, y-1, Component.PLAYER);		
+		y -= 1;
 	}
+	
+	@Override
+	public void moveRight(Grid grid) {
+		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
+			grid.getCrateAt(x-1, y).moveUp(grid);
+		grid.placeOnGrid(x, y, Component.GROUND);
+		grid.placeOnGrid(x+1, y, Component.PLAYER);		
+		x += 1;
+	}
+	
+	@Override
+	public void moveDown(Grid grid) {
+		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
+			grid.getCrateAt(x-1, y).moveUp(grid);
+		grid.placeOnGrid(x, y, Component.GROUND);
+		grid.placeOnGrid(x, y+1, Component.PLAYER);		
+		y += 1;
+	}
+	
+	@Override
+	public void moveLeft(Grid grid) {
+		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
+			grid.getCrateAt(x-1, y).moveUp(grid);
+		grid.placeOnGrid(x, y, Component.GROUND);
+		grid.placeOnGrid(x-1, y, Component.PLAYER);		
+		x -= 1;
+	}
+
 }
