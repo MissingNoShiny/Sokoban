@@ -75,7 +75,7 @@ public class Grid {
 	}
 	
 	public void placeOnGrid(int x, int y, Component comp) {
-		matrix[x][y] = comp;
+		matrix[y][x] = comp;
 	}
 	
 	public Crate getCrateAt(int x, int y) {
@@ -87,38 +87,14 @@ public class Grid {
 		return null; //Cette ligne n'existe que pour contenter Eclipse, concrètement on appelle cette méthode que lorsqu'on est sur qu'il y a une caisse aux x et y donnés
 	}
 	
-	/**
-	 * Tries to move up a Position object at specified coordinates in the matrix.
-	 * @param x The X-coordinate of the object
-	 * @param y The Y-coordinate of the object
-	 * @return true if the move has been made successfully, false else
-	 */
-
+	public void fill(Component component) {
+		int i, j;
+		for (j = 0; j < height; j++) {
+			for (i = 0; i < width; i++)
+				matrix[i][j] = component;
+		}
+	}
 	
-	/**
-	 * Tries to move down a Position object at specified coordinates in the matrix.
-	 * @param x The X-coordinate of the object
-	 * @param y The Y-coordinate of the object
-	 * @return true if the move has been made successfully, false else
-	 */
-
-
-	/**
-	 * Tries to move right a Position object at specified coordinates in the matrix.
-	 * @param x The X-coordinate of the object
-	 * @param y The Y-coordinate of the object
-	 * @return true if the move has been made successfully, false else
-	 */
-
-
-	/**
-	 * Tries to move left a Position object at specified coordinates in the matrix.
-	 * @param x The X-coordinate of the object
-	 * @param y The Y-coordinate of the object
-	 * @return true if the move has been made successfully, false else
-	 */
-
-
 	/*public static Grid readGrid (String name) {
 		FileInputStream flux = new FileInputStream (name);
 		InputStreamReader read = new InputStreamReader(flux); 

@@ -38,7 +38,7 @@ public class Panel extends JPanel {
 		this.addToMap(sprites, Component.GROUND, "Resources/ground.png");
 		this.addToMap(sprites, Component.CRATE, "Resources/crate.png");
 		this.addToMap(sprites, Component.WALL, "Resources/wall.jpg");
-		this.addToMap(sprites, Component.PLAYER, "Resources/banana.gif"); //il faudra changer cette maniere d'ajouter des elements au dico
+		this.addToMap(sprites, Component.PLAYER, "Resources/banana.png"); //il faudra changer cette maniere d'ajouter des elements au dico
 	}
 	
 

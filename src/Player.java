@@ -38,7 +38,7 @@ public class Player extends Crate {
 			if (x-1 < 0 || grid.getComponentAt(x-1, y).equals(Component.WALL))
 				test = false;
 			else if (grid.getComponentAt(x-1, y).equals(Component.CRATE)) 
-				test = grid.getCrateAt(x-1, y).canMove(grid, Direction.UP);
+				test = grid.getCrateAt(x-1, y).canMove(grid, Direction.LEFT);
 			break;
 		}
 		return test;
@@ -46,8 +46,8 @@ public class Player extends Crate {
 	
 	@Override
 	public void moveUp(Grid grid) {
-		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
-				grid.getCrateAt(x-1, y).moveUp(grid);
+		if (grid.getComponentAt(x, y-1).equals(Component.CRATE))
+				grid.getCrateAt(x, y-1).moveUp(grid);
 		grid.placeOnGrid(x, y, Component.GROUND);
 		grid.placeOnGrid(x, y-1, Component.PLAYER);		
 		y -= 1;
@@ -55,8 +55,8 @@ public class Player extends Crate {
 	
 	@Override
 	public void moveRight(Grid grid) {
-		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
-			grid.getCrateAt(x-1, y).moveUp(grid);
+		if (grid.getComponentAt(x+1, y).equals(Component.CRATE))
+			grid.getCrateAt(x+1, y).moveRight(grid);
 		grid.placeOnGrid(x, y, Component.GROUND);
 		grid.placeOnGrid(x+1, y, Component.PLAYER);		
 		x += 1;
@@ -64,8 +64,8 @@ public class Player extends Crate {
 	
 	@Override
 	public void moveDown(Grid grid) {
-		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
-			grid.getCrateAt(x-1, y).moveUp(grid);
+		if (grid.getComponentAt(x, y+1).equals(Component.CRATE))
+			grid.getCrateAt(x, y+1).moveDown(grid);
 		grid.placeOnGrid(x, y, Component.GROUND);
 		grid.placeOnGrid(x, y+1, Component.PLAYER);		
 		y += 1;
@@ -74,7 +74,7 @@ public class Player extends Crate {
 	@Override
 	public void moveLeft(Grid grid) {
 		if (grid.getComponentAt(x-1, y).equals(Component.CRATE))
-			grid.getCrateAt(x-1, y).moveUp(grid);
+			grid.getCrateAt(x-1, y).moveLeft(grid);
 		grid.placeOnGrid(x, y, Component.GROUND);
 		grid.placeOnGrid(x-1, y, Component.PLAYER);		
 		x -= 1;
