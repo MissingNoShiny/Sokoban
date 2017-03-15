@@ -1,11 +1,6 @@
 
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Display extends JFrame {
@@ -19,10 +14,7 @@ public class Display extends JFrame {
 		
 		Grid grid = new Grid(10, 10);		
 		
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) 
-				grid.placeOnGrid(i, j, Component.GROUND);
-		}
+		grid.fill(Component.GROUND);
 		
 		grid.setNumberCrates(3);
 		grid.addCrate(2, 3);
@@ -36,17 +28,16 @@ public class Display extends JFrame {
 		grid.placeOnGrid(6,7,Component.WALL);
 		grid.placeOnGrid(9,9,Component.WALL);
 		
-		Display fenetre = new Display(32*grid.getWidth(), 32*grid.getHeight());
+		Display window = new Display(32*grid.getWidth(), 32*grid.getHeight());
 		Panel p = new Panel(grid, player);
-		fenetre.setContentPane(p);
+		window.setContentPane(p);
+		p.setPreferredSize(window.getSize());
+		window.setLocationRelativeTo(null);
+		window.pack();
+		window.paintPanel(p);
 		
-		//Pour une raison que j'ignore, si le print juste en dessous est supprimé ou si des commentaires sont insérés
-		//entre une des 3 lignes qui suivent, ça ne fonctionne plus. Très bizarre.
-		Dimension size = fenetre.getContentPane().getSize();
-		System.out.println(size.width + " " + size.height);
-		fenetre.setSize(2 * fenetre.getWidth() - size.width, 2 * fenetre.getHeight() - size.height);
 		
-		fenetre.addKeyListener(new KeyListener() {
+		window.addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyPressed(KeyEvent e) { 
@@ -81,9 +72,7 @@ public class Display extends JFrame {
 				default :
 					System.out.println("On a appuyé");
 				}
-				System.out.println(player.getX() + ", " + player.getY());
-				p.revalidate();
-				p.repaint();
+				window.paintPanel(p);
 			}
 			    
 			@Override
@@ -104,6 +93,11 @@ public class Display extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	public void paintPanel(Panel p) {
+		p.revalidate();
+		p.repaint();
 	}
 	
 }

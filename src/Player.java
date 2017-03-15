@@ -1,6 +1,8 @@
 
 public class Player extends Crate {
 	
+	Direction direction;
+	
 	/*
 	*public Player() {
 		super(0, 0);
@@ -10,6 +12,7 @@ public class Player extends Crate {
 	public Player(int xInput, int yInput, Grid grid) {
 		super(xInput, yInput);
 		grid.placeOnGrid(xInput, yInput, Component.PLAYER);
+		direction = Direction.DOWN;
 	}
 	
 	@Override
@@ -21,24 +24,28 @@ public class Player extends Crate {
 				test = false;
 			else if (grid.getComponentAt(x, y-1).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x, y-1).canMove(grid, Direction.UP);
+			direction = Direction.UP;
 			break;
 		case RIGHT:
 			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).equals(Component.WALL))
 				test = false;
 			else if (grid.getComponentAt(x+1, y).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x+1, y).canMove(grid, Direction.RIGHT);
+			direction = Direction.RIGHT;
 			break;
 		case DOWN:
 			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).equals(Component.WALL))
 				test = false;
 			else if (grid.getComponentAt(x, y+1).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x, y+1).canMove(grid, Direction.DOWN);
+			direction = Direction.DOWN;
 			break;
 		case LEFT:
 			if (x-1 < 0 || grid.getComponentAt(x-1, y).equals(Component.WALL))
 				test = false;
 			else if (grid.getComponentAt(x-1, y).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x-1, y).canMove(grid, Direction.LEFT);
+			direction = Direction.LEFT;
 			break;
 		}
 		return test;
