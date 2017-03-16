@@ -32,10 +32,10 @@ public class Grid {
 		this.width = width;
 	}
 	
-	/*Pour que l'attribut matrix de l'objet Grid ne serve plus qu'à l'affichage, j'ai remplacé les positions de la 
-	 matrix par des Component. C'est mieux à certains égards par contre ca implique de créer une liste des caisses.
-	 Je ne sais pas s'il est préférable de créer une liste de taille fixe ou bien d'implémenter une liste de taille 
-	 variable à laquelle on ajoutera les caisses une à une. Pour aujourd'hui, pour aller plus vite, je laisse fixe.
+	/*Pour que l'attribut matrix de l'objet Grid ne serve plus qu'Ã  l'affichage, j'ai remplacÃ© les positions de la 
+	 matrix par des Component. C'est mieux Ã  certains Ã©gards par contre ca implique de crÃ©er une liste des caisses.
+	 Je ne sais pas s'il est prÃ©fÃ©rable de crÃ©er une liste de taille fixe ou bien d'implÃ©menter une liste de taille 
+	 variable Ã  laquelle on ajoutera les caisses une Ã  une. Pour aujourd'hui, pour aller plus vite, je laisse fixe.
 	*/
 	public void setNumberCrates(int numberCrates) {
 		crates = new Crate [numberCrates];
@@ -83,8 +83,8 @@ public class Grid {
 			if (x == crates[i].getX() && y == crates[i].getY())
 				return crates[i];
 		}
-		System.out.println("Caisse pas trouvée");
-		return null; //Cette ligne n'existe que pour contenter Eclipse, concrètement on appelle cette méthode que lorsqu'on est sur qu'il y a une caisse aux x et y donnés
+		System.out.println("Caisse pas trouvÃ©e");
+		return null; //Cette ligne n'existe que pour contenter Eclipse, concrÃ¨tement on appelle cette mÃ©thode que lorsqu'on est sur qu'il y a une caisse aux x et y donnÃ©s
 	}
 	
 	public void fill(Component component) {
@@ -95,49 +95,56 @@ public class Grid {
 		}
 	}
 	
-	/*public static Grid readGrid (String name) {
+	/*
+	public static Grid readGrid (String name) {
 		FileInputStream flux = new FileInputStream (name);
 		InputStreamReader read = new InputStreamReader(flux); 
 		BufferedReader buff=new BufferedReader(read);
 		String ligne;
 		int height = 0, width;
-		while ((ligne=buff.readLine())!=null){
-			height++;
-		}
-		width = ligne.length();
-		Grid grid = new Grid(height, width);
-		char character;
-		for (int i = 0; i < height; i++){
-			ligne = buff.readLine();
-			for (int j = 0; j < width; j++) {
-				character = ligne[j];
-				switch (character) {  //ici, une structure analogue au dictionnaire serait plus pratique qu'un switch puisque le bloc exécuté est toujours le même
-				case ("#") :
-					grid.placeOnGrid(i, j, wall);
-					break;
-				case ("$"):
-					grid.placeOnGrid(i, j, "caisse");
-					break;
-				case(" ") :
-					break;
-				case(".") :
-					grid.placeOnGrid(i, j, "objectif);
-					break;
-				case ("@"):
-					grid.placeOnGrid(i, j, Player);
-				}
+		try {
+			while ((ligne=buff.readLine())!=null){
+				height++;
 			}
+			width = ligne.length();
+			Grid grid = new Grid(height, width);
+			char character;
+			for (int i = 0; i < height; i++){
+				ligne = buff.readLine();
+				for (int j = 0; j < width; j++) {
+					character = ligne[j];
+					switch (character) {  //ici, une structure analogue au dictionnaire serait plus pratique qu'un switch puisque le bloc exÃ©cutÃ© est toujours le mÃªme
+					case ("#") :
+						grid.placeOnGrid(i, j, Component.WALL);
+						break;
+					case ("$"):
+						grid.placeOnGrid(i, j, Component.CRATE); //Appeler methode addCrate
+						break;
+					case(" ") :
+						grid.placeOnGrid(i, j, Component.GROUND);
+						break;
+					case(".") :
+						grid.placeOnGrid(i, j, Component.GOAL);
+						break;
+					case ("@"):
+						grid.placeOnGrid(i, j, Component.PLAYER);//Creer Player Ã  ce moment
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if(reader !=null){reader.close();}
+		 	}
+			return grid;
 		}
-		return grid;
-	}
-	*/
+	}*/
+	
 	
 	/*public boolean isFree(int posX, int posY) {
 		if ((posX < height) && (posY < width)) {
-			//retourne un rensignement sur ce que contient la case concernee
-		}
-		else{
-			// Erreur de OUF
-		}
+			if !(getComponentAt(posX, posY).equals(Component.WALL))
+				return true;
+		}	
+		return false;
 	}*/
 }
