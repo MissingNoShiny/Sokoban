@@ -1,5 +1,8 @@
 
 import java.awt.event.KeyListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
@@ -9,6 +12,8 @@ public class Display extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -6826804177182624245L;
+	
+	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
 
 	public static void main(String[] args) {
 		
@@ -17,23 +22,24 @@ public class Display extends JFrame {
 		grid.fill(Component.GROUND);
 		
 		grid.setNumberCrates(3);
-		grid.addCrate(2, 3);
-		grid.addCrate(5, 4);
-		grid.addCrate(2, 2);
+		grid.addCrate(2, 4);
+		grid.addCrate(5, 8);
+		grid.addCrate(6, 7);
 		
-		Player player = new Player(0, 0, grid);
-		grid.placeOnGrid(player.getY(), player.getY(), Component.PLAYER);
+		Player player = new Player(5, 4, grid);
 		
-		grid.placeOnGrid(5,5,Component.WALL);
-		grid.placeOnGrid(6,7,Component.WALL);
-		grid.placeOnGrid(9,9,Component.WALL);
+		grid.placeOnGrid(1, 3, Component.WALL);
+		grid.placeOnGrid(1, 4, Component.WALL);
+		grid.placeOnGrid(1, 5, Component.WALL);
+		grid.placeOnGrid(2, 5, Component.WALL);
+		grid.placeOnGrid(5, 5, Component.WALL);
 		
-		Display window = new Display(32*grid.getWidth(), 32*grid.getHeight());
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Display window = new Display(screenSize);
 		Panel p = new Panel(grid, player);
 		window.setContentPane(p);
-		p.setPreferredSize(window.getSize());
-		window.setLocationRelativeTo(null);
-		window.pack();
+		p.setBackground(BLEU_CLAIR);
 		window.paintPanel(p);
 			
 		window.addKeyListener(new KeyListener() {
@@ -86,9 +92,9 @@ public class Display extends JFrame {
 		);
 	}
 	
-	public Display(int width, int height) {
+	public Display(Dimension dimension) {
 		super("Sokoban");
-		setSize(width, height);
+		setSize((int) dimension.getWidth(), (int) dimension.getHeight());
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);

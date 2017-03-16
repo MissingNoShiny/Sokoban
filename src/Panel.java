@@ -1,10 +1,11 @@
+import java.awt.BasicStroke;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -41,7 +42,6 @@ public class Panel extends JPanel {
 		addToMap(sprites, Component.PLAYER, "Resources/playerDown.png");
 	}
 	
-
 	public void addToMap(Map<Component, Image> map, Component comp, String nameResource) {
 		Image sprite = null;
 		try {
@@ -52,7 +52,14 @@ public class Panel extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
+		int midX = this.getWidth()/2;
+		int midY = this.getHeight()/2;
+		int x0 = midX - (grid.getWidth()*64)/2;
+		int y0 = midY - (grid.getHeight()*64)/2;
 		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(10));
+		g2.drawRect(x0-5, y0-5, (grid.getWidth()*64) + 10, (grid.getHeight()*64) + 10);
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++) {
 				if (grid.getComponentAt(i, j) != null)
@@ -73,7 +80,7 @@ public class Panel extends JPanel {
 						}
 					}
 					
-					g.drawImage(sprites.get(grid.getComponentAt(i, j)), i*32, j*32, null);
+					g.drawImage(sprites.get(grid.getComponentAt(i, j)), x0 + i*64, y0 + j*64, null);
 			}
 		}
 			

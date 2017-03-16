@@ -14,12 +14,12 @@ public class Grid {
 	/**
 	 * The height of the matrix.
 	 */
-	int height;
+	private int height;
 	
 	/**
 	 * The width of the matrix.
 	 */
-	int width;
+	private int width;
 	
 	/**
 	 * Creates an object containing an empty matrix of specified height and width.
@@ -94,6 +94,8 @@ public class Grid {
 				matrix[i][j] = component;
 		}
 	}
+
+	
 	
 	/*
 	public static Grid readGrid (String name) {

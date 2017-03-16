@@ -4,6 +4,7 @@ public enum Component {
 	PLAYER,
 	WALL,
 	CRATE,
-	OBJECTIF,
-	PLAYER_ON_OBJECTIF;
+	GOAL,
+	PLAYER_ON_GOAL,
+	CRATE_ON_GOAL;
 }
