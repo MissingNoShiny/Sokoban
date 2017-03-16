@@ -88,6 +88,18 @@ public class Grid {
 		matrix[y][x] = comp;
 	}
 	
+	public boolean isWin(){
+		boolean test = true;
+		Component comp;
+		for (int i = 0; i < crates.length; i++) {
+			comp = getComponentAt(crates[i].getX(), crates[i].getY());
+			if  (! comp.equals(Component.CRATE_ON_GOAL)) {
+				test= false;
+			}
+		}
+		return test;
+	}
+	
 	public boolean hasCrateAt (int x, int y) {
 		boolean test = false;
 		for (int i = 0; i < crates.length; i++) {
@@ -113,8 +125,6 @@ public class Grid {
 				matrix[i][j] = component;
 		}
 	}
-
-	
 	
 	/*
 	public static Grid readGrid (String name) {

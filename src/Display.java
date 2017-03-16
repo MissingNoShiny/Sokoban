@@ -21,14 +21,10 @@ public class Display extends JFrame {
 		
 		grid.fill(Component.GROUND);
 		
-		grid.setNumberCrates(3);
-		grid.addCrate(2, 4);
-		grid.addCrate(5, 8);
-		grid.addCrate(6, 7);
-		
 		Player player = new Player(5, 4, grid);
 		
 		grid.placeComponentAt(6, 5, Component.GOAL);
+		grid.placeComponentAt(2, 4, Component.GOAL);
 		
 		grid.placeComponentAt(1, 3, Component.WALL);
 		grid.placeComponentAt(1, 4, Component.WALL);
@@ -36,6 +32,10 @@ public class Display extends JFrame {
 		grid.placeComponentAt(2, 5, Component.WALL);
 		grid.placeComponentAt(5, 5, Component.WALL);
 		
+		grid.setNumberCrates(3);
+		grid.addCrate(2, 4);
+		grid.addCrate(5, 8);
+		grid.addCrate(6, 7);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Display window = new Display(screenSize);
@@ -57,29 +57,27 @@ public class Display extends JFrame {
 					break;
 				case KeyEvent.VK_UP:
 					player.setDirection(Direction.UP);
-					if (player.canMove(grid, Direction.UP))
-						player.moveUp(grid);
+					player.move(grid);
 					break;
 				case KeyEvent.VK_DOWN :
 					player.setDirection(Direction.DOWN);
-					if (player.canMove(grid, Direction.DOWN))
-						player.moveDown(grid);
+					player.move(grid);
 					break;
 				case KeyEvent.VK_RIGHT:
 					player.setDirection(Direction.RIGHT);
-					if (player.canMove(grid, Direction.RIGHT))
-						player.moveRight(grid);
+					player.move(grid);
 					break;
 				case KeyEvent.VK_LEFT:
 					player.setDirection(Direction.LEFT);
-					if (player.canMove(grid, Direction.LEFT))
-						player.moveLeft(grid);
+					player.move(grid);
 					break;
 				case KeyEvent.VK_0:
-					grid.placeComponentAt(4,0, Component.WALL);
+					grid.placeComponentAt(4,0, Component.GOAL);
 				default :
 					System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 				}
+				if (grid.isWin())
+					System.out.println("Vive les castors");
 				window.paintPanel(p);
 			}
 			    

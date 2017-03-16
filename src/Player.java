@@ -1,7 +1,7 @@
 
 public class Player extends Crate {
 	
-	Direction direction;
+	private Direction direction;
 	
 	/*
 	*public Player() {
@@ -56,6 +56,26 @@ public class Player extends Crate {
 			break;
 		}
 		return test;
+	}
+	
+	public void move(Grid grid) {
+		if (canMove(grid, direction)) {
+			switch(direction) {
+			case UP:
+				moveUp(grid);
+				break;
+			case RIGHT:
+				moveRight(grid);
+				break;
+			case DOWN:
+				moveDown(grid);
+				break;
+			case LEFT:
+				moveLeft(grid);
+				break;
+			}
+		}
+
 	}
 	
 	@Override
