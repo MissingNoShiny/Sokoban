@@ -28,11 +28,13 @@ public class Display extends JFrame {
 		
 		Player player = new Player(5, 4, grid);
 		
-		grid.placeOnGrid(1, 3, Component.WALL);
-		grid.placeOnGrid(1, 4, Component.WALL);
-		grid.placeOnGrid(1, 5, Component.WALL);
-		grid.placeOnGrid(2, 5, Component.WALL);
-		grid.placeOnGrid(5, 5, Component.WALL);
+		grid.placeComponentAt(6, 5, Component.GOAL);
+		
+		grid.placeComponentAt(1, 3, Component.WALL);
+		grid.placeComponentAt(1, 4, Component.WALL);
+		grid.placeComponentAt(1, 5, Component.WALL);
+		grid.placeComponentAt(2, 5, Component.WALL);
+		grid.placeComponentAt(5, 5, Component.WALL);
 		
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -74,9 +76,9 @@ public class Display extends JFrame {
 						player.moveLeft(grid);
 					break;
 				case KeyEvent.VK_0:
-					grid.placeOnGrid(4,0, Component.WALL);
+					grid.placeComponentAt(4,0, Component.WALL);
 				default :
-					System.out.println("On a appuyé");
+					System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 				}
 				window.paintPanel(p);
 			}

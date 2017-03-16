@@ -10,7 +10,11 @@ public class Grid {
 	 */
 	Component[][] matrix;
 	
+	/**
+	 * The array containing the crates(objects) of the level
+	 */
 	Crate[] crates; 
+	
 	/**
 	 * The height of the matrix.
 	 */
@@ -32,10 +36,10 @@ public class Grid {
 		this.width = width;
 	}
 	
-	/*Pour que l'attribut matrix de l'objet Grid ne serve plus qu'à l'affichage, j'ai remplacé les positions de la 
-	 matrix par des Component. C'est mieux à certains égards par contre ca implique de créer une liste des caisses.
-	 Je ne sais pas s'il est préférable de créer une liste de taille fixe ou bien d'implémenter une liste de taille 
-	 variable à laquelle on ajoutera les caisses une à une. Pour aujourd'hui, pour aller plus vite, je laisse fixe.
+	/*Pour que l'attribut matrix de l'objet Grid ne serve plus qu'à l'affichage, j'ai remplace les positions de la 
+	 matrix par des Component. C'est mieux à certains égards par contre ca implique de creer une liste des caisses.
+	 Je ne sais pas s'il est preferable de creer une liste de taille fixe ou bien d'implementer une liste de taille 
+	 variable a� laquelle on ajoutera les caisses une à une. Pour aujourd'hui, pour aller plus vite, je laisse fixe.
 	*/
 	public void setNumberCrates(int numberCrates) {
 		crates = new Crate [numberCrates];
@@ -74,8 +78,23 @@ public class Grid {
 		return matrix[y][x];
 	}
 	
-	public void placeOnGrid(int x, int y, Component comp) {
+	/**
+	 * Place a new Component at specified position in the matrix
+	 * @param x The X-coordinate of the cell to set a new Component
+	 * @param y The Y-coordinate of the cell to set a new Component
+	 * @param comp  The Component to set at the specified cell
+	 */
+	public void placeComponentAt(int x, int y, Component comp) {
 		matrix[y][x] = comp;
+	}
+	
+	public boolean hasCrateAt (int x, int y) {
+		boolean test = false;
+		for (int i = 0; i < crates.length; i++) {
+			if (x == crates[i].getX() && y == crates[i].getY())
+				test = true;
+		}
+		return test;
 	}
 	
 	public Crate getCrateAt(int x, int y) {
@@ -83,7 +102,7 @@ public class Grid {
 			if (x == crates[i].getX() && y == crates[i].getY())
 				return crates[i];
 		}
-		System.out.println("Caisse pas trouvée");
+		System.out.println("Caisse pas trouvee");
 		return null; //Cette ligne n'existe que pour contenter Eclipse, concrètement on appelle cette méthode que lorsqu'on est sur qu'il y a une caisse aux x et y donnés
 	}
 	

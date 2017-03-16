@@ -3,22 +3,19 @@
  * Description
  * @author Vincent Larcin, Joachim Sneessens
  */
-public class Position {
+abstract class Position {
 	
 	/**
 	 * The X-coordinate of the object.
 	 */
-	public int x;
+	private int x;
 	
 	/**
 	 * The Y-coordinate of the object.
 	 */
-	public int y;
+	private int y;
 	
-	/**
-	 * The sprite of the object.
-	 */
-	
+
 	/**
 	 * Creates a position with the specified coordinates in input.
 	 * @param inputX The X-coordinate of the object
@@ -72,13 +69,10 @@ public class Position {
 	 * @param other The object to compare the coordinates with
 	 * @return true if the objects have the same coordinates, false else
 	 */
+	
 	public boolean equals(Position other) {
-			
-		if (this.x != other.x)
+		if (this.x != other.x|| this.y != other.y)
 			return false;
-		if (this.y != other.y)
-			return false;
-		
 		return true;		
 	}
 

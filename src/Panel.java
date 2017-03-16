@@ -40,6 +40,9 @@ public class Panel extends JPanel {
 		addToMap(sprites, Component.CRATE, "Resources/crate.png");
 		addToMap(sprites, Component.WALL, "Resources/wall.png");
 		addToMap(sprites, Component.PLAYER, "Resources/playerDown.png");
+		addToMap(sprites, Component.GOAL, "Resources/goal.png");
+		addToMap(sprites, Component.CRATE_ON_GOAL, "Resources/crateOnGoal.png");
+		addToMap(sprites, Component.PLAYER_ON_GOAL, "Resources/castor.jpg");
 	}
 	
 	public void addToMap(Map<Component, Image> map, Component comp, String nameResource) {
