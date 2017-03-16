@@ -4,5 +4,6 @@ public enum Component {
 	PLAYER,
 	WALL,
 	CRATE,
-	OBJECTIF;
+	OBJECTIF,
+	PLAYER_ON_OBJECTIF;
 }

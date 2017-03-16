@@ -35,8 +35,7 @@ public class Display extends JFrame {
 		window.setLocationRelativeTo(null);
 		window.pack();
 		window.paintPanel(p);
-		
-		
+			
 		window.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -46,24 +45,25 @@ public class Display extends JFrame {
 				case KeyEvent.VK_ENTER:
 					System.out.print("Coordonnées du joueur: ");
 					System.out.println(player.getX() + ", " + player.getY());
+					System.out.println(player.getDirection());
 					break;
 				case KeyEvent.VK_UP:
-					System.out.println("UP");
+					player.setDirection(Direction.UP);
 					if (player.canMove(grid, Direction.UP))
 						player.moveUp(grid);
 					break;
 				case KeyEvent.VK_DOWN :
-					System.out.println("DOWN");
+					player.setDirection(Direction.DOWN);
 					if (player.canMove(grid, Direction.DOWN))
 						player.moveDown(grid);
 					break;
 				case KeyEvent.VK_RIGHT:
-					System.out.println("RIGHT");
+					player.setDirection(Direction.RIGHT);
 					if (player.canMove(grid, Direction.RIGHT))
 						player.moveRight(grid);
 					break;
 				case KeyEvent.VK_LEFT:
-					System.out.println("LEFT");
+					player.setDirection(Direction.LEFT);
 					if (player.canMove(grid, Direction.LEFT))
 						player.moveLeft(grid);
 					break;

@@ -15,6 +15,14 @@ public class Player extends Crate {
 		direction = Direction.DOWN;
 	}
 	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+	
+	public Direction getDirection() {
+		return direction;
+	}
+	
 	@Override
 	public boolean canMove(Grid grid, Direction dir) {
 		boolean test = true;
@@ -24,28 +32,24 @@ public class Player extends Crate {
 				test = false;
 			else if (grid.getComponentAt(x, y-1).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x, y-1).canMove(grid, Direction.UP);
-			direction = Direction.UP;
 			break;
 		case RIGHT:
 			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).equals(Component.WALL))
 				test = false;
 			else if (grid.getComponentAt(x+1, y).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x+1, y).canMove(grid, Direction.RIGHT);
-			direction = Direction.RIGHT;
 			break;
 		case DOWN:
 			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).equals(Component.WALL))
 				test = false;
 			else if (grid.getComponentAt(x, y+1).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x, y+1).canMove(grid, Direction.DOWN);
-			direction = Direction.DOWN;
 			break;
 		case LEFT:
 			if (x-1 < 0 || grid.getComponentAt(x-1, y).equals(Component.WALL))
 				test = false;
 			else if (grid.getComponentAt(x-1, y).equals(Component.CRATE)) 
 				test = grid.getCrateAt(x-1, y).canMove(grid, Direction.LEFT);
-			direction = Direction.LEFT;
 			break;
 		}
 		return test;

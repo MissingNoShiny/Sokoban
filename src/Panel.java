@@ -35,10 +35,10 @@ public class Panel extends JPanel {
 	public Panel(Grid grid, Player player) {
 		this.grid = grid;
 		this.player = player;
-		this.addToMap(sprites, Component.GROUND, "Resources/ground.png");
-		this.addToMap(sprites, Component.CRATE, "Resources/crate.png");
-		this.addToMap(sprites, Component.WALL, "Resources/wall.jpg");
-		this.addToMap(sprites, Component.PLAYER, "Resources/banana.png"); //il faudra changer cette maniere d'ajouter des elements au dico
+		addToMap(sprites, Component.GROUND, "Resources/ground.png");
+		addToMap(sprites, Component.CRATE, "Resources/crate.png");
+		addToMap(sprites, Component.WALL, "Resources/wall.png");
+		addToMap(sprites, Component.PLAYER, "Resources/playerDown.png");
 	}
 	
 
@@ -56,6 +56,23 @@ public class Panel extends JPanel {
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++) {
 				if (grid.getComponentAt(i, j) != null)
+					if (grid.getComponentAt(i, j) == Component.PLAYER) {
+						switch (player.getDirection()) {
+						case UP:
+							addToMap(sprites, Component.PLAYER, "Resources/playerUp.png");
+							break;
+						case DOWN:
+							addToMap(sprites, Component.PLAYER, "Resources/playerDown.png");
+							break;
+						case RIGHT:
+							addToMap(sprites, Component.PLAYER, "Resources/playerRight.png");
+							break;
+						case LEFT:
+							addToMap(sprites, Component.PLAYER, "Resources/playerLeft.png");
+							break;
+						}
+					}
+					
 					g.drawImage(sprites.get(grid.getComponentAt(i, j)), i*32, j*32, null);
 			}
 		}
