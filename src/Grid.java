@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Description
@@ -15,11 +16,6 @@ public class Grid {
 	Component[][] matrix;
 	
 	/**
-	 * The array containing the Crates of the level.
-	 */
-	Crate[] crates; 
-	
-	/**
 	 * The height of the matrix.
 	 */
 	private int height;
@@ -30,32 +26,26 @@ public class Grid {
 	private int width;
 	
 	/**
+	 * The array containing the Crates of the level.
+	 */
+	private ArrayList <Crate> crates; 
+	
+	//Attention, quand player est private, tout foire
+	Player player;
+	
+	/**
 	 * Creates an object containing an empty matrix of specified width and height.
 	 * @param width The width of the matrix
 	 * @param height The height of the matrix
 	 */
+	//Peut etre ajouter instanciation du player dans le constructeur
 	public Grid(int width, int height) {
 		matrix = new Component[height][width];
+		crates = new ArrayList<Crate>(0);
 		this.height = height;
 		this.width = width;
 	}
-	
-	/*Pour que l'attribut matrix de l'objet Grid ne serve plus qu'à l'affichage, j'ai remplace les positions de la 
-	 matrix par des Component. C'est mieux à certains égards par contre ca implique de creer une liste des caisses.
-	 Je ne sais pas s'il est preferable de creer une liste de taille fixe ou bien d'implementer une liste de taille 
-	 variable a� laquelle on ajoutera les caisses une à une. Pour aujourd'hui, pour aller plus vite, je laisse fixe.
-	*/
-	public void setNumberCrates(int numberCrates) {
-		crates = new Crate [numberCrates];
-	}
-	
-	public void addCrate(int x, int y) {
-		int i = 0;
-		while (crates[i] != null)
-			i += 1;
-		if (i < crates.length)
-			crates[i] = new Crate(x, y, this);
-	}
+
 	/**
 	 * Gets the height of the matrix.
 	 * @return The height of the matrix
@@ -95,8 +85,8 @@ public class Grid {
 	public boolean isWon(){
 		boolean test = true;
 		Component comp;
-		for (int i = 0; i < crates.length; i++) {
-			comp = getComponentAt(crates[i].getX(), crates[i].getY());
+		for (int i = 0; i < crates.size(); i++) {
+			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY());
 			if  (! comp.equals(Component.CRATE_ON_GOAL)) {
 				test= false;
 			}
@@ -104,22 +94,30 @@ public class Grid {
 		return test;
 	}
 	
+	public void setPlayer (int x, int y) {
+		player = new Player (x, y);
+	}
+	
+	public void addCrate(int x, int y) {
+		crates.add(new Crate(x, y, this));
+	}
+	 
+
 	public boolean hasCrateAt (int x, int y) {
-		boolean test = false;
-		for (int i = 0; i < crates.length; i++) {
-			if (x == crates[i].getX() && y == crates[i].getY())
-				test = true;
+		for (int i = 0; i < crates.size(); i++) {
+			if (x == crates.get(i).getX() && y == crates.get(i).getY())
+				return true;
 		}
-		return test;
+		return false;
 	}
 	
 	public Crate getCrateAt(int x, int y) {
-		for (int i = 0; i < crates.length; i++) {
-			if (x == crates[i].getX() && y == crates[i].getY())
-				return crates[i];
+		for (int i = 0; i < crates.size(); i++) {
+			if (x == crates.get(i).getX() && y == crates.get(i).getY())
+				return crates.get(i);
 		}
-		System.out.println("Caisse pas trouvee");
-		return null; //Cette ligne n'existe que pour contenter Eclipse, concrètement on appelle cette méthode que lorsqu'on est sur qu'il y a une caisse aux x et y donnés
+		return null; //Cette ligne n'existe que pour contenter Eclipse, concretement on appelle cette methode que
+		//lorsqu'on est sur qu'il y a une caisse aux x et y donnes
 	}
 	
 	public void fill(Component component) {
@@ -143,7 +141,6 @@ public class Grid {
 				height++;
 			}
 			grid = new Grid(width, height);
-			grid.setNumberCrates(3);
 			buff.close();
 			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -158,7 +155,6 @@ public class Grid {
 						grid.placeComponentAt(j, i, Component.WALL);
 						break;
 					case ('$'):
-						grid.placeComponentAt(j, i, Component.CRATE);
 						grid.addCrate(j, i);
 						break;
 					case(' ') :
@@ -168,7 +164,8 @@ public class Grid {
 						grid.placeComponentAt(j, i, Component.GOAL);
 						break;
 					case ('@'):
-						grid.placeComponentAt(j, i, Component.PLAYER);//Creer Player a� ce moment
+						grid.placeComponentAt(j, i, Component.GROUND);
+						grid.setPlayer(j, i);
 						break;
 					}
 				}

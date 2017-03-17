@@ -2,10 +2,8 @@
 TODO List
 
 Joachim:
-- Améliorer la liste des Crates
-- Faire de player un attribut de Grid
-- Peut-être faire du component sur lequel un Player se trouve un attribut pour le récupérer facilement
-- Rendre le plus possible d'instanciations inutiles et impossible depuis main
+- Peut-être faire du component sur lequel un Player se trouve un attribut pour le récupérer facilement ?
+- Rendre le plus possible d'instanciations inutiles et impossible depuis main 
 - (Créer une liste d'objectifs)
 - |_(Modifier isWon() pour utiliser la liste d'objectifs)
 - |_Faire de GROUND et WALL les seuls Components (+ OBJECTIF?)

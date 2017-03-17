@@ -9,9 +9,8 @@ public class Player extends Crate {
 	}
 	*/
 	
-	public Player(int xInput, int yInput, Grid grid) {
+	public Player(int xInput, int yInput) {
 		super(xInput, yInput);
-		placeOnGrid(xInput, yInput, grid);
 		direction = Direction.DOWN;
 	}
 	
@@ -81,53 +80,39 @@ public class Player extends Crate {
 	@Override
 	public void moveUp(Grid grid) {
 		if (grid.hasCrateAt(getX(), getY()-1))
-				grid.getCrateAt(getX(), getY()-1).moveUp(grid);
-		letPlaceFree(grid);
-		placeOnGrid(getX(), getY()-1, grid);		
+				grid.getCrateAt(getX(), getY()-1).moveUp(grid);		
 		setY(getY()-1);
 	}
 	
 	@Override
 	public void moveRight(Grid grid) {
 		if (grid.hasCrateAt(getX()+1, getY()))
-			grid.getCrateAt(getX()+1, getY()).moveRight(grid);
-		letPlaceFree(grid);
-		placeOnGrid(getX()+1, getY(), grid);		
+			grid.getCrateAt(getX()+1, getY()).moveRight(grid);		
 		setX(getX()+1);
 	}
 	
 	@Override
 	public void moveDown(Grid grid) {
 		if (grid.hasCrateAt(getX(), getY()+1))
-			grid.getCrateAt(getX(), getY()+1).moveDown(grid);
-		letPlaceFree(grid);
-		placeOnGrid(getX(), getY()+1, grid);		
+			grid.getCrateAt(getX(), getY()+1).moveDown(grid);		
 		setY(getY()+1);
 	}
 	
 	@Override
 	public void moveLeft(Grid grid) {
 		if (grid.hasCrateAt(getX()-1, getY()))
-			grid.getCrateAt(getX()-1, getY()).moveLeft(grid);
-		letPlaceFree(grid);
-		placeOnGrid(getX()-1, getY(), grid);		
+			grid.getCrateAt(getX()-1, getY()).moveLeft(grid);	
 		setX(getX()-1);
 	}
 	
+	
+	//Je sais, c'est con d'avoir deux methodes inutiles. A ameliorer. Surement en les suprimant aussi pour les caisses. A voir
 	@Override
 	public void letPlaceFree (Grid grid) {
-		if (grid.getComponentAt(getX(), getY()).equals(Component.PLAYER_ON_GOAL))
-			grid.placeComponentAt(getX(), getY(), Component.GOAL);
-		else
-			grid.placeComponentAt(getX(), getY(), Component.GROUND);
 	}
 	
 	@Override
 	public void placeOnGrid(int x, int y, Grid grid) {
-		if (grid.getComponentAt(x, y) == Component.GOAL)
-			grid.placeComponentAt(x, y, Component.PLAYER_ON_GOAL);
-		else
-			grid.placeComponentAt(x,  y, Component.PLAYER);
 	}
 
 }

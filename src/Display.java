@@ -16,7 +16,7 @@ public class Display extends JFrame {
 	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
 
 	public static void main(String[] args) {
-		
+		/*
 		Grid grid = new Grid(17, 10);		
 		
 		grid.fill(Component.GROUND);
@@ -30,21 +30,18 @@ public class Display extends JFrame {
 		grid.placeComponentAt(2, 5, Component.WALL);
 		grid.placeComponentAt(5, 5, Component.WALL);
 		
-		grid.setNumberCrates(2);;
 		grid.addCrate(5, 8);
 		grid.addCrate(6, 7);
 		
-		Player player = new Player(5, 4, grid);
+		grid.setPlayer(9, 9);
+		*/
 		
-		/*
 		Grid grid = Grid.readGrid("levels\\level1.txt");
 		
-		Player player = new Player(4, 4, grid);
-		*/
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Display window = new Display(screenSize);
-		Panel p = new Panel(grid, player);
+		Panel p = new Panel(grid);
 		window.setContentPane(p);
 		p.setBackground(BLEU_CLAIR);
 		window.paintPanel(p);
@@ -57,27 +54,25 @@ public class Display extends JFrame {
 				switch (input){
 				case KeyEvent.VK_ENTER:
 					System.out.print("Coordonnées du joueur: ");
-					System.out.println(player.getX() + ", " + player.getY());
-					System.out.println(player.getDirection());
+					System.out.println(grid.player.getX() + ", " + grid.player.getY());
+					System.out.println(grid.player.getDirection());
 					break;
 				case KeyEvent.VK_UP:
-					player.setDirection(Direction.UP);
-					player.move(grid);
+					grid.player.setDirection(Direction.UP);
+					grid.player.move(grid);
 					break;
 				case KeyEvent.VK_DOWN :
-					player.setDirection(Direction.DOWN);
-					player.move(grid);
+					grid.player.setDirection(Direction.DOWN);
+					grid.player.move(grid);
 					break;
 				case KeyEvent.VK_RIGHT:
-					player.setDirection(Direction.RIGHT);
-					player.move(grid);
+					grid.player.setDirection(Direction.RIGHT);
+					grid.player.move(grid);
 					break;
 				case KeyEvent.VK_LEFT:
-					player.setDirection(Direction.LEFT);
-					player.move(grid);
+					grid.player.setDirection(Direction.LEFT);
+					grid.player.move(grid);
 					break;
-				case KeyEvent.VK_0:
-					grid.placeComponentAt(4,0, Component.GOAL);
 				default :
 					System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 				}
