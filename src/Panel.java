@@ -17,7 +17,7 @@ public class Panel extends JPanel {
 	private static final long serialVersionUID = 4992322428530946741L;
 
 	/**
-	 * A grid object containing a matrix containing the data of a level.
+	 * A Grid object containing a matrix containing the data of a level.
 	 */
 	Grid grid;
 	

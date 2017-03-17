@@ -17,11 +17,9 @@ public class Display extends JFrame {
 
 	public static void main(String[] args) {
 		
-		Grid grid = new Grid(10, 10);		
+		Grid grid = new Grid(17, 10);		
 		
 		grid.fill(Component.GROUND);
-		
-		Player player = new Player(5, 4, grid);
 		
 		grid.placeComponentAt(6, 5, Component.GOAL);
 		grid.placeComponentAt(2, 4, Component.GOAL);
@@ -32,10 +30,17 @@ public class Display extends JFrame {
 		grid.placeComponentAt(2, 5, Component.WALL);
 		grid.placeComponentAt(5, 5, Component.WALL);
 		
-		grid.setNumberCrates(3);
-		grid.addCrate(2, 4);
+		grid.setNumberCrates(2);;
 		grid.addCrate(5, 8);
 		grid.addCrate(6, 7);
+		
+		Player player = new Player(5, 4, grid);
+		
+		/*
+		Grid grid = Grid.readGrid("levels\\level1.txt");
+		
+		Player player = new Player(4, 4, grid);
+		*/
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Display window = new Display(screenSize);
@@ -76,7 +81,7 @@ public class Display extends JFrame {
 				default :
 					System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 				}
-				if (grid.isWin())
+				if (grid.isWon())
 					System.out.println("Vive les castors");
 				window.paintPanel(p);
 			}
@@ -101,6 +106,10 @@ public class Display extends JFrame {
 		setVisible(true);
 	}
 	
+	/**
+	 * Updates a panel.
+	 * @param p The panel to update
+	 */
 	public void paintPanel(Panel p) {
 		p.revalidate();
 		p.repaint();

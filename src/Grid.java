@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Description
@@ -11,7 +15,7 @@ public class Grid {
 	Component[][] matrix;
 	
 	/**
-	 * The array containing the crates(objects) of the level
+	 * The array containing the Crates of the level.
 	 */
 	Crate[] crates; 
 	
@@ -26,11 +30,11 @@ public class Grid {
 	private int width;
 	
 	/**
-	 * Creates an object containing an empty matrix of specified height and width.
-	 * @param height The height of the matrix
+	 * Creates an object containing an empty matrix of specified width and height.
 	 * @param width The width of the matrix
+	 * @param height The height of the matrix
 	 */
-	public Grid(int height, int width) {
+	public Grid(int width, int height) {
 		matrix = new Component[height][width];
 		this.height = height;
 		this.width = width;
@@ -88,7 +92,7 @@ public class Grid {
 		matrix[y][x] = comp;
 	}
 	
-	public boolean isWin(){
+	public boolean isWon(){
 		boolean test = true;
 		Component comp;
 		for (int i = 0; i < crates.length; i++) {
@@ -120,55 +124,65 @@ public class Grid {
 	
 	public void fill(Component component) {
 		int i, j;
-		for (j = 0; j < height; j++) {
-			for (i = 0; i < width; i++)
+		for (j = 0; j < width; j++) {
+			for (i = 0; i < height; i++)
 				matrix[i][j] = component;
 		}
 	}
 	
-	/*
-	public static Grid readGrid (String name) {
-		FileInputStream flux = new FileInputStream (name);
-		InputStreamReader read = new InputStreamReader(flux); 
-		BufferedReader buff=new BufferedReader(read);
-		String ligne;
-		int height = 0, width;
+	
+	public static Grid readGrid (String path) {
+		Grid grid = null;
+		BufferedReader buff = null;
 		try {
-			while ((ligne=buff.readLine())!=null){
+			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+			String ligne;
+			int height = 1, width;
+			width = buff.readLine().length();
+			while ((ligne = buff.readLine())!=null){
 				height++;
 			}
-			width = ligne.length();
-			Grid grid = new Grid(height, width);
-			char character;
+			grid = new Grid(width, height);
+			buff.close();
+			
+			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+			Character character;
+			System.out.println(width);
 			for (int i = 0; i < height; i++){
 				ligne = buff.readLine();
 				for (int j = 0; j < width; j++) {
-					character = ligne[j];
-					switch (character) {  //ici, une structure analogue au dictionnaire serait plus pratique qu'un switch puisque le bloc exécuté est toujours le même
-					case ("#") :
-						grid.placeOnGrid(i, j, Component.WALL);
+					character = ligne.charAt(j);
+					switch (character) {
+					case ('#') :
+						grid.placeComponentAt(j, i, Component.WALL);
 						break;
-					case ("$"):
-						grid.placeOnGrid(i, j, Component.CRATE); //Appeler methode addCrate
+					case ('$'):
+						grid.placeComponentAt(j, i, Component.CRATE); //Appeler methode addCrate
 						break;
-					case(" ") :
-						grid.placeOnGrid(i, j, Component.GROUND);
+					case(' ') :
+						grid.placeComponentAt(j, i, Component.GROUND);
 						break;
-					case(".") :
-						grid.placeOnGrid(i, j, Component.GOAL);
+					case('.') :
+						grid.placeComponentAt(j, i, Component.GOAL);
 						break;
-					case ("@"):
-						grid.placeOnGrid(i, j, Component.PLAYER);//Creer Player à ce moment
+					case ('@'):
+						grid.placeComponentAt(j, i, Component.PLAYER);//Creer Player a� ce moment
+						break;
 					}
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if(reader !=null){reader.close();}
-		 	}
-			return grid;
-		}
-	}*/
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(buff !=null)
+				try {
+					buff.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	 	}
+		return grid;
+	}
 	
 	
 	/*public boolean isFree(int posX, int posY) {

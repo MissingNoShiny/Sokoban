@@ -57,7 +57,7 @@ public class Crate extends Position {
 		setX(getX()-1);
 	}
 	
-	public void letPlaceFree (Grid grid) {
+	public void letPlaceFree(Grid grid) {
 		if (grid.getComponentAt(getX(), getY()).equals(Component.CRATE_ON_GOAL))
 			grid.placeComponentAt(getX(), getY(), Component.GOAL);
 		else
