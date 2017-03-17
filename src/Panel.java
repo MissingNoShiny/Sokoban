@@ -61,8 +61,8 @@ public class Panel extends JPanel {
 		int y0 = midY - (grid.getHeight()*64)/2;
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(10));
-		g2.drawRect(x0-5, y0-5, (grid.getWidth()*64) + 10, (grid.getHeight()*64) + 10);
+		g2.setStroke(new BasicStroke(20));
+		g2.drawRect(x0 - 10, y0 - 10, (grid.getWidth()*64) + 20, (grid.getHeight()*64) + 20);
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++) {
 				if (grid.getComponentAt(i, j) != null)

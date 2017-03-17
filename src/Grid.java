@@ -143,6 +143,7 @@ public class Grid {
 				height++;
 			}
 			grid = new Grid(width, height);
+			grid.setNumberCrates(3);
 			buff.close();
 			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -157,7 +158,8 @@ public class Grid {
 						grid.placeComponentAt(j, i, Component.WALL);
 						break;
 					case ('$'):
-						grid.placeComponentAt(j, i, Component.CRATE); //Appeler methode addCrate
+						grid.placeComponentAt(j, i, Component.CRATE);
+						grid.addCrate(j, i);
 						break;
 					case(' ') :
 						grid.placeComponentAt(j, i, Component.GROUND);
