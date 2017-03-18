@@ -71,9 +71,9 @@ abstract class Position {
 	 */
 	
 	public boolean equals(Position other) {
-		if (this.x != other.x|| this.y != other.y)
-			return false;
-		return true;		
+		if (this.x == other.x && this.y == other.y)
+			return true;
+		return false;		
 	}
 
 }

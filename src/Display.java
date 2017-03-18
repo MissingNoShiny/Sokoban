@@ -27,4 +27,5 @@ public class Display extends JFrame {
 		p.revalidate();
 		p.repaint();
 	}
+	
 }

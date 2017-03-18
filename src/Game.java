@@ -13,7 +13,6 @@ public class Game implements Runnable {
 
 	private boolean running = false;
 	private Thread thread;
-	private Player player;
 	private Grid grid;
 	private Display window;
 	private Panel p;
@@ -22,6 +21,7 @@ public class Game implements Runnable {
 		
 		Game game = new Game();
 		
+		/*
 		game.grid = new Grid(17, 10);		
 		
 		game.grid.fill(Component.GROUND);
@@ -35,21 +35,17 @@ public class Game implements Runnable {
 		game.grid.placeComponentAt(2, 5, Component.WALL);
 		game.grid.placeComponentAt(5, 5, Component.WALL);
 		
-		game.grid.setNumberCrates(2);
 		game.grid.addCrate(5, 8);
 		game.grid.addCrate(6, 7);
 		
-		game.player = new Player(5, 4, game.grid);
-		
-		/*
-		Grid grid = Grid.readGrid("levels\\level1.txt");
-		
-		Player player = new Player(4, 4, grid);
+		game.grid.setPlayer(5, 4);
 		*/
+		
+		game.grid = Grid.readGrid("levels\\level1.txt");
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		game.window = new Display(screenSize, game.TITLE);
-		game.p = new Panel(game.grid, game.player);
+		game.p = new Panel(game.grid);
 		game.window.setContentPane(game.p);
 		game.p.setBackground(BLEU_CLAIR);
 		game.window.paintPanel(game.p);
@@ -111,24 +107,24 @@ public class Game implements Runnable {
 		switch (input){
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");
-			System.out.println(player.getX() + ", " + player.getY());
-			System.out.println(player.getDirection());
+			System.out.println(grid.player.getX() + ", " + grid.player.getY());
+			System.out.println(grid.player.getDirection());
 			break;
 		case KeyEvent.VK_UP:
-			player.setDirection(Direction.UP);
-			player.move(grid);
+			grid.player.setDirection(Direction.UP);
+			grid.player.move(grid);
 			break;
 		case KeyEvent.VK_DOWN :
-			player.setDirection(Direction.DOWN);
-			player.move(grid);
+			grid.player.setDirection(Direction.DOWN);
+			grid.player.move(grid);
 			break;
 		case KeyEvent.VK_RIGHT:
-			player.setDirection(Direction.RIGHT);
-			player.move(grid);
+			grid.player.setDirection(Direction.RIGHT);
+			grid.player.move(grid);
 			break;
 		case KeyEvent.VK_LEFT:
-			player.setDirection(Direction.LEFT);
-			player.move(grid);
+			grid.player.setDirection(Direction.LEFT);
+			grid.player.move(grid);
 			break;
 		case KeyEvent.VK_0:
 			grid.placeComponentAt(4,0, Component.GOAL);

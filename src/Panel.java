@@ -19,30 +19,28 @@ public class Panel extends JPanel {
 	/**
 	 * A Grid object containing a matrix containing the data of a level.
 	 */
-	Grid grid;
-	
-	Player player;
-	
-	int i;
-
-	int j;
+	private Grid grid;
 	
 	Map<Component, Image> sprites = new HashMap<Component, Image>();
+	
+	//Solution temporaire pour que le sprite du player se dessine au dessus du sprite precedent
+	Map<Direction, Image> playerSprites = new HashMap<Direction, Image>();
 	
 	/**
 	 * TODO
 	 * @param grid The Grid object to get data from
 	 */
-	public Panel(Grid grid, Player player) {
+	public Panel(Grid grid) {
 		this.grid = grid;
-		this.player = player;
 		addToMap(sprites, Component.GROUND, "Resources/ground.png");
 		addToMap(sprites, Component.CRATE, "Resources/crate.png");
 		addToMap(sprites, Component.WALL, "Resources/wall.png");
-		addToMap(sprites, Component.PLAYER, "Resources/playerDown.png");
 		addToMap(sprites, Component.GOAL, "Resources/goal.png");
 		addToMap(sprites, Component.CRATE_ON_GOAL, "Resources/crateOnGoal.png");
-		addToMap(sprites, Component.PLAYER_ON_GOAL, "Resources/castor.jpg");
+		addToMap(playerSprites, Direction.UP, "Resources/playerUp.png");
+		addToMap(playerSprites, Direction.RIGHT, "Resources/playerRight.png");
+		addToMap(playerSprites, Direction.DOWN, "Resources/playerDown.png");
+		addToMap(playerSprites, Direction.LEFT, "Resources/playerLeft.png");
 	}
 	
 	public void addToMap(Map<Component, Image> map, Component comp, String nameResource) {
@@ -54,7 +52,17 @@ public class Panel extends JPanel {
 		map.put(comp, sprite);
 	}
 	
+	public void addToMap(Map<Direction, Image> map, Direction dir, String nameResource) {
+		Image sprite = null;
+		try {
+		    sprite = ImageIO.read(new File(nameResource));
+		} catch (IOException e) {
+		}
+		map.put(dir, sprite);
+	}
+	
 	public void paintComponent(Graphics g) {
+		int i, j;
 		int midX = this.getWidth()/2;
 		int midY = this.getHeight()/2;
 		int x0 = midX - (grid.getWidth()*64)/2;
@@ -65,27 +73,10 @@ public class Panel extends JPanel {
 		g2.drawRect(x0 - 10, y0 - 10, (grid.getWidth()*64) + 20, (grid.getHeight()*64) + 20);
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++) {
-				if (grid.getComponentAt(i, j) != null)
-					if (grid.getComponentAt(i, j) == Component.PLAYER) {
-						switch (player.getDirection()) {
-						case UP:
-							addToMap(sprites, Component.PLAYER, "Resources/playerUp.png");
-							break;
-						case DOWN:
-							addToMap(sprites, Component.PLAYER, "Resources/playerDown.png");
-							break;
-						case RIGHT:
-							addToMap(sprites, Component.PLAYER, "Resources/playerRight.png");
-							break;
-						case LEFT:
-							addToMap(sprites, Component.PLAYER, "Resources/playerLeft.png");
-							break;
-						}
-					}
-					
-					g.drawImage(sprites.get(grid.getComponentAt(i, j)), x0 + i*64, y0 + j*64, null);
+				g.drawImage(sprites.get(grid.getComponentAt(i, j)), x0 + i*64, y0 + j*64, null);
+				if (grid.player.getX() == i && grid.player.getY() == j) 
+					g.drawImage(playerSprites.get(grid.player.getDirection()), x0 + i*64, y0 + j*64, null);
 			}
 		}
-			
 	}
 }
