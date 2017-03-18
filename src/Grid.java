@@ -30,6 +30,8 @@ public class Grid {
 	 */
 	private ArrayList <Crate> crates; 
 	
+	private ArrayList <Goal> goals; 
+	
 	//Attention, quand player est private, tout foire
 	Player player;
 	
@@ -42,6 +44,7 @@ public class Grid {
 	public Grid(int width, int height) {
 		matrix = new Component[height][width];
 		crates = new ArrayList<Crate>(0);
+		goals = new ArrayList<Goal>(0);
 		this.height = height;
 		this.width = width;
 	}
@@ -101,7 +104,10 @@ public class Grid {
 	public void addCrate(int x, int y) {
 		crates.add(new Crate(x, y, this));
 	}
-	 
+	
+	public void addGoal(int x, int y) {
+		goals.add(new Goal(x, y));
+	}
 
 	public boolean hasCrateAt (int x, int y) {
 		for (int i = 0; i < crates.size(); i++) {
@@ -161,6 +167,7 @@ public class Grid {
 						grid.placeComponentAt(j, i, Component.GROUND);
 						break;
 					case('.') :
+						grid.addGoal(j, i);
 						grid.placeComponentAt(j, i, Component.GOAL);
 						break;
 					case ('@'):

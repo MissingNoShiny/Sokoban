@@ -17,6 +17,9 @@ public class Game implements Runnable {
 	private Display window;
 	private Panel p;
 	
+	//Plutot que de deplacer player depuis le grid, creer un nouvelle classe (avec un string et un int comme attributs)
+	//et faire en sorte que grid retourne les points acquis a ala fin d'un niveau. A chaque nouveau niveau, nouveau grid
+	
 	public static void main(String[] args) {
 		
 		Game game = new Game();

@@ -1,4 +1,4 @@
-public class Crate extends Position {
+public class Crate extends Position implements Movable {
 
 	public Crate(int x, int y) {
 		super(x, y);

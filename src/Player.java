@@ -1,13 +1,7 @@
 
-public class Player extends Crate {
+public class Player extends Position implements Movable {
 	
 	private Direction direction;
-	
-	/*
-	*public Player() {
-		super(0, 0);
-	}
-	*/
 	
 	public Player(int xInput, int yInput) {
 		super(xInput, yInput);
@@ -24,7 +18,6 @@ public class Player extends Crate {
 	
 	
 	//Dans les fonctions canMove, utilisation de variables locales x et y (donc qui ne sont pas les attributs)
-	@Override
 	public boolean canMove(Grid grid, Direction dir) {
 		int x = getX(), y = getY();
 		boolean test = true;
@@ -74,45 +67,30 @@ public class Player extends Crate {
 				break;
 			}
 		}
-
 	}
 	
-	@Override
 	public void moveUp(Grid grid) {
 		if (grid.hasCrateAt(getX(), getY()-1))
 				grid.getCrateAt(getX(), getY()-1).moveUp(grid);		
 		setY(getY()-1);
 	}
 	
-	@Override
 	public void moveRight(Grid grid) {
 		if (grid.hasCrateAt(getX()+1, getY()))
 			grid.getCrateAt(getX()+1, getY()).moveRight(grid);		
 		setX(getX()+1);
 	}
 	
-	@Override
 	public void moveDown(Grid grid) {
 		if (grid.hasCrateAt(getX(), getY()+1))
 			grid.getCrateAt(getX(), getY()+1).moveDown(grid);		
 		setY(getY()+1);
 	}
 	
-	@Override
 	public void moveLeft(Grid grid) {
 		if (grid.hasCrateAt(getX()-1, getY()))
 			grid.getCrateAt(getX()-1, getY()).moveLeft(grid);	
 		setX(getX()-1);
-	}
-	
-	
-	//Je sais, c'est con d'avoir deux methodes inutiles. A ameliorer. Surement en les suprimant aussi pour les caisses. A voir
-	@Override
-	public void letPlaceFree (Grid grid) {
-	}
-	
-	@Override
-	public void placeOnGrid(int x, int y, Grid grid) {
 	}
 
 }
