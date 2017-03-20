@@ -1,21 +1,33 @@
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 public class Game implements Runnable {
-
-	public final String TITLE = "Sokoban";
+	
+	public static enum GameState {
+		MENU,
+		PLAYING;
+	}
+	
+	private GameState state = GameState.MENU;
+	
+	public static final String TITLE = "Sokoban";
 	private final double TICKS_PER_SECOND = 60.0;
 	private final long WAITING_TIME_MS = (long) (10E2 / TICKS_PER_SECOND);
 	
 	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
+	public static final Color ORANGE = new Color(255, 165, 0);
+	public static final Color BLACK = new Color(0, 0, 0);
 
 	private boolean running = false;
+	private Menu menu = new Menu();
 	private Thread thread;
 	private Grid grid;
 	private Display window;
-	private Panel p;
+	private Level level;
 	
 	//Plutot que de deplacer player depuis le grid, creer un nouvelle classe (avec un string et un int comme attributs)
 	//et faire en sorte que grid retourne les points acquis a ala fin d'un niveau. A chaque nouveau niveau, nouveau grid
@@ -24,41 +36,21 @@ public class Game implements Runnable {
 		
 		Game game = new Game();
 		
-		/*
-		game.grid = new Grid(17, 10);		
-		
-		game.grid.fill(Component.GROUND);
-		
-		game.grid.placeComponentAt(6, 5, Component.GOAL);
-		game.grid.placeComponentAt(2, 4, Component.GOAL);
-		
-		game.grid.placeComponentAt(1, 3, Component.WALL);
-		game.grid.placeComponentAt(1, 4, Component.WALL);
-		game.grid.placeComponentAt(1, 5, Component.WALL);
-		game.grid.placeComponentAt(2, 5, Component.WALL);
-		game.grid.placeComponentAt(5, 5, Component.WALL);
-		
-		game.grid.addCrate(5, 8);
-		game.grid.addCrate(6, 7);
-		
-		game.grid.setPlayer(5, 4);
-		*/
-		
-		game.grid = Grid.readGrid("levels\\level1.txt");
-		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		game.window = new Display(screenSize, game.TITLE);
-		game.p = new Panel(game.grid);
-		game.window.setContentPane(game.p);
-		game.p.setBackground(BLEU_CLAIR);
-		game.window.paintPanel(game.p);
+		game.loadMenu();
 		
-		game.window.addKeyListener(new Inputs(game));
+		Inputs i = new Inputs(game);
+		game.window.addKeyListener(i);
+		game.window.addMouseListener(i);
 		
 		game.start();
 			
 	}
 	
+	/**
+	 * The game loop.
+	 */
 	@Override
 	public void run() {
 		long timer = System.currentTimeMillis();
@@ -73,12 +65,15 @@ public class Game implements Runnable {
 			if (System.currentTimeMillis() - timer > 1000) {
 				tick();
 				timer += 1000;
-				System.out.println("Tps: " + ticks);
+				//System.out.println("Tps: " + ticks);
 				ticks = 0;
 			}
 		}
 	}
 	
+	/**
+	 * Starts the game loop.
+	 */
 	public synchronized void start() {
 		if (running)
 			return;
@@ -87,10 +82,14 @@ public class Game implements Runnable {
 		running = true;
 	}
 	
+	/**
+	 * Stops the game loop and closes the game.
+	 */
 	public synchronized void stop() {
 		if (!running)
 			return;
 		try {
+			window.dispose();
 			thread.join();
 			running = false;
 		} catch (InterruptedException e) {
@@ -104,6 +103,9 @@ public class Game implements Runnable {
 	public void tick() {
 		//C'est cette méthode qui va exécuter la logique du jeu, TICKS_PER_SECOND fois par seconde
 	}
+	
+	//Inputs
+	//Keyboard
 	
 	public void keyPressed(KeyEvent e) { 
 		int input = e.getKeyCode();
@@ -136,13 +138,45 @@ public class Game implements Runnable {
 		}
 		if (grid.isWon())
 			System.out.println("Vivent les castors");
-		window.paintPanel(p);
+		window.refresh();
 	}
 	    
-	public void keyTyped(KeyEvent e) {
-	}
-
-	public void keyReleased(KeyEvent e) {	
-	}		
+	//Mouse
 	
+	public void mouseClicked(MouseEvent e) {
+		int mx = e.getX();
+		int my = e.getY();
+		if (state == GameState.MENU) {
+			if (menu.getState() == Menu.MenuState.MAIN) {
+				//playButton
+				if (mx >= 2*menu.getWidth()/5 && mx <= 3*menu.getWidth()/5 && my >= 4*menu.getHeight()/10 && my <= 5*menu.getHeight()/10) {
+					System.out.println("Play");
+					loadLevel("levels\\level1.txt");
+				}
+				//quitButton
+				if (mx >= 2*menu.getWidth()/5 && mx <= 3*menu.getWidth()/5 && my >= 6*menu.getHeight()/10 && my <= 7*menu.getHeight()/10) {
+					System.out.println("Quit");
+					stop();
+				}
+			}
+		}
+		
+		if (state == GameState.PLAYING) {
+			if (mx >= 32*level.getWidth()/40 && mx <= 37*level.getWidth()/40 && my >= 13*level.getHeight()/16 && my <= 14*level.getHeight()/16) {
+				loadMenu();
+			}
+		}
+	}
+	
+	public void loadLevel(String path) {
+		grid = Grid.readGrid(path);
+		level = new Level(grid);
+		window.setPanel(level);
+		state = GameState.PLAYING;
+	}
+	
+	public void loadMenu() {
+		window.setPanel(menu);
+		state = GameState.MENU;
+	}
 }

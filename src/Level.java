@@ -1,7 +1,10 @@
+
 import java.awt.BasicStroke;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,7 +12,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class Panel extends JPanel {
+public class Level extends JPanel {
 
 	/**
 	 * 
@@ -30,7 +33,7 @@ public class Panel extends JPanel {
 	 * TODO
 	 * @param grid The Grid object to get data from
 	 */
-	public Panel(Grid grid) {
+	public Level(Grid grid) {
 		this.grid = grid;
 		addToMap(sprites, Component.GROUND, "Resources/ground.png");
 		addToMap(sprites, Component.CRATE, "Resources/crate.png");
@@ -67,10 +70,15 @@ public class Panel extends JPanel {
 		int midY = this.getHeight()/2;
 		int x0 = midX - (grid.getWidth()*64)/2;
 		int y0 = midY - (grid.getHeight()*64)/2;
+		
 		super.paintComponent(g);
+		
 		Graphics2D g2 = (Graphics2D) g;
+		
 		g2.setStroke(new BasicStroke(20));
 		g2.drawRect(x0 - 10, y0 - 10, (grid.getWidth()*64) + 20, (grid.getHeight()*64) + 20);
+		setBackground(Game.BLEU_CLAIR);
+		
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++) {
 				g.drawImage(sprites.get(grid.getComponentAt(i, j)), x0 + i*64, y0 + j*64, null);
@@ -78,5 +86,13 @@ public class Panel extends JPanel {
 					g.drawImage(playerSprites.get(grid.player.getDirection()), x0 + i*64, y0 + j*64, null);
 			}
 		}
+		
+		g2.setColor(Game.ORANGE);
+		g2.setStroke(new BasicStroke(1));
+		Rectangle menuButton = new Rectangle(4*getWidth()/5, 13*getHeight()/16, getWidth()/8, getHeight()/16);
+		g2.fill(menuButton);
+		g2.setColor(Game.BLACK);
+		g2.setFont(new Font("arial", 0, 35));
+		g2.drawString("Back to Menu", menuButton.x + 15, menuButton.y + 45);
 	}
 }
