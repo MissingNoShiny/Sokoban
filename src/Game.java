@@ -37,7 +37,7 @@ public class Game implements Runnable {
 		Game game = new Game();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		game.window = new Display(screenSize, game.TITLE);
+		game.window = new Display(screenSize, Game.TITLE);
 		game.loadMenu();
 		
 		Inputs i = new Inputs(game);
@@ -65,7 +65,7 @@ public class Game implements Runnable {
 			if (System.currentTimeMillis() - timer > 1000) {
 				tick();
 				timer += 1000;
-				//System.out.println("Tps: " + ticks);
+				System.out.println("Tps: " + ticks);
 				ticks = 0;
 			}
 		}
@@ -90,14 +90,12 @@ public class Game implements Runnable {
 			return;
 		try {
 			window.dispose();
-			thread.join();
 			running = false;
+			thread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		
+		} 
 		System.exit(1);
-		
 	}
 	
 	public void tick() {
@@ -150,12 +148,10 @@ public class Game implements Runnable {
 			if (menu.getState() == Menu.MenuState.MAIN) {
 				//playButton
 				if (mx >= 2*menu.getWidth()/5 && mx <= 3*menu.getWidth()/5 && my >= 4*menu.getHeight()/10 && my <= 5*menu.getHeight()/10) {
-					System.out.println("Play");
 					loadLevel("levels\\level1.txt");
 				}
 				//quitButton
 				if (mx >= 2*menu.getWidth()/5 && mx <= 3*menu.getWidth()/5 && my >= 6*menu.getHeight()/10 && my <= 7*menu.getHeight()/10) {
-					System.out.println("Quit");
 					stop();
 				}
 			}
