@@ -135,7 +135,7 @@ public class Game implements Runnable {
 			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 		}
 		if (grid.isWon())
-			System.out.println("Vivent les castors");
+			System.out.println("Vivent les castors"); //Merci d'avoir corrige :)
 		window.refresh();
 	}
 	    
@@ -144,14 +144,17 @@ public class Game implements Runnable {
 	public void mouseClicked(MouseEvent e) {
 		int mx = e.getX();
 		int my = e.getY();
+		System.out.println(mx + "  " + my);
 		if (state == GameState.MENU) {
+			System.out.println("ici");
 			if (menu.getState() == Menu.MenuState.MAIN) {
 				//playButton
-				if (mx >= 2*menu.getWidth()/5 && mx <= 3*menu.getWidth()/5 && my >= 4*menu.getHeight()/10 && my <= 5*menu.getHeight()/10) {
+				if (menu.getPlayButton().clickedOn(mx, my)) {
+					System.out.println("ici 5449 " );
 					loadLevel("levels\\level1.txt");
 				}
 				//quitButton
-				if (mx >= 2*menu.getWidth()/5 && mx <= 3*menu.getWidth()/5 && my >= 6*menu.getHeight()/10 && my <= 7*menu.getHeight()/10) {
+				if (menu.getQuitButton().clickedOn(mx, my)) {
 					stop();
 				}
 			}

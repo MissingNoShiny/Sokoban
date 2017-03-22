@@ -14,3 +14,6 @@ Vincent:
 - Rendre le sprite du player transparent et le dessiner sur un autre component
 - Rendre le plus possible d'instanciations inutiles et impossible depuis main
 
+
+Attention! Je ne sais pas d'où ca vient, mais lorsque l'on quitte le programme en appuyant sur la croix en haut à gauche
+dans le menu de base, le programme se ferme mais continue à s'exécuter

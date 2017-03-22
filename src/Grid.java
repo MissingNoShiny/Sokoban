@@ -190,13 +190,4 @@ public class Grid {
 	 	}
 		return grid;
 	}
-	
-	
-	/*public boolean isFree(int posX, int posY) {
-		if ((posX < height) && (posY < width)) {
-			if !(getComponentAt(posX, posY).equals(Component.WALL))
-				return true;
-		}	
-		return false;
-	}*/
 }
