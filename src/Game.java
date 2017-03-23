@@ -178,4 +178,9 @@ public class Game implements Runnable {
 		window.setPanel(menu);
 		state = GameState.MENU;
 	}
+
+	public boolean canOverrideLevel() {
+		//methode qui servira a afficher un avertissement si la methode Grid.saveGrid() ecrase un fichier existant
+		return false;
+	}
 }

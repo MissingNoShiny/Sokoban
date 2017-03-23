@@ -1,6 +1,9 @@
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -102,6 +105,10 @@ public class Grid {
 		player = new Player (x, y);
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public void addCrate(int x, int y) {
 		crates.add(new Crate(x, y, this));
 	}
@@ -175,19 +182,52 @@ public class Grid {
 						grid.placeComponentAt(j, i, Component.GROUND);
 						grid.setPlayer(j, i);
 						break;
+					case ('+'):
+						grid.setPlayer(j, i);
+						grid.addGoal(j, i);
+						break;
 					}
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if(buff !=null)
+			if (buff !=null) {
 				try {
 					buff.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
 	 	}
 		return grid;
+	}
+	
+	public static void saveGrid(Grid grid, String path, Game game) {
+		File file = new File("..\\levels\\saved\\" + path + ".xsb");
+		if (file.exists()) {
+			if (!game.canOverrideLevel())
+				return;
+		}
+		BufferedWriter buff = null;
+		try {
+			buff = new BufferedWriter(new FileWriter(file));
+			for (int j = 0; j < grid.getHeight(); j++) {
+				for (int i = 0; i < grid.getWidth(); i++) {
+					//Trouver le symbole approprié puis l'écrire dans le fichier
+				}
+				buff.newLine();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (buff != null) {
+				try {
+					buff.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
