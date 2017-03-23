@@ -1,10 +1,8 @@
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.JPanel;
 
 public class Menu extends JPanel {
@@ -29,7 +27,9 @@ public class Menu extends JPanel {
 	
 	public Menu(Game game) {
 		this.game = game;
-		setLayout(new FlowLayout());
+		GridLayout gl = new GridLayout(5,1);
+		gl.setVgap(3);
+		setLayout(gl);
 		Button playButton = new Button("Play");
 		playButton.addMouseListener(new ButtonListener(playButton) {
 			@Override

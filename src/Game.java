@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 public class Game implements Runnable {
 	
@@ -143,7 +142,7 @@ public class Game implements Runnable {
 	
 	public void loadLevel(String path) {
 		grid = Grid.readGrid(path);
-		level = new DisplayLevel(grid);
+		level = new DisplayLevel(grid, this);
 		window.setPanel(level);
 		state = GameState.PLAYING;
 	}

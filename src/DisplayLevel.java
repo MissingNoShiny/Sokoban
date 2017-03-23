@@ -1,10 +1,11 @@
 
 import java.awt.BasicStroke;
-import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +25,11 @@ public class DisplayLevel extends JPanel {
 	 */
 	private Grid grid;
 	
+	/**
+	 * Used only for the Button back to menu
+	 */
+	private Game game;
+	
 	Map<Component, Image> sprites = new HashMap<Component, Image>();
 	
 	//Solution temporaire pour que le sprite du player se dessine au dessus du sprite precedent
@@ -33,8 +39,18 @@ public class DisplayLevel extends JPanel {
 	 * TODO
 	 * @param grid The Grid object to get data from
 	 */
-	public DisplayLevel(Grid grid) {
+	public DisplayLevel(Grid grid, Game game) {
+		this.game = game;
 		this.grid = grid;
+		setLayout(null);
+		Button backToMenuButton = new Button("Back to menu", Color.orange, 50);
+		backToMenuButton.addMouseListener(new ButtonListener(backToMenuButton) {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				game.loadMenu();
+			}
+		});
+		add(backToMenuButton, BorderLayout.EAST);
 		addToMap(sprites, Component.GROUND, "../resources/ground.png");
 		addToMap(sprites, Component.CRATE, "../resources/crate.png");
 		addToMap(sprites, Component.WALL, "../resources/wall.png");
@@ -86,8 +102,5 @@ public class DisplayLevel extends JPanel {
 					g.drawImage(playerSprites.get(grid.player.getDirection()), x0 + i*64, y0 + j*64, null);
 			}
 		}
-		
-		//Creer bouton bact to menu
-
 	}
 }
