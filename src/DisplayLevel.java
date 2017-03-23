@@ -12,7 +12,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class Level extends JPanel {
+public class DisplayLevel extends JPanel {
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class Level extends JPanel {
 	 * TODO
 	 * @param grid The Grid object to get data from
 	 */
-	public Level(Grid grid) {
+	public DisplayLevel(Grid grid) {
 		this.grid = grid;
 		addToMap(sprites, Component.GROUND, "Resources/ground.png");
 		addToMap(sprites, Component.CRATE, "Resources/crate.png");

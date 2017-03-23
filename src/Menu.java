@@ -42,8 +42,6 @@ public class Menu extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		setBackground(Game.BLEU_CLAIR);
 		
-		//Il y a qqch que je ne comprends pas. Quand j'instancie ces button dans la declaration des variables, il se
-		//produit qqch de bizarre.
 		playButton = new Button(4*getWidth()/10, 4*getHeight()/10, "Play", g2);
 		quitButton = new Button(4*getWidth()/10, 6*getHeight()/10, "Quit", g2);
 

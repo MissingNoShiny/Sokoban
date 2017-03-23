@@ -27,7 +27,7 @@ public class Game implements Runnable {
 	private Thread thread;
 	private Grid grid;
 	private Display window;
-	private Level level;
+	private DisplayLevel level;
 	
 	//Plutot que de deplacer player depuis le grid, creer un nouvelle classe (avec un string et un int comme attributs)
 	//et faire en sorte que grid retourne les points acquis a ala fin d'un niveau. A chaque nouveau niveau, nouveau grid
@@ -135,7 +135,7 @@ public class Game implements Runnable {
 			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 		}
 		if (grid.isWon())
-			System.out.println("Vivent les castors"); //Merci d'avoir corrige :)
+			System.out.println("Vivent les castors");
 		window.refresh();
 	}
 	    
@@ -146,7 +146,6 @@ public class Game implements Runnable {
 		int my = e.getY();
 		System.out.println(mx + "  " + my);
 		if (state == GameState.MENU) {
-			System.out.println("ici");
 			if (menu.getState() == Menu.MenuState.MAIN) {
 				//playButton
 				if (menu.getPlayButton().clickedOn(mx, my)) {
@@ -169,7 +168,7 @@ public class Game implements Runnable {
 	
 	public void loadLevel(String path) {
 		grid = Grid.readGrid(path);
-		level = new Level(grid);
+		level = new DisplayLevel(grid);
 		window.setPanel(level);
 		state = GameState.PLAYING;
 	}

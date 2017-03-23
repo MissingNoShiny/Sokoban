@@ -17,8 +17,9 @@ public class Button {
 	
 	public Button (int x, int y, int fontSize, String message, Graphics2D g) {
 		g.setFont(new Font("arial", 0, 70));
-		int height = g.getFontMetrics().getAscent()+marge;    
-		int width= g.getFontMetrics().stringWidth(message)+marge; 
+		int height = g.getFontMetrics().getAscent()+marge;
+		int width= g.getFontMetrics().stringWidth(message)+marge;
+		System.out.println("width : "+ width + "height :" + height);
 		rectangle = new Rectangle(x, y, width, height); 
 		this.message = message;
 	}
