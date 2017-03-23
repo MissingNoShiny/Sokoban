@@ -23,14 +23,14 @@ public class Game implements Runnable {
 	public static final Color BLACK = new Color(0, 0, 0);
 
 	private boolean running = false;
-	private Menu menu = new Menu();
+	private Menu menu = new Menu(this);
 	private Thread thread;
 	private Grid grid;
 	private Display window;
 	private DisplayLevel level;
 	
 	//Plutot que de deplacer player depuis le grid, creer un nouvelle classe (avec un string et un int comme attributs)
-	//et faire en sorte que grid retourne les points acquis a ala fin d'un niveau. A chaque nouveau niveau, nouveau grid
+	//et faire en sorte que grid retourne les points acquis a a la fin d'un niveau. A chaque nouveau niveau, nouveau grid
 	
 	public static void main(String[] args) {
 		
@@ -42,7 +42,6 @@ public class Game implements Runnable {
 		
 		Inputs i = new Inputs(game);
 		game.window.addKeyListener(i);
-		game.window.addMouseListener(i);
 		
 		game.start();
 			
@@ -114,6 +113,7 @@ public class Game implements Runnable {
 			System.out.println(grid.player.getDirection());
 			break;
 		case KeyEvent.VK_UP:
+			System.out.println("up");
 			grid.player.setDirection(Direction.UP);
 			grid.player.move(grid);
 			break;
@@ -129,8 +129,7 @@ public class Game implements Runnable {
 			grid.player.setDirection(Direction.LEFT);
 			grid.player.move(grid);
 			break;
-		case KeyEvent.VK_0:
-			grid.placeComponentAt(4,0, Component.GOAL);
+
 		default :
 			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 		}
@@ -141,30 +140,6 @@ public class Game implements Runnable {
 	    
 	//Mouse
 	
-	public void mouseClicked(MouseEvent e) {
-		int mx = e.getX();
-		int my = e.getY();
-		System.out.println(mx + "  " + my);
-		if (state == GameState.MENU) {
-			if (menu.getState() == Menu.MenuState.MAIN) {
-				//playButton
-				if (menu.getPlayButton().clickedOn(mx, my)) {
-					System.out.println("ici 5449 " );
-					loadLevel("levels\\level1.txt");
-				}
-				//quitButton
-				if (menu.getQuitButton().clickedOn(mx, my)) {
-					stop();
-				}
-			}
-		}
-		
-		if (state == GameState.PLAYING) {
-			if (mx >= 32*level.getWidth()/40 && mx <= 37*level.getWidth()/40 && my >= 13*level.getHeight()/16 && my <= 14*level.getHeight()/16) {
-				loadMenu();
-			}
-		}
-	}
 	
 	public void loadLevel(String path) {
 		grid = Grid.readGrid(path);

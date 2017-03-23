@@ -1,6 +1,9 @@
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
@@ -22,8 +25,28 @@ public class Menu extends JPanel {
 	 * le menu.
 	 */
 	
-	private Button playButton;
-	private Button quitButton;
+	private Game game;
+	
+	public Menu(Game game) {
+		this.game = game;
+		setLayout(new FlowLayout());
+		Button playButton = new Button("Play");
+		playButton.addMouseListener(new ButtonListener(playButton) {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				game.loadLevel("../levels/level1.txt");
+			}
+		});
+		add(playButton);
+		Button quitButton = new Button("Quit");
+		quitButton.addMouseListener(new ButtonListener(quitButton) {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				game.stop();
+			}
+		});
+		add(quitButton);
+	}
 	
 	public static enum MenuState {
 		MAIN;
@@ -41,28 +64,12 @@ public class Menu extends JPanel {
 		
 		Graphics2D g2 = (Graphics2D) g;
 		setBackground(Game.BLEU_CLAIR);
-		
-		playButton = new Button(4*getWidth()/10, 4*getHeight()/10, "Play", g2);
-		quitButton = new Button(4*getWidth()/10, 6*getHeight()/10, "Quit", g2);
 
 		if (state == MenuState.MAIN) {
 			
 			g2.setFont(new Font("arial", 0, 100));
 			g2.drawString(Game.TITLE, getWidth()/2 - 200, getHeight()/5);
 			
-			playButton.display(g2);
-			quitButton.display(g2);
 		}
-	}
-	
-	/*
-	 * Il faudra deplacer ou supprimer ces fonctions, mais pour le moment c'est fonctionnel
-	 */
-	public Button getPlayButton () {
-		return playButton;
-	}
-	
-	public Button getQuitButton () {
-		return quitButton;
 	}
 }

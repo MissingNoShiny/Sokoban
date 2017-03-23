@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Inputs implements KeyListener, MouseListener {
+public class Inputs implements KeyListener {
 
 	private final long KEY_SPEED_CAP = 50;
 	
@@ -17,10 +17,11 @@ public class Inputs implements KeyListener, MouseListener {
 		this.game = game;
 	}
 	
-	//Keyoard
+	//Keyboard
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("Keypressed du Inputs");
 		if (System.currentTimeMillis() - lastKey > KEY_SPEED_CAP) {
 			game.keyPressed(e);
 			lastKey = System.currentTimeMillis();
@@ -33,41 +34,6 @@ public class Inputs implements KeyListener, MouseListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}
-
-	
-	
-	//Mouse
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		game.mouseClicked(e);
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-
 }

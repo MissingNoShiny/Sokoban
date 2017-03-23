@@ -1,42 +1,35 @@
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import javax.swing.JButton;
 
 
-//C'est APRES avoir fait ca que j'ai vu qu'il existait deja une classe JButton. Faudra surement refaire.
-public class Button {
+public class Button extends JButton{
 	
 	/**
-	 * The marge is the number of pixels that we add to the size of the rect who containt a specified string
+	 * 
 	 */
-	private final int marge = 10;
+	private static final long serialVersionUID = -3219033588828073912L;
+
+	private Color color;
 	
-	private Rectangle rectangle;
-	
-	private String message;
-	
-	public Button (int x, int y, int fontSize, String message, Graphics2D g) {
-		g.setFont(new Font("arial", 0, 70));
-		int height = g.getFontMetrics().getAscent()+marge;
-		int width= g.getFontMetrics().stringWidth(message)+marge;
-		System.out.println("width : "+ width + "height :" + height);
-		rectangle = new Rectangle(x, y, width, height); 
-		this.message = message;
+	public Button (String text, Color color) {
+		super(text);
+		setFocusable(false);
+		setFont(new Font("arial", 0, 70));
+		setSize(200,200);
+		setColor(color);
+		setBackground(color);
 	}
 	
-	public Button (int x, int y, String message, Graphics2D g) {
-		this(x, y, 60, message, g);
+	public Button (String name) {
+		this(name, Color.orange);
 	}
 	
-	public void display(Graphics2D g) {
-		g.setColor(Game.ORANGE);
-		g.fill(rectangle);
-		g.setColor(Game.BLACK);
-		g.setFont(new Font("arial", 0, 70));
-		g.drawString(message, rectangle.x+marge/2, rectangle.y+rectangle.height-2*marge/3);
+	public Color getColor() {
+		return color;
 	}
-	
-	public boolean clickedOn (int x, int y) {
-		return rectangle.contains(x, y);
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 }

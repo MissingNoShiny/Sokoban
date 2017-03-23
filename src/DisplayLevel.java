@@ -35,15 +35,15 @@ public class DisplayLevel extends JPanel {
 	 */
 	public DisplayLevel(Grid grid) {
 		this.grid = grid;
-		addToMap(sprites, Component.GROUND, "Resources/ground.png");
-		addToMap(sprites, Component.CRATE, "Resources/crate.png");
-		addToMap(sprites, Component.WALL, "Resources/wall.png");
-		addToMap(sprites, Component.GOAL, "Resources/goal.png");
-		addToMap(sprites, Component.CRATE_ON_GOAL, "Resources/crateOnGoal.png");
-		addToMap(playerSprites, Direction.UP, "Resources/playerUp.png");
-		addToMap(playerSprites, Direction.RIGHT, "Resources/playerRight.png");
-		addToMap(playerSprites, Direction.DOWN, "Resources/playerDown.png");
-		addToMap(playerSprites, Direction.LEFT, "Resources/playerLeft.png");
+		addToMap(sprites, Component.GROUND, "../resources/ground.png");
+		addToMap(sprites, Component.CRATE, "../resources/crate.png");
+		addToMap(sprites, Component.WALL, "../resources/wall.png");
+		addToMap(sprites, Component.GOAL, "../resources/goal.png");
+		addToMap(sprites, Component.CRATE_ON_GOAL, "../resources/crateOnGoal.png");
+		addToMap(playerSprites, Direction.UP, "../resources/playerUp.png");
+		addToMap(playerSprites, Direction.RIGHT, "../resources/playerRight.png");
+		addToMap(playerSprites, Direction.DOWN, "../resources/playerDown.png");
+		addToMap(playerSprites, Direction.LEFT, "../resources/playerLeft.png");
 	}
 	
 	public void addToMap(Map<Component, Image> map, Component comp, String nameResource) {
@@ -87,12 +87,7 @@ public class DisplayLevel extends JPanel {
 			}
 		}
 		
-		g2.setColor(Game.ORANGE);
-		g2.setStroke(new BasicStroke(1));
-		Rectangle menuButton = new Rectangle(4*getWidth()/5, 13*getHeight()/16, getWidth()/8, getHeight()/16);
-		g2.fill(menuButton);
-		g2.setColor(Game.BLACK);
-		g2.setFont(new Font("arial", 0, 35));
-		g2.drawString("Back to Menu", menuButton.x + 15, menuButton.y + 45);
+		//Creer bouton bact to menu
+
 	}
 }
