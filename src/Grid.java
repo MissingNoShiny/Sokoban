@@ -143,12 +143,41 @@ public class Grid {
 			if (!game.canOverrideLevel())
 				return;
 		}
+		int px = this.getPlayer().getX();
+		int py = this.getPlayer().getY();
 		BufferedWriter buff = null;
 		try {
 			buff = new BufferedWriter(new FileWriter(file));
 			for (int j = 0; j < this.getHeight(); j++) {
 				for (int i = 0; i < this.getWidth(); i++) {
-					//Trouver le symbole approprié puis l'écrire dans le fichier
+					Component component = this.getComponentAt(i, j);
+					if (i == px && j == py) {
+						switch (component.getSpriteName()) {
+						case "Goal" :
+							buff.write('+');
+							break;
+						default :
+							buff.write('@');
+						}
+					} else {
+						switch (component.getSpriteName()) {
+						case "Wall" :
+							buff.write('#');
+							break;
+						case "Crate" :
+							buff.write('$');
+							break;
+						case "CrateOnGoal" :
+							buff.write('*');
+							break;
+						case "Goal" :
+							buff.write('.');
+							break;
+						case "Ground" :
+							buff.write(' ');
+							break;
+						}
+					}
 				}
 				buff.newLine();
 			}
@@ -200,6 +229,7 @@ public class Grid {
 					case('.') :
 						//grid.addGoal(j, i);
 						grid.placeComponentAt(j, i, new Goal());
+
 						break;
 					case ('@'):
 						grid.placeComponentAt(j, i, new Ground());

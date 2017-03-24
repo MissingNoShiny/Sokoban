@@ -37,7 +37,7 @@ public class Menu extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				try {
-					game.loadLevel("../levels/level1.xsb");
+					game.loadLevel("../levels/level2.xsb");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

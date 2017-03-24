@@ -47,6 +47,7 @@ public class DisplayLevel extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				game.loadMenu();
+				grid.saveGrid("level1_saved", game);
 			}
 		});
 		add(backToMenuButton, BorderLayout.EAST);
@@ -90,6 +91,6 @@ public class DisplayLevel extends JPanel {
 			for (i = 0; i < grid.getWidth(); i++)
 				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*64, y0 + j*64, null);
 		}
-		g.drawImage(sprites.get(grid.player.getNameSprite()), x0 + grid.player.getX()*64, y0 + grid.player.getY()*64, null);
+		g.drawImage(sprites.get(grid.player.getSpriteName()), x0 + grid.player.getX()*64, y0 + grid.player.getY()*64, null);
 	}
 }

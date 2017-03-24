@@ -52,19 +52,15 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 		long timer = System.currentTimeMillis();
-		int ticks = 0;
 		while (running) {
 			try {
 				Thread.sleep(WAITING_TIME_MS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			ticks ++;
 			if (System.currentTimeMillis() - timer > 1000) {
 				tick();
 				timer += 1000;
-				System.out.println("Tps: " + ticks);
-				ticks = 0;
 			}
 		}
 	}
@@ -155,6 +151,6 @@ public class Game implements Runnable {
 
 	public boolean canOverrideLevel() {
 		//methode qui servira a afficher un avertissement si la methode Grid.saveGrid() ecrase un fichier existant
-		return false;
+		return true;
 	}
 }

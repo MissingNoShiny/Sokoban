@@ -69,7 +69,7 @@ public class Player extends Position implements Movable {
 		}
 	}
 	
-	public String getNameSprite() {
+	public String getSpriteName() {
 		return getClass().getSimpleName()+direction.name();
 	}
 	
