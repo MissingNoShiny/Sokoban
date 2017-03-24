@@ -14,6 +14,18 @@ import java.util.ArrayList;
  */
 public class Grid {
 	
+	public class Wall extends Component {
+		
+	}
+	
+	public class Ground extends Component {
+		
+	}
+	
+	public class Goal extends Component {
+		
+	}
+	
 	/**
 	 * The matrix containing the data of a level.
 	 */
@@ -34,7 +46,7 @@ public class Grid {
 	 */
 	private ArrayList <Crate> crates; 
 	
-	private ArrayList <Goal> goals; 
+	//private ArrayList <Goal> goals; 
 	
 	//Attention, quand player est private, tout foire
 	Player player;
@@ -48,7 +60,7 @@ public class Grid {
 	public Grid(int width, int height) {
 		matrix = new Component[height][width];
 		crates = new ArrayList<Crate>(0);
-		goals = new ArrayList<Goal>(0);
+		//goals = new ArrayList<Goal>(0);
 		this.height = height;
 		this.width = width;
 	}
@@ -91,10 +103,10 @@ public class Grid {
 	
 	public boolean isWon(){
 		boolean test = true;
-		Component comp;
+		String comp;
 		for (int i = 0; i < crates.size(); i++) {
-			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY());
-			if  (! comp.equals(Component.CRATE_ON_GOAL)) {
+			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY()).getNameSprite();
+			if  (! comp.equals("CrateOnGoal")) {
 				test= false;
 			}
 		}
@@ -113,25 +125,20 @@ public class Grid {
 		crates.add(new Crate(x, y, this));
 	}
 	
+	/*
 	public void addGoal(int x, int y) {
-		goals.add(new Goal(x, y));
+		goals.add(new Goal());
 	}
-
+	*/
+	
 	public boolean hasCrateAt (int x, int y) {
-		for (int i = 0; i < crates.size(); i++) {
-			if (x == crates.get(i).getX() && y == crates.get(i).getY())
-				return true;
-		}
-		return false;
+		String nameComponent = getComponentAt(x, y).getNameSprite();
+		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
 	}
 	
+	//Il faudrait faire en sorte d'obliger à utiliser hasCrateAt avant ceci
 	public Crate getCrateAt(int x, int y) {
-		for (int i = 0; i < crates.size(); i++) {
-			if (x == crates.get(i).getX() && y == crates.get(i).getY())
-				return crates.get(i);
-		}
-		return null; //Cette ligne n'existe que pour contenter Eclipse, concretement on appelle cette methode que
-		//lorsqu'on est sur qu'il y a une caisse aux x et y donnes
+		return (Crate) getComponentAt(x, y);
 	}
 	
 	public void fill(Component component) {
@@ -195,25 +202,25 @@ public class Grid {
 					character = ligne.charAt(j);
 					switch (character) {
 					case ('#') :
-						grid.placeComponentAt(j, i, Component.WALL);
+						grid.placeComponentAt(j, i, grid.new Wall());
 						break;
 					case ('$'):
 						grid.addCrate(j, i);
 						break;
 					case(' ') :
-						grid.placeComponentAt(j, i, Component.GROUND);
+						grid.placeComponentAt(j, i, grid.new Ground());
 						break;
 					case('.') :
-						grid.addGoal(j, i);
-						grid.placeComponentAt(j, i, Component.GOAL);
+						//grid.addGoal(j, i);
+						grid.placeComponentAt(j, i, grid.new Goal());
 						break;
 					case ('@'):
-						grid.placeComponentAt(j, i, Component.GROUND);
+						grid.placeComponentAt(j, i, grid.new Ground());
 						grid.setPlayer(j, i);
 						break;
 					case ('+'):
+						grid.placeComponentAt(j, i, grid.new Goal());					
 						grid.setPlayer(j, i);
-						grid.addGoal(j, i);
 						break;
 					}
 				}

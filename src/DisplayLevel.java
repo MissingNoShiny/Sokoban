@@ -1,8 +1,12 @@
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,45 +26,48 @@ public class DisplayLevel extends JPanel {
 	 */
 	private Grid grid;
 	
-	Map<Component, Image> sprites = new HashMap<Component, Image>();
+	/**
+	 * Used only for the Button back to menu
+	 */
+	private Game game;
 	
-	//Solution temporaire pour que le sprite du player se dessine au dessus du sprite precedent
-	Map<Direction, Image> playerSprites = new HashMap<Direction, Image>();
+	Map<String, Image> sprites = new HashMap<String, Image>();
 	
 	/**
 	 * TODO
 	 * @param grid The Grid object to get data from
 	 */
-	public DisplayLevel(Grid grid) {
+	public DisplayLevel(Grid grid, Game game) {
+		this.game = game;
 		this.grid = grid;
 		setFocusable(true);
-		addToMap(sprites, Component.GROUND, "../resources/ground.png");
-		addToMap(sprites, Component.CRATE, "../resources/crate.png");
-		addToMap(sprites, Component.WALL, "../resources/wall.png");
-		addToMap(sprites, Component.GOAL, "../resources/goal.png");
-		addToMap(sprites, Component.CRATE_ON_GOAL, "../resources/crateOnGoal.png");
-		addToMap(playerSprites, Direction.UP, "../resources/playerUp.png");
-		addToMap(playerSprites, Direction.RIGHT, "../resources/playerRight.png");
-		addToMap(playerSprites, Direction.DOWN, "../resources/playerDown.png");
-		addToMap(playerSprites, Direction.LEFT, "../resources/playerLeft.png");
+		setLayout(null);
+		Button backToMenuButton = new Button("Back to menu", Color.orange, 50);
+		backToMenuButton.addMouseListener(new ButtonListener(backToMenuButton) {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				game.loadMenu();
+			}
+		});
+		add(backToMenuButton, BorderLayout.EAST);
+		addToMap(sprites, "Ground", "../resources/ground.png");
+		addToMap(sprites, "Crate", "../resources/crate.png");
+		addToMap(sprites, "Wall", "../resources/wall.png");
+		addToMap(sprites, "Goal", "../resources/goal.png");
+		addToMap(sprites, "CrateOnGoal", "../resources/crateOnGoal.png");
+		addToMap(sprites, "PlayerUP", "../resources/playerUp.png");
+		addToMap(sprites, "PlayerRIGHT", "../resources/playerRight.png");
+		addToMap(sprites, "PlayerDOWN", "../resources/playerDown.png");
+		addToMap(sprites, "PlayerLEFT", "../resources/playerLeft.png");
 	}
 	
-	public void addToMap(Map<Component, Image> map, Component comp, String nameResource) {
+	public void addToMap(Map<String, Image> map, String comp, String nameResource) {
 		Image sprite = null;
 		try {
 		    sprite = ImageIO.read(new File(nameResource));
 		} catch (IOException e) {
 		}
 		map.put(comp, sprite);
-	}
-	
-	public void addToMap(Map<Direction, Image> map, Direction dir, String nameResource) {
-		Image sprite = null;
-		try {
-		    sprite = ImageIO.read(new File(nameResource));
-		} catch (IOException e) {
-		}
-		map.put(dir, sprite);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -79,14 +86,9 @@ public class DisplayLevel extends JPanel {
 		setBackground(Game.BLEU_CLAIR);
 		
 		for (j = 0; j < grid.getHeight(); j++) {
-			for (i = 0; i < grid.getWidth(); i++) {
-				g.drawImage(sprites.get(grid.getComponentAt(i, j)), x0 + i*64, y0 + j*64, null);
-				if (grid.player.getX() == i && grid.player.getY() == j) 
-					g.drawImage(playerSprites.get(grid.player.getDirection()), x0 + i*64, y0 + j*64, null);
-			}
+			for (i = 0; i < grid.getWidth(); i++)
+				g.drawImage(sprites.get(grid.getComponentAt(i, j).getNameSprite()), x0 + i*64, y0 + j*64, null);
 		}
-		
-		//Creer bouton bact to menu
-
+		g.drawImage(sprites.get(grid.player.getNameSprite()), x0 + grid.player.getX()*64, y0 + grid.player.getY()*64, null);
 	}
 }

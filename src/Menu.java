@@ -1,10 +1,10 @@
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Menu extends JPanel {
@@ -29,12 +29,18 @@ public class Menu extends JPanel {
 	
 	public Menu(Game game) {
 		this.game = game;
-		setLayout(new FlowLayout());
+		GridLayout gl = new GridLayout(5,1);
+		gl.setVgap(3);
+		setLayout(gl);
 		Button playButton = new Button("Play");
 		playButton.addMouseListener(new ButtonListener(playButton) {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				game.loadLevel("../levels/level1.xsb");
+				try {
+					game.loadLevel("../levels/level1.xsb");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		add(playButton);

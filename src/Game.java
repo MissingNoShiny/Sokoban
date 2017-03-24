@@ -3,7 +3,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+
 import java.io.IOException;
+
 
 public class Game implements Runnable {
 	
@@ -139,8 +141,8 @@ public class Game implements Runnable {
 	
 	
 	public void loadLevel(String path) throws IOException {
-			grid = Grid.readGrid(path);
-		level = new DisplayLevel(grid);
+		grid = Grid.readGrid(path);
+		level = new DisplayLevel(grid, this);
 		level.addKeyListener(new Inputs(this));
 		window.setPanel(level);
 		level.requestFocusInWindow();
