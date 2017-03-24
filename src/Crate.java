@@ -1,13 +1,20 @@
 
 public class Crate extends Position implements Movable {
 
-	public Crate(int x, int y) {
-		super(x, y);
-	}
+	private Component support;
 	
 	public Crate(int x, int y, Grid grid) {
 		super(x, y);
-		placeOnGrid(x, y, grid);
+		grid.placeComponentAt(x, y, this);
+		setSupport(grid.new Ground());
+	}
+	
+	public Component getSupport() {
+		return support;
+	}
+
+	public void setSupport(Component support) {
+		this.support = support;
 	}
 	
 	public boolean canMove(Grid grid, Direction dir) {
@@ -15,60 +22,62 @@ public class Crate extends Position implements Movable {
 		int x = getX(), y = getY();
 		switch (dir) {
 		case UP:
-			if (y-1 < 0 || grid.getComponentAt(x, y-1).equals(Component.WALL) || grid.hasCrateAt(x, y-1))
+			if (y-1 < 0 || grid.getComponentAt(x, y-1).getNameSprite().equals("Wall") || grid.hasCrateAt(x, y-1))
 				test = false;
 			break;
 		case RIGHT:
-			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).equals(Component.WALL) || grid.hasCrateAt(x+1, y))
+			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).getNameSprite().equals("Wall") || grid.hasCrateAt(x+1, y))
 				test = false;
 			break;
 		case DOWN:
-			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).equals(Component.WALL) || grid.hasCrateAt(x, y+1))
+			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).getNameSprite().equals("Wall") || grid.hasCrateAt(x, y+1))
 				test = false;
 			break;
 		case LEFT:
-			if (x-1 < 0 || grid.getComponentAt(x-1, y).equals(Component.WALL) || grid.hasCrateAt(x-1, y))
+			if (x-1 < 0 || grid.getComponentAt(x-1, y).getNameSprite().equals("Wall") || grid.hasCrateAt(x-1, y))
 				test = false;
 			break;
 		}
 		return test;
 	}
 	
+	/**
+	 * D'abord je dirige le pointeur du tableau de la case actuelle vers le component support de la caisse
+	 * Ensuite je dirige le pointeur de support vers le component de la case du dessus
+	 * Finalement je dirige le pointeur de la case du dessus vers la caisse
+	 */
 	public void moveUp(Grid grid) {
-		letPlaceFree(grid);
-		placeOnGrid(getX(), getY()-1, grid);		
+		grid.placeComponentAt(getX(), getY(), getSupport());
+		setSupport(grid.getComponentAt(getX(), getY()-1));
 		setY(getY()-1);
+		grid.placeComponentAt(getX(), getY(), this);
 	}
 	
 	public void moveRight(Grid grid) {
-		letPlaceFree(grid);
-		placeOnGrid(getX()+1, getY(), grid);		
+		grid.placeComponentAt(getX(), getY(), getSupport());
+		setSupport(grid.getComponentAt(getX()+1, getY()));
 		setX(getX()+1);
+		grid.placeComponentAt(getX(), getY(), this);
 	}
 	
 	public void moveDown(Grid grid) {
-		letPlaceFree(grid);
-		placeOnGrid(getX(), getY()+1, grid);		
+		grid.placeComponentAt(getX(), getY(), getSupport());
+		setSupport(grid.getComponentAt(getX(), getY()+1));
 		setY(getY()+1);
+		grid.placeComponentAt(getX(), getY(), this);
 	}
 	
 	public void moveLeft(Grid grid) {
-		letPlaceFree(grid);
-		placeOnGrid(getX()-1, getY(), grid);		
+		grid.placeComponentAt(getX(), getY(), getSupport());
+		setSupport(grid.getComponentAt(getX()-1, getY()));
 		setX(getX()-1);
+		grid.placeComponentAt(getX(), getY(), this);
 	}
 	
-	public void letPlaceFree(Grid grid) {
-		if (grid.getComponentAt(getX(), getY()).equals(Component.CRATE_ON_GOAL))
-			grid.placeComponentAt(getX(), getY(), Component.GOAL);
-		else
-			grid.placeComponentAt(getX(), getY(), Component.GROUND);
-	}
-	
-	public void placeOnGrid(int x, int y, Grid grid) {
-		if (grid.getComponentAt(x, y) == Component.GOAL)
-			grid.placeComponentAt(x, y, Component.CRATE_ON_GOAL);
-		else
-			grid.placeComponentAt(x,  y, Component.CRATE);
+	@Override
+	public String getNameSprite () {
+		if (getSupport().getNameSprite().equals("Goal"))
+			return "CrateOnGoal";	
+		return "Crate";
 	}
 }
