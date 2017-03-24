@@ -105,7 +105,7 @@ public class Grid {
 		boolean test = true;
 		String comp;
 		for (int i = 0; i < crates.size(); i++) {
-			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY()).getNameSprite();
+			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY()).getSpriteName();
 			if  (! comp.equals("CrateOnGoal")) {
 				test= false;
 			}
@@ -132,7 +132,7 @@ public class Grid {
 	*/
 	
 	public boolean hasCrateAt (int x, int y) {
-		String nameComponent = getComponentAt(x, y).getNameSprite();
+		String nameComponent = getComponentAt(x, y).getSpriteName();
 		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
 	}
 	
@@ -155,12 +155,41 @@ public class Grid {
 			if (!game.canOverrideLevel())
 				return;
 		}
+		int px = this.getPlayer().getX();
+		int py = this.getPlayer().getY();
 		BufferedWriter buff = null;
 		try {
 			buff = new BufferedWriter(new FileWriter(file));
 			for (int j = 0; j < this.getHeight(); j++) {
 				for (int i = 0; i < this.getWidth(); i++) {
-					//Trouver le symbole approprié puis l'écrire dans le fichier
+					Component component = this.getComponentAt(i, j);
+					if (i == px && j == py) {
+						switch (component.getSpriteName()) {
+						case "Goal" :
+							buff.write('+');
+							break;
+						default :
+							buff.write('@');
+						}
+					} else {
+						switch (component.getSpriteName()) {
+						case "Wall" :
+							buff.write('#');
+							break;
+						case "Crate" :
+							buff.write('$');
+							break;
+						case "CrateOnGoal" :
+							buff.write('*');
+							break;
+						case "Goal" :
+							buff.write('.');
+							break;
+						case "Ground" :
+							buff.write(' ');
+							break;
+						}
+					}
 				}
 				buff.newLine();
 			}
@@ -195,7 +224,6 @@ public class Grid {
 			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			Character character;
-			System.out.println(width);
 			for (int i = 0; i < height; i++){
 				ligne = buff.readLine();
 				for (int j = 0; j < width; j++) {
@@ -211,7 +239,6 @@ public class Grid {
 						grid.placeComponentAt(j, i, grid.new Ground());
 						break;
 					case('.') :
-						//grid.addGoal(j, i);
 						grid.placeComponentAt(j, i, grid.new Goal());
 						break;
 					case ('@'):

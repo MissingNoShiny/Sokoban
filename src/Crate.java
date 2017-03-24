@@ -22,19 +22,19 @@ public class Crate extends Position implements Movable {
 		int x = getX(), y = getY();
 		switch (dir) {
 		case UP:
-			if (y-1 < 0 || grid.getComponentAt(x, y-1).getNameSprite().equals("Wall") || grid.hasCrateAt(x, y-1))
+			if (y-1 < 0 || grid.getComponentAt(x, y-1).getSpriteName().equals("Wall") || grid.hasCrateAt(x, y-1))
 				test = false;
 			break;
 		case RIGHT:
-			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).getNameSprite().equals("Wall") || grid.hasCrateAt(x+1, y))
+			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).getSpriteName().equals("Wall") || grid.hasCrateAt(x+1, y))
 				test = false;
 			break;
 		case DOWN:
-			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).getNameSprite().equals("Wall") || grid.hasCrateAt(x, y+1))
+			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).getSpriteName().equals("Wall") || grid.hasCrateAt(x, y+1))
 				test = false;
 			break;
 		case LEFT:
-			if (x-1 < 0 || grid.getComponentAt(x-1, y).getNameSprite().equals("Wall") || grid.hasCrateAt(x-1, y))
+			if (x-1 < 0 || grid.getComponentAt(x-1, y).getSpriteName().equals("Wall") || grid.hasCrateAt(x-1, y))
 				test = false;
 			break;
 		}
@@ -75,8 +75,8 @@ public class Crate extends Position implements Movable {
 	}
 	
 	@Override
-	public String getNameSprite () {
-		if (getSupport().getNameSprite().equals("Goal"))
+	public String getSpriteName () {
+		if (getSupport().getSpriteName().equals("Goal"))
 			return "CrateOnGoal";	
 		return "Crate";
 	}

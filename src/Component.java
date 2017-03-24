@@ -1,10 +1,10 @@
 public abstract class Component {
 	
-	public Component () {
+	public Component() {
 		
 	}
 	
-	public String getNameSprite () {
+	public String getSpriteName() {
 		return getClass().getSimpleName();
 	}	
 }
