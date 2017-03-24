@@ -1,8 +1,6 @@
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class Inputs implements KeyListener {
 
@@ -21,7 +19,6 @@ public class Inputs implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Keypressed du Inputs");
 		if (System.currentTimeMillis() - lastKey > KEY_SPEED_CAP) {
 			game.keyPressed(e);
 			lastKey = System.currentTimeMillis();
@@ -30,6 +27,7 @@ public class Inputs implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		
 	}
 
 	@Override

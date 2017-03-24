@@ -1,10 +1,8 @@
 
 import java.awt.BasicStroke;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,6 +33,7 @@ public class DisplayLevel extends JPanel {
 	 */
 	public DisplayLevel(Grid grid) {
 		this.grid = grid;
+		setFocusable(true);
 		addToMap(sprites, Component.GROUND, "../resources/ground.png");
 		addToMap(sprites, Component.CRATE, "../resources/crate.png");
 		addToMap(sprites, Component.WALL, "../resources/wall.png");

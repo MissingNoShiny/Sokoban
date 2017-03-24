@@ -3,7 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class Game implements Runnable {
 	
@@ -39,9 +39,6 @@ public class Game implements Runnable {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		game.window = new Display(screenSize, Game.TITLE);
 		game.loadMenu();
-		
-		Inputs i = new Inputs(game);
-		game.window.addKeyListener(i);
 		
 		game.start();
 			
@@ -114,20 +111,20 @@ public class Game implements Runnable {
 			break;
 		case KeyEvent.VK_UP:
 			System.out.println("up");
-			grid.player.setDirection(Direction.UP);
-			grid.player.move(grid);
+			grid.getPlayer().setDirection(Direction.UP);
+			grid.getPlayer().move(grid);
 			break;
 		case KeyEvent.VK_DOWN :
-			grid.player.setDirection(Direction.DOWN);
-			grid.player.move(grid);
+			grid.getPlayer().setDirection(Direction.DOWN);
+			grid.getPlayer().move(grid);
 			break;
 		case KeyEvent.VK_RIGHT:
-			grid.player.setDirection(Direction.RIGHT);
-			grid.player.move(grid);
+			grid.getPlayer().setDirection(Direction.RIGHT);
+			grid.getPlayer().move(grid);
 			break;
 		case KeyEvent.VK_LEFT:
-			grid.player.setDirection(Direction.LEFT);
-			grid.player.move(grid);
+			grid.getPlayer().setDirection(Direction.LEFT);
+			grid.getPlayer().move(grid);
 			break;
 
 		default :
@@ -141,10 +138,12 @@ public class Game implements Runnable {
 	//Mouse
 	
 	
-	public void loadLevel(String path) {
-		grid = Grid.readGrid(path);
+	public void loadLevel(String path) throws IOException {
+			grid = Grid.readGrid(path);
 		level = new DisplayLevel(grid);
+		level.addKeyListener(new Inputs(this));
 		window.setPanel(level);
+		level.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
 	

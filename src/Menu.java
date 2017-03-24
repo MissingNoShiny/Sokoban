@@ -3,8 +3,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Menu extends JPanel {
@@ -34,7 +34,7 @@ public class Menu extends JPanel {
 		playButton.addMouseListener(new ButtonListener(playButton) {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				game.loadLevel("../levels/level1.txt");
+				game.loadLevel("../levels/level1.xsb");
 			}
 		});
 		add(playButton);

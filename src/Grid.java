@@ -141,9 +141,38 @@ public class Grid {
 				matrix[i][j] = component;
 		}
 	}
+
+	public void saveGrid(String path, Game game) {
+		File file = new File("..\\levels\\saved\\" + path + ".xsb");
+		if (file.exists()) {
+			if (!game.canOverrideLevel())
+				return;
+		}
+		BufferedWriter buff = null;
+		try {
+			buff = new BufferedWriter(new FileWriter(file));
+			for (int j = 0; j < this.getHeight(); j++) {
+				for (int i = 0; i < this.getWidth(); i++) {
+					//Trouver le symbole approprié puis l'écrire dans le fichier
+				}
+				buff.newLine();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (buff != null) {
+				try {
+					buff.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
-	
-	public static Grid readGrid (String path) {
+	public static Grid readGrid (String path) throws IOException {
+		if (!path.endsWith(".xsb"))
+			throw new IOException();
 		Grid grid = null;
 		BufferedReader buff = null;
 		try {
@@ -201,33 +230,5 @@ public class Grid {
 			}
 	 	}
 		return grid;
-	}
-	
-	public static void saveGrid(Grid grid, String path, Game game) {
-		File file = new File("..\\levels\\saved\\" + path + ".xsb");
-		if (file.exists()) {
-			if (!game.canOverrideLevel())
-				return;
-		}
-		BufferedWriter buff = null;
-		try {
-			buff = new BufferedWriter(new FileWriter(file));
-			for (int j = 0; j < grid.getHeight(); j++) {
-				for (int i = 0; i < grid.getWidth(); i++) {
-					//Trouver le symbole approprié puis l'écrire dans le fichier
-				}
-				buff.newLine();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (buff != null) {
-				try {
-					buff.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 }
