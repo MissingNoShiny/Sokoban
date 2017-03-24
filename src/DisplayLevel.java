@@ -50,6 +50,7 @@ public class DisplayLevel extends JPanel {
 			}
 		});
 		add(backToMenuButton, BorderLayout.EAST);
+		
 		addToMap(sprites, "Ground", "../resources/ground.png");
 		addToMap(sprites, "Crate", "../resources/crate.png");
 		addToMap(sprites, "Wall", "../resources/wall.png");
@@ -87,7 +88,7 @@ public class DisplayLevel extends JPanel {
 		
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++)
-				g.drawImage(sprites.get(grid.getComponentAt(i, j).getNameSprite()), x0 + i*64, y0 + j*64, null);
+				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*64, y0 + j*64, null);
 		}
 		g.drawImage(sprites.get(grid.player.getNameSprite()), x0 + grid.player.getX()*64, y0 + grid.player.getY()*64, null);
 	}

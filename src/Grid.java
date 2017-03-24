@@ -14,18 +14,6 @@ import java.util.ArrayList;
  */
 public class Grid {
 	
-	public class Wall extends Component {
-		
-	}
-	
-	public class Ground extends Component {
-		
-	}
-	
-	public class Goal extends Component {
-		
-	}
-	
 	/**
 	 * The matrix containing the data of a level.
 	 */
@@ -105,7 +93,7 @@ public class Grid {
 		boolean test = true;
 		String comp;
 		for (int i = 0; i < crates.size(); i++) {
-			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY()).getNameSprite();
+			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY()).getSpriteName();
 			if  (! comp.equals("CrateOnGoal")) {
 				test= false;
 			}
@@ -132,7 +120,7 @@ public class Grid {
 	*/
 	
 	public boolean hasCrateAt (int x, int y) {
-		String nameComponent = getComponentAt(x, y).getNameSprite();
+		String nameComponent = getComponentAt(x, y).getSpriteName();
 		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
 	}
 	
@@ -195,31 +183,30 @@ public class Grid {
 			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			Character character;
-			System.out.println(width);
 			for (int i = 0; i < height; i++){
 				ligne = buff.readLine();
 				for (int j = 0; j < width; j++) {
 					character = ligne.charAt(j);
 					switch (character) {
 					case ('#') :
-						grid.placeComponentAt(j, i, grid.new Wall());
+						grid.placeComponentAt(j, i, new Wall());
 						break;
 					case ('$'):
 						grid.addCrate(j, i);
 						break;
 					case(' ') :
-						grid.placeComponentAt(j, i, grid.new Ground());
+						grid.placeComponentAt(j, i, new Ground());
 						break;
 					case('.') :
 						//grid.addGoal(j, i);
-						grid.placeComponentAt(j, i, grid.new Goal());
+						grid.placeComponentAt(j, i, new Goal());
 						break;
 					case ('@'):
-						grid.placeComponentAt(j, i, grid.new Ground());
+						grid.placeComponentAt(j, i, new Ground());
 						grid.setPlayer(j, i);
 						break;
 					case ('+'):
-						grid.placeComponentAt(j, i, grid.new Goal());					
+						grid.placeComponentAt(j, i, new Goal());					
 						grid.setPlayer(j, i);
 						break;
 					}

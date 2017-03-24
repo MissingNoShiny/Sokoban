@@ -1,12 +1,12 @@
 
-public class Crate extends Position implements Movable {
+public class Crate extends Position implements Component, Movable {
 
 	private Component support;
 	
 	public Crate(int x, int y, Grid grid) {
 		super(x, y);
 		grid.placeComponentAt(x, y, this);
-		setSupport(grid.new Ground());
+		setSupport(new Ground());
 	}
 	
 	public Component getSupport() {
@@ -22,19 +22,19 @@ public class Crate extends Position implements Movable {
 		int x = getX(), y = getY();
 		switch (dir) {
 		case UP:
-			if (y-1 < 0 || grid.getComponentAt(x, y-1).getNameSprite().equals("Wall") || grid.hasCrateAt(x, y-1))
+			if (y-1 < 0 || grid.getComponentAt(x, y-1).cannotGoTrough())
 				test = false;
 			break;
 		case RIGHT:
-			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).getNameSprite().equals("Wall") || grid.hasCrateAt(x+1, y))
+			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).cannotGoTrough())
 				test = false;
 			break;
 		case DOWN:
-			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).getNameSprite().equals("Wall") || grid.hasCrateAt(x, y+1))
+			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).cannotGoTrough())
 				test = false;
 			break;
 		case LEFT:
-			if (x-1 < 0 || grid.getComponentAt(x-1, y).getNameSprite().equals("Wall") || grid.hasCrateAt(x-1, y))
+			if (x-1 < 0 || grid.getComponentAt(x-1, y).cannotGoTrough())
 				test = false;
 			break;
 		}
@@ -75,9 +75,14 @@ public class Crate extends Position implements Movable {
 	}
 	
 	@Override
-	public String getNameSprite () {
-		if (getSupport().getNameSprite().equals("Goal"))
+	public String getSpriteName () {
+		if (getSupport().getSpriteName().equals("Goal"))
 			return "CrateOnGoal";	
 		return "Crate";
+	}
+
+	@Override
+	public boolean cannotGoTrough() {
+		return true;
 	}
 }

@@ -112,7 +112,6 @@ public class Game implements Runnable {
 			System.out.println(grid.player.getDirection());
 			break;
 		case KeyEvent.VK_UP:
-			System.out.println("up");
 			grid.getPlayer().setDirection(Direction.UP);
 			grid.getPlayer().move(grid);
 			break;

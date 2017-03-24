@@ -1,10 +1,8 @@
-public abstract class Component {
+
+public interface Component {
 	
-	public Component () {
-		
-	}
+	public String getSpriteName ();
 	
-	public String getNameSprite () {
-		return getClass().getSimpleName();
-	}	
+	public boolean cannotGoTrough ();
+	
 }
