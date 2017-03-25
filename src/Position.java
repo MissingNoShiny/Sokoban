@@ -63,17 +63,4 @@ public abstract class Position{
 	public void setY(int inputY) {
 		y = inputY;
 	}
-	
-	/**
-	 * Compares the coordinate of the object with the coordinates of another.
-	 * @param other The object to compare the coordinates with
-	 * @return true if the objects have the same coordinates, false else
-	 */
-	
-	public boolean equals(Position other) {
-		if (this.x == other.x && this.y == other.y)
-			return true;
-		return false;		
-	}
-
 }

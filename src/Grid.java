@@ -221,15 +221,14 @@ public class Grid {
 						grid.placeComponentAt(j, i, new Wall());
 						break;
 					case ('$'):
+						grid.placeComponentAt(j, i, new Ground());
 						grid.addCrate(j, i);
 						break;
 					case(' ') :
 						grid.placeComponentAt(j, i, new Ground());
 						break;
 					case('.') :
-						//grid.addGoal(j, i);
 						grid.placeComponentAt(j, i, new Goal());
-
 						break;
 					case ('@'):
 						grid.placeComponentAt(j, i, new Ground());
@@ -239,6 +238,9 @@ public class Grid {
 						grid.placeComponentAt(j, i, new Goal());					
 						grid.setPlayer(j, i);
 						break;
+					case ('*'):
+						grid.placeComponentAt(j, i, new Goal());
+						grid.addCrate(j, i);
 					}
 				}
 			}

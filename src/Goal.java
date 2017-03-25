@@ -7,8 +7,8 @@ public class Goal implements Component{
 	}
 
 	@Override
-	public boolean cannotGoTrough() {
-		return false;
+	public boolean canGoTrough() {
+		return true;
 	}
 	
 }

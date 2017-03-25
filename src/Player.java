@@ -23,25 +23,25 @@ public class Player extends Position implements Movable {
 		boolean test = true;
 		switch (dir) {
 		case UP:
-			if (y-1 < 0 || grid.getComponentAt(x, y-1).cannotGoTrough())
+			if (y-1 < 0 || !grid.getComponentAt(x, y-1).canGoTrough())
 				test = false;
 			if (grid.hasCrateAt(x, y-1)) 
 				test = grid.getCrateAt(x, y-1).canMove(grid, Direction.UP);
 			break;
 		case RIGHT:
-			if (x+1 >= grid.getWidth() || grid.getComponentAt(x+1, y).cannotGoTrough())
+			if (x+1 >= grid.getWidth() || !grid.getComponentAt(x+1, y).canGoTrough())
 				test = false;
 			if (grid.hasCrateAt(x+1, y)) 
 				test = grid.getCrateAt(x+1, y).canMove(grid, Direction.RIGHT);
 			break;
 		case DOWN:
-			if (y+1 >= grid.getHeight() || grid.getComponentAt(x, y+1).cannotGoTrough())
+			if (y+1 >= grid.getHeight() || !grid.getComponentAt(x, y+1).canGoTrough())
 				test = false;
 			if (grid.hasCrateAt(x, y+1)) 
 				test = grid.getCrateAt(x, y+1).canMove(grid, Direction.DOWN);
 			break;
 		case LEFT:
-			if (x-1 < 0 || grid.getComponentAt(x-1, y).cannotGoTrough())
+			if (x-1 < 0 || !grid.getComponentAt(x-1, y).canGoTrough())
 				test = false;
 			if (grid.hasCrateAt(x-1, y)) 
 				test = grid.getCrateAt(x-1, y).canMove(grid, Direction.LEFT);

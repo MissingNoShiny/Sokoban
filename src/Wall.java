@@ -7,8 +7,8 @@ public class Wall implements Component{
 	}
 
 	@Override
-	public boolean cannotGoTrough() {
-		return true;
+	public boolean canGoTrough() {
+		return false;
 	}
 
 }

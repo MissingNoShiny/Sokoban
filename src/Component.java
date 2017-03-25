@@ -3,7 +3,6 @@ public interface Component {
 
 	public String getSpriteName ();
 	
-	public boolean cannotGoTrough ();
+	public boolean canGoTrough ();
 	
-
 }
