@@ -26,11 +26,6 @@ public class DisplayLevel extends JPanel {
 	 */
 	private Grid grid;
 	
-	/**
-	 * Used only for the Button back to menu
-	 */
-	private Game game;
-	
 	Map<String, Image> sprites = new HashMap<String, Image>();
 	
 	/**
@@ -38,7 +33,6 @@ public class DisplayLevel extends JPanel {
 	 * @param grid The Grid object to get data from
 	 */
 	public DisplayLevel(Grid grid, Game game) {
-		this.game = game;
 		this.grid = grid;
 		setFocusable(true);
 		setLayout(null);

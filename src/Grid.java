@@ -39,6 +39,8 @@ public class Grid {
 	//Attention, quand player est private, tout foire
 	Player player;
 	
+	private MovementTracker tracker;
+	
 	/**
 	 * Creates an object containing an empty matrix of specified width and height.
 	 * @param width The width of the matrix
@@ -51,6 +53,12 @@ public class Grid {
 		//goals = new ArrayList<Goal>(0);
 		this.height = height;
 		this.width = width;
+	}
+	
+	//Constructeur à part pour le tracker car je ne sais pas si toutes les grids en auront besoin
+	public Grid(int width, int height, MovementTracker tracker) {
+		this(width, height);
+		this.tracker = tracker;
 	}
 
 	/**

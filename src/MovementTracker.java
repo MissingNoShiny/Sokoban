@@ -9,44 +9,146 @@ import java.util.ArrayList;
 
 public class MovementTracker {
 
+	/**
+	 * The ArrayList which stores the moves made on a grid.
+	 */
 	private ArrayList<Character> moves;
 	
-	public MovementTracker() {
+	/**
+	 * The grid to track the moves of.
+	 */
+	private Grid grid;
+	
+	/**
+	 * 
+	 * @param grid The grid to track the moves of.
+	 */
+	public MovementTracker(Grid grid) {
 		moves = new ArrayList<Character>();
+		this.grid = grid;
 	}
 
-	public Character getOppositeMove(Character c) {
-		Character c2;
-		switch (c) {
-		case('u'):
-			c2 = new Character('d');
-			return c2;
-		case('d'):
-			c2 = new Character('u');
-			return c2;
-		case('l'):
-			c2 = new Character('r');
-			return c2;
-		case('r'):
-			c2 = new Character('l');
-			return c2;
-		case('U'):
-			c2 = new Character('D');
-			return c2;
-		case('D'):
-			c2 = new Character('U');
-			return c2;
-		case('L'):
-			c2 = new Character('R');
-			return c2;
-		case('R'):
-			c2 = new Character('L');
-			return c2;
+	/**
+	 * Saves the last move made by the player, based on his direction after said move.
+	 */
+	public void addMove() {
+		Direction d = grid.getPlayer().getDirection();
+		switch(d) {
+		case UP:
+			moves.add('u');
+			break;
+		case DOWN:
+			moves.add('d');
+			break;
+		case RIGHT:
+			moves.add('r');
+			break;
+		case LEFT:
+			moves.add('l');
+			break;
 		}
-		return null;
 	}
 	
-	public void saveMov(String path) {
+	/**
+	 * Saves the last push made by the player, based on his direction after said move.
+	 */
+	public void addPush() {
+		Direction d = grid.getPlayer().getDirection();
+		switch(d) {
+		case UP:
+			moves.add('U');
+			break;
+		case DOWN:
+			moves.add('D');
+			break;
+		case RIGHT:
+			moves.add('R');
+			break;
+		case LEFT:
+			moves.add('L');
+			break;
+		}
+	}
+	
+	/**
+	 * Undoes the last move/push of the grid.
+	 */
+	public void undo() {
+		Player player = grid.getPlayer();
+		if (moves.isEmpty())
+			return;
+		Crate crate;
+		Character c = moves.get(moves.size()-1);
+		moves.remove(moves.size()-1);
+		switch(c){
+		case('u'):
+			player.moveDown(grid);
+			break;	
+		case('d'):
+			player.moveUp(grid);
+			break;	
+		case('r'):
+			player.moveLeft(grid);
+			break;	
+		case('l'):
+			player.moveRight(grid);
+			break;	
+		case('U'):
+			crate = grid.getCrateAt(player.getX(), player.getY()-1);
+			player.moveDown(grid);
+			crate.moveDown(grid);
+			break;	
+		case('D'):
+			crate = grid.getCrateAt(player.getX(), player.getY()+1);
+			player.moveUp(grid);
+			crate.moveUp(grid);
+			break;	
+		case('R'):
+			crate = grid.getCrateAt(player.getX()+1, player.getY());
+			player.moveLeft(grid);
+			crate.moveLeft(grid);
+			break;	
+		case('L'):
+			crate = grid.getCrateAt(player.getX()-1, player.getY());
+			player.moveRight(grid);
+			crate.moveRight(grid);
+			break;	
+		}
+		if (moves.isEmpty()) {
+			player.setDirection(Direction.DOWN);
+		} else {
+			c = moves.get(moves.size()-1);
+			switch(c) {
+			case 'u':
+			case 'U':
+				player.setDirection(Direction.UP);
+				break;
+			case 'd':
+			case 'D':
+				player.setDirection(Direction.DOWN);
+				break;
+			case 'r':
+			case 'R':
+				player.setDirection(Direction.RIGHT);
+				break;
+			case 'l':
+			case 'L':
+				player.setDirection(Direction.LEFT);
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Saves the current moves ArrayList to a .mov file at specified path.
+	 * @param path The path to save to (must end with ".mov")
+	 * @throws IOException
+	 */
+	public void saveMov(String path) throws IOException {
+		if (!path.endsWith(".mov"))
+			throw new IOException("path must end with \".mov\"");
+		if (moves.isEmpty())
+			throw new IOException();
 		File file = new File(path);
 		BufferedWriter buff = null;
 		try {
@@ -83,7 +185,7 @@ public class MovementTracker {
 		}
 	}
 	
-	public void applyToGrid(String pathIn, String pathOut, Game game) throws IOException {
+	public static void applyToGrid(String pathIn, String pathOut, Game game) throws IOException {
 		Grid grid = Grid.readGrid(pathIn);
 		//changements à exécuter
 		grid.saveGrid(pathOut, game);
