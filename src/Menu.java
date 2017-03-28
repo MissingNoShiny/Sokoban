@@ -35,7 +35,7 @@ public class Menu extends JPanel {
 		Button playButton = new Button("Play");
 		playButton.addMouseListener(new ButtonListener(playButton) {
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				try {
 					game.loadLevel("../levels/level2.xsb");
 				} catch (IOException e1) {
@@ -47,7 +47,7 @@ public class Menu extends JPanel {
 		Button quitButton = new Button("Quit");
 		quitButton.addMouseListener(new ButtonListener(quitButton) {
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				game.stop();
 			}
 		});

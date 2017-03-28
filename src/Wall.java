@@ -3,7 +3,7 @@ public class Wall implements Component{
 
 	@Override
 	public String getSpriteName() {
-		return getClass().getSimpleName();
+		return "Wall";
 	}
 
 	@Override

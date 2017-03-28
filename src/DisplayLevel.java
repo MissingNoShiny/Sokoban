@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 
 import java.io.File;
@@ -14,7 +16,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class DisplayLevel extends JPanel {
+public class DisplayLevel extends JPanel implements KeyListener {
 
 	/**
 	 * 
@@ -36,10 +38,11 @@ public class DisplayLevel extends JPanel {
 		this.grid = grid;
 		setFocusable(true);
 		setLayout(null);
+		addKeyListener(this);
 		Button backToMenuButton = new Button("Back to menu", Color.orange, 50);
 		backToMenuButton.addMouseListener(new ButtonListener(backToMenuButton) {
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				game.loadMenu();
 				grid.saveGrid("level1_saved", game);
 			}
@@ -86,5 +89,48 @@ public class DisplayLevel extends JPanel {
 				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*64, y0 + j*64, null);
 		}
 		g.drawImage(sprites.get(grid.player.getSpriteName()), x0 + grid.player.getX()*64, y0 + grid.player.getY()*64, null);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) { 
+		int input = e.getKeyCode();
+		switch (input){
+		case KeyEvent.VK_ENTER:
+			System.out.print("Coordonnées du joueur: ");
+			System.out.println(grid.player.getX() + ", " + grid.player.getY());
+			System.out.println(grid.player.getDirection());
+			break;
+		case KeyEvent.VK_UP:
+			grid.getPlayer().setDirection(Direction.UP);
+			grid.getPlayer().move(grid);
+			break;
+		case KeyEvent.VK_DOWN :
+			grid.getPlayer().setDirection(Direction.DOWN);
+			grid.getPlayer().move(grid);
+			break;
+		case KeyEvent.VK_RIGHT:
+			grid.getPlayer().setDirection(Direction.RIGHT);
+			grid.getPlayer().move(grid);
+			break;
+		case KeyEvent.VK_LEFT:
+			grid.getPlayer().setDirection(Direction.LEFT);
+			grid.getPlayer().move(grid);
+			break;
+
+		default :
+			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
+		}
+		if (grid.isWon())
+			System.out.println("Vivent les castors");
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
 	}
 }

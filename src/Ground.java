@@ -3,7 +3,7 @@ public class Ground implements Component{
 
 	@Override
 	public String getSpriteName() {
-		return getClass().getSimpleName();
+		return "Ground";
 	}
 
 	@Override

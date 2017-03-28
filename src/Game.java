@@ -2,8 +2,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-
 import java.io.IOException;
 
 
@@ -17,8 +15,6 @@ public class Game implements Runnable {
 	private GameState state = GameState.MENU;
 	
 	public static final String TITLE = "Sokoban";
-	private final double TICKS_PER_SECOND = 60.0;
-	private final long WAITING_TIME_MS = (long) (10E2 / TICKS_PER_SECOND);
 	
 	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
 	public static final Color ORANGE = new Color(255, 165, 0);
@@ -55,17 +51,8 @@ public class Game implements Runnable {
 	 */
 	@Override
 	public void run() {
-		long timer = System.currentTimeMillis();
 		while (running) {
-			try {
-				Thread.sleep(WAITING_TIME_MS);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (System.currentTimeMillis() - timer > 1000) {
-				tick();
-				timer += 1000;
-			}
+			window.refresh();
 		}
 	}
 	
@@ -96,58 +83,22 @@ public class Game implements Runnable {
 		System.exit(1);
 	}
 	
-	public void tick() {
-		//C'est cette méthode qui va exécuter la logique du jeu, TICKS_PER_SECOND fois par seconde
-	}
-	
-	//Inputs
-	//Keyboard
-	
-	public void keyPressed(KeyEvent e) { 
-		int input = e.getKeyCode();
-		switch (input){
-		case KeyEvent.VK_ENTER:
-			System.out.print("Coordonnées du joueur: ");
-			System.out.println(grid.player.getX() + ", " + grid.player.getY());
-			System.out.println(grid.player.getDirection());
-			break;
-		case KeyEvent.VK_UP:
-			grid.getPlayer().setDirection(Direction.UP);
-			grid.getPlayer().move(grid);
-			break;
-		case KeyEvent.VK_DOWN :
-			grid.getPlayer().setDirection(Direction.DOWN);
-			grid.getPlayer().move(grid);
-			break;
-		case KeyEvent.VK_RIGHT:
-			grid.getPlayer().setDirection(Direction.RIGHT);
-			grid.getPlayer().move(grid);
-			break;
-		case KeyEvent.VK_LEFT:
-			grid.getPlayer().setDirection(Direction.LEFT);
-			grid.getPlayer().move(grid);
-			break;
-
-		default :
-			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
-		}
-		if (grid.isWon())
-			System.out.println("Vivent les castors");
-		window.refresh();
-	}
-	    
-	//Mouse
-	
-	
+	/**
+	 * Loads the level of specified path.
+	 * @param path The path of the level to load (must end with ".xsb")
+	 * @throws IOException If the path is incorrect or doesn't exist
+	 */
 	public void loadLevel(String path) throws IOException {
 		grid = Grid.readGrid(path);
 		level = new DisplayLevel(grid, this);
-		level.addKeyListener(new Inputs(this));
 		window.setPanel(level);
 		level.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
 	
+	/**
+	 * Loads the menu
+	 */
 	public void loadMenu() {
 		window.setPanel(menu);
 		state = GameState.MENU;
