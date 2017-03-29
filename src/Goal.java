@@ -1,14 +1,4 @@
 
-public class Goal implements Component{
+public class Goal extends Component{
 
-	@Override
-	public String getSpriteName() {
-		return "Goal";
-	}
-
-	@Override
-	public boolean canGoTrough() {
-		return true;
-	}
-	
 }

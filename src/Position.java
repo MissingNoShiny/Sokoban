@@ -3,7 +3,7 @@
  * Description
  * @author Vincent Larcin, Joachim Sneessens
  */
-public abstract class Position{
+public abstract class Position extends Component{
 	
 	/**
 	 * The X-coordinate of the object.

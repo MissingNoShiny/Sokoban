@@ -1,10 +1,5 @@
 
-public class Wall implements Component{
-
-	@Override
-	public String getSpriteName() {
-		return "Wall";
-	}
+public class Wall extends Component{
 
 	@Override
 	public boolean canGoTrough() {

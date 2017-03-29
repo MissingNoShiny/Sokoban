@@ -1,5 +1,5 @@
 
-public class Crate extends Position implements Component, Movable {
+public class Crate extends Position implements Movable {
 
 	private Component support;
 	
