@@ -73,7 +73,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			for (i = 0; i < grid.getWidth(); i++)
 				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 		}
-		g.drawImage(sprites.get(grid.player.getSpriteName()), x0 + grid.player.getX()*cellSize, y0 + grid.player.getY()*cellSize, cellSize, cellSize, null);
+		g.drawImage(sprites.get(grid.getPlayer().getSpriteName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 	}
 	
 	public void addToMap(Map<String, Image> map, String comp, String nameResource) {
@@ -92,8 +92,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		switch (input){
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");
-			System.out.println(grid.player.getX() + ", " + grid.player.getY());
-			System.out.println(grid.player.getDirection());
+			System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
+			System.out.println(grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_UP:
 			grid.getPlayer().setDirection(Direction.UP);

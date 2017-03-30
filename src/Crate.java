@@ -1,6 +1,8 @@
 
-public class Crate extends Position implements Movable {
-
+public class Crate extends Position {
+	
+	private Grid grid;
+	
 	private Component support;
 	
 	/**
@@ -11,6 +13,7 @@ public class Crate extends Position implements Movable {
 	 */
 	public Crate(int x, int y, Grid grid) {
 		super(x, y);
+		this.grid = grid;
 		setSupport(grid.getComponentAt(x, y));
 		grid.placeComponentAt(x, y, this);
 	}
@@ -23,7 +26,7 @@ public class Crate extends Position implements Movable {
 		this.support = support;
 	}
 	
-	public boolean canMove(Grid grid, Direction dir) {
+	public boolean canMove(Direction dir) {
 		boolean test = true;
 		int x = getX(), y = getY();
 		switch (dir) {
@@ -48,8 +51,6 @@ public class Crate extends Position implements Movable {
 	}
 	
 	/*
-	 * Ajout de la methode moveTo
-	 * 
 	 * D'abord je dirige le pointeur du tableau de la case actuelle vers le component support de la caisse
 	 * Ensuite je dirige le pointeur de support vers le component de la case visee
 	 * Finalement je dirige le pointeur de la case du dessus vers la caisse
@@ -59,7 +60,7 @@ public class Crate extends Position implements Movable {
 	 * Peut etre ensuite faire en sorte que position implemente movable et faire passer les moveUp, etc. dans position
 	 */
 	
-	public void moveTo(Grid grid, int x, int y) {
+	public void moveTo(int x, int y) {
 		grid.placeComponentAt(getX(), getY(), getSupport());
 		setSupport(grid.getComponentAt(x, y));
 		setX(x);
@@ -67,37 +68,21 @@ public class Crate extends Position implements Movable {
 		grid.placeComponentAt(x, y, this);
 	}
 	
-	public void move(Grid grid, Direction dir) {
+	public void move(Direction dir) {
 		switch (dir) {
 		case UP:
-			moveUp(grid); 
+			moveTo(getX(), getY()-1);
 			break;
 		case RIGHT:
-			moveRight(grid);
+			moveTo(getX()+1, getY());
 			break;
 		case DOWN:
-			moveDown(grid);
+			moveTo(getX(), getY()+1);
 			break;
 		case LEFT:
-			moveLeft(grid);
+			moveTo(getX()-1, getY());
 			break;
 		}
-	}
-	
-	public void moveUp(Grid grid) {
-		moveTo(grid, getX(), getY()-1);
-	}
-	
-	public void moveRight(Grid grid) {
-		moveTo(grid, getX()+1, getY());
-	}
-	
-	public void moveDown(Grid grid) {
-		moveTo(grid, getX(), getY()+1);
-	}
-	
-	public void moveLeft(Grid grid) {
-		moveTo(grid, getX()-1, getY());
 	}
 	
 	@Override

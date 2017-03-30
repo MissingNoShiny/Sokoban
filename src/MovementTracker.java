@@ -82,16 +82,16 @@ public class MovementTracker {
 		moves.remove(moves.size()-1);
 		switch(c){
 		case('u'):
-			player.moveDown(grid);
+			player.setY(player.getY()+1);
 			break;	
 		case('d'):
-			player.moveUp(grid);
+			player.setY(player.getY()-1);
 			break;	
 		case('r'):
-			player.moveLeft(grid);
+			player.setX(player.getX()-1);
 			break;	
 		case('l'):
-			player.moveRight(grid);
+			player.setX(player.getX()+1);
 			break;	
 		case('U'):
 			crate = grid.getCrateAt(player.getX(), player.getY()-1);
@@ -189,5 +189,9 @@ public class MovementTracker {
 		Grid grid = Grid.readGrid(pathIn);
 		//changements à exécuter
 		grid.saveGrid(pathOut, game);
+	}
+	
+	public String toString() {
+		return moves.toString();
 	}
 }

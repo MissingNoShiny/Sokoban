@@ -1,5 +1,5 @@
 
-public class Player extends Position implements Movable {
+public class Player extends Position {
 	
 	private Direction direction;
 	
@@ -17,7 +17,8 @@ public class Player extends Position implements Movable {
 	}
 	
 	/**
-	 * 
+	 * @param grid
+	 * @param dir
 	 */
 	public boolean canMove(Grid grid, Direction dir) {
 		int newX = getX(), newY = getY();
@@ -42,7 +43,7 @@ public class Player extends Position implements Movable {
 			if (grid.getComponentAt(newX, newY).canGoTrough()) 
 				test = true;
 			else if (grid.hasCrateAt(newX, newY)) 
-				test = grid.getCrateAt(newX, newY).canMove(grid, dir);
+				test = grid.getCrateAt(newX, newY).canMove(dir);
 		}
 		return test;
 	}
@@ -67,41 +68,18 @@ public class Player extends Position implements Movable {
 			}
 			
 			if (grid.hasCrateAt(newX, newY)){
-				grid.getCrateAt(newX, newY).move(grid, direction);
+				grid.getCrateAt(newX, newY).move(direction);
 				grid.getMovementTracker().addPush();
-			} else
+			}
+			else
 				grid.getMovementTracker().addMove();
 			setX(newX);
 			setY(newY);
 		}
 	}
 	
+	@Override
 	public String getSpriteName() {
 		return "Player" + direction.name();
 	}
-	
-	public void moveUp(Grid grid) {
-		if (grid.hasCrateAt(getX(), getY()-1))
-				grid.getCrateAt(getX(), getY()-1).moveUp(grid);		
-		setY(getY()-1);
-	}
-	
-	public void moveRight(Grid grid) {
-		if (grid.hasCrateAt(getX()+1, getY()))
-			grid.getCrateAt(getX()+1, getY()).moveRight(grid);		
-		setX(getX()+1);
-	}
-	
-	public void moveDown(Grid grid) {
-		if (grid.hasCrateAt(getX(), getY()+1))
-			grid.getCrateAt(getX(), getY()+1).moveDown(grid);		
-		setY(getY()+1);
-	}
-	
-	public void moveLeft(Grid grid) {
-		if (grid.hasCrateAt(getX()-1, getY()))
-			grid.getCrateAt(getX()-1, getY()).moveLeft(grid);	
-		setX(getX()-1);
-	}
-
 }
