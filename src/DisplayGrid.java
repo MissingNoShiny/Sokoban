@@ -46,11 +46,6 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		addToMap(sprites, "PlayerLEFT", "../resources/playerLeft.png");
 	}
 	
-	public DisplayGrid (Grid grid, int preferredHeight, int preferredWidth) {
-		this(grid);
-		setPreferredSize(new Dimension(preferredWidth, preferredHeight));
-	}
-	
 	public void paintComponent(Graphics g) {
 
 		int i, j;
@@ -61,7 +56,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		int x0 = midX - (grid.getWidth()*cellSize)/2;
 		int y0 = midY - (grid.getHeight()*cellSize)/2;
 		
-		super.paintComponent(g); //J'ai compris a quoi servait cette ligne (background), mais pas reelelement ce qu'elle faisait
+		super.paintComponent(g); //J'ai compris a quoi servait cette ligne (sans elle le setBackground ne fonctionne pas), mais pas reelelement ce qu'elle faisait
 		setBackground(Game.BLEU_CLAIR);
 		Graphics2D g2 = (Graphics2D) g;
 		
@@ -69,7 +64,6 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		g2.setColor(new Color (50, 50, 50));
 		g2.drawRect(x0 - borderThickness, y0 - borderThickness, (grid.getWidth()*cellSize) + 2*borderThickness, (grid.getHeight()*cellSize) + 2*borderThickness);
 
-		
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++)
 				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);

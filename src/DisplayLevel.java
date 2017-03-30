@@ -3,9 +3,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 public class DisplayLevel extends JPanel{
@@ -48,22 +48,16 @@ public class DisplayLevel extends JPanel{
 				setBackground(Game.BLEU_CLAIR);
 			}
 		};
-		
 		buttonsPanel.setOpaque(true);
+		//buttonsPanel.setPreferredSize(new Dimension(getWidth(), getHeight()));
+		//System.out.println(getWidth()+ getHeight());
+		
 		add(buttonsPanel, BorderLayout.EAST);
-		System.out.println(getWidth());
-		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.PAGE_AXIS));
+		GridLayout gridLayout = new GridLayout(3,1);
+		gridLayout.setVgap(4);
+		buttonsPanel.setLayout(gridLayout);
 		
-		Button backToMenuButton = new Button("Back to menu", Color.orange, 50);
-		backToMenuButton.addMouseListener(new ButtonListener(backToMenuButton) {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				game.loadMenu();
-				grid.saveGrid("level1_saved", game);
-			}
-		});
-		buttonsPanel.add(backToMenuButton);
-		
+
 		Button undoButton = new Button("Undo", Color.orange, 50);
 		undoButton.addMouseListener(new ButtonListener(undoButton) {
 			@Override
@@ -81,5 +75,16 @@ public class DisplayLevel extends JPanel{
 			}
 		});
 		buttonsPanel.add(resetButton);
+		
+		Button menuButton = new Button("Menu", Color.orange, 50);
+		menuButton.addMouseListener(new ButtonListener(menuButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				game.loadMenu();
+				grid.saveGrid("level1_saved", game);
+			}
+		});
+		buttonsPanel.add(menuButton);
+		
 	}
 }

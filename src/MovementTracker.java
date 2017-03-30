@@ -82,16 +82,28 @@ public class MovementTracker {
 		moves.remove(moves.size()-1);
 		switch(c){
 		case('u'):
+			player.moveBack(grid, Direction.UP);
+			break;
 		case('d'):
+			player.moveBack(grid, Direction.DOWN);
+			break;
 		case('r'):
+			player.moveBack(grid, Direction.RIGHT);
+			break;
 		case('l'):
-			player.moveBack(grid);
+			player.moveBack(grid, Direction.LEFT);
 			break;
 		case('U'):
+			player.pullCrate(grid, Direction.UP);
+			break;	
 		case('D'):
+			player.pullCrate(grid, Direction.DOWN);
+			break;	
 		case('R'):
+			player.pullCrate(grid, Direction.RIGHT);
+			break;	
 		case('L'):
-			player.pullCrate(grid);
+			player.pullCrate(grid, Direction.LEFT);
 			break;	
 		}
 		if (moves.isEmpty()) {

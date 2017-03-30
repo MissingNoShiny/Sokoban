@@ -7,3 +7,6 @@ Joachim:
 
 Vincent:
 - Adapter l'affichage de la grid pour que tout soit affiché dans le sous-panel de DisplayLevel
+
+
+Pour le background, va voir ce que j'ai fait dans le displayGrid ligne 64. C'est peut etre ca qui n'allait pas.

@@ -80,11 +80,14 @@ public class Player extends Position {
 	
 	/*
 	 * Les fonctions moveBack et pullCrate sont facilement fusionnables, si il faut vraiment
+	 * Le probleme avec les fonctions moveBack et pullCrate actuelles, c'est qu'elles rendent en partie inutile le switch
+	 * du movementTracker
+	 * Peut etre serait il preferable de separer ces fonction en 4 fonctions distinctes
 	 */
-	public void moveBack(Grid grid) {
+	public void moveBack(Grid grid, Direction dir) {
 		int newX = getX();
 		int newY = getY();
-		switch (direction) {
+		switch (dir) {
 		case UP:
 			newY++;
 			break;
@@ -102,36 +105,36 @@ public class Player extends Position {
 		setY(newY);
 	}
 	
-	public void pullCrate (Grid grid) {
+	public void pullCrate (Grid grid, Direction dir) {
 		int newX = getX();
 		int newY = getY();
 		int crateX = getX();
 		int crateY = getY();
-		Direction dir = null;
-		switch (direction) {
+		Direction crateDir = null;
+		switch (dir) {
 		case UP:
 			newY++; 
 			crateY--;
-			dir = Direction.DOWN;
+			crateDir = Direction.DOWN;
 			break;
 		case RIGHT:
 			newX--;
 			crateX++;
-			dir = Direction.LEFT;
+			crateDir = Direction.LEFT;
 			break;
 		case DOWN:
 			newY--;
 			crateY++;
-			dir = Direction.UP;
+			crateDir = Direction.UP;
 			break;
 		case LEFT:
 			newX++;
 			crateX--;
-			dir = Direction.RIGHT;
+			crateDir = Direction.RIGHT;
 			break;
 		}
 		
-		grid.getCrateAt(crateX, crateY).move(dir);
+		grid.getCrateAt(crateX, crateY).move(crateDir);
 		setX(newX);
 		setY(newY);
 	}
