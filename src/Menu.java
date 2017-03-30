@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Menu extends JPanel {
@@ -32,6 +33,11 @@ public class Menu extends JPanel {
 		GridLayout gl = new GridLayout(5,1);
 		gl.setVgap(3);
 		setLayout(gl);
+		
+		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
+		title.setFont(new Font("arial", 0, 100));
+		add(title);
+		
 		Button playButton = new Button("Play");
 		playButton.addMouseListener(new ButtonListener(playButton) {
 			@Override
@@ -70,12 +76,5 @@ public class Menu extends JPanel {
 		
 		Graphics2D g2 = (Graphics2D) g;
 		setBackground(Game.BLEU_CLAIR);
-
-		if (state == MenuState.MAIN) {
-			
-			g2.setFont(new Font("arial", 0, 100));
-			g2.drawString(Game.TITLE, getWidth()/2 - 200, getHeight()/5);
-			
-		}
 	}
 }

@@ -20,6 +20,16 @@ public class MovementTracker {
 	private Grid grid;
 	
 	/**
+	 * The number of moves contained in the ArrayList moves.
+	 */
+	private int movesCount;
+	
+	/**
+	 * The number of pushed contained in the ArrayList moves.
+	 */
+	private int pushesCount;
+	
+	/**
 	 * 
 	 * @param grid The grid to track the moves of.
 	 */
@@ -28,6 +38,22 @@ public class MovementTracker {
 		this.grid = grid;
 	}
 
+	/**
+	 * Gets the amount of moves in the ArrayList moves.
+	 * @return the amount of moves in the ArrayList moves
+	 */
+	public int getMovesCount() {
+		return movesCount;
+	}
+	
+	/**
+	 * Gets the amount of pushed in the ArrayList moves.
+	 * @return the amount of pushes in the ArrayList moves
+	 */
+	public int getPushesCount() {
+		return pushesCount;
+	}
+	
 	/**
 	 * Saves the last move made by the player, based on his direction after said move.
 	 */
@@ -47,6 +73,7 @@ public class MovementTracker {
 			moves.add('l');
 			break;
 		}
+		movesCount += 1;
 	}
 	
 	/**
@@ -68,6 +95,8 @@ public class MovementTracker {
 			moves.add('L');
 			break;
 		}
+		movesCount += 1;
+		pushesCount += 1;
 	}
 	
 	/**
@@ -80,6 +109,7 @@ public class MovementTracker {
 		Crate crate;
 		Character c = moves.get(moves.size()-1);
 		moves.remove(moves.size()-1);
+		movesCount--;
 		switch(c){
 		case('u'):
 			player.moveBack(grid, Direction.UP);
@@ -95,15 +125,19 @@ public class MovementTracker {
 			break;
 		case('U'):
 			player.pullCrate(grid, Direction.UP);
+			pushesCount--;
 			break;	
 		case('D'):
 			player.pullCrate(grid, Direction.DOWN);
+			pushesCount--;
 			break;	
 		case('R'):
 			player.pullCrate(grid, Direction.RIGHT);
+			pushesCount--;
 			break;	
 		case('L'):
 			player.pullCrate(grid, Direction.LEFT);
+			pushesCount--;
 			break;	
 		}
 		if (moves.isEmpty()) {

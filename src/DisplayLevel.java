@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class DisplayLevel extends JPanel{
@@ -49,8 +50,7 @@ public class DisplayLevel extends JPanel{
 			}
 		};
 		buttonsPanel.setOpaque(true);
-		//buttonsPanel.setPreferredSize(new Dimension(getWidth(), getHeight()));
-		//System.out.println(getWidth()+ getHeight());
+		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 		
 		add(buttonsPanel, BorderLayout.EAST);
 		GridLayout gridLayout = new GridLayout(3,1);
@@ -86,5 +86,9 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(menuButton);
 		
+		InfoPanel infoPanel = new InfoPanel(grid);
+		infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
+		infoPanel.setOpaque(true);
+		add(infoPanel, BorderLayout.WEST);
 	}
 }
