@@ -47,18 +47,13 @@ public class Grid {
 	 * @param height The height of the matrix
 	 */
 	//Peut etre ajouter instanciation du player dans le constructeur
-	public Grid(int width, int height) {
+	public Grid(int width, int height, boolean trackable) {
 		matrix = new Component[height][width];
 		crates = new ArrayList<Crate>(0);
-		//goals = new ArrayList<Goal>(0);
 		this.height = height;
 		this.width = width;
-	}
-	
-	//Constructeur à part pour le tracker car je ne sais pas si toutes les grids en auront besoin
-	public Grid(int width, int height, MovementTracker tracker) {
-		this(width, height);
-		this.tracker = tracker;
+		if (trackable)
+			tracker = new MovementTracker(this);
 	}
 
 	/**
@@ -75,6 +70,10 @@ public class Grid {
 	 */
 	public int getWidth() {
 		return width;
+	}
+	
+	public MovementTracker getMovementTracker() {
+		return tracker;
 	}
 	
 	/**
@@ -215,7 +214,7 @@ public class Grid {
 			while ((ligne = buff.readLine())!=null){
 				height++;
 			}
-			grid = new Grid(width, height);
+			grid = new Grid(width, height, true);
 			buff.close();
 			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));

@@ -95,23 +95,23 @@ public class MovementTracker {
 			break;	
 		case('U'):
 			crate = grid.getCrateAt(player.getX(), player.getY()-1);
-			player.moveDown(grid);
-			crate.moveDown(grid);
+			player.setY(player.getY()+1);
+			crate.move(Direction.DOWN);
 			break;	
 		case('D'):
 			crate = grid.getCrateAt(player.getX(), player.getY()+1);
-			player.moveUp(grid);
-			crate.moveUp(grid);
+			player.setY(player.getY()-1);
+			crate.move(Direction.UP);
 			break;	
 		case('R'):
 			crate = grid.getCrateAt(player.getX()+1, player.getY());
-			player.moveLeft(grid);
-			crate.moveLeft(grid);
+			player.setX(player.getX()-1);
+			crate.move(Direction.LEFT);
 			break;	
 		case('L'):
 			crate = grid.getCrateAt(player.getX()-1, player.getY());
-			player.moveRight(grid);
-			crate.moveRight(grid);
+			player.setX(player.getX()+1);
+			crate.move(Direction.RIGHT);
 			break;	
 		}
 		if (moves.isEmpty()) {

@@ -67,8 +67,10 @@ public class Player extends Position implements Movable {
 			}
 			
 			if (grid.hasCrateAt(newX, newY)){
-				grid.getCrateAt(newX, newY).move(grid, direction);					
-			}
+				grid.getCrateAt(newX, newY).move(grid, direction);
+				grid.getMovementTracker().addPush();
+			} else
+				grid.getMovementTracker().addMove();
 			setX(newX);
 			setY(newY);
 		}

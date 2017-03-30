@@ -40,5 +40,13 @@ public class DisplayLevel extends JPanel{
 		});
 		add(backToMenuButton, BorderLayout.EAST);
 		
+		Button undoButton = new Button("Undo", Color.orange, 50, game.getWindow().getHeight(), game.getWindow().getWidth()/6);
+		undoButton.addMouseListener(new ButtonListener(undoButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				grid.getMovementTracker().undo();
+			}
+		});
+		add(undoButton, BorderLayout.WEST);
 	}
 }
