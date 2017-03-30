@@ -16,7 +16,7 @@ public abstract class ButtonListener implements MouseListener{
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		button.setBackground(button.getColor().brighter());
+		button.setBackground(button.getColor().darker());
 	}
 
 	@Override

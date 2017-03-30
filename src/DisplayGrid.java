@@ -22,9 +22,13 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	 */
 	private static final long serialVersionUID = -5700571976068104061L;
 
-	Map<String, Image> sprites = new HashMap<String, Image>();
+	private Map<String, Image> sprites = new HashMap<String, Image>();
 	
-	Grid grid;
+	private Grid grid;
+	
+	private int cellSize = 64;
+	
+	private int borderThickness = 10;
 	
 	public DisplayGrid (Grid grid) {
 		addKeyListener(this);
@@ -49,25 +53,27 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	public void paintComponent(Graphics g) {
 
 		int i, j;
+		while (grid.getWidth()*cellSize + 4*borderThickness > this.getWidth() || grid.getHeight()*cellSize + 4*borderThickness > this.getHeight())
+			cellSize --;
 		int midX = this.getWidth()/2;
 		int midY = this.getHeight()/2;
-		int x0 = midX - (grid.getWidth()*64)/2;
-		int y0 = midY - (grid.getHeight()*64)/2;
+		int x0 = midX - (grid.getWidth()*cellSize)/2;
+		int y0 = midY - (grid.getHeight()*cellSize)/2;
 		
 		super.paintComponent(g); //J'ai compris a quoi servait cette ligne (background), mais pas reelelement ce qu'elle faisait
 		Graphics2D g2 = (Graphics2D) g;
 		
 		setBackground(Game.BLEU_CLAIR);
-		g2.setStroke(new BasicStroke(20));
+		g2.setStroke(new BasicStroke(2*borderThickness));
 		g2.setColor(new Color (50, 50, 50));
-		g2.drawRect(x0 - 10, y0 - 10, (grid.getWidth()*64) + 20, (grid.getHeight()*64) + 20);
+		g2.drawRect(x0 - borderThickness, y0 - borderThickness, (grid.getWidth()*cellSize) + 2*borderThickness, (grid.getHeight()*cellSize) + 2*borderThickness);
 
 		
 		for (j = 0; j < grid.getHeight(); j++) {
 			for (i = 0; i < grid.getWidth(); i++)
-				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*64, y0 + j*64, null);
+				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 		}
-		g.drawImage(sprites.get(grid.player.getSpriteName()), x0 + grid.player.getX()*64, y0 + grid.player.getY()*64, null);
+		g.drawImage(sprites.get(grid.player.getSpriteName()), x0 + grid.player.getX()*cellSize, y0 + grid.player.getY()*cellSize, cellSize, cellSize, null);
 	}
 	
 	public void addToMap(Map<String, Image> map, String comp, String nameResource) {
