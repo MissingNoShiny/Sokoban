@@ -67,6 +67,23 @@ public class Crate extends Position implements Movable {
 		grid.placeComponentAt(x, y, this);
 	}
 	
+	public void move(Grid grid, Direction dir) {
+		switch (dir) {
+		case UP:
+			moveUp(grid); 
+			break;
+		case RIGHT:
+			moveRight(grid);
+			break;
+		case DOWN:
+			moveDown(grid);
+			break;
+		case LEFT:
+			moveLeft(grid);
+			break;
+		}
+	}
+	
 	public void moveUp(Grid grid) {
 		moveTo(grid, getX(), getY()-1);
 	}

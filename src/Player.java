@@ -16,56 +16,61 @@ public class Player extends Position implements Movable {
 		return direction;
 	}
 	
-	
-	//Dans les fonctions canMove, utilisation de variables locales x et y (donc qui ne sont pas les attributs)
+	/**
+	 * 
+	 */
 	public boolean canMove(Grid grid, Direction dir) {
-		int x = getX(), y = getY();
-		boolean test = true;
+		int newX = getX(), newY = getY();
+		boolean test = false;
+		
 		switch (dir) {
 		case UP:
-			if (y-1 < 0 || !grid.getComponentAt(x, y-1).canGoTrough())
-				test = false;
-			if (grid.hasCrateAt(x, y-1)) 
-				test = grid.getCrateAt(x, y-1).canMove(grid, Direction.UP);
+			newY--; 
 			break;
 		case RIGHT:
-			if (x+1 >= grid.getWidth() || !grid.getComponentAt(x+1, y).canGoTrough())
-				test = false;
-			if (grid.hasCrateAt(x+1, y)) 
-				test = grid.getCrateAt(x+1, y).canMove(grid, Direction.RIGHT);
+			newX++;
 			break;
 		case DOWN:
-			if (y+1 >= grid.getHeight() || !grid.getComponentAt(x, y+1).canGoTrough())
-				test = false;
-			if (grid.hasCrateAt(x, y+1)) 
-				test = grid.getCrateAt(x, y+1).canMove(grid, Direction.DOWN);
+			newY++;
 			break;
 		case LEFT:
-			if (x-1 < 0 || !grid.getComponentAt(x-1, y).canGoTrough())
-				test = false;
-			if (grid.hasCrateAt(x-1, y)) 
-				test = grid.getCrateAt(x-1, y).canMove(grid, Direction.LEFT);
+			newX--;
 			break;
+		}
+		
+		if (newX < grid.getHeight() && newX > 0 && newY < grid.getWidth() && newY > 0) {
+			if (grid.getComponentAt(newX, newY).canGoTrough()) 
+				test = true;
+			else if (grid.hasCrateAt(newX, newY)) 
+				test = grid.getCrateAt(newX, newY).canMove(grid, dir);
 		}
 		return test;
 	}
 	
 	public void move(Grid grid) {
 		if (canMove(grid, direction)) {
-			switch(direction) {
+			int newX = getX();
+			int newY = getY();
+			switch (direction) {
 			case UP:
-				moveUp(grid);
+				newY--; 
 				break;
 			case RIGHT:
-				moveRight(grid);
+				newX++;
 				break;
 			case DOWN:
-				moveDown(grid);
+				newY++;
 				break;
 			case LEFT:
-				moveLeft(grid);
+				newX--;
 				break;
 			}
+			
+			if (grid.hasCrateAt(newX, newY)){
+				grid.getCrateAt(newX, newY).move(grid, direction);					
+			}
+			setX(newX);
+			setY(newY);
 		}
 	}
 	
