@@ -33,6 +33,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	public DisplayGrid (Grid grid) {
 		addKeyListener(this);
 		setFocusable(true);
+		setOpaque(true);
 		this.grid = grid;
 		addToMap(sprites, "Ground", "../resources/ground.png");
 		addToMap(sprites, "Crate", "../resources/crate.png");
@@ -61,9 +62,9 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		int y0 = midY - (grid.getHeight()*cellSize)/2;
 		
 		super.paintComponent(g); //J'ai compris a quoi servait cette ligne (background), mais pas reelelement ce qu'elle faisait
+		setBackground(Game.BLEU_CLAIR);
 		Graphics2D g2 = (Graphics2D) g;
 		
-		setBackground(Game.BLEU_CLAIR);
 		g2.setStroke(new BasicStroke(2*borderThickness));
 		g2.setColor(new Color (50, 50, 50));
 		g2.drawRect(x0 - borderThickness, y0 - borderThickness, (grid.getWidth()*cellSize) + 2*borderThickness, (grid.getHeight()*cellSize) + 2*borderThickness);
@@ -90,10 +91,13 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	public void keyPressed(KeyEvent e) { 
 		int input = e.getKeyCode();
 		switch (input){
+		case KeyEvent.VK_R:
+			grid.getMovementTracker().reset();
+			break;
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");
-			System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
-			System.out.println(grid.getPlayer().getDirection());
+			System.out.println(grid.player.getX() + ", " + grid.player.getY());
+			System.out.println(grid.player.getDirection());
 			break;
 		case KeyEvent.VK_UP:
 			grid.getPlayer().setDirection(Direction.UP);

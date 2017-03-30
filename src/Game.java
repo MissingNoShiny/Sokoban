@@ -33,7 +33,7 @@ public class Game implements Runnable {
 		Game game = new Game();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		game.setWindow(new Display(screenSize, Game.TITLE));
+		game.window = new Display(screenSize, Game.TITLE);
 		game.loadMenu();
 		
 		game.start();
@@ -89,7 +89,7 @@ public class Game implements Runnable {
 	public void loadLevel(String path) throws IOException {
 		grid = Grid.readGrid(path);
 		level = new DisplayLevel(grid, this);
-		getWindow().setPanel(level);
+		window.setPanel(level);
 		level.displayGrid.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
@@ -98,7 +98,7 @@ public class Game implements Runnable {
 	 * Loads the menu
 	 */
 	public void loadMenu() {
-		getWindow().setPanel(menu);
+		window.setPanel(menu);
 		level = null;
 		state = GameState.MENU;
 	}
@@ -113,9 +113,5 @@ public class Game implements Runnable {
 	 */
 	public Display getWindow() {
 		return window;
-	}
-
-	public void setWindow(Display window) {
-		this.window = window;
 	}
 }

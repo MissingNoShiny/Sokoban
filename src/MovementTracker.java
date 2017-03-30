@@ -119,6 +119,11 @@ public class MovementTracker {
 		}
 	}
 	
+	public void reset() {
+		while (!moves.isEmpty())
+			undo();
+	}
+	
 	/**
 	 * Saves the current moves ArrayList to a .mov file at specified path.
 	 * @param path The path to save to (must end with ".mov")
