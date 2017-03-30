@@ -220,9 +220,11 @@ public class Grid {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			Character character;
 			for (int i = 0; i < height; i++){
+				int j;
 				ligne = buff.readLine();
-				for (int j = 0; j < width; j++) {
+				for (j = 0; j < ligne.length(); j++) {
 					character = ligne.charAt(j);
+					
 					switch (character) {
 					case ('#') :
 						grid.placeComponentAt(j, i, new Wall());
@@ -249,6 +251,10 @@ public class Grid {
 						grid.placeComponentAt(j, i, new Goal());
 						grid.addCrate(j, i);
 					}
+				}
+				while(j < width) {
+					grid.placeComponentAt(j, i, new Wall());
+					j++;
 				}
 			}
 		} catch (IOException e) {

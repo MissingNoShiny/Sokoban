@@ -78,6 +78,64 @@ public class Player extends Position {
 		}
 	}
 	
+	/*
+	 * Les fonctions moveBack et pullCrate sont facilement fusionnables, si il faut vraiment
+	 */
+	public void moveBack(Grid grid) {
+		int newX = getX();
+		int newY = getY();
+		switch (direction) {
+		case UP:
+			newY++;
+			break;
+		case RIGHT:
+			newX--;
+			break;
+		case DOWN:
+			newY--;
+			break;
+		case LEFT:
+			newX++;
+			break;
+		}
+		setX(newX);
+		setY(newY);
+	}
+	
+	public void pullCrate (Grid grid) {
+		int newX = getX();
+		int newY = getY();
+		int crateX = getX();
+		int crateY = getY();
+		Direction dir = null;
+		switch (direction) {
+		case UP:
+			newY++; 
+			crateY--;
+			dir = Direction.DOWN;
+			break;
+		case RIGHT:
+			newX--;
+			crateX++;
+			dir = Direction.LEFT;
+			break;
+		case DOWN:
+			newY--;
+			crateY++;
+			dir = Direction.UP;
+			break;
+		case LEFT:
+			newX++;
+			crateX--;
+			dir = Direction.RIGHT;
+			break;
+		}
+		
+		grid.getCrateAt(crateX, crateY).move(dir);
+		setX(newX);
+		setY(newY);
+	}
+	
 	@Override
 	public String getSpriteName() {
 		return "Player" + direction.name();

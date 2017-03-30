@@ -82,36 +82,16 @@ public class MovementTracker {
 		moves.remove(moves.size()-1);
 		switch(c){
 		case('u'):
-			player.setY(player.getY()+1);
-			break;	
 		case('d'):
-			player.setY(player.getY()-1);
-			break;	
 		case('r'):
-			player.setX(player.getX()-1);
-			break;	
 		case('l'):
-			player.setX(player.getX()+1);
-			break;	
+			player.moveBack(grid);
+			break;
 		case('U'):
-			crate = grid.getCrateAt(player.getX(), player.getY()-1);
-			player.setY(player.getY()+1);
-			crate.move(Direction.DOWN);
-			break;	
 		case('D'):
-			crate = grid.getCrateAt(player.getX(), player.getY()+1);
-			player.setY(player.getY()-1);
-			crate.move(Direction.UP);
-			break;	
 		case('R'):
-			crate = grid.getCrateAt(player.getX()+1, player.getY());
-			player.setX(player.getX()-1);
-			crate.move(Direction.LEFT);
-			break;	
 		case('L'):
-			crate = grid.getCrateAt(player.getX()-1, player.getY());
-			player.setX(player.getX()+1);
-			crate.move(Direction.RIGHT);
+			player.pullCrate(grid);
 			break;	
 		}
 		if (moves.isEmpty()) {
