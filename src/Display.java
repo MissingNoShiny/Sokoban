@@ -5,8 +5,9 @@ import javax.swing.JPanel;
 
 public class Display extends JFrame {
 	
-	//Sur de nombraux exemples que j'ai pu voir, ils utilisaient la méthode add(Panel panal) pour
-	//ajouter le panel à la JFrame
+	/**
+	 * TODO
+	 */
 	private JPanel p;
 	
 	/**

@@ -1,4 +1,6 @@
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -39,6 +41,11 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		addToMap(sprites, "PlayerLEFT", "../resources/playerLeft.png");
 	}
 	
+	public DisplayGrid (Grid grid, int preferredHeight, int preferredWidth) {
+		this(grid);
+		setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+	}
+	
 	public void paintComponent(Graphics g) {
 
 		int i, j;
@@ -52,6 +59,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 		setBackground(Game.BLEU_CLAIR);
 		g2.setStroke(new BasicStroke(20));
+		g2.setColor(new Color (50, 50, 50));
 		g2.drawRect(x0 - 10, y0 - 10, (grid.getWidth()*64) + 20, (grid.getHeight()*64) + 20);
 
 		

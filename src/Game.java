@@ -17,8 +17,6 @@ public class Game implements Runnable {
 	public static final String TITLE = "Sokoban";
 	
 	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
-	public static final Color ORANGE = new Color(255, 165, 0);
-	public static final Color BLACK = new Color(0, 0, 0);
 
 	private boolean running = false;
 	private Menu menu = new Menu(this);
@@ -35,7 +33,7 @@ public class Game implements Runnable {
 		Game game = new Game();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		game.window = new Display(screenSize, Game.TITLE);
+		game.setWindow(new Display(screenSize, Game.TITLE));
 		game.loadMenu();
 		
 		game.start();
@@ -52,7 +50,7 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 		while (running) {
-			window.refresh();
+			getWindow().refresh();
 		}
 	}
 	
@@ -74,7 +72,7 @@ public class Game implements Runnable {
 		if (!running)
 			return;
 		try {
-			window.dispose();
+			getWindow().dispose();
 			running = false;
 			thread.join();
 		} catch (InterruptedException e) {
@@ -91,8 +89,8 @@ public class Game implements Runnable {
 	public void loadLevel(String path) throws IOException {
 		grid = Grid.readGrid(path);
 		level = new DisplayLevel(grid, this);
-		window.setPanel(level);
-		level.requestFocusInWindow();
+		getWindow().setPanel(level);
+		level.displayGrid.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
 	
@@ -100,12 +98,24 @@ public class Game implements Runnable {
 	 * Loads the menu
 	 */
 	public void loadMenu() {
-		window.setPanel(menu);
+		getWindow().setPanel(menu);
+		level = null;
 		state = GameState.MENU;
 	}
 
 	public boolean canOverrideLevel() {
 		//methode qui servira a afficher un avertissement si la methode Grid.saveGrid() ecrase un fichier existant
 		return true;
+	}
+
+	/*
+	 * J'ai rajoute cette methode pour pouvoir ajuster la taille des panels dans le displayLevel 
+	 */
+	public Display getWindow() {
+		return window;
+	}
+
+	public void setWindow(Display window) {
+		this.window = window;
 	}
 }

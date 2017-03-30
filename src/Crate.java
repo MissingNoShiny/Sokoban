@@ -47,7 +47,7 @@ public class Crate extends Position implements Movable {
 		return test;
 	}
 	
-	/**
+	/*
 	 * Ajout de la methode moveTo
 	 * 
 	 * D'abord je dirige le pointeur du tableau de la case actuelle vers le component support de la caisse

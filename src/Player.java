@@ -70,7 +70,7 @@ public class Player extends Position implements Movable {
 	}
 	
 	public String getSpriteName() {
-		return "Player"+direction.name();
+		return "Player" + direction.name();
 	}
 	
 	public void moveUp(Grid grid) {

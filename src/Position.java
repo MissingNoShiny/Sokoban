@@ -20,7 +20,6 @@ public abstract class Position extends Component{
 	 * Creates a position with the specified coordinates in input.
 	 * @param inputX The X-coordinate of the object
 	 * @param inputY The Y-coordinate of the object
-	 * @param img The sprite of the object
 	 */
 	public Position(int inputX, int inputY) {
 		x = inputX;

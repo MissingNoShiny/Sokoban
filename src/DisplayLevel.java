@@ -11,19 +11,26 @@ public class DisplayLevel extends JPanel{
 	 */
 	private static final long serialVersionUID = 4992322428530946741L;
 	
+	/*
+	 * J'ai du faire de displaygrid un attribut de displayLevel, pour lui donner le focus. Il faudra trouver 
+	 * une meilleure solution
+	 */
+	public DisplayGrid displayGrid;
+	
 	/**
 	 * TODO
 	 * @param grid The Grid object to get data from
+	 * @param game
 	 */
 	public DisplayLevel(Grid grid, Game game) {
 		setFocusable(true);
 		setLayout(new BorderLayout());
 		
-		DisplayGrid displayGrid = new DisplayGrid(grid);
+		displayGrid = new DisplayGrid(grid);
 		add(displayGrid, BorderLayout.CENTER);
 		//displayGrid.requestFocusInWindow();
 		
-		Button backToMenuButton = new Button("Back to menu", Color.orange, 50);
+		Button backToMenuButton = new Button("Back to menu", Color.orange, 50, game.getWindow().getHeight(), game.getWindow().getWidth()/6);
 		backToMenuButton.addMouseListener(new ButtonListener(backToMenuButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
