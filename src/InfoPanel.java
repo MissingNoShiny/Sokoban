@@ -10,28 +10,38 @@ public class InfoPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private Game game;
+	
 	private Grid grid;
 	
-	JLabel movesCount;
+	private JLabel fps;
 	
-	JLabel pushesCount;
+	private JLabel movesCount;
 	
-	public InfoPanel(Grid grid) {
+	private JLabel pushesCount;
+	
+	public InfoPanel(Game game, Grid grid) {
+		this.game = game;
 		this.grid = grid;
+		fps = new JLabel();
+		fps.setHorizontalAlignment(JLabel.CENTER);
+		fps.setFont(new Font("arial", 0, 50));
+		add(fps);
 		movesCount = new JLabel();
 		movesCount.setHorizontalAlignment(JLabel.CENTER);
-		movesCount.setFont(new Font("arial", 0, 40));
+		movesCount.setFont(new Font("arial", 0, 50));
 		add(movesCount);
 		pushesCount = new JLabel();
 		pushesCount.setHorizontalAlignment(JLabel.CENTER);
-		pushesCount.setFont(new Font("arial", 0, 40));
+		pushesCount.setFont(new Font("arial", 0, 50));
 		add(pushesCount);
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		setBackground(Game.BLEU_CLAIR);
-		movesCount.setText("Moves: "+grid.getMovementTracker().getMovesCount());
+		fps.setText("FPS: " + game.getFps());
+		movesCount.setText("Moves: " + grid.getMovementTracker().getMovesCount());
 		pushesCount.setText("Pushes: " + grid.getMovementTracker().getPushesCount());
 	}
 }

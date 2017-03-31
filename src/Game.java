@@ -17,6 +17,8 @@ public class Game implements Runnable {
 	public static final String TITLE = "Sokoban";
 	
 	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
+	
+	public static final int FPS_CAP = 60;
 
 	private boolean running = false;
 	private Menu menu = new Menu(this);
@@ -24,6 +26,7 @@ public class Game implements Runnable {
 	private Grid grid;
 	private Display window;
 	private DisplayLevel level;
+	private int fpsTemp = 0;
 	
 	//Plutot que de deplacer player depuis le grid, creer un nouvelle classe (avec un string et un int comme attributs)
 	//et faire en sorte que grid retourne les points acquis a a la fin d'un niveau. A chaque nouveau niveau, nouveau grid
@@ -44,13 +47,30 @@ public class Game implements Runnable {
 		return state;
 	}
 	
+	public int getFps() {
+		return fpsTemp;
+	}
+	
 	/**
 	 * The game loop.
 	 */
 	@Override
 	public void run() {
+		int fps = 0;
+		long timer = System.currentTimeMillis();
 		while (running) {
-			getWindow().refresh();
+			try {
+				Thread.sleep(1000/Game.FPS_CAP);
+				getWindow().refresh();
+				fps++;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (System.currentTimeMillis() - timer >= 1000) {
+				fpsTemp = fps;
+				fps = 0;
+				timer += 1000;
+			}
 		}
 	}
 	

@@ -86,7 +86,7 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(menuButton);
 		
-		InfoPanel infoPanel = new InfoPanel(grid);
+		InfoPanel infoPanel = new InfoPanel(game, grid);
 		infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
 		infoPanel.setOpaque(true);
 		add(infoPanel, BorderLayout.WEST);
