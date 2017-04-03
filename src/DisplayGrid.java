@@ -1,6 +1,6 @@
+
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -28,7 +28,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	
 	private int cellSize = 64;
 	
-	private int borderThickness = 10;
+	private int borderThickness = 5;
 	
 	public DisplayGrid (Grid grid) {
 		addKeyListener(this);

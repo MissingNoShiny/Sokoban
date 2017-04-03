@@ -202,6 +202,7 @@ public class Grid {
 	}
 	
 	public static Grid readGrid (String path) throws IOException {
+		int crateCount = 0, goalCount = 0;
 		if (!path.endsWith(".xsb"))
 			throw new IOException();
 		Grid grid = null;
@@ -212,6 +213,8 @@ public class Grid {
 			int height = 1, width;
 			width = buff.readLine().length();
 			while ((ligne = buff.readLine())!=null){
+				if (ligne.length() > width)
+					width = ligne.length();
 				height++;
 			}
 			grid = new Grid(width, height, true);
@@ -232,30 +235,37 @@ public class Grid {
 					case ('$'):
 						grid.placeComponentAt(j, i, new Ground());
 						grid.addCrate(j, i);
+						crateCount++;
 						break;
 					case(' ') :
 						grid.placeComponentAt(j, i, new Ground());
 						break;
 					case('.') :
 						grid.placeComponentAt(j, i, new Goal());
+						goalCount++;
 						break;
 					case ('@'):
 						grid.placeComponentAt(j, i, new Ground());
 						grid.setPlayer(j, i);
 						break;
 					case ('+'):
-						grid.placeComponentAt(j, i, new Goal());					
+						grid.placeComponentAt(j, i, new Goal());
+						goalCount++;
 						grid.setPlayer(j, i);
 						break;
 					case ('*'):
 						grid.placeComponentAt(j, i, new Goal());
+						goalCount++;
 						grid.addCrate(j, i);
+						crateCount++;
 					}
 				}
 				while(j < width) {
-					grid.placeComponentAt(j, i, new Wall());
+					grid.placeComponentAt(j, i, new Ground());
 					j++;
 				}
+				if (goalCount != crateCount) 
+					throw new IOException();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
