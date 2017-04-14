@@ -9,4 +9,8 @@ Vincent:
 - Adapter l'affichage de la grid pour que tout soit affiché dans le sous-panel de DisplayLevel
 
 
-Pour le background, va voir ce que j'ai fait dans le displayGrid ligne 64. C'est peut etre ca qui n'allait pas.
+#Pour le background, va voir ce que j'ai fait dans le displayGrid ligne 64. C'est peut etre ca qui n'allait pas.
+
+Attention, pour le pattern9, il faut verifier
+
+PARTOUT : il faut harmoniser ordre des arguments (width avant height notamment)

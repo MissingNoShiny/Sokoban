@@ -81,7 +81,7 @@ public class DisplayLevel extends JPanel{
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				game.loadMenu();
-				grid.saveGrid("level1_saved", game);
+				//grid.saveGrid("level1_saved", game);
 			}
 		});
 		buttonsPanel.add(menuButton);
