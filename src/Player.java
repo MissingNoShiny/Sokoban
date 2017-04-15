@@ -39,11 +39,14 @@ public class Player extends Position {
 			break;
 		}
 		
-		if (newX < grid.getHeight() && newX > 0 && newY < grid.getWidth() && newY > 0) {
-			if (grid.getComponentAt(newX, newY).canGoTrough()) 
+		if (newX < grid.getWidth() && newX >= 0 && newY < grid.getHeight() && newY >= 0) {
+			if (grid.getComponentAt(newX, newY).canGoTrough()) {
 				test = true;
+			}
+
 			else if (grid.hasCrateAt(newX, newY)) 
 				test = grid.getCrateAt(newX, newY).canMove(dir);
+
 		}
 		return test;
 	}

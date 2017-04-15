@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Description
@@ -41,8 +40,6 @@ public class Grid {
 	Player player;
 	
 	private MovementTracker tracker;
-	
-	private final static int patternSize = 5;
 	
 	/**
 	 * Creates an object containing an empty matrix of specified width and height.
@@ -142,6 +139,7 @@ public class Grid {
 		return (Crate) getComponentAt(x, y);
 	}
 	
+	/*
 	public void fill(Component component) {
 		int i, j;
 		for (j = 0; j < width; j++) {
@@ -149,6 +147,7 @@ public class Grid {
 				matrix[i][j] = component;
 		}
 	}
+	*/
 
 	public void saveGrid(String path, Game game) {
 		File file = new File("..\\levels\\saved\\" + path + ".xsb");
@@ -284,116 +283,6 @@ public class Grid {
 				}
 			}
 	 	}
-		return grid;
-	}
-	
-	private static Component[][] returnPattern(int numberPattern){
-		Component[][] tab = new Component[patternSize][patternSize];
-		BufferedReader buff = null;
-		try {
-			buff = new BufferedReader(new InputStreamReader(new FileInputStream("../patterns/pattern"+ Integer.toString(numberPattern) + ".txt")));
-			String ligne;
-			Character character;
-			for (int i = 0; i < patternSize; i++){
-				ligne = buff.readLine();
-				for (int j = 0; j < patternSize; j++) {
-					character = ligne.charAt(j);
-					switch(character){
-					case ' ':
-						tab[i][j] = new Ground();
-						break;
-					case '#':
-						tab[i][j] = new Wall();
-						break;
-					case 'B':
-						tab[i][j] = new Blank();
-						break;
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (buff !=null) {
-				try {
-					buff.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-	 	}
-		return tab;
-	}
-	
-	private static boolean canPlaceArround(Grid grid, int x, int y, Component[][] pattern) {
-		for (int i = x-1; i < x+4; i++){
-			if (i >= 0 && y-1 >= 0 && i < grid.getWidth() && y-1 < grid.getHeight()){
-				if (! pattern[i-x+1][0].getSpriteName().equals("Blank")){
-					if (!grid.getComponentAt(i, y-1).getSpriteName().equals(pattern[i-x+1][0]))
-						return false;
-				}
-			}
-		}
-		for (int j = y; j < y+4; j++){
-			if (x-1 >= 0 && j >= 0 && x-1 < grid.getWidth() && j < grid.getHeight()){
-				if (! pattern[0][0].getSpriteName().equals("Blank")){
-					if (!grid.getComponentAt(x-1, j).getSpriteName().equals(pattern[0][j-y+1]))
-						return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private static void placeArround(Grid grid, int x, int y, Component[][] pattern){
-		for (int i = x-1; i < x+4; i++){
-			for (int j = y-1; j < y+4; j++){
-				if (i >= 0 && j >= 0 && i < grid.getWidth() && j < grid.getHeight()){
-					if (! pattern[i-x+1][j-y+1].getSpriteName().equals("Blank"))
-						grid.placeComponentAt(i, j, pattern[i-x+1][j-y+1]);
-				}
-			}
-		}
-	}
-	
-	public static void turnPattern(Component[][] pattern) {
-		Component[][] tmp = new Component[patternSize][patternSize];
-		for (int i = 0; i < patternSize; i++){
-			for (int j = 0; j < patternSize; j++)
-				tmp[i][j] = pattern[patternSize-1-j][i];
-		}
-	}
-	
-	private static Grid generateRoom(int width, int height) {
-		Grid grid = new Grid(width, height, true);
-		int numberRotations;
-		Component[][] pattern = new Component[patternSize][patternSize];
-		Random rand = new Random();
-		for (int i = 0; i <= grid.getWidth(); i+=3){
-			for (int j = 0; j <= grid.getHeight(); j+=3){
-				do {
-					pattern = returnPattern(rand.nextInt(17));
-					numberRotations = 0;
-					while (!canPlaceArround(grid, i, j, pattern) && numberRotations < 4){
-						turnPattern(pattern);
-						numberRotations++;
-					}
-				}while (!canPlaceArround(grid, i, j, pattern));
-				placeArround(grid, i, j, pattern);
-			}
-		}
-		return grid;
-	}
-	
-	private static boolean validateRoom (Grid grid) {
-		return true;
-	}
-	
-	public static Grid generateGrid(int width, int height) {
-		Grid grid;
-		do {
-			grid = generateRoom(width, height);
-		}while(!validateRoom(grid));
 		return grid;
 	}
 }
