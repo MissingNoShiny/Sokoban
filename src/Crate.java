@@ -28,7 +28,6 @@ public class Crate extends Position {
 	
 	public boolean canMove(Direction dir) {
 		boolean test = true;
-		int x = getX(), y = getY();
 		switch (dir) {
 		case UP:
 			if (y-1 < 0 || !grid.getComponentAt(x, y-1).canGoTrough())
@@ -60,27 +59,27 @@ public class Crate extends Position {
 	 * Peut etre ensuite faire en sorte que position implemente movable et faire passer les moveUp, etc. dans position
 	 */
 	
-	public void moveTo(int x, int y) {
-		grid.placeComponentAt(getX(), getY(), getSupport());
-		setSupport(grid.getComponentAt(x, y));
-		setX(x);
-		setY(y);
-		grid.placeComponentAt(x, y, this);
+	public void moveTo(int newX, int newY) {
+		grid.placeComponentAt(x, y, getSupport());
+		setSupport(grid.getComponentAt(newX, newY));
+		setX(newX);
+		setY(newY);
+		grid.placeComponentAt(newX, newY, this);
 	}
 	
 	public void move(Direction dir) {
 		switch (dir) {
 		case UP:
-			moveTo(getX(), getY()-1);
+			moveTo(x, y-1);
 			break;
 		case RIGHT:
-			moveTo(getX()+1, getY());
+			moveTo(x+1, y);
 			break;
 		case DOWN:
-			moveTo(getX(), getY()+1);
+			moveTo(x, y+1);
 			break;
 		case LEFT:
-			moveTo(getX()-1, getY());
+			moveTo(x-1, y);
 			break;
 		}
 	}

@@ -8,12 +8,12 @@ public abstract class Position extends Component{
 	/**
 	 * The X-coordinate of the object.
 	 */
-	private int x;
+	protected int x;
 	
 	/**
 	 * The Y-coordinate of the object.
 	 */
-	private int y;
+	protected int y;
 	
 
 	/**

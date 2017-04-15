@@ -95,19 +95,19 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			break;
 		case KeyEvent.VK_UP:
 			grid.getPlayer().setDirection(Direction.UP);
-			grid.getPlayer().move(grid);
+			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_DOWN :
 			grid.getPlayer().setDirection(Direction.DOWN);
-			grid.getPlayer().move(grid);
+			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_RIGHT:
 			grid.getPlayer().setDirection(Direction.RIGHT);
-			grid.getPlayer().move(grid);
+			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_LEFT:
 			grid.getPlayer().setDirection(Direction.LEFT);
-			grid.getPlayer().move(grid);
+			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 
 		default :

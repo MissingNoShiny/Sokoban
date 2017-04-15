@@ -106,37 +106,42 @@ public class MovementTracker {
 		Player player = grid.getPlayer();
 		if (moves.isEmpty())
 			return;
-		Crate crate;
 		Character c = moves.get(moves.size()-1);
 		moves.remove(moves.size()-1);
 		movesCount--;
 		switch(c){
+		/*
+		 * Il y a un problème parce que la methode move incremente movesCount. 
+		 * Il faudra arriver a enlever le movement tracker du player (par exemple en utilisant systematiquement le
+		 * canMove avant le move.
+		 */
+		
 		case('u'):
-			player.moveBack(grid, Direction.UP);
+			player.move(grid, Direction.DOWN);
 			break;
 		case('d'):
-			player.moveBack(grid, Direction.DOWN);
+			player.move(grid, Direction.UP);
 			break;
 		case('r'):
-			player.moveBack(grid, Direction.RIGHT);
+			player.move(grid, Direction.LEFT);
 			break;
 		case('l'):
-			player.moveBack(grid, Direction.LEFT);
+			player.move(grid, Direction.RIGHT);
 			break;
 		case('U'):
-			player.pullCrate(grid, Direction.UP);
+			player.pullCrateDown(grid);
 			pushesCount--;
 			break;	
 		case('D'):
-			player.pullCrate(grid, Direction.DOWN);
+			player.pullCrateUp(grid);
 			pushesCount--;
 			break;	
 		case('R'):
-			player.pullCrate(grid, Direction.RIGHT);
+			player.pullCrateLeft(grid);
 			pushesCount--;
 			break;	
 		case('L'):
-			player.pullCrate(grid, Direction.LEFT);
+			player.pullCrateRight(grid);
 			pushesCount--;
 			break;	
 		}

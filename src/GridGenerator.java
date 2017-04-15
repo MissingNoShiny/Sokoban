@@ -16,6 +16,7 @@ public class GridGenerator {
 		}while(!validateRoom(grid, numberCrates));
 		placeGoals(grid, numberCrates);
 		placePlayer(grid);
+		//movePlayer(grid, 100);
 		return grid;
 	}
 	
@@ -32,13 +33,13 @@ public class GridGenerator {
 					character = ligne.charAt(j);
 					switch(character){
 					case ' ':
-						tab[i][j] = new Ground();
+						tab[j][i] = new Ground();
 						break;
 					case '#':
-						tab[i][j] = new Wall();
+						tab[j][i] = new Wall();
 						break;
 					case 'B':
-						tab[i][j] = new Blank();
+						tab[j][i] = new Blank();
 						break;
 					}
 				}
@@ -59,18 +60,14 @@ public class GridGenerator {
 	
 	private static boolean canPlaceArround(Grid grid, int x, int y, Component[][] pattern) {
 		for (int i = x-1; i < x+4; i++){
-			if (i >= 0 && y-1 >= 0 && i < grid.getWidth() && y-1 < grid.getHeight()){
-				if (! pattern[i-x+1][0].getSpriteName().equals("Blank")){
-					if (!grid.getComponentAt(i, y-1).getSpriteName().equals(pattern[i-x+1][0]))
-						return false;
-				}
-			}
-		}
-		for (int j = y; j < y+4; j++){
-			if (x-1 >= 0 && j >= 0 && x-1 < grid.getWidth() && j < grid.getHeight()){
-				if (! pattern[0][0].getSpriteName().equals("Blank")){
-					if (!grid.getComponentAt(x-1, j).getSpriteName().equals(pattern[0][j-y+1]))
-						return false;
+			for (int j = y-1; j < y+4; j++){
+				if (i >= 0 && j >= 0 && i < grid.getWidth() && j < grid.getHeight()){
+					if (! pattern[i-x+1][j-y+1].getSpriteName().equals("Blank")){
+						if (! grid.getComponentAt(i, j).getSpriteName().equals("Blank")){
+							if (! grid.getComponentAt(i, j).getSpriteName().equals(pattern[i-x+1][j-y+1].getSpriteName()))
+								return false;
+						}
+					}
 				}
 			}
 		}
@@ -99,19 +96,20 @@ public class GridGenerator {
 	
 	private static Grid generateRoom(int width, int height) {
 		Grid grid = new Grid(width, height, true);
+		grid.fill(new Blank());
 		int numberRotations;
 		Component[][] pattern = new Component[patternSize][patternSize];
 		Random rand = new Random();
-		for (int i = 0; i <= grid.getWidth(); i+=3){
-			for (int j = 0; j <= grid.getHeight(); j+=3){
+		for (int i = 0; i < grid.getWidth(); i+=3){
+			for (int j = 0; j < grid.getHeight(); j+=3){
 				do {
 					pattern = getPattern(rand.nextInt(17));
 					numberRotations = 0;
-					while (!canPlaceArround(grid, i, j, pattern) && numberRotations < 4){
+					while (! canPlaceArround(grid, i, j, pattern) && numberRotations < 4){
 						turnPattern(pattern);
 						numberRotations++;
 					}
-				}while (!canPlaceArround(grid, i, j, pattern));
+				}while (! canPlaceArround(grid, i, j, pattern));
 				placeArround(grid, i, j, pattern);
 			}
 		}
@@ -192,9 +190,7 @@ public class GridGenerator {
 		}
 	}
 	
-	/*
-	 * Il serait surement intéressant de fusionner cette methode avec celle d'au dessus.
-	 */
+	
 	private static void placePlayer(Grid grid) {
 		Random rand = new Random();
 		boolean test = false;
@@ -205,6 +201,23 @@ public class GridGenerator {
 			if (grid.getComponentAt(x, y).getSpriteName().equals("Ground")) {
 				grid.setPlayer(x, y);
 				test = true;
+			}
+		}
+	}
+	
+	private static void movePlayer(Grid grid, int numberMoves) {
+		Random rand = new Random();
+		int intRandom;
+		Direction oldDirection, newDirection;
+		oldDirection = grid.getPlayer().getDirection();
+		//Pour ne pas devoir faire un switch
+		Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
+		while (numberMoves > 0) {
+			intRandom = rand.nextInt(4);
+			newDirection = directions[intRandom];
+			grid.getPlayer().setDirection(directions[intRandom]);
+			if (!oldDirection.equals(newDirection)){
+				numberMoves--;
 			}
 		}
 	}

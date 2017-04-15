@@ -123,12 +123,7 @@ public class Grid {
 		crates.add(new Crate(x, y, this));
 	}
 	
-	/*
-	public void addGoal(int x, int y) {
-		goals.add(new Goal());
-	}
-	*/
-	
+
 	public boolean hasCrateAt (int x, int y) {
 		String nameComponent = getComponentAt(x, y).getSpriteName();
 		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
@@ -140,14 +135,16 @@ public class Grid {
 	}
 	
 	/*
+	 * Attention, le fill ne remplit pas tous le tableau avec des instances differentes d'une même classe, mais avec
+	 * la même objet a chaque fois. Toutes les cases pointent vers le même objet.
+	 */
 	public void fill(Component component) {
-		int i, j;
-		for (j = 0; j < width; j++) {
-			for (i = 0; i < height; i++)
-				matrix[i][j] = component;
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++)
+				matrix[j][i] = component;
 		}
 	}
-	*/
+
 
 	public void saveGrid(String path, Game game) {
 		File file = new File("..\\levels\\saved\\" + path + ".xsb");

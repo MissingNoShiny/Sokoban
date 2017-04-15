@@ -21,7 +21,7 @@ public class Player extends Position {
 	 * @param dir
 	 */
 	public boolean canMove(Grid grid, Direction dir) {
-		int newX = getX(), newY = getY();
+		int newX = x, newY = y;
 		boolean test = false;
 		
 		switch (dir) {
@@ -51,11 +51,16 @@ public class Player extends Position {
 		return test;
 	}
 	
-	public void move(Grid grid) {
-		if (canMove(grid, direction)) {
-			int newX = getX();
-			int newY = getY();
-			switch (direction) {
+	/**
+	 * Pour le moment, ca ne gene pas encore, mais il faut a l'avenir
+	 * que partout on utilise le can move avant le move afin d'enlever le canMove d'ici
+	 * @param grid
+	 * @param dir
+	 */
+	public void move(Grid grid, Direction dir) {
+		if (canMove(grid, dir)) {
+			int newX = getX(), newY = getY();
+			switch (dir) {
 			case UP:
 				newY--; 
 				break;
@@ -71,7 +76,7 @@ public class Player extends Position {
 			}
 			
 			if (grid.hasCrateAt(newX, newY)){
-				grid.getCrateAt(newX, newY).move(direction);
+				grid.getCrateAt(newX, newY).move(dir);
 				grid.getMovementTracker().addPush();
 			}
 			else
@@ -81,65 +86,30 @@ public class Player extends Position {
 		}
 	}
 	
-	/*
-	 * Les fonctions moveBack et pullCrate sont facilement fusionnables, si il faut vraiment
-	 * Le probleme avec les fonctions moveBack et pullCrate actuelles, c'est qu'elles rendent en partie inutile le switch
-	 * du movementTracker
-	 * Peut etre serait il preferable de separer ces fonction en 4 fonctions distinctes
+	
+	/**
+	 * The crate is under the player, and the player go up and pull the crate
+	 * ->En realite, je bouge la caisse puis le joueur. C'est pour ne pas devoir adapter les coordonnees a l'avance.
+	 * @param grid
 	 */
-	public void moveBack(Grid grid, Direction dir) {
-		int newX = getX();
-		int newY = getY();
-		switch (dir) {
-		case UP:
-			newY++;
-			break;
-		case RIGHT:
-			newX--;
-			break;
-		case DOWN:
-			newY--;
-			break;
-		case LEFT:
-			newX++;
-			break;
-		}
-		setX(newX);
-		setY(newY);
+	public void pullCrateUp (Grid grid) {
+		grid.getCrateAt(x, y+1).move(Direction.UP);
+		setY(y-1);
 	}
 	
-	public void pullCrate (Grid grid, Direction dir) {
-		int newX = getX();
-		int newY = getY();
-		int crateX = getX();
-		int crateY = getY();
-		Direction crateDir = null;
-		switch (dir) {
-		case UP:
-			newY++; 
-			crateY--;
-			crateDir = Direction.DOWN;
-			break;
-		case RIGHT:
-			newX--;
-			crateX++;
-			crateDir = Direction.LEFT;
-			break;
-		case DOWN:
-			newY--;
-			crateY++;
-			crateDir = Direction.UP;
-			break;
-		case LEFT:
-			newX++;
-			crateX--;
-			crateDir = Direction.RIGHT;
-			break;
-		}
-		
-		grid.getCrateAt(crateX, crateY).move(crateDir);
-		setX(newX);
-		setY(newY);
+	public void pullCrateRight (Grid grid) {
+		grid.getCrateAt(x-1, y).move(Direction.RIGHT);
+		setX(x+1);
+	}
+	
+	public void pullCrateDown (Grid grid) {
+		grid.getCrateAt(x, y-1).move(Direction.DOWN);
+		setY(y+1);
+	}
+	
+	public void pullCrateLeft (Grid grid) {
+		grid.getCrateAt(x+1, y).move(Direction.LEFT);
+		setX(x-1);
 	}
 	
 	@Override
