@@ -112,21 +112,20 @@ public class MovementTracker {
 		switch(c){
 		/*
 		 * Il y a un problème parce que la methode move incremente movesCount. 
-		 * Il faudra arriver a enlever le movement tracker du player (par exemple en utilisant systematiquement le
-		 * canMove avant le move.
+		 * Il faudrait arriver a enlever le movement tracker du player
 		 */
 		
 		case('u'):
-			player.move(grid, Direction.DOWN);
+			player.moveBackDown(grid);
 			break;
 		case('d'):
-			player.move(grid, Direction.UP);
+			player.moveBackUp(grid);
 			break;
 		case('r'):
-			player.move(grid, Direction.LEFT);
+			player.moveBackLeft(grid);
 			break;
 		case('l'):
-			player.move(grid, Direction.RIGHT);
+			player.moveBackRight(grid);
 			break;
 		case('U'):
 			player.pullCrateDown(grid);

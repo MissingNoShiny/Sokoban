@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 public class DisplayGrid extends JPanel implements KeyListener{
 	
 
-
 	/**
 	 * 
 	 */
@@ -95,26 +94,26 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			break;
 		case KeyEvent.VK_UP:
 			grid.getPlayer().setDirection(Direction.UP);
-			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_DOWN :
 			grid.getPlayer().setDirection(Direction.DOWN);
-			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_RIGHT:
 			grid.getPlayer().setDirection(Direction.RIGHT);
-			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_LEFT:
 			grid.getPlayer().setDirection(Direction.LEFT);
-			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
 			break;
 
 		default :
 			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 		}
+		if (grid.getPlayer().canMove(grid, true, grid.getPlayer().getDirection())) {
+			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
+		}
+
 		if (grid.isWon())
-			System.out.println("Vivent les castors");
+			System.out.println("Vivent les castors!");
 	}
 
 	@Override

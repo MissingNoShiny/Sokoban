@@ -20,7 +20,7 @@ public class Player extends Position {
 	 * @param grid
 	 * @param dir
 	 */
-	public boolean canMove(Grid grid, Direction dir) {
+	public boolean canMove(Grid grid, boolean canPushCrate, Direction dir) {
 		int newX = x, newY = y;
 		boolean test = false;
 		
@@ -44,7 +44,7 @@ public class Player extends Position {
 				test = true;
 			}
 
-			else if (grid.hasCrateAt(newX, newY)) 
+			else if (canPushCrate && grid.hasCrateAt(newX, newY)) 
 				test = grid.getCrateAt(newX, newY).canMove(dir);
 
 		}
@@ -58,35 +58,46 @@ public class Player extends Position {
 	 * @param dir
 	 */
 	public void move(Grid grid, Direction dir) {
-		if (canMove(grid, dir)) {
-			int newX = getX(), newY = getY();
-			switch (dir) {
-			case UP:
-				newY--; 
-				break;
-			case RIGHT:
-				newX++;
-				break;
-			case DOWN:
-				newY++;
-				break;
-			case LEFT:
-				newX--;
-				break;
-			}
-			
-			if (grid.hasCrateAt(newX, newY)){
-				grid.getCrateAt(newX, newY).move(dir);
-				grid.getMovementTracker().addPush();
-			}
-			else
-				grid.getMovementTracker().addMove();
-			setX(newX);
-			setY(newY);
+		int newX = getX(), newY = getY();
+		switch (dir) {
+		case UP:
+			newY--; 
+			break;
+		case RIGHT:
+			newX++;
+			break;
+		case DOWN:
+			newY++;
+			break;
+		case LEFT:
+			newX--;
+			break;
 		}
+		if (grid.hasCrateAt(newX, newY)){
+			grid.getCrateAt(newX, newY).move(dir);
+			grid.getMovementTracker().addPush();
+		}
+		else
+			grid.getMovementTracker().addMove();
+		setX(newX);
+		setY(newY);
 	}
 	
+	public void moveBackUp (Grid grid) {
+		setY(y-1);
+	}
 	
+	public void moveBackRight (Grid grid) {
+		setX(x+1);
+	}
+	
+	public void moveBackDown (Grid grid) {
+		setY(y+1);
+	}
+	
+	public void moveBackLeft (Grid grid) {
+		setX(x-1);
+	}
 	/**
 	 * The crate is under the player, and the player go up and pull the crate
 	 * ->En realite, je bouge la caisse puis le joueur. C'est pour ne pas devoir adapter les coordonnees a l'avance.
