@@ -89,8 +89,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			break;
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");
-			System.out.println(grid.player.getX() + ", " + grid.player.getY());
-			System.out.println(grid.player.getDirection());
+			System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
+			System.out.println(grid.getPlayer().getDirection());
 			break;
 		case KeyEvent.VK_UP:
 			grid.getPlayer().setDirection(Direction.UP);
@@ -108,8 +108,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		default :
 			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 		}
-		if (grid.getPlayer().canMove(grid, true, grid.getPlayer().getDirection())) {
-			grid.getPlayer().move(grid, grid.getPlayer().getDirection());
+		if (grid.getPlayer().canMove(grid, true)) {
+			grid.getPlayer().move(grid);
 		}
 
 		if (grid.isWon())

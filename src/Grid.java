@@ -30,14 +30,13 @@ public class Grid {
 	private int width;
 	
 	/**
-	 * The array containing the Crates of the level.
+	 * The array containing the list of the crates of the level.
 	 */
-	private ArrayList <Crate> crates; 
+	private ArrayList <Crate> crateList; 
 	
 	//private ArrayList <Goal> goals; 
 	
-	//Attention, quand player est private, tout foire
-	Player player;
+	private Player player;
 	
 	private MovementTracker tracker;
 	
@@ -49,7 +48,7 @@ public class Grid {
 	//Peut etre ajouter instanciation du player dans le constructeur
 	public Grid(int width, int height) {
 		matrix = new Component[height][width];
-		crates = new ArrayList<Crate>(0);
+		crateList = new ArrayList<Crate>(0);
 		this.width = width;
 		this.height = height;
 	}
@@ -102,8 +101,8 @@ public class Grid {
 	public boolean isWon(){
 		boolean test = true;
 		String comp;
-		for (int i = 0; i < crates.size(); i++) {
-			comp = getComponentAt(crates.get(i).getX(), crates.get(i).getY()).getSpriteName();
+		for (int i = 0; i < crateList.size(); i++) {
+			comp = getComponentAt(crateList.get(i).getX(), crateList.get(i).getY()).getSpriteName();
 			if  (! comp.equals("CrateOnGoal")) {
 				test= false;
 			}
@@ -120,7 +119,7 @@ public class Grid {
 	}
 	
 	public void addCrate(int x, int y) {
-		crates.add(new Crate(x, y, this));
+		crateList.add(new Crate(x, y, this));
 	}
 	
 
@@ -132,6 +131,10 @@ public class Grid {
 	//Il faudrait faire en sorte d'obliger à utiliser hasCrateAt avant ceci
 	public Crate getCrateAt(int x, int y) {
 		return (Crate) getComponentAt(x, y);
+	}
+	
+	public ArrayList<Crate> getCrateList() {
+		return crateList;
 	}
 	
 	/*
@@ -202,6 +205,13 @@ public class Grid {
 			}
 		}
 	}
+	
+	/*
+	//Je veux dire qu'on sauvegarde une partie en cours. Rien à voir avec l'objet game.
+	public static void saveGame(Grid grid, String path, MovementTracker tracker) {
+		
+	}
+	*/
 	
 	public static Grid readGrid (String path) throws IOException {
 		int crateCount = 0, goalCount = 0;

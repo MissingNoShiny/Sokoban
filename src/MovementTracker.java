@@ -110,10 +110,6 @@ public class MovementTracker {
 		moves.remove(moves.size()-1);
 		movesCount--;
 		switch(c){
-		/*
-		 * Il y a un problème parce que la methode move incremente movesCount. 
-		 * Il faudrait arriver a enlever le movement tracker du player
-		 */
 		
 		case('u'):
 			player.moveBackDown(grid);
@@ -220,11 +216,55 @@ public class MovementTracker {
 		}
 	}
 	
-	public static void applyToGrid(String pathIn, String pathOut, Game game) throws IOException {
+	/**
+	 * Retourne une notion de distance tenant compte de la complexite
+	 * Concretement, on ne compte pas comme un mouvement un deplacement quand la direction est inchangee par
+	 * rapport au mouvement precedent.
+	 * @return 
+	 */
+	public int getDistanceTraveled() {
+		if (moves.size() > 0)
+			return 0;
+		int distance = 0;
+		for (int i = 0; i < moves.size(); i++) {
+
+		}
+		return distance;
+	}
+	
+	
+	public void applyToGrid(String pathIn, String pathOut, Game game) throws IOException {
 		Grid grid = Grid.readGrid(pathIn);
-		//changements à exécuter
+		Player player = grid.getPlayer();
+		for (int i = 0; i < moves.size(); i++) {
+			switch(moves.get(i)){
+			case('u'):
+			case('U'):
+				player.setDirection(Direction.UP);
+				break;
+			case('r'):
+			case('R'):
+				player.setDirection(Direction.RIGHT);
+				break;
+			case('d'):
+			case('D'):
+				player.setDirection(Direction.DOWN);
+				break;
+			case('l'):
+			case('L'):
+				player.setDirection(Direction.LEFT);
+				break;
+			default :
+				throw new IOException();
+			}
+			if (player.canMove(grid, true))
+				player.move(grid);
+			else 
+				throw new IOException("Grid et machin pas valide");
+		}
 		grid.saveGrid(pathOut, game);
 	}
+	
 	
 	public String toString() {
 		return moves.toString();

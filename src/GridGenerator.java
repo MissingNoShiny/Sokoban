@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-public class GridGenerator {
+public final class GridGenerator {
+	
+	private GridGenerator() {
+		
+	}
 	
 	private final static int patternSize = 5;
 	
@@ -212,12 +216,38 @@ public class GridGenerator {
 		oldDirection = grid.getPlayer().getDirection();
 		//Pour ne pas devoir faire un switch
 		Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
-		while (numberMoves > 0) {
-			intRandom = rand.nextInt(4);
-			newDirection = directions[intRandom];
-			grid.getPlayer().setDirection(directions[intRandom]);
-			if (!oldDirection.equals(newDirection)){
-				numberMoves--;
+		for (int i = 0; i < grid.getCrateList().size(); i++) {
+			goToCrate(grid, grid.getCrateList().get(i));
+			while (numberMoves > 0) {
+				
+				intRandom = rand.nextInt(4);
+				newDirection = directions[intRandom];
+				grid.getPlayer().setDirection(directions[intRandom]);
+			}
+		}
+	}
+	
+	
+	private static void goToCrate(Grid grid, Crate crate) {
+		boolean hasMoved;
+		int playerX, playerY;
+		int crateX = crate.getX();
+		int crateY = crate.getY();
+		while (!grid.getPlayer().isAdjacentTo(crate)) {
+			hasMoved = false;
+			playerX = grid.getPlayer().getX();
+			playerY = grid.getPlayer().getY();
+			if (playerX < crateX){
+				if (grid.getPlayer().canMove(grid, false, Direction.LEFT)){
+					grid.getPlayer().move(grid, Direction.LEFT);
+					hasMoved = true;
+				}
+			}
+			if (playerX > crateX){
+				if (grid.getPlayer().canMove(grid, false, Direction.RIGHT)){
+					grid.getPlayer().move(grid, Direction.RIGHT);
+					hasMoved = true;
+				}
 			}
 		}
 	}

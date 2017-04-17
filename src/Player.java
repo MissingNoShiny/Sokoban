@@ -16,6 +16,10 @@ public class Player extends Position {
 		return direction;
 	}
 	
+	public boolean canMove(Grid grid, boolean canPushCrate) {
+		return canMove(grid, canPushCrate, direction);
+	}
+	
 	/**
 	 * @param grid
 	 * @param dir
@@ -51,9 +55,12 @@ public class Player extends Position {
 		return test;
 	}
 	
+	public void move(Grid grid) {
+		move(grid, direction);
+	}
+	
 	/**
-	 * Pour le moment, ca ne gene pas encore, mais il faut a l'avenir
-	 * que partout on utilise le can move avant le move afin d'enlever le canMove d'ici
+	 * 
 	 * @param grid
 	 * @param dir
 	 */
