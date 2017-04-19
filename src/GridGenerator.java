@@ -1,8 +1,10 @@
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Random;
 
 public final class GridGenerator {
@@ -20,7 +22,7 @@ public final class GridGenerator {
 		}while(!validateRoom(grid, numberCrates));
 		placeGoals(grid, numberCrates);
 		placePlayer(grid);
-		//movePlayer(grid, 100);
+		movePlayer(grid, 100);
 		return grid;
 	}
 	
@@ -211,44 +213,113 @@ public final class GridGenerator {
 	
 	private static void movePlayer(Grid grid, int numberMoves) {
 		Random rand = new Random();
+		Crate crate;
+		Player player = grid.getPlayer();
 		int intRandom;
-		Direction oldDirection, newDirection;
-		oldDirection = grid.getPlayer().getDirection();
+		Direction newDirection;
+		int[][] tab = new int[grid.getWidth()][grid.getHeight()];
+		ArrayList<Crate> crateList = grid.getCrateList();
 		//Pour ne pas devoir faire un switch
 		Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
-		for (int i = 0; i < grid.getCrateList().size(); i++) {
-			goToCrate(grid, grid.getCrateList().get(i));
-			while (numberMoves > 0) {
-				
-				intRandom = rand.nextInt(4);
-				newDirection = directions[intRandom];
-				grid.getPlayer().setDirection(directions[intRandom]);
+		for (int i = 0; i < 1; i++) {
+			crate = crateList.get(i);
+			fillLee(grid, tab, crate.getX(), crate.getY(), player.getX(), player.getY());	
+			/*
+			while (tab[player.getX()][player.getY()]!=0); {
+				System.out.println("erreur");
+				//Trouver moyen de changer de caisse
 			}
+			*/
+			if (tab[player.getX()][player.getY()]!=0)
+				goToPosition(grid, tab, grid.getCrateList().get(i));
+			else
+				System.out.println("erreur");
+			System.out.println("ici");
+			player.setDirection(getDirectionToPullCrate(grid, crate));
+			if (player.canMove(grid, false))
+				player.pullCrate(grid);
+			/*intRandom = rand.nextInt(4);
+			newDirection = directions[intRandom];
+			grid.getPlayer().setDirection(directions[intRandom]);
+			*/
 		}
 	}
 	
 	
-	private static void goToCrate(Grid grid, Crate crate) {
-		boolean hasMoved;
-		int playerX, playerY;
-		int crateX = crate.getX();
-		int crateY = crate.getY();
-		while (!grid.getPlayer().isAdjacentTo(crate)) {
-			hasMoved = false;
-			playerX = grid.getPlayer().getX();
-			playerY = grid.getPlayer().getY();
-			if (playerX < crateX){
-				if (grid.getPlayer().canMove(grid, false, Direction.LEFT)){
-					grid.getPlayer().move(grid, Direction.LEFT);
-					hasMoved = true;
-				}
+	private static void goToPosition(Grid grid, int[][] tab, Position position) {
+		while (tab[grid.getPlayer().getX()][grid.getPlayer().getY()]!=2) {
+			int x = grid.getPlayer().getX();
+			int y = grid.getPlayer().getY();
+			if (y-1 >= 0 && tab[x][y-1]==tab[x][y]-1)
+				grid.getPlayer().move(grid, Direction.UP);
+			else if (x+1 < grid.getWidth() && tab[x+1][y]==tab[x][y]-1)
+				grid.getPlayer().move(grid, Direction.RIGHT);
+			else if (y+1 < grid.getHeight() && tab[x][y+1]==tab[x][y]-1)
+				grid.getPlayer().move(grid, Direction.DOWN);
+			else if (x-1 >= 0 && tab[x-1][y]==tab[x][y]-1)
+				grid.getPlayer().move(grid, Direction.LEFT);
+			
+		}
+	}
+	
+	private static void fillLee(Grid grid, int[][] tab, int xSource, int ySource, int xGoal, int yGoal) {
+		int ind = 0;
+		ArrayList<Point> list = new ArrayList<Point>(0);
+		list.add(new Point(xSource, ySource));
+		while(list.size()>0){
+			ind++;
+			int size = list.size();
+			for (int i = 0; i < size; i++){
+				int x = (int)list.get(i).getX();
+				int y = (int)list.get(i).getY();
+				tab[x][y] = ind;
+				if (x==xGoal && y == yGoal)
+					return;
+				if (y-1>=0 && tab[x][y-1] == 0)
+					if (grid.getComponentAt(x, y-1).canGoTrough())
+						list.add(new Point(x, y-1));
+					else
+						tab[x][y-1] = -1;
+				if (x+1<grid.getWidth() && tab[x+1][y] == 0)
+					if (grid.getComponentAt(x+1, y).canGoTrough())
+						list.add(new Point(x+1, y));
+					else
+						tab[x+1][y] = -1;
+				if (y+1<grid.getHeight() && tab[x][y+1]==0)
+					if (grid.getComponentAt(x, y+1).canGoTrough())
+						list.add(new Point(x, y+1));
+					else
+						tab[x][y+1] = -1;
+				if (x-1>=0 && tab[x-1][y] == 0)
+					if (grid.getComponentAt(x-1, y).canGoTrough())
+						list.add(new Point(x-1, y));
+					else
+						tab[x-1][y] = -1;
 			}
-			if (playerX > crateX){
-				if (grid.getPlayer().canMove(grid, false, Direction.RIGHT)){
-					grid.getPlayer().move(grid, Direction.RIGHT);
-					hasMoved = true;
-				}
+			for(int i = 0; i<size; i++){
+				list.remove(0);
 			}
 		}
+	}
+	
+	private static Direction getDirectionToPullCrate(Grid grid, Crate crate) {
+		int x = grid.getPlayer().getX();
+		int y = grid.getPlayer().getY();
+		int crateX = crate.getX();
+		int crateY = crate.getY();
+		if (y-1 >= 0 && x == crateX && y-1 == crateY)
+			return Direction.DOWN;
+		if (x+1 < grid.getWidth() && x+1 == crateX && y == crateY)
+			return Direction.LEFT;
+		if (y+1 < grid.getHeight() && x == crateX && y+1 == crateY)
+			return Direction.UP;
+		if (x-1 >= 0 && x-1 == crateX && y == crateY)
+			return Direction.RIGHT;
+		//Il faudra mettre le return Direction.Right dans le else, mais attendons que ca fonctionne
+		else{
+			System.out.println("Ca foire");
+			return null;
+		}
+
 	}
 }

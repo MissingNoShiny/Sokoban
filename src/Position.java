@@ -63,6 +63,7 @@ public abstract class Position extends Component{
 		y = inputY;
 	}
 	
+	/*
 	public boolean isAdjacentTo(Position other) {
 		int xGap = Math.abs(x - other.getX());
 		int yGap = Math.abs(y - other.getY());
@@ -72,4 +73,5 @@ public abstract class Position extends Component{
 			return true;
 		return false;
 	}
+	*/
 }

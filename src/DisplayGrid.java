@@ -47,7 +47,6 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	
 	public void paintComponent(Graphics g) {
 
-		int i, j;
 		while (grid.getWidth()*cellSize + 4*borderThickness > this.getWidth() || grid.getHeight()*cellSize + 4*borderThickness > this.getHeight())
 			cellSize --;
 		int midX = this.getWidth()/2;
@@ -63,8 +62,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		g2.setColor(new Color (50, 50, 50));
 		g2.drawRect(x0 - borderThickness, y0 - borderThickness, (grid.getWidth()*cellSize) + 2*borderThickness, (grid.getHeight()*cellSize) + 2*borderThickness);
 
-		for (j = 0; j < grid.getHeight(); j++) {
-			for (i = 0; i < grid.getWidth(); i++)
+		for (int j = 0; j < grid.getHeight(); j++) {
+			for (int i = 0; i < grid.getWidth(); i++)
 				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getSpriteName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);

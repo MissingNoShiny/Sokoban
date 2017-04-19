@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -225,11 +226,15 @@ public class MovementTracker {
 	public int getDistanceTraveled() {
 		if (moves.size() > 0)
 			return 0;
-		int distance = 0;
-		for (int i = 0; i < moves.size(); i++) {
-
+		int count = 0;
+		char oldDir = Character.toLowerCase(moves.get(0));
+		for (int i = 1; i < moves.size(); i++) {
+			char newDir = Character.toLowerCase(moves.get(i));
+			if (newDir != oldDir)
+				count++;
+			oldDir = newDir;
 		}
-		return distance;
+		return count;
 	}
 	
 	

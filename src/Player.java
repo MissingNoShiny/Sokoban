@@ -90,42 +90,62 @@ public class Player extends Position {
 		setY(newY);
 	}
 	
-	public void moveBackUp (Grid grid) {
+	public void moveBackUp(Grid grid) {
 		setY(y-1);
 	}
 	
-	public void moveBackRight (Grid grid) {
+	public void moveBackRight(Grid grid) {
 		setX(x+1);
 	}
 	
-	public void moveBackDown (Grid grid) {
+	public void moveBackDown(Grid grid) {
 		setY(y+1);
 	}
 	
-	public void moveBackLeft (Grid grid) {
+	public void moveBackLeft(Grid grid) {
 		setX(x-1);
+	}
+	
+	public void pullCrate(Grid grid) {
+		pullCrate(grid, direction);
+	}
+	
+	public void pullCrate(Grid grid, Direction dir) {
+		switch (dir){
+		case UP:
+			pullCrateUp(grid);
+			break;
+		case RIGHT:
+			pullCrateRight(grid);
+			break;
+		case DOWN:
+			pullCrateDown(grid);
+			break;
+		case LEFT:
+			pullCrateLeft(grid);
+		}
 	}
 	/**
 	 * The crate is under the player, and the player go up and pull the crate
 	 * ->En realite, je bouge la caisse puis le joueur. C'est pour ne pas devoir adapter les coordonnees a l'avance.
 	 * @param grid
 	 */
-	public void pullCrateUp (Grid grid) {
+	public void pullCrateUp(Grid grid) {
 		grid.getCrateAt(x, y+1).move(Direction.UP);
 		setY(y-1);
 	}
 	
-	public void pullCrateRight (Grid grid) {
+	public void pullCrateRight(Grid grid) {
 		grid.getCrateAt(x-1, y).move(Direction.RIGHT);
 		setX(x+1);
 	}
 	
-	public void pullCrateDown (Grid grid) {
+	public void pullCrateDown(Grid grid) {
 		grid.getCrateAt(x, y-1).move(Direction.DOWN);
 		setY(y+1);
 	}
 	
-	public void pullCrateLeft (Grid grid) {
+	public void pullCrateLeft(Grid grid) {
 		grid.getCrateAt(x+1, y).move(Direction.LEFT);
 		setX(x-1);
 	}
