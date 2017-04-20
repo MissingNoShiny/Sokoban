@@ -85,8 +85,8 @@ public class Crate extends Position {
 	}
 	
 	@Override
-	public String getSpriteName () {
-		if (getSupport().getSpriteName().equals("Goal"))
+	public String getName () {
+		if (getSupport().getName().equals("Goal"))
 			return "CrateOnGoal";	
 		return "Crate";
 	}

@@ -61,7 +61,7 @@ public class DisplayLevel extends JPanel{
 		undoButton.addMouseListener(new ButtonListener(undoButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				grid.getMovementTracker().undo();
+				grid.getPlayer().getTracker().undo(grid);
 			}
 		});
 		buttonsPanel.add(undoButton);
@@ -70,7 +70,7 @@ public class DisplayLevel extends JPanel{
 		resetButton.addMouseListener(new ButtonListener(resetButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				grid.getMovementTracker().reset();
+				grid.getPlayer().getTracker().reset(grid);
 			}
 		});
 		buttonsPanel.add(resetButton);

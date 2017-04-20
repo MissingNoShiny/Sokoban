@@ -63,10 +63,12 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		g2.drawRect(x0 - borderThickness, y0 - borderThickness, (grid.getWidth()*cellSize) + 2*borderThickness, (grid.getHeight()*cellSize) + 2*borderThickness);
 
 		for (int j = 0; j < grid.getHeight(); j++) {
-			for (int i = 0; i < grid.getWidth(); i++)
-				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
+			for (int i = 0; i < grid.getWidth(); i++){
+				if (!grid.getComponentAt(i, j).getName().equals("Blank"))
+					g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
+			}
 		}
-		g.drawImage(sprites.get(grid.getPlayer().getSpriteName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
+		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 	}
 	
 	public void addToMap(Map<String, Image> map, String comp, String nameResource) {
@@ -84,7 +86,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		int input = e.getKeyCode();
 		switch (input){
 		case KeyEvent.VK_R:
-			grid.getMovementTracker().reset();
+			grid.getPlayer().getTracker().reset(grid);
 			break;
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");

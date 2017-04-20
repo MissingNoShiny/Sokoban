@@ -1,7 +1,7 @@
 
 public abstract class Component {
 
-	public String getSpriteName () {
+	public String getName () {
 		return getClass().getSimpleName();
 	}
 	

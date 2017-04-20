@@ -14,15 +14,42 @@ public final class GridGenerator {
 	}
 	
 	private final static int patternSize = 5;
+	//patternSize doit etre un impair
 	
 	public static Grid generateGrid(int width, int height, int numberCrates) {
 		Grid grid;
 		do {
 			grid = generateRoom(width, height);
-		}while(!validateRoom(grid, numberCrates));
+		}while(!isGroundConnected(grid, numberCrates));
 		placeGoals(grid, numberCrates);
 		placePlayer(grid);
+		removeUselessWall(grid);
 		movePlayer(grid, 100);
+		grid.getPlayer().getTracker().empty();
+		return grid;
+	}
+	
+	
+	private static Grid generateRoom(int width, int height) {
+		Grid grid = new Grid(width, height);
+		grid.fill(new Blank());
+		int step = patternSize/2+1;
+		int numberRotations;
+		Component[][] pattern = new Component[patternSize][patternSize];
+		Random rand = new Random();
+		for (int i = 2; i < grid.getWidth(); i+=step){
+			for (int j = 2; j < grid.getHeight(); j+=step){
+				do {
+					pattern = getPattern(rand.nextInt(17));
+					numberRotations = rand.nextInt(4);
+					for (int k = 0; k < numberRotations; k++)
+						turnPattern(pattern);
+				}while (! canplaceHere(grid, i, j, pattern));
+				placeHere(grid, i, j, pattern);
+			}
+		}
+		surroundGridWithWalls(grid);
+		//discardDeadEnds(grid);
 		return grid;
 	}
 	
@@ -64,13 +91,14 @@ public final class GridGenerator {
 		return tab;
 	}
 	
-	private static boolean canPlaceArround(Grid grid, int x, int y, Component[][] pattern) {
-		for (int i = x-1; i < x+4; i++){
-			for (int j = y-1; j < y+4; j++){
+	private static boolean canplaceHere(Grid grid, int x, int y, Component[][] pattern) {
+		int half = patternSize/2;
+		for (int i = x-half; i <= x+half; i++){
+			for (int j = y-half; j <= y+half; j++){
 				if (i >= 0 && j >= 0 && i < grid.getWidth() && j < grid.getHeight()){
-					if (! pattern[i-x+1][j-y+1].getSpriteName().equals("Blank")){
-						if (! grid.getComponentAt(i, j).getSpriteName().equals("Blank")){
-							if (! grid.getComponentAt(i, j).getSpriteName().equals(pattern[i-x+1][j-y+1].getSpriteName()))
+					if (! pattern[i-x+half][j-y+half].getName().equals("Blank")){
+						if (! grid.getComponentAt(i, j).getName().equals("Blank")){
+							if (! grid.getComponentAt(i, j).getName().equals(pattern[i-x+half][j-y+half].getName()))
 								return false;
 						}
 					}
@@ -80,12 +108,13 @@ public final class GridGenerator {
 		return true;
 	}
 	
-	private static void placeArround(Grid grid, int x, int y, Component[][] pattern){
-		for (int i = x-1; i < x+4; i++){
-			for (int j = y-1; j < y+4; j++){
+	private static void placeHere(Grid grid, int x, int y, Component[][] pattern){
+		int half = patternSize/2;
+		for (int i = x-half; i <= x+half; i++){
+			for (int j = y-half; j <= y+half; j++){
 				if (i >= 0 && j >= 0 && i < grid.getWidth() && j < grid.getHeight()){
-					if (! pattern[i-x+1][j-y+1].getSpriteName().equals("Blank"))
-						grid.placeComponentAt(i, j, pattern[i-x+1][j-y+1]);
+					if (! pattern[i-x+half][j-y+half].getName().equals("Blank"))
+						grid.placeComponentAt(i, j, pattern[i-x+half][j-y+half]);
 				}
 			}
 		}
@@ -100,28 +129,6 @@ public final class GridGenerator {
 	}
 	
 	
-	private static Grid generateRoom(int width, int height) {
-		Grid grid = new Grid(width, height, true);
-		grid.fill(new Blank());
-		int numberRotations;
-		Component[][] pattern = new Component[patternSize][patternSize];
-		Random rand = new Random();
-		for (int i = 0; i < grid.getWidth(); i+=3){
-			for (int j = 0; j < grid.getHeight(); j+=3){
-				do {
-					pattern = getPattern(rand.nextInt(17));
-					numberRotations = 0;
-					while (! canPlaceArround(grid, i, j, pattern) && numberRotations < 4){
-						turnPattern(pattern);
-						numberRotations++;
-					}
-				}while (! canPlaceArround(grid, i, j, pattern));
-				placeArround(grid, i, j, pattern);
-			}
-		}
-		return grid;
-	}
-	
 	/**
 	 * Je compte tous les "Ground", et je compare par rapport au nombre de "Ground" qu'on peut atteindre a
 	 * partir du premier "ground" trouve en passant uniquement par des Ground.
@@ -129,10 +136,10 @@ public final class GridGenerator {
 	 * @param numberCrates
 	 * @return
 	 */
-	private static boolean validateRoom (Grid grid, int numberCrates) {
+	private static boolean isGroundConnected (Grid grid, int numberCrates) {
 		int numberGrounds, numberAdjacentGrounds;
 		numberGrounds = countAllGrounds(grid);
-		numberAdjacentGrounds = countAdjacentGrounds(grid);
+		numberAdjacentGrounds = countAccessibleGrounds(grid);
 		if (numberGrounds < numberCrates+3 || numberGrounds != numberAdjacentGrounds)
 			return false;
 		return true;
@@ -143,7 +150,7 @@ public final class GridGenerator {
 		int count = 0;
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++){
-				if (grid.getComponentAt(i, j).getSpriteName().equals("Ground"))
+				if (grid.getComponentAt(i, j).getName().equals("Ground"))
 					count++;
 			}
 		}
@@ -151,13 +158,13 @@ public final class GridGenerator {
 	}
 	
 	
-	private static int countAdjacentGrounds (Grid grid) {
+	private static int countAccessibleGrounds (Grid grid) {
 		int count;
 		boolean[][] mat = new boolean[grid.getWidth()][grid.getHeight()];
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++){
-				if (grid.getComponentAt(i, j).getSpriteName().equals("Ground")){
-					count = countAdjacentGrounds(grid, mat, i, j);
+				if (grid.getComponentAt(i, j).getName().equals("Ground")){
+					count = countAccessibleGrounds(grid, mat, i, j);
 					return count;	
 				}
 			}
@@ -165,21 +172,94 @@ public final class GridGenerator {
 		return 0;
 	}
 	
-	private static int countAdjacentGrounds (Grid grid, boolean[][] mat, int x, int y) {
+	private static int countAccessibleGrounds (Grid grid, boolean[][] mat, int x, int y) {
 		int count = 0;
-		if (mat[x][y] == false && grid.getComponentAt(x, y).getSpriteName().equals("Ground")){
+		if (mat[x][y] == false && grid.getComponentAt(x, y).getName().equals("Ground")){
 			count += 1;
 			mat[x][y] = true;
 			if (x > 0)
-				count += countAdjacentGrounds(grid, mat, x-1, y);
+				count += countAccessibleGrounds(grid, mat, x-1, y);
 			if (x < grid.getWidth()-1)
-				count += countAdjacentGrounds(grid, mat, x+1, y);
+				count += countAccessibleGrounds(grid, mat, x+1, y);
 			if (y > 0)
-				count += countAdjacentGrounds(grid, mat, x, y-1);
+				count += countAccessibleGrounds(grid, mat, x, y-1);
 			if (y < grid.getHeight()-1)
-				count += countAdjacentGrounds(grid, mat, x, y+1);
+				count += countAccessibleGrounds(grid, mat, x, y+1);
 		}
 		return count;
+	}
+	
+	private static void discardDeadEnds(Grid grid) {
+		for (int i = 0; i < grid.getWidth(); i++){
+			for (int j = 0; j < grid.getHeight(); j++) {
+				if (grid.getComponentAt(i, j).getName().equals("Ground")){
+					if (grid.countAdjacentComponent("Wall", i, j) > 2){
+						Component[][] pattern;
+						Random rand = new Random();
+						do {
+							System.out.println("ojncdq "+ i + " " + j);
+							pattern = getPattern(rand.nextInt(17));
+							int numberRotations = rand.nextInt(4);
+							for (int k = 0; k < numberRotations; k++)
+								turnPattern(pattern);
+						}while (! canplaceHere(grid, i, j, pattern));
+						placeHere(grid, i, j, pattern);
+					}
+				}
+			}
+		}
+	}
+	
+	private static void surroundGridWithWalls(Grid grid) {
+		Wall wall = new Wall();
+		for (int i = 0; i < grid.getWidth(); i++){
+			grid.placeComponentAt(i, 0, wall);
+			grid.placeComponentAt(i, grid.getHeight()-1, wall);
+		}
+		for (int i = 1; i < grid.getHeight()-1; i++){
+			grid.placeComponentAt(0, i, wall);
+			grid.placeComponentAt(grid.getWidth()-1, i, wall);
+		}
+	}
+	
+	private static void removeUselessWall(Grid grid) {
+		boolean[][] mat = new boolean[grid.getWidth()][grid.getHeight()];
+		flood(grid, mat, grid.getPlayer().getX(), grid.getPlayer().getY());
+		System.out.println(grid.getWidth() + "  "+ grid.getHeight());
+		for (int i = 0; i < grid.getWidth(); i++){
+			for (int j = 0; j < grid.getHeight(); j++){
+				System.out.println(i+" "+j);
+				if (grid.getComponentAt(i, j).getName().equals("Wall") && mat[i][j]==false){
+					int adjacentBorderWallsCount = 0;
+					if (i-1 >= 0 && mat[i-1][j] == true)
+						adjacentBorderWallsCount++;
+					if (i+1 < grid.getWidth() && mat[i+1][j] == true)
+						adjacentBorderWallsCount++;
+					if (j-1 >= 0 && mat[i][j-1] == true)
+						adjacentBorderWallsCount++;
+					if (j+1 < grid.getHeight() && mat[i][j+1] == true)
+						adjacentBorderWallsCount++;
+					if (adjacentBorderWallsCount < 2)
+						grid.placeComponentAt(i, j, new Blank());
+				}
+			}
+		}
+	}
+	
+	private static void flood(Grid grid, boolean[][] mat, int x, int y) {
+		if (mat[x][y] == false) {
+			mat[x][y] = true;
+			if (!grid.getComponentAt(x, y).getName().equals("Wall")) {
+				if (x > 0)
+					flood(grid, mat, x-1, y);
+				if (x+1 < grid.getWidth())
+					flood(grid, mat, x+1, y);
+				if (y > 0)
+					flood(grid, mat, x, y-1);
+				if (y+1 < grid.getHeight())
+					flood(grid, mat, x, y+1);
+			}
+		}
 	}
 	
 	private static void placeGoals(Grid grid, int number) {
@@ -188,7 +268,7 @@ public final class GridGenerator {
 		while (count > 0){
 			x = rand.nextInt(grid.getWidth());
 			y = rand.nextInt(grid.getHeight());
-			if (grid.getComponentAt(x, y).getSpriteName().equals("Ground")) {
+			if (grid.getComponentAt(x, y).getName().equals("Ground")) {
 				count--;
 				grid.placeComponentAt(x, y, new Goal());
 				grid.addCrate(x, y);
@@ -204,7 +284,7 @@ public final class GridGenerator {
 		while (!test){
 			x = rand.nextInt(grid.getWidth());
 			y = rand.nextInt(grid.getHeight());
-			if (grid.getComponentAt(x, y).getSpriteName().equals("Ground")) {
+			if (grid.getComponentAt(x, y).getName().equals("Ground")) {
 				grid.setPlayer(x, y);
 				test = true;
 			}
@@ -228,6 +308,7 @@ public final class GridGenerator {
 			while (tab[player.getX()][player.getY()]!=0); {
 				System.out.println("erreur");
 				//Trouver moyen de changer de caisse
+				fillLee(grid, tab, crate.getX(), crate.getY(), player.getX(), player.getY());	
 			}
 			*/
 			if (tab[player.getX()][player.getY()]!=0)
@@ -242,6 +323,7 @@ public final class GridGenerator {
 			newDirection = directions[intRandom];
 			grid.getPlayer().setDirection(directions[intRandom]);
 			*/
+			player.setDirection(Direction.DOWN);
 		}
 	}
 	
@@ -263,18 +345,22 @@ public final class GridGenerator {
 	}
 	
 	private static void fillLee(Grid grid, int[][] tab, int xSource, int ySource, int xGoal, int yGoal) {
-		int ind = 0;
+		boolean goalIsReach = false;
+		int ind = 0, deb = 0;
 		ArrayList<Point> list = new ArrayList<Point>(0);
 		list.add(new Point(xSource, ySource));
-		while(list.size()>0){
+		while(!goalIsReach && deb!=list.size()){
 			ind++;
 			int size = list.size();
-			for (int i = 0; i < size; i++){
+			for (int i = deb; i < size; i++){
 				int x = (int)list.get(i).getX();
 				int y = (int)list.get(i).getY();
 				tab[x][y] = ind;
-				if (x==xGoal && y == yGoal)
-					return;
+				//Pour eviter de mettre un return tout seul
+				if (x==xGoal && y == yGoal) {
+					goalIsReach = true;
+					break;
+				}
 				if (y-1>=0 && tab[x][y-1] == 0)
 					if (grid.getComponentAt(x, y-1).canGoTrough())
 						list.add(new Point(x, y-1));
@@ -296,9 +382,7 @@ public final class GridGenerator {
 					else
 						tab[x-1][y] = -1;
 			}
-			for(int i = 0; i<size; i++){
-				list.remove(0);
-			}
+			deb=size;
 		}
 	}
 	

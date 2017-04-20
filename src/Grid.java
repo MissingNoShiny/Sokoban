@@ -38,8 +38,6 @@ public class Grid {
 	
 	private Player player;
 	
-	private MovementTracker tracker;
-	
 	/**
 	 * Creates an object containing an empty matrix of specified width and height.
 	 * @param width The width of the matrix
@@ -53,11 +51,6 @@ public class Grid {
 		this.height = height;
 	}
 
-	public Grid(int width, int height, boolean trackable) {
-		this(width, height);
-		if (trackable)
-			tracker = new MovementTracker(this);
-	}
 	/**
 	 * Gets the height of the matrix.
 	 * @return The height of the matrix
@@ -72,10 +65,6 @@ public class Grid {
 	 */
 	public int getWidth() {
 		return width;
-	}
-	
-	public MovementTracker getMovementTracker() {
-		return tracker;
 	}
 	
 	/**
@@ -102,7 +91,7 @@ public class Grid {
 		boolean test = true;
 		String comp;
 		for (int i = 0; i < crateList.size(); i++) {
-			comp = getComponentAt(crateList.get(i).getX(), crateList.get(i).getY()).getSpriteName();
+			comp = getComponentAt(crateList.get(i).getX(), crateList.get(i).getY()).getName();
 			if  (! comp.equals("CrateOnGoal")) {
 				test= false;
 			}
@@ -124,7 +113,7 @@ public class Grid {
 	
 
 	public boolean hasCrateAt (int x, int y) {
-		String nameComponent = getComponentAt(x, y).getSpriteName();
+		String nameComponent = getComponentAt(x, y).getName();
 		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
 	}
 	
@@ -147,7 +136,19 @@ public class Grid {
 				matrix[j][i] = component;
 		}
 	}
-
+	
+	public int countAdjacentComponent(String name, int x, int y) {
+		int count = 0;
+		if (x+1 < width && matrix[x+1][y].getName().equals(name))
+			count++;
+		if (x-1 >= 0 && matrix[x-1][y].getName().equals(name))
+			count++;
+		if (y+1 < height && matrix[x][y+1].getName().equals(name))
+			count++;
+		if (y-1 >= 0 && matrix[x][y-1].getName().equals(name))
+			count++;
+		return count;
+	}
 
 	public void saveGrid(String path, Game game) {
 		File file = new File("..\\levels\\saved\\" + path + ".xsb");
@@ -164,7 +165,7 @@ public class Grid {
 				for (int i = 0; i < this.getWidth(); i++) {
 					Component component = this.getComponentAt(i, j);
 					if (i == px && j == py) {
-						switch (component.getSpriteName()) {
+						switch (component.getName()) {
 						case "Goal" :
 							buff.write('+');
 							break;
@@ -172,7 +173,7 @@ public class Grid {
 							buff.write('@');
 						}
 					} else {
-						switch (component.getSpriteName()) {
+						switch (component.getName()) {
 						case "Wall" :
 							buff.write('#');
 							break;
@@ -229,7 +230,7 @@ public class Grid {
 					width = ligne.length();
 				height++;
 			}
-			grid = new Grid(width, height, true);
+			grid = new Grid(width, height);
 			buff.close();
 			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));

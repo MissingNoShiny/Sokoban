@@ -3,8 +3,11 @@ public class Player extends Position {
 	
 	private Direction direction;
 	
+	private MovementTracker tracker;
+	
 	public Player(int xInput, int yInput) {
 		super(xInput, yInput);
+		tracker = new MovementTracker(this);
 		direction = Direction.DOWN;
 	}
 	
@@ -82,10 +85,10 @@ public class Player extends Position {
 		}
 		if (grid.hasCrateAt(newX, newY)){
 			grid.getCrateAt(newX, newY).move(dir);
-			grid.getMovementTracker().addPush();
+			tracker.addPush();
 		}
 		else
-			grid.getMovementTracker().addMove();
+			tracker.addMove();
 		setX(newX);
 		setY(newY);
 	}
@@ -150,8 +153,12 @@ public class Player extends Position {
 		setX(x-1);
 	}
 	
+	public MovementTracker getTracker() {
+		return tracker;
+	}
+	
 	@Override
-	public String getSpriteName() {
+	public String getName() {
 		return "Player" + direction.name();
 	}
 }

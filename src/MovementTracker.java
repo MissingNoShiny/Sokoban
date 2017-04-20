@@ -18,7 +18,7 @@ public class MovementTracker {
 	/**
 	 * The grid to track the moves of.
 	 */
-	private Grid grid;
+	private Player player;
 	
 	/**
 	 * The number of moves contained in the ArrayList moves.
@@ -34,9 +34,9 @@ public class MovementTracker {
 	 * 
 	 * @param grid The grid to track the moves of.
 	 */
-	public MovementTracker(Grid grid) {
+	public MovementTracker(Player player) {
 		moves = new ArrayList<Character>();
-		this.grid = grid;
+		this.player = player;
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class MovementTracker {
 	 * Saves the last move made by the player, based on his direction after said move.
 	 */
 	public void addMove() {
-		Direction d = grid.getPlayer().getDirection();
+		Direction d = player.getDirection();
 		switch(d) {
 		case UP:
 			moves.add('u');
@@ -81,7 +81,7 @@ public class MovementTracker {
 	 * Saves the last push made by the player, based on his direction after said move.
 	 */
 	public void addPush() {
-		Direction d = grid.getPlayer().getDirection();
+		Direction d = player.getDirection();
 		switch(d) {
 		case UP:
 			moves.add('U');
@@ -103,8 +103,7 @@ public class MovementTracker {
 	/**
 	 * Undoes the last move/push of the grid.
 	 */
-	public void undo() {
-		Player player = grid.getPlayer();
+	public void undo(Grid grid) {
 		if (moves.isEmpty())
 			return;
 		Character c = moves.get(moves.size()-1);
@@ -166,9 +165,9 @@ public class MovementTracker {
 		}
 	}
 	
-	public void reset() {
+	public void reset(Grid grid) {
 		while (!moves.isEmpty())
-			undo();
+			undo(grid);
 	}
 	
 	/**
@@ -270,6 +269,11 @@ public class MovementTracker {
 		grid.saveGrid(pathOut, game);
 	}
 	
+	public void empty() {
+		moves.clear();
+		pushesCount = 0;
+		movesCount = 0;
+	}
 	
 	public String toString() {
 		return moves.toString();
