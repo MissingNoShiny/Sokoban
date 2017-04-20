@@ -91,6 +91,7 @@ public final class GridGenerator {
 		return tab;
 	}
 	
+
 	private static boolean canplaceHere(Grid grid, int x, int y, Component[][] pattern) {
 		int half = patternSize/2;
 		for (int i = x-half; i <= x+half; i++){
@@ -108,6 +109,7 @@ public final class GridGenerator {
 		return true;
 	}
 	
+
 	private static void placeHere(Grid grid, int x, int y, Component[][] pattern){
 		int half = patternSize/2;
 		for (int i = x-half; i <= x+half; i++){
@@ -127,7 +129,6 @@ public final class GridGenerator {
 				tmp[i][j] = pattern[patternSize-1-j][i];
 		}
 	}
-	
 	
 	/**
 	 * Je compte tous les "Ground", et je compare par rapport au nombre de "Ground" qu'on peut atteindre a
@@ -225,10 +226,8 @@ public final class GridGenerator {
 	private static void removeUselessWall(Grid grid) {
 		boolean[][] mat = new boolean[grid.getWidth()][grid.getHeight()];
 		flood(grid, mat, grid.getPlayer().getX(), grid.getPlayer().getY());
-		System.out.println(grid.getWidth() + "  "+ grid.getHeight());
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++){
-				System.out.println(i+" "+j);
 				if (grid.getComponentAt(i, j).getName().equals("Wall") && mat[i][j]==false){
 					int adjacentBorderWallsCount = 0;
 					if (i-1 >= 0 && mat[i-1][j] == true)
@@ -315,7 +314,6 @@ public final class GridGenerator {
 				goToPosition(grid, tab, grid.getCrateList().get(i));
 			else
 				System.out.println("erreur");
-			System.out.println("ici");
 			player.setDirection(getDirectionToPullCrate(grid, crate));
 			if (player.canMove(grid, false))
 				player.pullCrate(grid);
