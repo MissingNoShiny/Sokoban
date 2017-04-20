@@ -64,7 +64,7 @@ public final class GridGenerator {
 		return tab;
 	}
 	
-	private static boolean canPlaceArround(Grid grid, int x, int y, Component[][] pattern) {
+	private static boolean canPlaceAround(Grid grid, int x, int y, Component[][] pattern) {
 		for (int i = x-1; i < x+4; i++){
 			for (int j = y-1; j < y+4; j++){
 				if (i >= 0 && j >= 0 && i < grid.getWidth() && j < grid.getHeight()){
@@ -80,7 +80,7 @@ public final class GridGenerator {
 		return true;
 	}
 	
-	private static void placeArround(Grid grid, int x, int y, Component[][] pattern){
+	private static void placeAround(Grid grid, int x, int y, Component[][] pattern){
 		for (int i = x-1; i < x+4; i++){
 			for (int j = y-1; j < y+4; j++){
 				if (i >= 0 && j >= 0 && i < grid.getWidth() && j < grid.getHeight()){
@@ -111,12 +111,12 @@ public final class GridGenerator {
 				do {
 					pattern = getPattern(rand.nextInt(17));
 					numberRotations = 0;
-					while (! canPlaceArround(grid, i, j, pattern) && numberRotations < 4){
+					while (! canPlaceAround(grid, i, j, pattern) && numberRotations < 4){
 						turnPattern(pattern);
 						numberRotations++;
 					}
-				}while (! canPlaceArround(grid, i, j, pattern));
-				placeArround(grid, i, j, pattern);
+				} while (! canPlaceAround(grid, i, j, pattern));
+				placeAround(grid, i, j, pattern);
 			}
 		}
 		return grid;

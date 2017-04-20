@@ -56,15 +56,12 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 		super.paintComponent(g); //J'ai compris a quoi servait cette ligne (sans elle le setBackground ne fonctionne pas), mais pas reelelement ce qu'elle faisait
 		setBackground(Game.BLEU_CLAIR);
-		Graphics2D g2 = (Graphics2D) g;
 		
-		g2.setStroke(new BasicStroke(2*borderThickness));
-		g2.setColor(new Color (50, 50, 50));
-		g2.drawRect(x0 - borderThickness, y0 - borderThickness, (grid.getWidth()*cellSize) + 2*borderThickness, (grid.getHeight()*cellSize) + 2*borderThickness);
-
 		for (int j = 0; j < grid.getHeight(); j++) {
-			for (int i = 0; i < grid.getWidth(); i++)
-				g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
+			for (int i = 0; i < grid.getWidth(); i++) {
+				if (!grid.getComponentAt(i, j).getSpriteName().equals("Blank"))
+					g.drawImage(sprites.get(grid.getComponentAt(i, j).getSpriteName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
+			}
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getSpriteName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 	}

@@ -147,6 +147,31 @@ public class Grid {
 				matrix[j][i] = component;
 		}
 	}
+	
+	public void placeBlanks() {
+		boolean[][] isFlooded = new boolean[height][width];
+		findGrounds(isFlooded, player.getX(), player.getY());
+		Component blank = new Blank();
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++)
+				if (matrix[j][i].getSpriteName().equals("Ground") && !isFlooded[j][i])
+					matrix[j][i] = blank;
+		}
+	}
+	
+	private void findGrounds(boolean[][] isFlooded, int x, int y) {
+		if (isFlooded[y][x] == false && !matrix[y][x].getSpriteName().equals("Wall")){
+			isFlooded[y][x] = true;
+			if (x > 0)
+				findGrounds(isFlooded, x-1, y);
+			if (x < width-1)
+				findGrounds(isFlooded, x+1, y);
+			if (y > 0)
+				findGrounds(isFlooded, x, y-1);
+			if (y < height-1)
+				findGrounds(isFlooded, x, y+1);
+		}
+	}
 
 
 	public void saveGrid(String path, Game game) {
@@ -186,6 +211,9 @@ public class Grid {
 							buff.write('.');
 							break;
 						case "Ground" :
+							buff.write(' ');
+							break;
+						case "Blank" :
 							buff.write(' ');
 							break;
 						}
@@ -270,6 +298,7 @@ public class Grid {
 						goalCount++;
 						grid.addCrate(j, i);
 						crateCount++;
+						break;
 					}
 				}
 				while(j < width) {
@@ -290,6 +319,7 @@ public class Grid {
 				}
 			}
 	 	}
+		grid.placeBlanks();
 		return grid;
 	}
 }
