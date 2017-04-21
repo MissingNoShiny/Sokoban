@@ -39,6 +39,10 @@ public class MovementTracker {
 		this.player = player;
 	}
 
+	public ArrayList<Character> getMoves() {
+		return moves;
+	}
+	
 	/**
 	 * Gets the amount of moves in the ArrayList moves.
 	 * @return the amount of moves in the ArrayList moves
@@ -232,39 +236,6 @@ public class MovementTracker {
 			oldDir = newDir;
 		}
 		return count;
-	}
-	
-	
-	public void applyToGrid(String pathIn, String pathOut, Game game) throws IOException {
-		Grid grid = Grid.readGrid(pathIn);
-		Player player = grid.getPlayer();
-		for (int i = 0; i < moves.size(); i++) {
-			switch(moves.get(i)){
-			case('u'):
-			case('U'):
-				player.setDirection(Direction.UP);
-				break;
-			case('r'):
-			case('R'):
-				player.setDirection(Direction.RIGHT);
-				break;
-			case('d'):
-			case('D'):
-				player.setDirection(Direction.DOWN);
-				break;
-			case('l'):
-			case('L'):
-				player.setDirection(Direction.LEFT);
-				break;
-			default :
-				throw new IOException();
-			}
-			if (player.canMove(true))
-				player.move();
-			else 
-				throw new IOException("Grid et machin pas valide");
-		}
-		grid.saveGrid(pathOut, game);
 	}
 	
 	public void empty() {
