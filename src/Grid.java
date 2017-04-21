@@ -1,11 +1,4 @@
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -46,7 +39,7 @@ public class Grid {
 	 */
 	//Peut etre ajouter instanciation du player dans le constructeur
 	public Grid(int width, int height) {
-		matrix = new Component[height][width];
+		matrix = new Component[width][height];
 		crateList = new ArrayList<Crate>(0);
 		this.width = width;
 		this.height = height;
@@ -75,7 +68,7 @@ public class Grid {
 	 * @return The data contained in specified cell
 	 */
 	public Component getComponentAt(int x, int y) {
-		return matrix[y][x];
+		return matrix[x][y];
 	}
 	
 	/**
@@ -85,7 +78,7 @@ public class Grid {
 	 * @param comp  The Component to set at the specified cell
 	 */
 	public void placeComponentAt(int x, int y, Component comp) {
-		matrix[y][x] = comp;
+		matrix[x][y] = comp;
 	}
 	
 	public boolean isWon(){
@@ -139,183 +132,7 @@ public class Grid {
 	public void fill(Component component) {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++)
-				matrix[j][i] = component;
+				matrix[i][j] = component;
 		}
-	}
-	
-
-	public void placeBlanks() {
-		boolean[][] isFlooded = new boolean[height][width];
-		findGrounds(isFlooded, player.getX(), player.getY());
-		Component blank = new Blank();
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++)
-				if (matrix[j][i].getName().equals("Ground") && !isFlooded[j][i])
-					matrix[j][i] = blank;
-		}
-	}
-	
-	private void findGrounds(boolean[][] isFlooded, int x, int y) {
-		if (isFlooded[y][x] == false && !matrix[y][x].getName().equals("Wall")){
-			isFlooded[y][x] = true;
-			if (x > 0)
-				findGrounds(isFlooded, x-1, y);
-			if (x < width-1)
-				findGrounds(isFlooded, x+1, y);
-			if (y > 0)
-				findGrounds(isFlooded, x, y-1);
-			if (y < height-1)
-				findGrounds(isFlooded, x, y+1);
-		}
-	}
-
-
-	public void saveGrid(String path, Game game) {
-		File file = new File("..\\levels\\saved\\" + path + ".xsb");
-		if (file.exists()) {
-			if (!game.canOverrideLevel())
-				return;
-		}
-		int px = this.getPlayer().getX();
-		int py = this.getPlayer().getY();
-		BufferedWriter buff = null;
-		try {
-			buff = new BufferedWriter(new FileWriter(file));
-			for (int j = 0; j < this.getHeight(); j++) {
-				for (int i = 0; i < this.getWidth(); i++) {
-					Component component = this.getComponentAt(i, j);
-					if (i == px && j == py) {
-						switch (component.getName()) {
-						case "Goal" :
-							buff.write('+');
-							break;
-						default :
-							buff.write('@');
-						}
-					} else {
-						switch (component.getName()) {
-						case "Wall" :
-							buff.write('#');
-							break;
-						case "Crate" :
-							buff.write('$');
-							break;
-						case "CrateOnGoal" :
-							buff.write('*');
-							break;
-						case "Goal" :
-							buff.write('.');
-							break;
-						case "Ground" :
-							buff.write(' ');
-							break;
-						case "Blank" :
-							buff.write(' ');
-							break;
-						}
-					}
-				}
-				buff.newLine();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (buff != null) {
-				try {
-					buff.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-	/*
-	//Je veux dire qu'on sauvegarde une partie en cours. Rien à voir avec l'objet game.
-	public static void saveGame(Grid grid, String path, MovementTracker tracker) {
-		
-	}
-	*/
-	
-	public static Grid readGrid (String path) throws IOException {
-		int crateCount = 0, goalCount = 0;
-		if (!path.endsWith(".xsb"))
-			throw new IOException();
-		Grid grid = null;
-		BufferedReader buff = null;
-		try {
-			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-			String ligne;
-			int height = 1, width;
-			width = buff.readLine().length();
-			while ((ligne = buff.readLine())!=null){
-				if (ligne.length() > width)
-					width = ligne.length();
-				height++;
-			}
-			grid = new Grid(width, height);
-			buff.close();
-			
-			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-			Character character;
-			for (int i = 0; i < height; i++){
-				int j;
-				ligne = buff.readLine();
-				for (j = 0; j < ligne.length(); j++) {
-					character = ligne.charAt(j);
-					
-					switch (character) {
-					case ('#') :
-						grid.placeComponentAt(j, i, new Wall());
-						break;
-					case ('$'):
-						grid.placeComponentAt(j, i, new Ground());
-						grid.addCrate(j, i);
-						crateCount++;
-						break;
-					case(' ') :
-						grid.placeComponentAt(j, i, new Ground());
-						break;
-					case('.') :
-						grid.placeComponentAt(j, i, new Goal());
-						goalCount++;
-						break;
-					case ('@'):
-						grid.placeComponentAt(j, i, new Ground());
-						grid.setPlayer(j, i);
-						break;
-					case ('+'):
-						grid.placeComponentAt(j, i, new Goal());
-						goalCount++;
-						grid.setPlayer(j, i);
-						break;
-					case ('*'):
-						grid.placeComponentAt(j, i, new Goal());
-						goalCount++;
-						grid.addCrate(j, i);
-						crateCount++;
-						break;
-					}
-				}
-				while(j < width) {
-					grid.placeComponentAt(j, i, new Ground());
-					j++;
-				}
-				if (goalCount != crateCount) 
-					throw new IOException();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (buff !=null) {
-				try {
-					buff.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-	 	}
-		grid.placeBlanks();
-		return grid;
 	}
 }

@@ -1,5 +1,6 @@
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
 
 public class DisplayGrid extends JPanel implements KeyListener{
 	
@@ -58,13 +60,13 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(borderThickness));
+		g2d.setColor(Color.DARK_GRAY);
 		
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++) {
 				if (!grid.getComponentAt(i, j).getName().equals("Blank")) {
 					g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
-					/*
 					if (i == 0)
 						g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + j*cellSize - borderThickness/2, x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2);
 					if (i == grid.getWidth() - 1)
@@ -73,20 +75,28 @@ public class DisplayGrid extends JPanel implements KeyListener{
 						g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + j*cellSize - borderThickness/2, x0 + (i+1)*cellSize + borderThickness/2, y0 + j*cellSize - borderThickness/2);
 					if (j == grid.getHeight() - 1)
 						g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2, x0 + (i+1)*cellSize + borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2);
-					*/
-				}
-				/*
-				else {
-					if (i > 0 && !grid.getComponentAt(i - 1, j).getSpriteName().equals("Blank"))
+				} else {
+					if (i > 0 && !grid.getComponentAt(i - 1, j).getName().equals("Blank")) {
 						g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + i*cellSize + borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
-					if (i + 1 < grid.getWidth() && !grid.getComponentAt(i + 1, j).getSpriteName().equals("Blank"))
+						if (j > 0 && grid.getComponentAt(i, j - 1).getName().equals("Blank"))
+							g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + j*cellSize - borderThickness/2, x0 + i*cellSize + borderThickness/2, y0 + j*cellSize - borderThickness/2);
+					}
+					if (i + 1 < grid.getWidth() && !grid.getComponentAt(i + 1, j).getName().equals("Blank")) {
 						g2d.drawLine(x0 + (i+1)*cellSize - borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
-					if (j > 0 && !grid.getComponentAt(i, j - 1).getSpriteName().equals("Blank"))
+						if (j + 1 < grid.getHeight() && grid.getComponentAt(i, j + 1).getName().equals("Blank"))
+							g2d.drawLine(x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2);
+					}
+					if (j > 0 && !grid.getComponentAt(i, j - 1).getName().equals("Blank")) {
 						g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + j*cellSize + borderThickness/2);
-					if (j + 1 < grid.getWidth() && !grid.getComponentAt(i, j + 1).getSpriteName().equals("Blank"))
+						if (i + 1 < grid.getWidth() && grid.getComponentAt(i + 1, j).getName().equals("Blank"))
+							g2d.drawLine(x0 + (i+1)*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + (i+1)*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2);
+					}
+					if (j + 1 < grid.getHeight() && !grid.getComponentAt(i, j + 1).getName().equals("Blank")) {
 						g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
+						if (i > 0 && grid.getComponentAt(i - 1, j).getName().equals("Blank"))
+							g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2, x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
+					}
 				}
-				*/
 			}
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);

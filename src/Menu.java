@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -25,7 +24,7 @@ public class Menu extends JPanel {
 	 * Il faudrait plus, pour ma part, que lorsqu'un panel en a fini, il se ferme lui-meme et appelle -toujours lui meme
 	 * le menu.
 	 */
-		
+
 	public Menu(Game game) {
 		GridLayout gl = new GridLayout(5,1);
 		gl.setVgap(3);
