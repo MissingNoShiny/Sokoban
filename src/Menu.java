@@ -1,7 +1,6 @@
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -26,11 +25,8 @@ public class Menu extends JPanel {
 	 * Il faudrait plus, pour ma part, que lorsqu'un panel en a fini, il se ferme lui-meme et appelle -toujours lui meme
 	 * le menu.
 	 */
-	
-	private Game game;
-	
+		
 	public Menu(Game game) {
-		this.game = game;
 		GridLayout gl = new GridLayout(5,1);
 		gl.setVgap(3);
 		setLayout(gl);
@@ -50,7 +46,7 @@ public class Menu extends JPanel {
 				}
 			}
 		});
-		add(playButton);
+		
 		Button quitButton = new Button("Quit");
 		quitButton.addMouseListener(new ButtonListener(quitButton) {
 			@Override
@@ -58,6 +54,20 @@ public class Menu extends JPanel {
 				game.stop();
 			}
 		});
+		
+		Button generateLevelButton = new Button("Generate level");
+		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				game.generateLevel(14, 10, 7);
+			}
+		});
+		
+
+		add(playButton);
+		
+		add(generateLevelButton);
+		
 		add(quitButton);
 	}
 	
@@ -74,8 +84,6 @@ public class Menu extends JPanel {
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
-		
-		Graphics2D g2 = (Graphics2D) g;
 		setBackground(Game.BLEU_CLAIR);
 	}
 }

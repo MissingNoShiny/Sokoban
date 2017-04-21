@@ -59,8 +59,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(borderThickness));
 		
-		for (int j = 0; j < grid.getHeight(); j++) {
-			for (int i = 0; i < grid.getWidth(); i++){
+		for (int i = 0; i < grid.getWidth(); i++){
+			for (int j = 0; j < grid.getHeight(); j++) {
 				if (!grid.getComponentAt(i, j).getName().equals("Blank")) {
 					g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
@@ -116,23 +116,29 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			break;
 		case KeyEvent.VK_UP:
 			grid.getPlayer().setDirection(Direction.UP);
+			if (grid.getPlayer().canMove(true))
+				grid.getPlayer().move();
 			break;
 		case KeyEvent.VK_DOWN :
 			grid.getPlayer().setDirection(Direction.DOWN);
+			if (grid.getPlayer().canMove(true))
+				grid.getPlayer().move();
 			break;
 		case KeyEvent.VK_RIGHT:
 			grid.getPlayer().setDirection(Direction.RIGHT);
+			if (grid.getPlayer().canMove(true))
+				grid.getPlayer().move();
 			break;
 		case KeyEvent.VK_LEFT:
 			grid.getPlayer().setDirection(Direction.LEFT);
+			if (grid.getPlayer().canMove(true))
+				grid.getPlayer().move();
 			break;
-
 		default :
-			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
+			System.out.println("On a appuyé, \nComposant en (6,5) : " + grid.getComponentAt(6, 5).getName());
 		}
-		if (grid.getPlayer().canMove(true)) {
-			grid.getPlayer().move();
-		}
+		
+
 
 		if (grid.isWon())
 			System.out.println("Vivent les castors!");

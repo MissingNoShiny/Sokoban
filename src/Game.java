@@ -18,7 +18,7 @@ public class Game implements Runnable {
 	
 	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
 	
-	public static final int FPS_CAP = 60;
+	public static final int FPS_CAP = 30;
 
 	private boolean running = false;
 	private Menu menu = new Menu(this);
@@ -107,13 +107,21 @@ public class Game implements Runnable {
 	 * @throws IOException If the path is incorrect or doesn't exist
 	 */
 	public void loadLevel(String path) throws IOException {
-		grid = GridGenerator.generateGrid(16, 9, 6);
+		grid = Grid.readGrid(path);
 		level = new DisplayLevel(grid, this);
 		window.setPanel(level);
 		level.displayGrid.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
 	
+	
+	public void generateLevel(int width, int height, int numberCrates) {
+		grid = GridGenerator.generateGrid(width, height, numberCrates);
+		level = new DisplayLevel(grid, this);
+		window.setPanel(level);
+		level.displayGrid.requestFocusInWindow();
+		state = GameState.PLAYING;
+	}
 	/**
 	 * Loads the menu
 	 */
@@ -128,9 +136,6 @@ public class Game implements Runnable {
 		return true;
 	}
 
-	/*
-	 * J'ai rajoute cette methode pour pouvoir ajuster la taille des panels dans le displayLevel 
-	 */
 	public Display getWindow() {
 		return window;
 	}

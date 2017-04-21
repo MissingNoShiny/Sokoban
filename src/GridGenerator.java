@@ -13,8 +13,10 @@ public final class GridGenerator {
 		
 	}
 	
+	/**
+	 * patternSize must be an impair int
+	 */
 	private final static int patternSize = 5;
-	//patternSize doit etre un impair
 	
 	public static Grid generateGrid(int width, int height, int numberCrates) {
 		Grid grid;
@@ -48,8 +50,8 @@ public final class GridGenerator {
 				placeHere(grid, i, j, pattern);
 			}
 		}
-		discardDeadEnds(grid);
-		//removeBigRectangleGround(grid);
+		removeDeadEnds(grid);
+		removeRectGrounds(grid);
 		surroundGridWithWalls(grid);
 		return grid;
 	}
@@ -191,7 +193,7 @@ public final class GridGenerator {
 		return count;
 	}
 	
-	private static void discardDeadEnds(Grid grid) {
+	private static void removeDeadEnds(Grid grid) {
 		for (int i = 1; i < grid.getWidth()-1; i++){
 			for (int j = 1; j < grid.getHeight()-1; j++) {
 				if (grid.getComponentAt(i, j).getName().equals("Ground")){
@@ -227,6 +229,10 @@ public final class GridGenerator {
 		}
 	}
 	
+	private static void removeRectGrounds(Grid grid) {
+		
+	}
+	
 	private static int countAdjacentWall(Grid grid, int x, int y) {
 		int count = 0;
 		if (x+1 > grid.getWidth()-2 || grid.getComponentAt(x+1, y).getName().equals("Wall"))
@@ -254,7 +260,7 @@ public final class GridGenerator {
 	
 	private static void removeUselessWall(Grid grid) {
 		boolean[][] mat = new boolean[grid.getWidth()][grid.getHeight()];
-		flood(grid, mat, grid.getPlayer().getX(), grid.getPlayer().getY());
+		detectUselessWalls(grid, mat, grid.getPlayer().getX(), grid.getPlayer().getY());
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++){
 				if (grid.getComponentAt(i, j).getName().equals("Wall") && mat[i][j]==false){
@@ -274,18 +280,18 @@ public final class GridGenerator {
 		}
 	}
 	
-	private static void flood(Grid grid, boolean[][] mat, int x, int y) {
+	private static void detectUselessWalls(Grid grid, boolean[][] mat, int x, int y) {
 		if (mat[x][y] == false) {
 			mat[x][y] = true;
 			if (!grid.getComponentAt(x, y).getName().equals("Wall")) {
 				if (x > 0)
-					flood(grid, mat, x-1, y);
+					detectUselessWalls(grid, mat, x-1, y);
 				if (x+1 < grid.getWidth())
-					flood(grid, mat, x+1, y);
+					detectUselessWalls(grid, mat, x+1, y);
 				if (y > 0)
-					flood(grid, mat, x, y-1);
+					detectUselessWalls(grid, mat, x, y-1);
 				if (y+1 < grid.getHeight())
-					flood(grid, mat, x, y+1);
+					detectUselessWalls(grid, mat, x, y+1);
 			}
 		}
 	}
@@ -320,43 +326,57 @@ public final class GridGenerator {
 	}
 	
 	private static void movePlayer(Grid grid, int numberMoves) {
+		boolean test = true;
 		Random rand = new Random();
 		Crate crate;
 		Player player = grid.getPlayer();
-		int intRandom;
-		Direction newDirection;
+		int x = -40, y = -40;
+		Direction newDirection = Direction.DOWN;
 		int[][] tab = new int[grid.getWidth()][grid.getHeight()];
 		ArrayList<Crate> crateList = grid.getCrateList();
 		//Pour ne pas devoir faire un switch
 		Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
-		for (int i = 0; i < 1; i++) {
-			crate = crateList.get(i);
-			fillLee(grid, tab, crate.getX(), crate.getY(), player.getX(), player.getY());	
-			/*
-			while (tab[player.getX()][player.getY()]!=0); {
-				System.out.println("erreur");
-				//Trouver moyen de changer de caisse
-				fillLee(grid, tab, crate.getX(), crate.getY(), player.getX(), player.getY());	
-			}
-			*/
-			if (tab[player.getX()][player.getY()]!=0)
-				goToPosition(grid, tab, grid.getCrateList().get(i));
-			else
-				System.out.println("erreur");
-			player.setDirection(getDirectionToPullCrate(grid, crate));
-			if (player.canMove(false))
-				player.pullCrate();
-			/*intRandom = rand.nextInt(4);
-			newDirection = directions[intRandom];
-			grid.getPlayer().setDirection(directions[intRandom]);
-			*/
-			player.setDirection(Direction.DOWN);
-		}
+		do {
+			crate = crateList.get(rand.nextInt(crateList.size()));
+			for (int j = 0; j < 4; j++) {
+				if (crate.canBePulled(directions[j])){
+					test = false;
+					newDirection = directions[j];
+					x = crate.getX();
+					y = crate.getY();
+					switch(newDirection){
+					case UP:
+						y--;
+						break;
+					case RIGHT:
+						x++;
+						break;
+					case DOWN:
+						y++;
+						break;
+					case LEFT:
+						x--;
+					}
+					cleanTab(tab, grid.getWidth(), grid.getHeight());
+					fillLee(grid, tab, x, y, player.getX(), player.getY());
+					if (tab[player.getX()][player.getY()]==0)
+						break;
+				}
+			}	
+		} while (test && tab[player.getX()][player.getY()]==0);
+		goToSource(grid, tab);
+		System.out.println(player.getX()+" "+player.getY()+" "+crate.getX()+" "+crate.getY()+" "+newDirection+" "+x+" "+ y);
+		player.pullCrate(newDirection, true);
+		/*intRandom = rand.nextInt(4);
+		newDirection = directions[intRandom];
+		grid.getPlayer().setDirection(directions[intRandom]);
+		*/
+		//player.setDirection(Direction.DOWN);
 	}
 	
 	
-	private static void goToPosition(Grid grid, int[][] tab, Position position) {
-		while (tab[grid.getPlayer().getX()][grid.getPlayer().getY()]!=2) {
+	private static void goToSource(Grid grid, int[][] tab) {
+		while (tab[grid.getPlayer().getX()][grid.getPlayer().getY()]!=1) {
 			int x = grid.getPlayer().getX();
 			int y = grid.getPlayer().getY();
 			if (y-1 >= 0 && tab[x][y-1]==tab[x][y]-1)
@@ -367,7 +387,13 @@ public final class GridGenerator {
 				grid.getPlayer().move(Direction.DOWN, true);
 			else if (x-1 >= 0 && tab[x-1][y]==tab[x][y]-1)
 				grid.getPlayer().move(Direction.LEFT, true);
-			
+		}
+	}
+	
+	private static void cleanTab(int[][] tab, int width, int height) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++)
+				tab[i][j]=0;
 		}
 	}
 	
@@ -376,7 +402,7 @@ public final class GridGenerator {
 		int ind = 0, deb = 0;
 		ArrayList<Point> list = new ArrayList<Point>(0);
 		list.add(new Point(xSource, ySource));
-		while(!goalIsReach && deb!=list.size()){
+		while(!goalIsReach && deb!=list.size() && ind < 25){
 			ind++;
 			int size = list.size();
 			for (int i = deb; i < size; i++){
@@ -410,26 +436,5 @@ public final class GridGenerator {
 			}
 			deb=size;
 		}
-	}
-	
-	private static Direction getDirectionToPullCrate(Grid grid, Crate crate) {
-		int x = grid.getPlayer().getX();
-		int y = grid.getPlayer().getY();
-		int crateX = crate.getX();
-		int crateY = crate.getY();
-		if (y-1 >= 0 && x == crateX && y-1 == crateY)
-			return Direction.DOWN;
-		if (x+1 < grid.getWidth() && x+1 == crateX && y == crateY)
-			return Direction.LEFT;
-		if (y+1 < grid.getHeight() && x == crateX && y+1 == crateY)
-			return Direction.UP;
-		if (x-1 >= 0 && x-1 == crateX && y == crateY)
-			return Direction.RIGHT;
-		//Il faudra mettre le return Direction.Right dans le else, mais attendons que ca fonctionne
-		else{
-			System.out.println("Ca foire");
-			return null;
-		}
-
 	}
 }

@@ -118,22 +118,22 @@ public class Player extends Position {
 	 */
 	public void pullCrateUp() {
 		grid.getCrateAt(x, y+1).move(Direction.UP);
-		setY(y-1);
+		y--;
 	}
 	
 	public void pullCrateRight() {
 		grid.getCrateAt(x-1, y).move(Direction.RIGHT);
-		setX(x+1);
+		x++;
 	}
 	
 	public void pullCrateDown() {
 		grid.getCrateAt(x, y-1).move(Direction.DOWN);
-		setY(y+1);
+		y++;
 	}
 	
 	public void pullCrateLeft() {
 		grid.getCrateAt(x+1, y).move(Direction.LEFT);
-		setX(x-1);
+		x--;
 	}
 	
 	@Override

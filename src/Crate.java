@@ -46,6 +46,31 @@ public class Crate extends Position {
 		return test;
 	}
 	
+	public boolean canBePulled(Direction dir) {
+		boolean test = false;
+		if (canMove(dir)) {
+			switch (dir) {
+			case UP:
+				if (y-2 >= 0 && grid.getComponentAt(x, y-2).canGoTrough())
+					test = true;
+				break;
+			case RIGHT:
+				if (x+2 < grid.getWidth() && grid.getComponentAt(x+2, y).canGoTrough())
+					test = true;
+				break;
+			case DOWN:
+				if (y+2 < grid.getHeight() && grid.getComponentAt(x, y+2).canGoTrough())
+					test = true;
+				break;
+			case LEFT:
+				if (x-2 >= 0 && grid.getComponentAt(x-2, y).canGoTrough())
+					test = true;
+				break;
+			}
+		}
+		return test;
+	}
+	
 	/*
 	 * D'abord je dirige le pointeur du tableau de la case actuelle vers le component support de la caisse
 	 * Ensuite je dirige le pointeur de support vers le component de la case visee
@@ -56,29 +81,27 @@ public class Crate extends Position {
 	 * Peut etre ensuite faire en sorte que position implemente movable et faire passer les moveUp, etc. dans position
 	 */
 	
-	public void moveTo(int newX, int newY) {
+	public void move(Direction dir) {
+		int newX = x, newY = y;
+		switch (dir) {
+		case UP:
+			newY--;
+			break;
+		case RIGHT:
+			newX++;;
+			break;
+		case DOWN:
+			newY++;
+			break;
+		case LEFT:
+			newX--;
+			break;
+		}
 		grid.placeComponentAt(x, y, getSupport());
 		setSupport(grid.getComponentAt(newX, newY));
 		setX(newX);
 		setY(newY);
 		grid.placeComponentAt(newX, newY, this);
-	}
-	
-	public void move(Direction dir) {
-		switch (dir) {
-		case UP:
-			moveTo(x, y-1);
-			break;
-		case RIGHT:
-			moveTo(x+1, y);
-			break;
-		case DOWN:
-			moveTo(x, y+1);
-			break;
-		case LEFT:
-			moveTo(x-1, y);
-			break;
-		}
 	}
 	
 	@Override
