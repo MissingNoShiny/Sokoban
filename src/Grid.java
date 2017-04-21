@@ -38,6 +38,7 @@ public class Grid {
 	
 	private Player player;
 	
+	private MovementTracker tracker;
 	/**
 	 * Creates an object containing an empty matrix of specified width and height.
 	 * @param width The width of the matrix
@@ -100,7 +101,8 @@ public class Grid {
 	}
 	
 	public void setPlayer (int x, int y) {
-		player = new Player (x, y);
+		player = new Player (this, x, y);
+		tracker = new MovementTracker(player);
 	}
 	
 	public Player getPlayer() {
@@ -108,7 +110,7 @@ public class Grid {
 	}
 	
 	public void addCrate(int x, int y) {
-		crateList.add(new Crate(x, y, this));
+		crateList.add(new Crate(this, x, y));
 	}
 	
 
@@ -126,6 +128,10 @@ public class Grid {
 		return crateList;
 	}
 	
+	public MovementTracker getTracker() {
+		return tracker;
+	}
+	
 	/*
 	 * Attention, le fill ne remplit pas tous le tableau avec des instances differentes d'une même classe, mais avec
 	 * la même objet a chaque fois. Toutes les cases pointent vers le même objet.
@@ -137,18 +143,6 @@ public class Grid {
 		}
 	}
 	
-	public int countAdjacentComponent(String name, int x, int y) {
-		int count = 0;
-		if (x+1 < width && matrix[x+1][y].getName().equals(name))
-			count++;
-		if (x-1 >= 0 && matrix[x-1][y].getName().equals(name))
-			count++;
-		if (y+1 < height && matrix[x][y+1].getName().equals(name))
-			count++;
-		if (y-1 >= 0 && matrix[x][y-1].getName().equals(name))
-			count++;
-		return count;
-	}
 
 	public void placeBlanks() {
 		boolean[][] isFlooded = new boolean[height][width];

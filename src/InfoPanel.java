@@ -41,7 +41,7 @@ public class InfoPanel extends JPanel{
 		super.paintComponent(g);
 		setBackground(Game.BLEU_CLAIR);
 		fps.setText("FPS: " + game.getFps());
-		movesCount.setText("Moves: " + grid.getPlayer().getTracker().getMovesCount());
-		pushesCount.setText("Pushes: " + grid.getPlayer().getTracker().getPushesCount());
+		movesCount.setText("Moves: " + grid.getTracker().getMovesCount());
+		pushesCount.setText("Pushes: " + grid.getTracker().getPushesCount());
 	}
 }

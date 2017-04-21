@@ -58,9 +58,8 @@ public class MovementTracker {
 	/**
 	 * Saves the last move made by the player, based on his direction after said move.
 	 */
-	public void addMove() {
-		Direction d = player.getDirection();
-		switch(d) {
+	public void addMove(Direction dir) {
+		switch(dir) {
 		case UP:
 			moves.add('u');
 			break;
@@ -80,9 +79,8 @@ public class MovementTracker {
 	/**
 	 * Saves the last push made by the player, based on his direction after said move.
 	 */
-	public void addPush() {
-		Direction d = player.getDirection();
-		switch(d) {
+	public void addPush(Direction dir) {
+		switch(dir) {
 		case UP:
 			moves.add('U');
 			break;
@@ -112,31 +110,31 @@ public class MovementTracker {
 		switch(c){
 		
 		case('u'):
-			player.moveBackDown(grid);
+			player.move(Direction.DOWN, false);
 			break;
 		case('d'):
-			player.moveBackUp(grid);
+			player.move(Direction.UP, false);
 			break;
 		case('r'):
-			player.moveBackLeft(grid);
+			player.move(Direction.LEFT, false);
 			break;
 		case('l'):
-			player.moveBackRight(grid);
+			player.move(Direction.RIGHT, false);
 			break;
 		case('U'):
-			player.pullCrateDown(grid);
+			player.pullCrateDown();
 			pushesCount--;
 			break;	
 		case('D'):
-			player.pullCrateUp(grid);
+			player.pullCrateUp();
 			pushesCount--;
 			break;	
 		case('R'):
-			player.pullCrateLeft(grid);
+			player.pullCrateLeft();
 			pushesCount--;
 			break;	
 		case('L'):
-			player.pullCrateRight(grid);
+			player.pullCrateRight();
 			pushesCount--;
 			break;	
 		}
@@ -261,8 +259,8 @@ public class MovementTracker {
 			default :
 				throw new IOException();
 			}
-			if (player.canMove(grid, true))
-				player.move(grid);
+			if (player.canMove(true))
+				player.move();
 			else 
 				throw new IOException("Grid et machin pas valide");
 		}

@@ -3,11 +3,8 @@ public class Player extends Position {
 	
 	private Direction direction;
 	
-	private MovementTracker tracker;
-	
-	public Player(int xInput, int yInput) {
-		super(xInput, yInput);
-		tracker = new MovementTracker(this);
+	public Player(Grid grid, int x, int y) {
+		super(grid, x, y);
 		direction = Direction.DOWN;
 	}
 	
@@ -19,15 +16,15 @@ public class Player extends Position {
 		return direction;
 	}
 	
-	public boolean canMove(Grid grid, boolean canPushCrate) {
-		return canMove(grid, canPushCrate, direction);
+	public boolean canMove(boolean canPushCrate) {
+		return canMove(canPushCrate, direction);
 	}
 	
 	/**
 	 * @param grid
 	 * @param dir
 	 */
-	public boolean canMove(Grid grid, boolean canPushCrate, Direction dir) {
+	public boolean canMove(boolean canPushCrate, Direction dir) {
 		int newX = x, newY = y;
 		boolean test = false;
 		
@@ -58,8 +55,8 @@ public class Player extends Position {
 		return test;
 	}
 	
-	public void move(Grid grid) {
-		move(grid, direction);
+	public void move() {
+		move(direction, true);
 	}
 	
 	/**
@@ -67,7 +64,7 @@ public class Player extends Position {
 	 * @param grid
 	 * @param dir
 	 */
-	public void move(Grid grid, Direction dir) {
+	public void move(Direction dir, boolean isTracked) {
 		int newX = getX(), newY = getY();
 		switch (dir) {
 		case UP:
@@ -85,76 +82,58 @@ public class Player extends Position {
 		}
 		if (grid.hasCrateAt(newX, newY)){
 			grid.getCrateAt(newX, newY).move(dir);
-			tracker.addPush();
+			if (isTracked)
+			grid.getTracker().addPush(dir);
 		}
-		else
-			tracker.addMove();
+		else if (isTracked)
+			grid.getTracker().addMove(dir);
 		setX(newX);
 		setY(newY);
 	}
 	
-	public void moveBackUp(Grid grid) {
-		setY(y-1);
+	public void pullCrate() {
+		pullCrate(direction, true);
 	}
 	
-	public void moveBackRight(Grid grid) {
-		setX(x+1);
-	}
-	
-	public void moveBackDown(Grid grid) {
-		setY(y+1);
-	}
-	
-	public void moveBackLeft(Grid grid) {
-		setX(x-1);
-	}
-	
-	public void pullCrate(Grid grid) {
-		pullCrate(grid, direction);
-	}
-	
-	public void pullCrate(Grid grid, Direction dir) {
+	public void pullCrate(Direction dir, boolean isTracked) {
 		switch (dir){
 		case UP:
-			pullCrateUp(grid);
+			pullCrateUp();
 			break;
 		case RIGHT:
-			pullCrateRight(grid);
+			pullCrateRight();
 			break;
 		case DOWN:
-			pullCrateDown(grid);
+			pullCrateDown();
 			break;
 		case LEFT:
-			pullCrateLeft(grid);
+			pullCrateLeft();
 		}
+		grid.getTracker().addMove(dir);
 	}
 	/**
 	 * The crate is under the player, and the player go up and pull the crate
 	 * ->En realite, je bouge la caisse puis le joueur. C'est pour ne pas devoir adapter les coordonnees a l'avance.
 	 * @param grid
 	 */
-	public void pullCrateUp(Grid grid) {
+	public void pullCrateUp() {
 		grid.getCrateAt(x, y+1).move(Direction.UP);
 		setY(y-1);
 	}
 	
-	public void pullCrateRight(Grid grid) {
+	public void pullCrateRight() {
 		grid.getCrateAt(x-1, y).move(Direction.RIGHT);
 		setX(x+1);
 	}
 	
-	public void pullCrateDown(Grid grid) {
+	public void pullCrateDown() {
 		grid.getCrateAt(x, y-1).move(Direction.DOWN);
 		setY(y+1);
 	}
 	
-	public void pullCrateLeft(Grid grid) {
+	public void pullCrateLeft() {
 		grid.getCrateAt(x+1, y).move(Direction.LEFT);
 		setX(x-1);
-	}
-	
-	public MovementTracker getTracker() {
-		return tracker;
 	}
 	
 	@Override

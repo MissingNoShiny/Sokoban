@@ -15,13 +15,14 @@ public abstract class Position extends Component{
 	 */
 	protected int y;
 	
-
+	protected Grid grid;
 	/**
 	 * Creates a position with the specified coordinates in input.
 	 * @param inputX The X-coordinate of the object
 	 * @param inputY The Y-coordinate of the object
 	 */
-	public Position(int inputX, int inputY) {
+	public Position(Grid grid, int inputX, int inputY) {
+		this.grid = grid;
 		x = inputX;
 		y = inputY;
 	}

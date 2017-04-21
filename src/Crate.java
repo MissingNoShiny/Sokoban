@@ -1,8 +1,6 @@
 
 public class Crate extends Position {
 	
-	private Grid grid;
-	
 	private Component support;
 	
 	/**
@@ -11,9 +9,8 @@ public class Crate extends Position {
 	 * @param y
 	 * @param grid
 	 */
-	public Crate(int x, int y, Grid grid) {
-		super(x, y);
-		this.grid = grid;
+	public Crate(Grid grid, int x, int y) {
+		super(grid, x, y);
 		setSupport(grid.getComponentAt(x, y));
 		grid.placeComponentAt(x, y, this);
 	}

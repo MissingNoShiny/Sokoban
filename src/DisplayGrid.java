@@ -1,10 +1,8 @@
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -109,7 +107,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		int input = e.getKeyCode();
 		switch (input){
 		case KeyEvent.VK_R:
-			grid.getPlayer().getTracker().reset(grid);
+			grid.getTracker().reset(grid);
 			break;
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");
@@ -132,8 +130,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		default :
 			System.out.println("On a appuyé, \nComposant en (6,5) :" + grid.getComponentAt(6, 5));
 		}
-		if (grid.getPlayer().canMove(grid, true)) {
-			grid.getPlayer().move(grid);
+		if (grid.getPlayer().canMove(true)) {
+			grid.getPlayer().move();
 		}
 
 		if (grid.isWon())

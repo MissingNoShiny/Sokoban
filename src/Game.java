@@ -107,7 +107,7 @@ public class Game implements Runnable {
 	 * @throws IOException If the path is incorrect or doesn't exist
 	 */
 	public void loadLevel(String path) throws IOException {
-		grid = GridGenerator.generateGrid(12, 8, 4);
+		grid = GridGenerator.generateGrid(16, 9, 6);
 		level = new DisplayLevel(grid, this);
 		window.setPanel(level);
 		level.displayGrid.requestFocusInWindow();

@@ -25,7 +25,7 @@ public final class GridGenerator {
 		placePlayer(grid);
 		removeUselessWall(grid);
 		movePlayer(grid, 100);
-		grid.getPlayer().getTracker().empty();
+		//grid.getTracker().empty();
 		return grid;
 	}
 	
@@ -48,8 +48,9 @@ public final class GridGenerator {
 				placeHere(grid, i, j, pattern);
 			}
 		}
+		discardDeadEnds(grid);
+		//removeBigRectangleGround(grid);
 		surroundGridWithWalls(grid);
-		//discardDeadEnds(grid);
 		return grid;
 	}
 	
@@ -191,24 +192,52 @@ public final class GridGenerator {
 	}
 	
 	private static void discardDeadEnds(Grid grid) {
-		for (int i = 0; i < grid.getWidth(); i++){
-			for (int j = 0; j < grid.getHeight(); j++) {
+		for (int i = 1; i < grid.getWidth()-1; i++){
+			for (int j = 1; j < grid.getHeight()-1; j++) {
 				if (grid.getComponentAt(i, j).getName().equals("Ground")){
-					if (grid.countAdjacentComponent("Wall", i, j) > 2){
+					if (countAdjacentWall(grid, i, j) > 2){
+						int xCenterPattern = ((i-1)/3)*3+2;
+						int yCenterPattern = ((j-1)/3)*3+2;
+						for (int k = xCenterPattern-1; k <= xCenterPattern+1; k++) {
+							for (int l = yCenterPattern-1; l <= yCenterPattern+1; l++) {
+								if (k > 0 && k < grid.getWidth() && l > 0 && l < grid.getHeight()) 
+									grid.placeComponentAt(k, l, new Blank());
+							}
+						}
 						Component[][] pattern;
 						Random rand = new Random();
 						do {
-							System.out.println("ojncdq "+ i + " " + j);
 							pattern = getPattern(rand.nextInt(17));
 							int numberRotations = rand.nextInt(4);
 							for (int k = 0; k < numberRotations; k++)
 								turnPattern(pattern);
-						}while (! canplaceHere(grid, i, j, pattern));
-						placeHere(grid, i, j, pattern);
+						}while (! canplaceHere(grid, xCenterPattern, yCenterPattern, pattern));
+						placeHere(grid, xCenterPattern, yCenterPattern, pattern);
+						if (xCenterPattern > 2)
+							i = xCenterPattern - 2;
+						else
+							i = 1;
+						if (yCenterPattern > 2)
+							j = yCenterPattern - 2;
+						else
+							j = 1;
 					}
 				}
 			}
 		}
+	}
+	
+	private static int countAdjacentWall(Grid grid, int x, int y) {
+		int count = 0;
+		if (x+1 > grid.getWidth()-2 || grid.getComponentAt(x+1, y).getName().equals("Wall"))
+			count++;
+		if (x-1 < 1 || grid.getComponentAt(x-1, y).getName().equals("Wall"))
+			count++;
+		if (y+1 > grid.getHeight()-2 || grid.getComponentAt(x, y+1).getName().equals("Wall"))
+			count++;
+		if (y-1 < 1 || grid.getComponentAt(x, y-1).getName().equals("Wall"))
+			count++;
+		return count;
 	}
 	
 	private static void surroundGridWithWalls(Grid grid) {
@@ -315,8 +344,8 @@ public final class GridGenerator {
 			else
 				System.out.println("erreur");
 			player.setDirection(getDirectionToPullCrate(grid, crate));
-			if (player.canMove(grid, false))
-				player.pullCrate(grid);
+			if (player.canMove(false))
+				player.pullCrate();
 			/*intRandom = rand.nextInt(4);
 			newDirection = directions[intRandom];
 			grid.getPlayer().setDirection(directions[intRandom]);
@@ -331,13 +360,13 @@ public final class GridGenerator {
 			int x = grid.getPlayer().getX();
 			int y = grid.getPlayer().getY();
 			if (y-1 >= 0 && tab[x][y-1]==tab[x][y]-1)
-				grid.getPlayer().move(grid, Direction.UP);
+				grid.getPlayer().move(Direction.UP, true);
 			else if (x+1 < grid.getWidth() && tab[x+1][y]==tab[x][y]-1)
-				grid.getPlayer().move(grid, Direction.RIGHT);
+				grid.getPlayer().move(Direction.RIGHT, true);
 			else if (y+1 < grid.getHeight() && tab[x][y+1]==tab[x][y]-1)
-				grid.getPlayer().move(grid, Direction.DOWN);
+				grid.getPlayer().move(Direction.DOWN, true);
 			else if (x-1 >= 0 && tab[x-1][y]==tab[x][y]-1)
-				grid.getPlayer().move(grid, Direction.LEFT);
+				grid.getPlayer().move(Direction.LEFT, true);
 			
 		}
 	}
@@ -354,7 +383,6 @@ public final class GridGenerator {
 				int x = (int)list.get(i).getX();
 				int y = (int)list.get(i).getY();
 				tab[x][y] = ind;
-				//Pour eviter de mettre un return tout seul
 				if (x==xGoal && y == yGoal) {
 					goalIsReach = true;
 					break;
