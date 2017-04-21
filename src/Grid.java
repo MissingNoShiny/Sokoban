@@ -1,11 +1,4 @@
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -46,7 +39,7 @@ public class Grid {
 	 */
 	//Peut etre ajouter instanciation du player dans le constructeur
 	public Grid(int width, int height) {
-		matrix = new Component[height][width];
+		matrix = new Component[width][height];
 		crateList = new ArrayList<Crate>(0);
 		this.width = width;
 		this.height = height;
@@ -75,7 +68,7 @@ public class Grid {
 	 * @return The data contained in specified cell
 	 */
 	public Component getComponentAt(int x, int y) {
-		return matrix[y][x];
+		return matrix[x][y];
 	}
 	
 	/**
@@ -85,7 +78,7 @@ public class Grid {
 	 * @param comp  The Component to set at the specified cell
 	 */
 	public void placeComponentAt(int x, int y, Component comp) {
-		matrix[y][x] = comp;
+		matrix[x][y] = comp;
 	}
 	
 	public boolean isWon(){
@@ -139,33 +132,7 @@ public class Grid {
 	public void fill(Component component) {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++)
-				matrix[j][i] = component;
-		}
-	}
-	
-
-	public void placeBlanks() {
-		boolean[][] isFlooded = new boolean[height][width];
-		findGrounds(isFlooded, player.getX(), player.getY());
-		Component blank = new Blank();
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++)
-				if (matrix[j][i].getName().equals("Ground") && !isFlooded[j][i])
-					matrix[j][i] = blank;
-		}
-	}
-	
-	private void findGrounds(boolean[][] isFlooded, int x, int y) {
-		if (isFlooded[y][x] == false && !matrix[y][x].getName().equals("Wall")){
-			isFlooded[y][x] = true;
-			if (x > 0)
-				findGrounds(isFlooded, x-1, y);
-			if (x < width-1)
-				findGrounds(isFlooded, x+1, y);
-			if (y > 0)
-				findGrounds(isFlooded, x, y-1);
-			if (y < height-1)
-				findGrounds(isFlooded, x, y+1);
+				matrix[i][j] = component;
 		}
 	}
 }

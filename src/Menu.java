@@ -1,7 +1,6 @@
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -27,10 +26,7 @@ public class Menu extends JPanel {
 	 * le menu.
 	 */
 	
-	private Game game;
-	
 	public Menu(Game game) {
-		this.game = game;
 		GridLayout gl = new GridLayout(5,1);
 		gl.setVgap(3);
 		setLayout(gl);
@@ -74,8 +70,6 @@ public class Menu extends JPanel {
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
-		
-		Graphics2D g2 = (Graphics2D) g;
 		setBackground(Game.BLEU_CLAIR);
 	}
 }

@@ -157,7 +157,7 @@ public class GridReader {
 				}
 			}
 	 	}
-		grid.placeBlanks();
+		GridReader.placeBlanks(grid);
 		return grid;
 	}
 	
@@ -191,5 +191,30 @@ public class GridReader {
 				throw new IOException("Grid et machin pas valide");
 		}
 		GridReader.saveGrid(grid, pathOut, game);
+	}
+	
+	private static void placeBlanks(Grid grid) {
+		boolean[][] isFlooded = new boolean[grid.getWidth()][grid.getHeight()];
+		findGrounds(grid, isFlooded, grid.getPlayer().getX(), grid.getPlayer().getY());
+		Component blank = new Blank();
+		for (int i = 0; i < grid.getWidth(); i++) {
+			for (int j = 0; j < grid.getHeight(); j++)
+				if (grid.getComponentAt(i, j).getName().equals("Ground") && !isFlooded[i][j])
+					grid.placeComponentAt(i, j, blank);
+		}
+	}
+	
+	private static void findGrounds(Grid grid, boolean[][] isFlooded, int x, int y) {
+		if (isFlooded[x][y] == false && !grid.getComponentAt(x, y).getName().equals("Wall")){
+			isFlooded[x][y] = true;
+			if (x > 0)
+				GridReader.findGrounds(grid, isFlooded, x-1, y);
+			if (x < grid.getWidth()-1)
+				GridReader.findGrounds(grid, isFlooded, x+1, y);
+			if (y > 0)
+				GridReader.findGrounds(grid, isFlooded, x, y-1);
+			if (y < grid.getHeight()-1)
+				GridReader.findGrounds(grid, isFlooded, x, y+1);
+		}
 	}
 }
