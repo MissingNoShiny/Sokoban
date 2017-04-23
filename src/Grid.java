@@ -65,7 +65,7 @@ public class Grid {
 	 * Gets the content of the matrix at specified position.
 	 * @param x The X-coordinate of the cell to get data from
 	 * @param y The y-coordinate of the cell to get data from
-	 * @return The data contained in specified cell
+	 * @return The Component contained in specified cell
 	 */
 	public Component getComponentAt(int x, int y) {
 		return matrix[x][y];
