@@ -80,7 +80,6 @@ public class GridReader {
 	*/
 	
 	public static Grid readGrid (String path) throws IOException {
-		int crateCount = 0, goalCount = 0;
 		if (!path.endsWith(".xsb"))
 			throw new IOException();
 		Grid grid = null;
@@ -113,14 +112,12 @@ public class GridReader {
 					case ('$'):
 						grid.placeComponentAt(j, i, new Ground());
 						grid.addCrate(j, i);
-						crateCount++;
 						break;
 					case(' ') :
 						grid.placeComponentAt(j, i, new Ground());
 						break;
 					case('.') :
 						grid.placeComponentAt(j, i, new Goal());
-						goalCount++;
 						break;
 					case ('@'):
 						grid.placeComponentAt(j, i, new Ground());
@@ -128,14 +125,11 @@ public class GridReader {
 						break;
 					case ('+'):
 						grid.placeComponentAt(j, i, new Goal());
-						goalCount++;
 						grid.setPlayer(j, i);
 						break;
 					case ('*'):
 						grid.placeComponentAt(j, i, new Goal());
-						goalCount++;
 						grid.addCrate(j, i);
-						crateCount++;
 						break;
 					}
 				}
@@ -143,8 +137,6 @@ public class GridReader {
 					grid.placeComponentAt(j, i, new Ground());
 					j++;
 				}
-				if (goalCount != crateCount) 
-					throw new IOException();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -185,7 +177,7 @@ public class GridReader {
 			default :
 				throw new IOException();
 			}
-			if (player.canMove(true))
+			if (player.canMove())
 				player.move();
 			else 
 				throw new IOException("Grid et machin pas valide");

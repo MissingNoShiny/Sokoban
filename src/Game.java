@@ -115,8 +115,8 @@ public class Game implements Runnable {
 	}
 	
 	
-	public void generateLevel(int width, int height, int numberCrates) {
-		grid = GridGenerator.generateGrid(width, height, numberCrates);
+	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
+		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);
 		level = new DisplayLevel(grid, this);
 		window.setPanel(level);
 		level.displayGrid.requestFocusInWindow();

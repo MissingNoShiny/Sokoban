@@ -225,9 +225,9 @@ public class MovementTracker {
 	 * @return 
 	 */
 	public int getDistanceTraveled() {
-		if (moves.size() > 0)
+		if (moves.size() == 0)
 			return 0;
-		int count = 0;
+		int count = 1;
 		char oldDir = Character.toLowerCase(moves.get(0));
 		for (int i = 1; i < moves.size(); i++) {
 			char newDir = Character.toLowerCase(moves.get(i));

@@ -16,15 +16,15 @@ public class Player extends Position {
 		return direction;
 	}
 	
-	public boolean canMove(boolean canPushCrate) {
-		return canMove(canPushCrate, direction);
+	public boolean canMove() {
+		return canMove(direction);
 	}
 	
 	/**
 	 * @param grid
 	 * @param dir
 	 */
-	public boolean canMove(boolean canPushCrate, Direction dir) {
+	public boolean canMove(Direction dir) {
 		int newX = x, newY = y;
 		boolean test = false;
 		
@@ -48,7 +48,7 @@ public class Player extends Position {
 				test = true;
 			}
 
-			else if (canPushCrate && grid.hasCrateAt(newX, newY)) 
+			else if (grid.hasCrateAt(newX, newY)) 
 				test = grid.getCrateAt(newX, newY).canMove(dir);
 
 		}

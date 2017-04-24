@@ -118,6 +118,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		switch (input){
 		case KeyEvent.VK_R:
 			grid.getTracker().reset(grid);
+			grid.setPlayer(grid.getHeight(), grid.getWidth());
 			break;
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");
@@ -126,22 +127,22 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			break;
 		case KeyEvent.VK_UP:
 			grid.getPlayer().setDirection(Direction.UP);
-			if (grid.getPlayer().canMove(true))
+			if (grid.getPlayer().canMove())
 				grid.getPlayer().move();
 			break;
 		case KeyEvent.VK_DOWN :
 			grid.getPlayer().setDirection(Direction.DOWN);
-			if (grid.getPlayer().canMove(true))
+			if (grid.getPlayer().canMove())
 				grid.getPlayer().move();
 			break;
 		case KeyEvent.VK_RIGHT:
 			grid.getPlayer().setDirection(Direction.RIGHT);
-			if (grid.getPlayer().canMove(true))
+			if (grid.getPlayer().canMove())
 				grid.getPlayer().move();
 			break;
 		case KeyEvent.VK_LEFT:
 			grid.getPlayer().setDirection(Direction.LEFT);
-			if (grid.getPlayer().canMove(true))
+			if (grid.getPlayer().canMove())
 				grid.getPlayer().move();
 			break;
 		default :

@@ -58,7 +58,7 @@ public class Menu extends JPanel {
 		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				game.generateLevel(14, 10, 7);
+				game.generateLevel(10, 8, 6, 80);
 			}
 		});
 		
