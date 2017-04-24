@@ -19,6 +19,8 @@ public class Game implements Runnable {
 	public static final Color BLEU_CLAIR = new Color(135, 206, 250);
 	
 	public static final int FPS_CAP = 30;
+	
+	public static final boolean SHOW_PLAYER_ARROWS = false;
 
 	private boolean running = false;
 	private Menu menu = new Menu(this);

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -11,6 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 
@@ -30,11 +34,41 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	
 	private int borderThickness = 5;
 	
+	JButton buttonLeft, buttonRight, buttonUp, buttonDown;
+	
 	public DisplayGrid (Grid grid) {
 		addKeyListener(this);
 		setFocusable(true);
 		setOpaque(true);
+		setLayout(null);
 		this.grid = grid;
+		
+		if (Game.SHOW_PLAYER_ARROWS) {
+			buttonLeft = new JButton();
+			add(buttonLeft);
+			initializeButton(buttonLeft, Direction.LEFT);
+			buttonLeft.setIcon(new ImageIcon("../resources/arrowLeft.png"));
+			buttonLeft.setBounds(0, 0, 0, 0);
+			
+			buttonRight = new JButton();
+			add(buttonRight);
+			initializeButton(buttonRight, Direction.RIGHT);
+			buttonRight.setIcon(new ImageIcon("../resources/arrowRight.png"));
+			buttonRight.setBounds(0, 0, 0, 0);
+			
+			buttonUp = new JButton();
+			add(buttonUp);
+			initializeButton(buttonUp, Direction.UP);
+			buttonUp.setIcon(new ImageIcon("../resources/arrowUp.png"));
+			buttonUp.setBounds(0, 0, 0, 0);
+			
+			buttonDown = new JButton();
+			add(buttonDown);
+			initializeButton(buttonDown, Direction.DOWN);
+			buttonDown.setIcon(new ImageIcon("../resources/arrowDown.png"));
+			buttonDown.setBounds(0, 0, 0, 0);
+		}
+		
 		addToMap(sprites, "Ground", "../resources/ground.png");
 		addToMap(sprites, "Crate", "../resources/crate.png");
 		addToMap(sprites, "Wall", "../resources/wall.png");
@@ -46,14 +80,12 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		addToMap(sprites, "PlayerLEFT", "../resources/playerLeft.png");
 	}
 	
-	public void paintComponent(Graphics g) {
-
-		while (grid.getWidth()*cellSize + 4*borderThickness > this.getWidth() || grid.getHeight()*cellSize + 4*borderThickness > this.getHeight())
+	public void paintComponent(Graphics g) {	
+		
+		while (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight())
 			cellSize --;
-		int midX = this.getWidth()/2;
-		int midY = this.getHeight()/2;
-		int x0 = midX - (grid.getWidth()*cellSize)/2;
-		int y0 = midY - (grid.getHeight()*cellSize)/2;
+		int x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
+		int y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
 		
 		super.paintComponent(g); //J'ai compris a quoi servait cette ligne (sans elle le setBackground ne fonctionne pas), mais pas reelelement ce qu'elle faisait
 		setBackground(Game.BLEU_CLAIR);
@@ -100,6 +132,18 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			}
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
+		
+		if (Game.SHOW_PLAYER_ARROWS) {
+			buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
+			buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
+			buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);
+			buttonDown.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()+1)*cellSize, cellSize, cellSize);
+			
+			buttonLeft.setVisible(grid.getPlayer().canMove(true, Direction.LEFT));
+			buttonRight.setVisible(grid.getPlayer().canMove(true, Direction.RIGHT));
+			buttonUp.setVisible(grid.getPlayer().canMove(true, Direction.UP));
+			buttonDown.setVisible(grid.getPlayer().canMove(true, Direction.DOWN));
+		}
 	}
 	
 	public void addToMap(Map<String, Image> map, String comp, String nameResource) {
@@ -163,5 +207,18 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
+	}
+	
+	public void initializeButton(JButton button, Direction direction) {
+		button.setFocusable(false);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
+		button.setContentAreaFilled(false);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grid.getPlayer().setDirection(direction);
+				grid.getPlayer().move(direction, true);
+			}
+		});
 	}
 }
