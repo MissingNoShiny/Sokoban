@@ -139,10 +139,10 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);
 			buttonDown.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()+1)*cellSize, cellSize, cellSize);
 			
-			buttonLeft.setVisible(grid.getPlayer().canMove(true, Direction.LEFT));
-			buttonRight.setVisible(grid.getPlayer().canMove(true, Direction.RIGHT));
-			buttonUp.setVisible(grid.getPlayer().canMove(true, Direction.UP));
-			buttonDown.setVisible(grid.getPlayer().canMove(true, Direction.DOWN));
+			buttonLeft.setVisible(grid.getPlayer().canMove(Direction.LEFT));
+			buttonRight.setVisible(grid.getPlayer().canMove(Direction.RIGHT));
+			buttonUp.setVisible(grid.getPlayer().canMove(Direction.UP));
+			buttonDown.setVisible(grid.getPlayer().canMove(Direction.DOWN));
 		}
 	}
 	

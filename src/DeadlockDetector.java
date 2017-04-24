@@ -32,11 +32,9 @@ public class DeadlockDetector {
 				||crate.getX() == 0 
 				|| (grid.hasCrateAt(crate.getX() - 1, crate.getY()) && DeadlockDetector.isFrozen(grid.getCrateAt(crate.getX() - 1, crate.getY()), grid, Axis.X))
 				|| grid.getComponentAt(crate.getX() - 1, crate.getY()).getName().equals("Wall")
-				|| grid.getComponentAt(crate.getX() - 1, crate.getY()).getName().equals("Blank")
 				|| crate.getX() == grid.getWidth() - 1
 				|| (grid.hasCrateAt(crate.getX() + 1, crate.getY()) && DeadlockDetector.isFrozen(grid.getCrateAt(crate.getX() + 1, crate.getY()), grid, Axis.X))
 				|| grid.getComponentAt(crate.getX() + 1, crate.getY()).getName().equals("Wall")
-				|| grid.getComponentAt(crate.getX() + 1, crate.getY()).getName().equals("Blank")
 				)
 			x = true;
 		if (
@@ -44,11 +42,9 @@ public class DeadlockDetector {
 				||crate.getY() == 0 
 				|| (grid.hasCrateAt(crate.getX(), crate.getY() - 1) && DeadlockDetector.isFrozen(grid.getCrateAt(crate.getX(), crate.getY() - 1), grid, Axis.Y))
 				|| grid.getComponentAt(crate.getX(), crate.getY() - 1).getName().equals("Wall")
-				|| grid.getComponentAt(crate.getX(), crate.getY() - 1).getName().equals("Blank")
 				|| crate.getY() == grid.getHeight() - 1
 				|| (grid.hasCrateAt(crate.getX(), crate.getY() + 1) && DeadlockDetector.isFrozen(grid.getCrateAt(crate.getX(), crate.getY() + 1), grid, Axis.Y))
 				|| grid.getComponentAt(crate.getX(), crate.getY() + 1).getName().equals("Wall")
-				|| grid.getComponentAt(crate.getX(), crate.getY() + 1).getName().equals("Blank")
 				)
 			y = true;
 		if (x == true && y == true)
