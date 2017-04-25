@@ -31,6 +31,11 @@ public class MovementTracker {
 	private int pushesCount;
 	
 	/**
+	*
+	*/
+	private boolean hasMoved = true;
+	
+	/**
 	 * 
 	 * @param grid The grid to track the moves of.
 	 */
@@ -77,6 +82,7 @@ public class MovementTracker {
 			moves.add('l');
 			break;
 		}
+		hasMoved = true;
 		movesCount += 1;
 	}
 	
@@ -98,6 +104,7 @@ public class MovementTracker {
 			moves.add('L');
 			break;
 		}
+		hasMoved = true;
 		movesCount += 1;
 		pushesCount += 1;
 	}
@@ -216,6 +223,14 @@ public class MovementTracker {
 				}
 			}
 		}
+	}
+	
+	public boolean hasMoved() {
+		if (hasMoved == false)
+			return false;
+		else 
+			hasMoved = false;
+		return true;
 	}
 	
 	/**
