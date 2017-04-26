@@ -13,7 +13,7 @@ public class GridReader {
 	}
 	
 	public static void saveGrid(Grid grid, String path, Game game) {
-		File file = new File("..\\levels\\saved\\" + path + ".xsb");
+		File file = new File(path + ".xsb");
 		if (file.exists()) {
 			if (!game.canOverrideLevel())
 				return;
@@ -72,13 +72,17 @@ public class GridReader {
 		}
 	}
 	
-	/*
-	//Je veux dire qu'on sauvegarde une partie en cours. Rien à voir avec l'objet game.
-	public static void saveGame(Grid grid, String path, MovementTracker tracker) {
-		
-	}
-	*/
+    public static void saveGame(Grid grid, String saveName, Game game) throws IOException{
+    	grid.getTracker().saveMov("../saves/" + saveName + ".mov");
+        saveGrid(grid, "../saves/"+saveName, game);
+    }
 	
+    public static Grid loadGame(String path) throws IOException {
+    	Grid grid = readGrid(path + ".xsb");
+    	grid.getTracker().readMov(path + ".mov");
+    	return grid;
+    }
+    
 	public static Grid readGrid (String path) throws IOException {
 		if (!path.endsWith(".xsb"))
 			throw new IOException();

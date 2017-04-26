@@ -37,14 +37,15 @@ public class Grid {
 	 * @param width The width of the matrix
 	 * @param height The height of the matrix
 	 */
-	//Peut etre ajouter instanciation du player dans le constructeur
 	public Grid(int width, int height) {
-		matrix = new Component[width][height];
-		crateList = new ArrayList<Crate>(0);
 		this.width = width;
 		this.height = height;
+		matrix = new Component[width][height];
+		crateList = new ArrayList<Crate>(0);
+		player = new Player (this, 1, 1);
+		tracker = new MovementTracker(player);
 	}
-
+	
 	/**
 	 * Gets the height of the matrix.
 	 * @return The height of the matrix
@@ -94,8 +95,8 @@ public class Grid {
 	}
 	
 	public void setPlayer (int x, int y) {
-		player = new Player (this, x, y);
-		tracker = new MovementTracker(player);
+		player.setX(x);
+		player.setY(y);
 	}
 	
 	public Player getPlayer() {

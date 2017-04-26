@@ -193,6 +193,8 @@ public class MovementTracker {
 		BufferedWriter buff = null;
 		try {
 			buff = new BufferedWriter(new FileWriter(file));
+			for (int i = 0; i < moves.size(); i++)
+				buff.write(moves.get(i));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -206,12 +208,25 @@ public class MovementTracker {
 		}
 	}
 	
+	/**
+	 * Je ne gère pas les cas où quelqu'un aurait mis un fichier .mov contenant n'importe quoi
+	 * @param path
+	 * @throws IOException
+	 */
 	public void readMov(String path) throws IOException {
 		if (!path.endsWith(".mov"))
 			throw new IOException();
 		BufferedReader buff = null;
 		try {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+			String moveList = buff.readLine();
+			for (int i = 0; i < moveList.length(); i++) {
+				moves.add(moveList.charAt(i));
+				if (Character.isLowerCase(moveList.charAt(i)))
+					movesCount++;
+				else 
+					pushesCount++;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

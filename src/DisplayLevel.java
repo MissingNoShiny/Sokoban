@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 
@@ -52,7 +53,7 @@ public class DisplayLevel extends JPanel{
 		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 		
 		add(buttonsPanel, BorderLayout.EAST);
-		GridLayout gridLayout = new GridLayout(3,1);
+		GridLayout gridLayout = new GridLayout(4,1);
 		gridLayout.setVgap(4);
 		buttonsPanel.setLayout(gridLayout);
 		
@@ -75,12 +76,27 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(resetButton);
 		
+		Button saveButton = new Button("Save", Color.orange, 50);
+		saveButton.addMouseListener(new ButtonListener(saveButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				try {
+					GridReader.saveGame(grid, "pomme", game);
+					System.out.println("Save reussie");
+				} catch (IOException e1) {
+					System.out.println("Save impossible");
+					e1.printStackTrace();
+					//Creer JLabel pour avertir qu'un problème de sauvegarde a eu lieu
+				};
+			}
+		});
+		buttonsPanel.add(saveButton);
+		
 		Button menuButton = new Button("Menu", Color.orange, 50);
 		menuButton.addMouseListener(new ButtonListener(menuButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				game.loadMenu();
-				//grid.saveGrid("level1_saved", game);
 			}
 		});
 		buttonsPanel.add(menuButton);

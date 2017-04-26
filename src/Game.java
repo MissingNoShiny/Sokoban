@@ -108,14 +108,16 @@ public class Game implements Runnable {
 	 * @param path The path of the level to load (must end with ".xsb")
 	 * @throws IOException If the path is incorrect or doesn't exist
 	 */
-	public void loadLevel(String path) throws IOException {
-		grid = GridReader.readGrid(path);
+	public void loadLevel(String path, boolean isVirginLevel) throws IOException { //pas trouve d'autre nom pour le booleen :)
+		if (isVirginLevel) 
+			grid = GridReader.readGrid(path);
+		else
+			grid = GridReader.loadGame(path);
 		level = new DisplayLevel(grid, this);
 		window.setPanel(level);
 		level.displayGrid.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
-	
 	
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
 		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);

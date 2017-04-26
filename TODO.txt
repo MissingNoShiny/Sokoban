@@ -11,6 +11,9 @@ Vincent:
 
 #Pour le background, va voir ce que j'ai fait dans le displayGrid ligne 64. C'est peut etre ca qui n'allait pas.
 
-Attention, pour le pattern9, il faut verifier
+C'est surtout de ma faute, mais on a des game qui désignent la JFrame et d'autres qui désignent une partie en cours (surtout dans le nom des méthodes et variables)
+Ca porte a confusion. Il faudra y remédier.
+
+TRES IMPORTANT : faire en sorte que les positions du player soient toujours valides.
 
 PARTOUT : il faut harmoniser ordre des arguments (width avant height notamment)

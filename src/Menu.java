@@ -3,7 +3,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
+
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -26,7 +29,7 @@ public class Menu extends JPanel {
 	 */
 
 	public Menu(Game game) {
-		GridLayout gl = new GridLayout(5,1);
+		GridLayout gl = new GridLayout(7,1);
 		gl.setVgap(3);
 		setLayout(gl);
 		
@@ -39,7 +42,7 @@ public class Menu extends JPanel {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				try {
-					game.loadLevel("../levels/level2.xsb");
+					game.loadLevel("../levels/level2.xsb", true);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -62,12 +65,62 @@ public class Menu extends JPanel {
 			}
 		});
 		
-
+		String[] savesList = getSavesList();
+		JComboBox listChoice = new JComboBox(savesList);
+		
+		Button validateButton = new Button("Valider choix de sauvegarde");
+		validateButton.addMouseListener(new ButtonListener(validateButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				String levelName = (String) listChoice.getSelectedItem();
+				try {
+					game.loadLevel("../saves/"+levelName, false);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				remove(listChoice);
+				remove(validateButton);
+			}
+		});
+		
+		Button loadButton = new Button("Load a game");
+		loadButton.addMouseListener(new ButtonListener(loadButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				add(listChoice);
+				add(validateButton);
+			}
+		});
+		
 		add(playButton);
 		
 		add(generateLevelButton);
 		
+		add(loadButton);
+		
 		add(quitButton);
+	}
+	
+	private static String[] getSavesList() {
+		File saveDirectory = new File("../saves/");
+		File[] saves = saveDirectory.listFiles();
+		String[] tempList = new String[saves.length];
+		String name;
+		int countFile = 0;
+		for (int i = 0; i < saves.length; i++) {
+			if (saves[i].isFile()) {
+				name = saves[i].getName();
+				if (name.endsWith(".xsb")) {
+					name = name.substring(0, name.lastIndexOf('.'));
+					tempList[countFile] = name;
+					countFile++;
+				}
+			}
+		}
+		String[] savesList = new String[countFile];
+		System.arraycopy(tempList, 0, savesList, 0, countFile);
+		return savesList;
 	}
 	
 	public static enum MenuState {
@@ -75,6 +128,7 @@ public class Menu extends JPanel {
 	}
 	
 	private MenuState state = MenuState.MAIN;
+	
 	
 	public MenuState getState() {
 		return state;
