@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
@@ -105,5 +107,29 @@ public class DisplayLevel extends JPanel{
 		infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
 		infoPanel.setOpaque(true);
 		add(infoPanel, BorderLayout.WEST);
+		
+		addComponentListener(new ComponentListener() {
+
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				
+			}
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
+				infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
+			}
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+				
+			}
+		});
 	}
 }

@@ -66,7 +66,7 @@ public class Menu extends JPanel {
 		});
 		
 		String[] savesList = getSavesList();
-		JComboBox listChoice = new JComboBox(savesList);
+		JComboBox<String> listChoice = new JComboBox<String>(savesList);
 		
 		Button validateButton = new Button("Valider choix de sauvegarde");
 		validateButton.addMouseListener(new ButtonListener(validateButton) {
