@@ -60,13 +60,12 @@ public class Menu extends JPanel {
 		saveChoice.setSize(300, 300);
 		saveChoice.setLayout(new GridLayout(3,1));
 		
-		String[] savesList = getSavesList();
-		JComboBox<String> listChoice = new JComboBox<>(savesList);
+		String[] savesList = getSavesList();	
+		JComboBox<String> listChoice = new JComboBox<String>(savesList);
 		listChoice.setFont(new Font("arial", 0, 40));
 		listChoice.setBackground(Color.orange);
 		listChoice.setFocusable(false);
 		listChoice.setEditable(false);
-		
 		
 		Button validateButton = new Button("Valider", Color.orange, 40);
 		validateButton.addMouseListener(new ButtonListener(validateButton) {
