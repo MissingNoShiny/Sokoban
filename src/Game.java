@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 
+import javax.swing.JFrame;
+
 
 public class Game implements Runnable {
 	
@@ -26,7 +28,7 @@ public class Game implements Runnable {
 	private Menu menu = new Menu(this);
 	private Thread thread;
 	private Grid grid;
-	private Display window;
+	private JFrame window;
 	private DisplayLevel level;
 	private int fpsTemp = 0;
 	
@@ -38,7 +40,11 @@ public class Game implements Runnable {
 		Game game = new Game();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		game.window = new Display(screenSize, Game.TITLE);
+		game.window = new JFrame(Game.TITLE);
+		game.window.setSize((int) screenSize.getWidth(), (int) screenSize.getHeight());
+		game.window.setLocationRelativeTo(null);
+		game.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		game.window.setVisible(true);
 		game.loadMenu();
 		
 		game.start();
@@ -63,7 +69,8 @@ public class Game implements Runnable {
 		while (running) {
 			try {
 				Thread.sleep(1000/Game.FPS_CAP);
-				getWindow().refresh();
+				window.revalidate();
+				window.repaint();
 				fps++;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -114,7 +121,7 @@ public class Game implements Runnable {
 		else
 			grid = GridReader.loadGame(path);
 		level = new DisplayLevel(grid, this);
-		window.setPanel(level);
+		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
@@ -122,7 +129,7 @@ public class Game implements Runnable {
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
 		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);
 		level = new DisplayLevel(grid, this);
-		window.setPanel(level);
+		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 		state = GameState.PLAYING;
 	}
@@ -130,7 +137,7 @@ public class Game implements Runnable {
 	 * Loads the menu
 	 */
 	public void loadMenu() {
-		window.setPanel(menu);
+		window.setContentPane(menu);
 		level = null;
 		state = GameState.MENU;
 	}
@@ -140,7 +147,7 @@ public class Game implements Runnable {
 		return true;
 	}
 
-	public Display getWindow() {
+	public JFrame getWindow() {
 		return window;
 	}
 }
