@@ -11,16 +11,12 @@ public class Crate extends Position {
 	 */
 	public Crate(Grid grid, int x, int y) {
 		super(grid, x, y);
-		setSupport(grid.getComponentAt(x, y));
+		support = grid.getComponentAt(x, y);
 		grid.placeComponentAt(x, y, this);
 	}
 	
 	public Component getSupport() {
 		return support;
-	}
-
-	public void setSupport(Component support) {
-		this.support = support;
 	}
 	
 	public boolean canMove(Direction dir) {
@@ -97,21 +93,21 @@ public class Crate extends Position {
 			newX--;
 			break;
 		}
-		grid.placeComponentAt(x, y, getSupport());
-		setSupport(grid.getComponentAt(newX, newY));
+		grid.placeComponentAt(x, y, support);
+		support = grid.getComponentAt(newX, newY);
 		setX(newX);
 		setY(newY);
 		grid.placeComponentAt(newX, newY, this);
 		if (DeadlockDetector.isFrozen(this, grid, null)) {
 			System.out.println("Crate in " + x + ", " + y + " is now frozen.");
-			if (!getSupport().getName().equals("Goal"))
+			if (!support.getName().equals("Goal"))
 				System.out.println("A deadlock occured.");
 		}
 	}
 	
 	@Override
 	public String getName() {
-		if (getSupport().getName().equals("Goal"))
+		if (support.getName().equals("Goal"))
 			return "CrateOnGoal";	
 		return "Crate";
 	}

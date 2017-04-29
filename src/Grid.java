@@ -107,7 +107,16 @@ public class Grid {
 		crateList.add(new Crate(this, x, y));
 	}
 	
-
+	/**
+	 * Utilisee uniquement pour le gridGenerator
+	 * @param ind The index of the crate in the crateList
+	 */
+	public void removeCrate(int ind) {
+		Crate crate = crateList.get(ind);
+		matrix[crate.getX()][crate.getY()] = crate.getSupport();
+		crateList.remove(ind);
+	}
+	
 	public boolean hasCrateAt (int x, int y) {
 		String nameComponent = getComponentAt(x, y).getName();
 		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
