@@ -14,21 +14,25 @@ import javax.swing.JPanel;
 
 public class Menu extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5237335232850181080L;
-
+	
+	public static final String fontName = "arial";
+	
+	public static final Font defaultFont = new Font(fontName, 0, 40);
+	
+	public static final Color defaultColor = Color.orange;
+	
+	private static final Font menuButtonsFont = new Font(fontName, 0, 70);
+	
 	public Menu(Game game) {
-		GridLayout gl = new GridLayout(7,1);
-		gl.setVgap(3);
-		setLayout(gl);
+		
+		setLayout(new GridLayout(6, 1, 3, 3));
 		
 		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
-		title.setFont(new Font("arial", 0, 100));
+		title.setFont(new Font(fontName, 0, 100));
 		add(title);
 		
-		Button playButton = new Button("Play");
+		Button playButton = new Button("Play", defaultColor, menuButtonsFont);
 		playButton.addMouseListener(new ButtonListener(playButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -40,7 +44,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button quitButton = new Button("Quit");
+		Button quitButton = new Button("Quit", defaultColor, menuButtonsFont);
 		quitButton.addMouseListener(new ButtonListener(quitButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -48,26 +52,80 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button generateLevelButton = new Button("Generate level");
+		JFrame generatorFrame = new JFrame();
+		generatorFrame.setSize(600, 400);
+		generatorFrame.setLocationRelativeTo(null); 
+		generatorFrame.setResizable(false);
+		generatorFrame.setLayout(new GridLayout(3,1));
+		
+		JPanel generatorParameters = new JPanel();
+		generatorParameters.setLayout(new GridLayout(2, 3));
+		generatorFrame.add(generatorParameters);
+		
+		generatorParameters.add(new defaultLabel("Largeur"));
+		generatorParameters.add(new defaultLabel("Hauteur"));
+		generatorParameters.add(new defaultLabel("Difficulte"));
+		
+		defaultTextField widthLevel = new defaultTextField();
+		generatorParameters.add(widthLevel);
+		
+		defaultTextField heightLevel = new defaultTextField();
+		generatorParameters.add(heightLevel);
+		
+		defaultTextField difficulty = new defaultTextField();
+		generatorParameters.add(difficulty);
+		
+		Button validateGeneratorButton = new Button("Valider", defaultColor, defaultFont);
+		validateGeneratorButton.addMouseListener(new ButtonListener(validateGeneratorButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				String str = difficulty.getText();
+				int difficulty = Integer.parseInt(str)* 10;
+				str = widthLevel.getText();
+				int widthLevel = Integer.parseInt(str);
+				str = heightLevel.getText();
+				int heightLevel = Integer.parseInt(str);
+				game.generateLevel(widthLevel, heightLevel, 7, difficulty);
+				generatorFrame.setVisible(false);
+			}
+		});
+		
+		Button cancelGeneratorButton = new Button("Annuler", defaultColor, defaultFont);
+		cancelGeneratorButton.addMouseListener(new ButtonListener(cancelGeneratorButton){
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				generatorFrame.setVisible(false);
+			}
+		});
+		
+		generatorFrame.add(validateGeneratorButton);
+		generatorFrame.add(cancelGeneratorButton);
+		
+		Button generateLevelButton = new Button("Generate level", defaultColor, menuButtonsFont);
 		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				game.generateLevel(10, 8, 6, 100);
+				generatorFrame.setVisible(true);
 			}
 		});
 		
 		JFrame saveChoice = new JFrame();
-		saveChoice.setSize(300, 300);
+		saveChoice.setSize(500, 300);
+		saveChoice.setLocationRelativeTo(null); 
+		saveChoice.setResizable(false);
 		saveChoice.setLayout(new GridLayout(3,1));
 		
 		String[] savesList = getSavesList();	
 		JComboBox<String> listChoice = new JComboBox<String>(savesList);
-		listChoice.setFont(new Font("arial", 0, 40));
-		listChoice.setBackground(Color.orange);
+		listChoice.setFont(defaultFont);
+		listChoice.setBackground(defaultColor);
 		listChoice.setFocusable(false);
 		listChoice.setEditable(false);
+		saveChoice.add(listChoice);
 		
-		Button validateButton = new Button("Valider", Color.orange, 40);
+		//JLabel errorSave = new JLabel("La sauvegarde a echoue");
+		
+		Button validateButton = new Button("Valider", defaultColor, defaultFont);
 		validateButton.addMouseListener(new ButtonListener(validateButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -82,7 +140,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button cancelButton = new Button("Annuler", Color.orange, 40);
+		Button cancelButton = new Button("Annuler", defaultColor, defaultFont);
 		cancelButton.addMouseListener(new ButtonListener(cancelButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -90,7 +148,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button loadButton = new Button("Load a game");
+		Button loadButton = new Button("Load a game", defaultColor, menuButtonsFont);
 		loadButton.addMouseListener(new ButtonListener(loadButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -99,9 +157,6 @@ public class Menu extends JPanel {
 				saveChoice.setVisible(true);
 			}
 		});
-		
-		saveChoice.add(listChoice);
-		
 		
 		add(playButton);
 		
@@ -145,7 +200,6 @@ public class Menu extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
 		setBackground(Game.BLEU_CLAIR);
 	}

@@ -1,6 +1,5 @@
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,14 +11,12 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class DisplayLevel extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4992322428530946741L;
+	
+	private static final Font localButtonsFont = new Font (Menu.fontName, 0, 50);
 	
 	/*
 	 * J'ai du faire de displaygrid un attribut de displayLevel, pour lui donner le focus. Il faudra trouver 
@@ -27,11 +24,6 @@ public class DisplayLevel extends JPanel{
 	 */
 	public DisplayGrid displayGrid;
 	
-	/**
-	 * TODO
-	 * @param grid The Grid object to get data from
-	 * @param game
-	 */
 	
 	public DisplayLevel(Grid grid, Game game) {
 		setFocusable(true);
@@ -41,12 +33,9 @@ public class DisplayLevel extends JPanel{
 		
 		displayGrid = new DisplayGrid(grid);
 		add(displayGrid, BorderLayout.CENTER);
-		//displayGrid.requestFocusInWindow();
 		
 		JPanel buttonsPanel = new JPanel(){
-			/**
-			 * 
-			 */
+		
 			private static final long serialVersionUID = 1L;
 
 			public void paintComponent(Graphics g) {
@@ -54,16 +43,14 @@ public class DisplayLevel extends JPanel{
 				setBackground(Game.BLEU_CLAIR);
 			}
 		};
-		buttonsPanel.setOpaque(true);
+		//buttonsPanel.setOpaque(true);
 		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
+		buttonsPanel.setLayout(new GridLayout(4, 1, 3, 3));
 		
 		add(buttonsPanel, BorderLayout.EAST);
-		GridLayout gridLayout = new GridLayout(4,1);
-		gridLayout.setVgap(4);
-		buttonsPanel.setLayout(gridLayout);
 		
 
-		Button undoButton = new Button("Undo", Color.orange, 50);
+		Button undoButton = new Button("Undo", Menu.defaultColor, localButtonsFont);
 		undoButton.addMouseListener(new ButtonListener(undoButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -72,7 +59,7 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(undoButton);
 		
-		Button resetButton = new Button("Reset", Color.orange, 50);
+		Button resetButton = new Button("Reset", Menu.defaultColor, localButtonsFont);
 		resetButton.addMouseListener(new ButtonListener(resetButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -81,31 +68,35 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(resetButton);
 		
-		JFrame saveName = new JFrame();
-		saveName.setSize(300, 300);
-		saveName.setLayout(new GridLayout(3,1));
-		JTextField saveNameField = new JTextField("save1");
-		saveNameField.setBackground(Color.orange);
-		saveNameField.setFont(new Font("arial", 0, 40));
-		saveName.add(saveNameField);
+		JFrame saveFrame = new JFrame();
+		saveFrame.setSize(500, 300);
+		saveFrame.setLocationRelativeTo(null); 
+		saveFrame.setResizable(false);
+		saveFrame.setLayout(new GridLayout(4,1));
 		
-		Button cancelButton = new Button("Annuler", Color.orange, 40);
+		defaultLabel saveFrameLabel = new defaultLabel("Nom de la sauvegarde :");
+		saveFrame.add(saveFrameLabel);
+		
+		defaultTextField saveFrameField = new defaultTextField();
+		saveFrame.add(saveFrameField);
+		
+		Button cancelButton = new Button("Annuler", Menu.defaultColor, Menu.defaultFont);
 		cancelButton.addMouseListener(new ButtonListener(cancelButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				saveName.setVisible(false);
+				saveFrame.setVisible(false);
 			}
 		});
 		
-		Button validateButton = new Button("Valider", Color.orange, 40);
+		Button validateButton = new Button("Valider", Menu.defaultColor, Menu.defaultFont);
 		validateButton.addMouseListener(new ButtonListener(validateButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				String name = saveNameField.getText();
+				String name = saveFrameField.getText();
 				try {
 					GridReader.saveGame(grid, name, game);
 					System.out.println("Save reussie");
-					saveName.setVisible(false);
+					saveFrame.setVisible(false);
 				} catch (IOException e1) {
 					System.out.println("Save impossible");
 					e1.printStackTrace();
@@ -114,19 +105,19 @@ public class DisplayLevel extends JPanel{
 			}
 		});
 		
-		saveName.add(validateButton);
-		saveName.add(cancelButton);
+		saveFrame.add(validateButton);
+		saveFrame.add(cancelButton);
 		
-		Button saveButton = new Button("Save", Color.orange, 50);
+		Button saveButton = new Button("Save", Menu.defaultColor, localButtonsFont);
 		saveButton.addMouseListener(new ButtonListener(saveButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				saveName.setVisible(true);
+				saveFrame.setVisible(true);
 			}
 		});
 		buttonsPanel.add(saveButton);
 		
-		Button menuButton = new Button("Menu", Color.orange, 50);
+		Button menuButton = new Button("Menu", Menu.defaultColor, localButtonsFont);
 		menuButton.addMouseListener(new ButtonListener(menuButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {

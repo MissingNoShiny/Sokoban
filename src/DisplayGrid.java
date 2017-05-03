@@ -21,9 +21,6 @@ import javax.swing.JPanel;
 public class DisplayGrid extends JPanel implements KeyListener{
 	
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5700571976068104061L;
 
 	private Map<String, Image> sprites = new HashMap<String, Image>();
@@ -82,7 +79,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		int x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
 		int y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
 		
-		super.paintComponent(g); //J'ai compris a quoi servait cette ligne (sans elle le setBackground ne fonctionne pas), mais pas reelelement ce qu'elle faisait
+		super.paintComponent(g);
 		setBackground(Game.BLEU_CLAIR);
 		
 		Graphics2D g2d = (Graphics2D) g;
