@@ -12,9 +12,6 @@ public final class GridGenerator {
 	//Je ne suis pas sur que faire une classe statique privee soit une bonne solution, donc c'est peut etre temporaire
 	private static class InvalidDispositionException extends Exception {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		
 	}
@@ -67,8 +64,6 @@ public final class GridGenerator {
 		System.out.println("Room generee et tout place");
 		removeUselessWall(grid);
 		//grid.getTracker().empty();
-		
-		
 		return grid;
 	}
 	
@@ -349,14 +344,21 @@ public final class GridGenerator {
 			grid.getCrateList().clear();
 		}
 		Random rand = new Random();
-		int x, y, count = number;
-		while (count > 0){
+		int x, y, nbIterations = 0;
+		while (nbIterations < number){
 			x = rand.nextInt(grid.getWidth());
 			y = rand.nextInt(grid.getHeight());
 			if (grid.getComponentAt(x, y).getName().equals("Ground")) {
-				count--;
 				grid.placeComponentAt(x, y, new Goal());
 				grid.addCrate(x, y);
+				Crate crate = grid.getCrateAt(x, y);
+				if (crate.canBePulled(Direction.UP)||crate.canBePulled(Direction.RIGHT) || crate.canBePulled(Direction.DOWN) || crate.canBePulled(Direction.LEFT)){
+					nbIterations++;
+				}
+				else {
+					grid.removeCrate(nbIterations);
+					grid.placeComponentAt(x, y, new Ground());
+				}
 			}
 		}
 	}
@@ -382,13 +384,15 @@ public final class GridGenerator {
 	private static void movePlayer(Grid grid, int numberMoves) throws InvalidDispositionException {
 		Random rand = new Random();
 		Crate crate = null;
-		int i, oldDirection = 5, newDirection;
+		int i = 0, indexPrecCrate = -1, oldDirection = -1, newDirection;
 		Player player = grid.getPlayer();
 		int[][] tab = new int[grid.getWidth()][grid.getHeight()];
 		ArrayList<Crate> crateList = grid.getCrateList();
 		Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
 		while (grid.getTracker().getDistanceTraveled()<numberMoves) {
-			i = rand.nextInt(crateList.size());
+			do {
+				i = rand.nextInt(crateList.size());
+			} while (i == indexPrecCrate);
 			int numberIterations = 0;
 			boolean hasFoundPossibleCrate = false;
 			while (!hasFoundPossibleCrate && numberIterations <= crateList.size()) {
@@ -400,35 +404,37 @@ public final class GridGenerator {
 						break;
 					}
 				}
-				i = (i+1)%crateList.size();
-				numberIterations++;
+				if (!hasFoundPossibleCrate) {
+					i = (i+1)%crateList.size();
+					if (i == indexPrecCrate)
+						i = (i+1)%crateList.size();
+					numberIterations++;
+				}
 			} 
 			if (hasFoundPossibleCrate) {
+				indexPrecCrate = i%crateList.size();
 				goToSource(grid, tab);
-				player.pullCrate(directions[oldDirection], true);
-				do {
-					newDirection = rand.nextInt(4);
-				}while (oldDirection == (newDirection+2)%4);
-				while (isPossiblePullCrate(grid, tab, crate, directions[newDirection])) {
-					goToSource(grid, tab);
-					player.pullCrate(directions[newDirection], true);
-					oldDirection = newDirection;
+				if (grid.getTracker().getDistanceTraveled()<numberMoves) {
+					player.pullCrate(directions[oldDirection], true);
+					do {
+						newDirection = rand.nextInt(4);
+					} while (newDirection == (oldDirection+2)%4);
+					while (isPossiblePullCrate(grid, tab, crate, directions[newDirection])) {
+						goToSource(grid, tab);
+						player.pullCrate(directions[newDirection], true);
+						oldDirection = newDirection;
+						do {
+							newDirection = rand.nextInt(4);
+						} while (newDirection == (oldDirection+2)%4);
+					}
 				}
 			}
 			else {
 				grid.getTracker().empty();
 				throw new InvalidDispositionException();
 			}
-	
-			System.out.println("distance traveled" + grid.getTracker().getDistanceTraveled());
-			/*intRandom = rand.nextInt(4);
-			newDirection = directions[intRandom];
-			grid.getPlayer().setDirection(directions[intRandom]);
-			*/
-		
-		//player.setDirection(Direction.DOWN);
 		}
-		System.out.println("allo le monde");
+		//player.setDirection(Direction.DOWN);
 	}
 	
 	

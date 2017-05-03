@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -7,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -16,17 +18,6 @@ public class Menu extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 5237335232850181080L;
-	
-	/*Je ne sais pas si c'est une bonne solution, je pensais faire un enum pour lister chaque page et
-	 *rendre le panel en fonction de la page actuelle.
-	 * 
-	 * Il me semble que lorsque le menu est affiche, il faudrait que le playing n'existe pas, et inversement,
-	 * que lorsqu'on joue, le menu n'existe pas. Donc il n'y aurait pas cette idee que l'un et l'autre coexistent et 
-	 * que l'on rende le panel en fonction de ce dont on a besoin. 
-	 * 
-	 * Il faudrait plus, pour ma part, que lorsqu'un panel en a fini, il se ferme lui-meme et appelle -toujours lui meme
-	 * le menu.
-	 */
 
 	public Menu(Game game) {
 		GridLayout gl = new GridLayout(7,1);
@@ -61,14 +52,22 @@ public class Menu extends JPanel {
 		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				game.generateLevel(10, 8, 6, 80);
+				game.generateLevel(10, 8, 6, 100);
 			}
 		});
 		
-		String[] savesList = getSavesList();
-		JComboBox<String> listChoice = new JComboBox<String>(savesList);
+		JFrame saveChoice = new JFrame();
+		saveChoice.setSize(300, 300);
+		saveChoice.setLayout(new GridLayout(3,1));
 		
-		Button validateButton = new Button("Valider choix de sauvegarde");
+		String[] savesList = getSavesList();	
+		JComboBox<String> listChoice = new JComboBox<String>(savesList);
+		listChoice.setFont(new Font("arial", 0, 40));
+		listChoice.setBackground(Color.orange);
+		listChoice.setFocusable(false);
+		listChoice.setEditable(false);
+		
+		Button validateButton = new Button("Valider", Color.orange, 40);
 		validateButton.addMouseListener(new ButtonListener(validateButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -79,8 +78,15 @@ public class Menu extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				remove(listChoice);
-				remove(validateButton);
+				saveChoice.setVisible(false);
+			}
+		});
+		
+		Button cancelButton = new Button("Annuler", Color.orange, 40);
+		cancelButton.addMouseListener(new ButtonListener(cancelButton){
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				saveChoice.setVisible(false);
 			}
 		});
 		
@@ -88,10 +94,14 @@ public class Menu extends JPanel {
 		loadButton.addMouseListener(new ButtonListener(loadButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				add(listChoice);
-				add(validateButton);
+				saveChoice.add(validateButton);
+				saveChoice.add(cancelButton);
+				saveChoice.setVisible(true);
 			}
 		});
+		
+		saveChoice.add(listChoice);
+		
 		
 		add(playButton);
 		

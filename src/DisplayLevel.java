@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ComponentEvent;
@@ -9,7 +10,9 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class DisplayLevel extends JPanel{
 
@@ -78,18 +81,47 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(resetButton);
 		
-		Button saveButton = new Button("Save", Color.orange, 50);
-		saveButton.addMouseListener(new ButtonListener(saveButton) {
+		JFrame saveName = new JFrame();
+		saveName.setSize(300, 300);
+		saveName.setLayout(new GridLayout(3,1));
+		JTextField saveNameField = new JTextField("save1");
+		saveNameField.setBackground(Color.orange);
+		saveNameField.setFont(new Font("arial", 0, 40));
+		saveName.add(saveNameField);
+		
+		Button cancelButton = new Button("Annuler", Color.orange, 40);
+		cancelButton.addMouseListener(new ButtonListener(cancelButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				saveName.setVisible(false);
+			}
+		});
+		
+		Button validateButton = new Button("Valider", Color.orange, 40);
+		validateButton.addMouseListener(new ButtonListener(validateButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				String name = saveNameField.getText();
 				try {
-					GridReader.saveGame(grid, "pomme", game);
+					GridReader.saveGame(grid, name, game);
 					System.out.println("Save reussie");
+					saveName.setVisible(false);
 				} catch (IOException e1) {
 					System.out.println("Save impossible");
 					e1.printStackTrace();
 					//Creer JLabel pour avertir qu'un problème de sauvegarde a eu lieu
 				};
+			}
+		});
+		
+		saveName.add(validateButton);
+		saveName.add(cancelButton);
+		
+		Button saveButton = new Button("Save", Color.orange, 50);
+		saveButton.addMouseListener(new ButtonListener(saveButton) {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				saveName.setVisible(true);
 			}
 		});
 		buttonsPanel.add(saveButton);

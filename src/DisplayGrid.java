@@ -128,7 +128,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
-		if (Game.SHOW_PLAYER_ARROWS) {
+		if (Game.SHOW_PLAYER_ARROWS && grid.getTracker().hasMoved()) {
 			buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 			buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 			buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);

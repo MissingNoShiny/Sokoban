@@ -15,6 +15,9 @@ public abstract class Position extends Component{
 	 */
 	protected int y;
 	
+	/**
+	 * 
+	 */
 	protected Grid grid;
 	/**
 	 * Creates a position with the specified coordinates in input.
