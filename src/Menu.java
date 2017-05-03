@@ -11,6 +11,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Menu extends JPanel {
 
@@ -53,39 +55,67 @@ public class Menu extends JPanel {
 		});
 		
 		JFrame generatorFrame = new JFrame();
-		generatorFrame.setSize(600, 400);
+		generatorFrame.setSize(800, 400);
 		generatorFrame.setLocationRelativeTo(null); 
 		generatorFrame.setResizable(false);
-		generatorFrame.setLayout(new GridLayout(3,1));
+		generatorFrame.setLayout(new GridLayout(4,1));
 		
-		JPanel generatorParameters = new JPanel();
-		generatorParameters.setLayout(new GridLayout(2, 3));
-		generatorFrame.add(generatorParameters);
+		JPanel generatorParameters1 = new JPanel();
+		generatorParameters1.setLayout(new GridLayout(2, 2));
+		generatorFrame.add(generatorParameters1);
 		
-		generatorParameters.add(new defaultLabel("Largeur"));
-		generatorParameters.add(new defaultLabel("Hauteur"));
-		generatorParameters.add(new defaultLabel("Difficulte"));
+		generatorParameters1.add(new defaultLabel("Largeur"));
+		generatorParameters1.add(new defaultLabel("Hauteur"));
 		
-		defaultTextField widthLevel = new defaultTextField();
-		generatorParameters.add(widthLevel);
+		defaultSlider widthLevelSlider = new defaultSlider(6, 30, 6);
+		generatorParameters1.add(widthLevelSlider);
 		
-		defaultTextField heightLevel = new defaultTextField();
-		generatorParameters.add(heightLevel);
+		defaultSlider heightLevelSlider = new defaultSlider(6, 30, 6);
+		generatorParameters1.add(heightLevelSlider);
 		
-		defaultTextField difficulty = new defaultTextField();
-		generatorParameters.add(difficulty);
+		
+		JPanel generatorParameters2 = new JPanel();
+		generatorParameters2.setLayout(new GridLayout(2, 2));
+		generatorFrame.add(generatorParameters2);
+		
+		generatorParameters2.add(new defaultLabel("Nombre de caisses"));
+		generatorParameters2.add(new defaultLabel("Difficulte"));
+		
+		defaultSlider numberCratesSlider = new defaultSlider(2, 28*28/5-1, (28*28/5-1)/3);
+		generatorParameters2.add(numberCratesSlider);
+		
+		defaultSlider difficultySlider = new defaultSlider(0, 20, 5);
+		generatorParameters2.add(difficultySlider);
+		
+		
+		widthLevelSlider.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e) {
+				numberCratesSlider.setMaximum((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1);
+				int sliderSize = numberCratesSlider.getMaximum()-numberCratesSlider.getMinimum();
+				numberCratesSlider.setMajorTickSpacing(sliderSize/3);
+				numberCratesSlider.setLabelTable(numberCratesSlider.createStandardLabels(sliderSize/3));
+		    }    
+		});
+		
+		heightLevelSlider.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e) {
+				numberCratesSlider.setMaximum((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1);
+				int sliderSize = numberCratesSlider.getMaximum()-numberCratesSlider.getMinimum();
+				numberCratesSlider.setMajorTickSpacing(sliderSize/3);
+				numberCratesSlider.setLabelTable(numberCratesSlider.createStandardLabels(sliderSize/3));
+		    }    
+		});
+		
 		
 		Button validateGeneratorButton = new Button("Valider", defaultColor, defaultFont);
 		validateGeneratorButton.addMouseListener(new ButtonListener(validateGeneratorButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				String str = difficulty.getText();
-				int difficulty = Integer.parseInt(str)* 10;
-				str = widthLevel.getText();
-				int widthLevel = Integer.parseInt(str);
-				str = heightLevel.getText();
-				int heightLevel = Integer.parseInt(str);
-				game.generateLevel(widthLevel, heightLevel, 7, difficulty);
+				int difficulty = difficultySlider.getValue();
+				int widthLevel = widthLevelSlider.getValue();
+				int heightLevel = heightLevelSlider.getValue();
+				int numberCrates = numberCratesSlider.getValue();
+				game.generateLevel(widthLevel, heightLevel, numberCrates, difficulty);
 				generatorFrame.setVisible(false);
 			}
 		});

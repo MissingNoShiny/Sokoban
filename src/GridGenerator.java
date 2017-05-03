@@ -34,7 +34,7 @@ public final class GridGenerator {
 	 * @return
 	 */
 	public static Grid generateGrid(int width, int height, int numberCrates, int difficulty) throws IllegalArgumentException{
-		if (width < 6 || height < 6 || width > 40 || height > 40 || numberCrates >= ((width-2)*(height-2))/3)
+		if (width < 6 || height < 6 || width > 30 || height > 30 || numberCrates < 2 || numberCrates >= ((width-2)*(height-2))/3 || difficulty > 20)
 			throw new IllegalArgumentException();
 		
 		Boolean validGoalsDisposition;
@@ -53,7 +53,7 @@ public final class GridGenerator {
 				placeGoals(grid, numberCrates);
 				placePlayer(grid);
 				try {
-				movePlayer(grid, difficulty);
+				movePlayer(grid, difficulty*10);
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
 					validGoalsDisposition = false;

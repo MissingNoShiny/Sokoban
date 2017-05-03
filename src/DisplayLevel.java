@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class DisplayLevel extends JPanel{
 
@@ -77,7 +78,10 @@ public class DisplayLevel extends JPanel{
 		defaultLabel saveFrameLabel = new defaultLabel("Nom de la sauvegarde :");
 		saveFrame.add(saveFrameLabel);
 		
-		defaultTextField saveFrameField = new defaultTextField();
+		JTextField saveFrameField = new JTextField();
+		saveFrameField.setBackground(Menu.defaultColor);
+		saveFrameField.setHorizontalAlignment(JTextField.CENTER);
+		saveFrameField.setFont(Menu.defaultFont);
 		saveFrame.add(saveFrameField);
 		
 		Button cancelButton = new Button("Annuler", Menu.defaultColor, Menu.defaultFont);
