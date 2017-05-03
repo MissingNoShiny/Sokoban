@@ -5,9 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class InfoPanel extends JPanel{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	private Game game;
@@ -25,15 +23,15 @@ public class InfoPanel extends JPanel{
 		this.grid = grid;
 		fps = new JLabel();
 		fps.setHorizontalAlignment(JLabel.CENTER);
-		fps.setFont(new Font("arial", 0, 50));
+		fps.setFont(new Font(Menu.fontName, 0, 50));
 		add(fps);
 		movesCount = new JLabel();
 		movesCount.setHorizontalAlignment(JLabel.CENTER);
-		movesCount.setFont(new Font("arial", 0, 50));
+		movesCount.setFont(new Font(Menu.fontName, 0, 50));
 		add(movesCount);
 		pushesCount = new JLabel();
 		pushesCount.setHorizontalAlignment(JLabel.CENTER);
-		pushesCount.setFont(new Font("arial", 0, 50));
+		pushesCount.setFont(new Font(Menu.fontName, 0, 50));
 		add(pushesCount);
 	}
 	

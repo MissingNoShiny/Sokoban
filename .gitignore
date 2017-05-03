@@ -71,3 +71,5 @@ bin
 *.metadata
 *doc
 levels/saved/*
+*.mov
+*.xsb

@@ -8,9 +8,6 @@ Joachim:
 Vincent:
 - Adapter l'affichage de la grid pour que tout soit affiché dans le sous-panel de DisplayLevel
 
-
-#Pour le background, va voir ce que j'ai fait dans le displayGrid ligne 64. C'est peut etre ca qui n'allait pas.
-
 C'est surtout de ma faute, mais on a des game qui désignent la JFrame et d'autres qui désignent une partie en cours (surtout dans le nom des méthodes et variables)
 Ca porte a confusion. Il faudra y remédier.
 

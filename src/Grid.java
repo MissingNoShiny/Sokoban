@@ -27,11 +27,16 @@ public class Grid {
 	 */
 	private ArrayList <Crate> crateList; 
 	
-	//private ArrayList <Goal> goals; 
-	
+	/**
+	 * 	
+	 */
 	private Player player;
 	
+	/**
+	 * 
+	 */
 	private MovementTracker tracker;
+	
 	/**
 	 * Creates an object containing an empty matrix of specified width and height.
 	 * @param width The width of the matrix
@@ -122,7 +127,12 @@ public class Grid {
 		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
 	}
 	
-	//Il faudrait faire en sorte d'obliger à utiliser hasCrateAt avant ceci
+	/**
+	 * Must to be sure that there is an crate in the specified position
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Crate getCrateAt(int x, int y) {
 		return (Crate) getComponentAt(x, y);
 	}
