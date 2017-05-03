@@ -1,4 +1,5 @@
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -20,23 +21,25 @@ public class Menu extends JPanel {
 	private static final long serialVersionUID = 5237335232850181080L;
 
 	public Menu(Game game) {
+		
+		CardLayout cd = new CardLayout();
+		setLayout(cd);
+		
+		JPanel main = new JPanel();
 		GridLayout gl = new GridLayout(7,1);
 		gl.setVgap(3);
-		setLayout(gl);
+		main.setLayout(gl);
+		main.setBackground(Game.BLEU_CLAIR);
 		
 		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
 		title.setFont(new Font("arial", 0, 100));
-		add(title);
+		main.add(title);
 		
 		Button playButton = new Button("Play");
 		playButton.addMouseListener(new ButtonListener(playButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				try {
-					game.loadLevel("../levels/level2.xsb", true);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				cd.next(main.getParent());
 			}
 		});
 		
@@ -103,13 +106,38 @@ public class Menu extends JPanel {
 		saveChoice.add(listChoice);
 		
 		
-		add(playButton);
+		main.add(playButton);
 		
-		add(generateLevelButton);
+		main.add(generateLevelButton);
 		
-		add(loadButton);
+		main.add(loadButton);
 		
-		add(quitButton);
+		main.add(quitButton);
+		
+		add(main);
+		
+		JPanel levelListPanel = new JPanel();
+		levelListPanel.setBackground(Game.BLEU_CLAIR);
+		int levelIndex = 1;
+		File level = new File("../levels/level" + levelIndex + ".xsb");
+		while (level.exists()) {
+			levelListPanel.add(new LoadLevelButton(levelIndex, game));
+			levelIndex++;
+			level = new File("../levels/level" + levelIndex + ".xsb");
+		}
+		
+		Button returnButton = new Button("Return");
+		returnButton.addMouseListener(new ButtonListener(returnButton){
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				cd.previous(levelListPanel.getParent());
+			}
+		});
+		
+		levelListPanel.add(returnButton);
+		
+		add(levelListPanel);
+		
 	}
 	
 	private static String[] getSavesList() {
