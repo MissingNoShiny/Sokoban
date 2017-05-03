@@ -102,11 +102,6 @@ public class Crate extends Position {
 		setX(newX);
 		setY(newY);
 		grid.placeComponentAt(newX, newY, this);
-		if (DeadlockDetector.isFrozen(this, grid, null)) {
-			System.out.println("Crate in " + x + ", " + y + " is now frozen.");
-			if (!getSupport().getName().equals("Goal"))
-				System.out.println("A deadlock occured.");
-		}
 	}
 	
 	@Override

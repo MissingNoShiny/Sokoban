@@ -136,4 +136,69 @@ public class Grid {
 				matrix[i][j] = component;
 		}
 	}
+	
+	public boolean frozenDeadLockDetector(Crate lastMovedCrate) {
+		int x = lastMovedCrate.getX();
+		int y = lastMovedCrate.getY();
+		boolean[] booleanContainer = new boolean[1];
+		booleanContainer[0] = false;
+		boolean xAxis = false, yAxis = false;
+		ArrayList<Crate> testedCrates = new ArrayList<Crate>();
+		testedCrates.add(lastMovedCrate);
+		if (
+				x == 0 
+				|| (hasCrateAt(x - 1, y) && frozenDeadLockDetector(getCrateAt(x - 1, y), booleanContainer, 0))
+				|| getComponentAt(x - 1, y).getName().equals("Wall")
+				|| x == getWidth() - 1
+				|| (hasCrateAt(x + 1, y) && frozenDeadLockDetector(getCrateAt(x + 1, y), booleanContainer, 0))
+				|| getComponentAt(x + 1, y).getName().equals("Wall")
+				)
+			xAxis = true;
+		if (
+				y == 0 
+				|| (hasCrateAt(x, y - 1) && frozenDeadLockDetector(getCrateAt(x, y - 1), booleanContainer, 1))
+				|| getComponentAt(x, y - 1).getName().equals("Wall")
+				|| y == getHeight() - 1
+				|| (hasCrateAt(x, y + 1) && frozenDeadLockDetector(getCrateAt(x, y + 1), booleanContainer, 1))
+				|| getComponentAt(x, y + 1).getName().equals("Wall")
+				)
+			yAxis = true;
+		if (xAxis && yAxis && lastMovedCrate.getName().equals("Crate"))
+			booleanContainer[0] = true;
+		return booleanContainer[0];
+	}
+	
+	private boolean frozenDeadLockDetector(Crate crate, boolean[] booleanContainer, int frozenAxis) {
+		int x = crate.getX();
+		int y = crate.getY();
+		boolean xAxis = false, yAxis = false;
+		ArrayList<Crate> testedCrates = new ArrayList<Crate>();
+		testedCrates.add(crate);
+		if (
+				frozenAxis == 0
+				|| x == 0 
+				|| (hasCrateAt(x - 1, y) && !testedCrates.contains(getCrateAt(x - 1, y)) && frozenDeadLockDetector(getCrateAt(x - 1, y), booleanContainer, 0))
+				|| getComponentAt(x - 1, y).getName().equals("Wall")
+				|| x == getWidth() - 1
+				|| (hasCrateAt(x + 1, y) && !testedCrates.contains(getCrateAt(x + 1, y)) && frozenDeadLockDetector(getCrateAt(x + 1, y), booleanContainer, 0))
+				|| getComponentAt(x + 1, y).getName().equals("Wall")
+				)
+			xAxis = true;
+		if (
+				frozenAxis == 1
+				|| y == 0 
+				|| (hasCrateAt(x, y - 1) && !testedCrates.contains(getCrateAt(x, y - 1)) && frozenDeadLockDetector(getCrateAt(x, y - 1), booleanContainer, 1))
+				|| getComponentAt(x, y - 1).getName().equals("Wall")
+				|| y == getHeight() - 1
+				|| (hasCrateAt(x, y + 1) && !testedCrates.contains(getCrateAt(x, y + 1)) && frozenDeadLockDetector(getCrateAt(x, y + 1), booleanContainer, 1))
+				|| getComponentAt(x, y + 1).getName().equals("Wall")
+				)
+			yAxis = true;
+		if (xAxis && yAxis) {
+			if (crate.getName().equals("Crate"))
+				booleanContainer[0] = true;
+			return true;
+		}
+		return false;
+	}
 }

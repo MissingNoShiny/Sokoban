@@ -47,25 +47,21 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		add(buttonLeft);
 		initializeButton(buttonLeft, Direction.LEFT);
 		buttonLeft.setIcon(new ImageIcon("../resources/arrowLeft.png"));
-		buttonLeft.setBounds(0, 0, 0, 0);
 		
 		buttonRight = new JButton();
 		add(buttonRight);
 		initializeButton(buttonRight, Direction.RIGHT);
 		buttonRight.setIcon(new ImageIcon("../resources/arrowRight.png"));
-		buttonRight.setBounds(0, 0, 0, 0);
 		
 		buttonUp = new JButton();
 		add(buttonUp);
 		initializeButton(buttonUp, Direction.UP);
 		buttonUp.setIcon(new ImageIcon("../resources/arrowUp.png"));
-		buttonUp.setBounds(0, 0, 0, 0);
 		
 		buttonDown = new JButton();
 		add(buttonDown);
 		initializeButton(buttonDown, Direction.DOWN);
 		buttonDown.setIcon(new ImageIcon("../resources/arrowDown.png"));
-		buttonDown.setBounds(0, 0, 0, 0);
 		
 		addToMap(sprites, "Ground", "../resources/ground.png");
 		addToMap(sprites, "Crate", "../resources/crate.png");
@@ -210,6 +206,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	
 	public void initializeButton(JButton button, Direction direction) {
 		button.setFocusable(false);
+		button.setBounds(0, 0, 0, 0);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setContentAreaFilled(false);
