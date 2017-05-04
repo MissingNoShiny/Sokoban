@@ -70,8 +70,3 @@ bin
 .project
 *.metadata
 *doc
-levels/saved/*
-*.mov
-*.xsb
-saves/haricot.mov
-saves/haricot.mov

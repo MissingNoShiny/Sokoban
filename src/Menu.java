@@ -212,11 +212,22 @@ public class Menu extends JPanel {
 		JPanel levelListPanel = new JPanel();
 		levelListPanel.setBackground(Game.BLEU_CLAIR);
 		int levelIndex = 1;
-		File level = new File("../levels/level" + levelIndex + ".xsb");
+		File level = new File("../levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
-			levelListPanel.add(new LoadLevelButton(levelIndex, game));
+			Button loadLevelButton = new Button("level " + levelIndex, defaultColor, menuButtonsFont);
+			loadLevelButton.addMouseListener(new ButtonListener(loadLevelButton) {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					try {
+						game.loadLevel("../levels/" + loadLevelButton.getText() + ".xsb", true);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			levelListPanel.add(loadLevelButton);
 			levelIndex++;
-			level = new File("../levels/level" + levelIndex + ".xsb");
+			level = new File("../levels/level " + levelIndex + ".xsb");
 		}
 		
 		Button returnButton = new Button("Return", defaultColor, menuButtonsFont);
