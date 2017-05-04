@@ -2,7 +2,7 @@
 public class Wall extends Component{
 
 	@Override
-	public boolean canGoTrough() {
+	public boolean canBePassedThrough() {
 		return false;
 	}
 

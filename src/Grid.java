@@ -60,7 +60,7 @@ public class Grid {
 	}
 	
 	/**
-	 * Gets the width of the matrix
+	 * Gets the width of the matrix.
 	 * @return The width of the matrix
 	 */
 	public int getWidth() {
@@ -78,7 +78,7 @@ public class Grid {
 	}
 	
 	/**
-	 * Place a new Component at specified position in the matrix
+	 * Places a new Component at specified position in the matrix
 	 * @param x The X-coordinate of the cell to set a new Component
 	 * @param y The Y-coordinate of the cell to set a new Component
 	 * @param comp  The Component to set at the specified cell
@@ -87,6 +87,10 @@ public class Grid {
 		matrix[x][y] = comp;
 	}
 	
+	/**
+	 * Checks if the grid is in a won state.
+	 * @return true if the grid is in a won state, false else
+	 */
 	public boolean isWon(){
 		boolean test = true;
 		String comp;
@@ -122,7 +126,15 @@ public class Grid {
 		crateList.remove(ind);
 	}
 	
+	/**
+	 * Checks if the component at specified coordinates is a Crate.
+	 * @param x The x-coordinate of the cell to check
+	 * @param y The y-coordinate of the cell to check
+	 * @return true if the coordinates are inside the grid and the Component is a Crate, false else
+	 */
 	public boolean hasCrateAt (int x, int y) {
+		if (x >= width || y >=height)
+			return false;
 		String nameComponent = getComponentAt(x, y).getName();
 		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
 	}
@@ -137,6 +149,10 @@ public class Grid {
 		return (Crate) getComponentAt(x, y);
 	}
 	
+	/**
+	 * Gets the list of Crate components contained in the matrix.
+	 * @return the list of Crate components contained in the matrix
+	 */
 	public ArrayList<Crate> getCrateList() {
 		return crateList;
 	}

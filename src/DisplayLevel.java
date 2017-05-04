@@ -77,7 +77,7 @@ public class DisplayLevel extends JPanel{
 		saveFrame.setResizable(false);
 		saveFrame.setLayout(new GridLayout(4,1));
 		
-		defaultLabel saveFrameLabel = new defaultLabel("Nom de la sauvegarde :");
+		DefaultLabel saveFrameLabel = new DefaultLabel("Nom de la sauvegarde :");
 		saveFrame.add(saveFrameLabel);
 		
 		JTextField saveFrameField = new JTextField();
@@ -104,14 +104,14 @@ public class DisplayLevel extends JPanel{
 				File file = new File("../saves/" + name + ".xsb");
 				int canOverrideSave = 0;
 				if (file.exists()) {
-					canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Voulez-vous ecraser la sauvegarde ?", "Nom de sauvegarde deja utilise",  JOptionPane.YES_NO_OPTION);
+					canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Do you want to overwrite existing save?", "Save name already used",  JOptionPane.YES_NO_OPTION);
 				}
 				if (canOverrideSave == 0) {
 					try {
 						GridReader.saveGame(grid, name);
 						saveFrame.setVisible(false);
 					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(saveGestion, "La sauvegarde a echoue", "Sauvegarde impossible", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(saveGestion, "Save failed", "Save failed", JOptionPane.ERROR_MESSAGE);
 					};
 				}
 			}

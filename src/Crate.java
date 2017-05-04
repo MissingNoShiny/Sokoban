@@ -23,19 +23,19 @@ public class Crate extends Position {
 		boolean test = true;
 		switch (dir) {
 		case UP:
-			if (y-1 < 0 || !grid.getComponentAt(x, y-1).canGoTrough())
+			if (y-1 < 0 || !grid.getComponentAt(x, y-1).canBePassedThrough())
 				test = false;
 			break;
 		case RIGHT:
-			if (x+1 >= grid.getWidth() || !grid.getComponentAt(x+1, y).canGoTrough())
+			if (x+1 >= grid.getWidth() || !grid.getComponentAt(x+1, y).canBePassedThrough())
 				test = false;
 			break;
 		case DOWN:
-			if (y+1 >= grid.getHeight() || !grid.getComponentAt(x, y+1).canGoTrough())
+			if (y+1 >= grid.getHeight() || !grid.getComponentAt(x, y+1).canBePassedThrough())
 				test = false;
 			break;
 		case LEFT:
-			if (x-1 < 0 || !grid.getComponentAt(x-1, y).canGoTrough())
+			if (x-1 < 0 || !grid.getComponentAt(x-1, y).canBePassedThrough())
 				test = false;
 			break;
 		}
@@ -47,19 +47,19 @@ public class Crate extends Position {
 		if (canMove(dir)) {
 			switch (dir) {
 			case UP:
-				if (y-2 >= 0 && grid.getComponentAt(x, y-2).canGoTrough())
+				if (y-2 >= 0 && grid.getComponentAt(x, y-2).canBePassedThrough())
 					test = true;
 				break;
 			case RIGHT:
-				if (x+2 < grid.getWidth() && grid.getComponentAt(x+2, y).canGoTrough())
+				if (x+2 < grid.getWidth() && grid.getComponentAt(x+2, y).canBePassedThrough())
 					test = true;
 				break;
 			case DOWN:
-				if (y+2 < grid.getHeight() && grid.getComponentAt(x, y+2).canGoTrough())
+				if (y+2 < grid.getHeight() && grid.getComponentAt(x, y+2).canBePassedThrough())
 					test = true;
 				break;
 			case LEFT:
-				if (x-2 >= 0 && grid.getComponentAt(x-2, y).canGoTrough())
+				if (x-2 >= 0 && grid.getComponentAt(x-2, y).canBePassedThrough())
 					test = true;
 				break;
 			}
@@ -108,7 +108,7 @@ public class Crate extends Position {
 	}
 
 	@Override
-	public boolean canGoTrough() {
+	public boolean canBePassedThrough() {
 		return false;
 	}
 }

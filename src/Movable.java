@@ -1,4 +1,8 @@
 
+/**
+ * An interface for movable Objetcs.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
 public interface Movable {
 	public boolean canMove(Grid grid, Direction dir);
 	public void moveUp(Grid grid);

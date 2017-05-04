@@ -44,7 +44,7 @@ public class Player extends Position {
 		}
 		
 		if (newX < grid.getWidth() && newX >= 0 && newY < grid.getHeight() && newY >= 0) {
-			if (grid.getComponentAt(newX, newY).canGoTrough()) {
+			if (grid.getComponentAt(newX, newY).canBePassedThrough()) {
 				test = true;
 			}
 

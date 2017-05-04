@@ -3,18 +3,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 
 
 public class Game implements Runnable {
-	
-	public static enum GameState {
-		MENU,
-		PLAYING;
-	}
-	
-	private GameState state = GameState.MENU;
 	
 	public static final String TITLE = "Sokoban";
 	
@@ -37,6 +31,8 @@ public class Game implements Runnable {
 	
 	public static void main(String[] args) {
 		
+		Locale.setDefault(Locale.ENGLISH);
+		
 		Game game = new Game();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,10 +45,6 @@ public class Game implements Runnable {
 		
 		game.start();
 			
-	}
-	
-	public GameState getState() {
-		return state;
 	}
 	
 	public int getFps() {
@@ -123,7 +115,6 @@ public class Game implements Runnable {
 		level = new DisplayLevel(grid, this);
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
-		state = GameState.PLAYING;
 	}
 	
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
@@ -131,7 +122,6 @@ public class Game implements Runnable {
 		level = new DisplayLevel(grid, this);
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
-		state = GameState.PLAYING;
 	}
 	/**
 	 * Loads the menu
@@ -139,7 +129,6 @@ public class Game implements Runnable {
 	public void loadMenu() {
 		window.setContentPane(menu);
 		level = null;
-		state = GameState.MENU;
 	}
 
 	public boolean canOverrideLevel() {

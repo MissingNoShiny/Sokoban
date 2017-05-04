@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 
 public class GridReader {
 	
+	/**
+	 * Constructor is private to prevent instantiations.
+	 */
 	private GridReader() {
 		
 	}
@@ -192,6 +195,10 @@ public class GridReader {
 		GridReader.saveGrid(grid, pathOut);
 	}
 	
+	/**
+	 * Replaces all Ground components in a grid which can't be accessed by the player with Blank components.
+	 * @param grid The grid to replace inaccessible Ground components in
+	 */
 	private static void placeBlanks(Grid grid) {
 		boolean[][] isFlooded = new boolean[grid.getWidth()][grid.getHeight()];
 		findGrounds(grid, isFlooded, grid.getPlayer().getX(), grid.getPlayer().getY());
@@ -203,6 +210,15 @@ public class GridReader {
 		}
 	}
 	
+	/**
+	 * Finds all the Ground components in a specified grid directly accessible by a Player from a specified starting location.
+	 * All found grounds will then be marked true in a matrix of booleans provided by the placeBlanks() function.
+	 * @param grid The grid to find the Ground components in
+	 * @param isFlooded A matrix of boolean to keep track of found Ground components, which will always be provided by the placeBlanks() function.
+	 * @param x The x-coordinate of the starting position
+	 * @param y The y-coordinate of the starting position
+	 * @see placeBlanks()
+	 */
 	private static void findGrounds(Grid grid, boolean[][] isFlooded, int x, int y) {
 		if (isFlooded[x][y] == false && !grid.getComponentAt(x, y).getName().equals("Wall")){
 			isFlooded[x][y] = true;

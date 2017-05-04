@@ -16,7 +16,7 @@ public abstract class Position extends Component{
 	protected int y;
 	
 	/**
-	 * 
+	 * The Grid object which contains the position.
 	 */
 	protected Grid grid;
 	/**
@@ -45,11 +45,6 @@ public abstract class Position extends Component{
 	public int getY() {
 		return y;
 	}
-	
-	/**
-	 * Gets the sprite of the object.
-	 * @return The sprite of the object
-	 */
 
 	/**
 	 * Sets the X-coordinate of the object to a new value.
@@ -66,16 +61,4 @@ public abstract class Position extends Component{
 	public void setY(int inputY) {
 		y = inputY;
 	}
-	
-	/*
-	public boolean isAdjacentTo(Position other) {
-		int xGap = Math.abs(x - other.getX());
-		int yGap = Math.abs(y - other.getY());
-		if (xGap == 0 && yGap == 1)
-			return true;
-		if (yGap == 1 && yGap == 0)
-			return true;
-		return false;
-	}
-	*/
 }

@@ -470,22 +470,22 @@ public final class GridGenerator {
 					break;
 				}
 				if (y-1 >= 0 && tab[x][y-1] == 0)
-					if (grid.getComponentAt(x, y-1).canGoTrough())
+					if (grid.getComponentAt(x, y-1).canBePassedThrough())
 						list.add(new Point(x, y-1));
 					else
 						tab[x][y-1] = -1;
 				if (x+1 < grid.getWidth() && tab[x+1][y] == 0)
-					if (grid.getComponentAt(x+1, y).canGoTrough())
+					if (grid.getComponentAt(x+1, y).canBePassedThrough())
 						list.add(new Point(x+1, y));
 					else
 						tab[x+1][y] = -1;
 				if (y+1 < grid.getHeight() && tab[x][y+1] == 0)
-					if (grid.getComponentAt(x, y+1).canGoTrough())
+					if (grid.getComponentAt(x, y+1).canBePassedThrough())
 						list.add(new Point(x, y+1));
 					else
 						tab[x][y+1] = -1;
 				if (x-1 >= 0 && tab[x-1][y] == 0)
-					if (grid.getComponentAt(x-1, y).canGoTrough())
+					if (grid.getComponentAt(x-1, y).canBePassedThrough())
 						list.add(new Point(x-1, y));
 					else
 						tab[x-1][y] = -1;

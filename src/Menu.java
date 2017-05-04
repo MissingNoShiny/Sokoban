@@ -43,7 +43,7 @@ public class Menu extends JPanel {
 		title.setFont(new Font("arial", 0, 100));
 		main.add(title);
 		
-		Button campaignButton = new Button("Campagne", defaultColor, menuButtonsFont);
+		Button campaignButton = new Button("Campain", defaultColor, menuButtonsFont);
 		campaignButton.addMouseListener(new ButtonListener(campaignButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -51,8 +51,8 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button quitButton = new Button("Quitter", defaultColor, menuButtonsFont);
-		quitButton.addMouseListener(new ButtonListener(quitButton) {
+		Button exitButton = new Button("Exit", defaultColor, menuButtonsFont);
+		exitButton.addMouseListener(new ButtonListener(exitButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				game.stop();
@@ -60,7 +60,7 @@ public class Menu extends JPanel {
 		});
 		
 		JFrame generatorFrame = new JFrame();
-		generatorFrame.setTitle("Parametres de generation");
+		generatorFrame.setTitle("Generator options");
 		generatorFrame.setSize(800, 400);
 		generatorFrame.setLocationRelativeTo(null); 
 		generatorFrame.setResizable(false);
@@ -70,13 +70,13 @@ public class Menu extends JPanel {
 		generatorParameters1.setLayout(new GridLayout(2, 2));
 		generatorFrame.add(generatorParameters1);
 		
-		generatorParameters1.add(new defaultLabel("Largeur"));
-		generatorParameters1.add(new defaultLabel("Hauteur"));
+		generatorParameters1.add(new DefaultLabel("Width"));
+		generatorParameters1.add(new DefaultLabel("Height"));
 		
-		defaultSlider widthLevelSlider = new defaultSlider(6, 30, 6);
+		DefaultSlider widthLevelSlider = new DefaultSlider(6, 30, 6);
 		generatorParameters1.add(widthLevelSlider);
 		
-		defaultSlider heightLevelSlider = new defaultSlider(6, 30, 6);
+		DefaultSlider heightLevelSlider = new DefaultSlider(6, 30, 6);
 		generatorParameters1.add(heightLevelSlider);
 		
 		
@@ -84,13 +84,13 @@ public class Menu extends JPanel {
 		generatorParameters2.setLayout(new GridLayout(2, 2));
 		generatorFrame.add(generatorParameters2);
 		
-		generatorParameters2.add(new defaultLabel("Nombre de caisses"));
-		generatorParameters2.add(new defaultLabel("Difficulte"));
+		generatorParameters2.add(new DefaultLabel("Amount of crates"));
+		generatorParameters2.add(new DefaultLabel("Difficulty"));
 		
-		defaultSlider numberCratesSlider = new defaultSlider(2, (widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1, ((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-3)/3);
+		DefaultSlider numberCratesSlider = new DefaultSlider(2, (widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1, ((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-3)/3);
 		generatorParameters2.add(numberCratesSlider);
 		
-		defaultSlider difficultySlider = new defaultSlider(0, 20, 5);
+		DefaultSlider difficultySlider = new DefaultSlider(0, 20, 5);
 		generatorParameters2.add(difficultySlider);
 		
 		
@@ -113,7 +113,7 @@ public class Menu extends JPanel {
 		});
 		
 		
-		Button validateGeneratorButton = new Button("Valider", defaultColor, defaultFont);
+		Button validateGeneratorButton = new Button("Generate", defaultColor, defaultFont);
 		validateGeneratorButton.addMouseListener(new ButtonListener(validateGeneratorButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -126,7 +126,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button cancelGeneratorButton = new Button("Annuler", defaultColor, defaultFont);
+		Button cancelGeneratorButton = new Button("Cancel", defaultColor, defaultFont);
 		cancelGeneratorButton.addMouseListener(new ButtonListener(cancelGeneratorButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -137,7 +137,7 @@ public class Menu extends JPanel {
 		generatorFrame.add(validateGeneratorButton);
 		generatorFrame.add(cancelGeneratorButton);
 		
-		Button generateLevelButton = new Button("Generer niveau", defaultColor, menuButtonsFont);
+		Button generateLevelButton = new Button("Generate level", defaultColor, menuButtonsFont);
 		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -161,7 +161,7 @@ public class Menu extends JPanel {
 		
 		JOptionPane saveError = new JOptionPane();
 		
-		Button validateLoadingButton = new Button("Valider", defaultColor, defaultFont);
+		Button validateLoadingButton = new Button("Load", defaultColor, defaultFont);
 		validateLoadingButton.addMouseListener(new ButtonListener(validateLoadingButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -170,13 +170,13 @@ public class Menu extends JPanel {
 					game.loadLevel("../saves/"+levelName, false);
 				} catch (IOException e1) {
 					System.out.println("ici");
-					JOptionPane.showMessageDialog(saveError, "La chargement de la sauvegarde a echoue", "Sauvegarde inaccessible", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(saveError, "Loading failed", "Save not found", JOptionPane.ERROR_MESSAGE);
 				}
 				saveChoice.setVisible(false);
 			}
 		});
 		
-		Button cancelLoadingButton = new Button("Annuler", defaultColor, defaultFont);
+		Button cancelLoadingButton = new Button("Cancel", defaultColor, defaultFont);
 		cancelLoadingButton.addMouseListener(new ButtonListener(cancelLoadingButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -184,7 +184,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button loadButton = new Button("Charger une partie", defaultColor, menuButtonsFont);
+		Button loadButton = new Button("Load a game", defaultColor, menuButtonsFont);
 		loadButton.addMouseListener(new ButtonListener(loadButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -205,7 +205,7 @@ public class Menu extends JPanel {
 		
 		main.add(loadButton);
 		
-		main.add(quitButton);
+		main.add(exitButton);
 		
 		add(main);
 		
@@ -230,7 +230,6 @@ public class Menu extends JPanel {
 		levelListPanel.add(returnButton);
 		
 		add(levelListPanel);
-		
 	}
 	
 	private static String[] getSavesList() {
@@ -252,17 +251,6 @@ public class Menu extends JPanel {
 		String[] savesList = new String[countFile];
 		System.arraycopy(tempList, 0, savesList, 0, countFile);
 		return savesList;
-	}
-	
-	public static enum MenuState {
-		MAIN;
-	}
-	
-	private MenuState state = MenuState.MAIN;
-	
-	
-	public MenuState getState() {
-		return state;
 	}
 	
 	public void paintComponent(Graphics g) {
