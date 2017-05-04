@@ -19,7 +19,7 @@ public class DisplayLevel extends JPanel{
 
 	private static final long serialVersionUID = 4992322428530946741L;
 	
-	private static final Font localButtonsFont = new Font (Menu.fontName, 0, 50);
+	private static final Font localButtonsFont = new Font (Options.fontName, 0, 50);
 	
 	/*
 	 * J'ai du faire de displaygrid un attribut de displayLevel, pour lui donner le focus. Il faudra trouver 
@@ -43,7 +43,7 @@ public class DisplayLevel extends JPanel{
 
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				setBackground(Game.BLEU_CLAIR);
+				setBackground(Options.backGroundColor);
 			}
 		};
 		//buttonsPanel.setOpaque(true);
@@ -53,7 +53,7 @@ public class DisplayLevel extends JPanel{
 		add(buttonsPanel, BorderLayout.EAST);
 		
 
-		Button undoButton = new Button("Undo", Menu.defaultColor, localButtonsFont);
+		Button undoButton = new Button("Undo", Options.buttonsColor, localButtonsFont);
 		undoButton.addMouseListener(new ButtonListener(undoButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -62,7 +62,7 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(undoButton);
 		
-		Button resetButton = new Button("Reset", Menu.defaultColor, localButtonsFont);
+		Button resetButton = new Button("Reset", Options.buttonsColor, localButtonsFont);
 		resetButton.addMouseListener(new ButtonListener(resetButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -81,12 +81,12 @@ public class DisplayLevel extends JPanel{
 		saveFrame.add(saveFrameLabel);
 		
 		JTextField saveFrameField = new JTextField();
-		saveFrameField.setBackground(Menu.defaultColor);
+		saveFrameField.setBackground(Options.buttonsColor);
 		saveFrameField.setHorizontalAlignment(JTextField.CENTER);
-		saveFrameField.setFont(Menu.defaultFont);
+		saveFrameField.setFont(Options.defaultFont);
 		saveFrame.add(saveFrameField);
 		
-		Button cancelButton = new Button("Annuler", Menu.defaultColor, Menu.defaultFont);
+		Button cancelButton = new Button("Annuler", Options.buttonsColor, Options.defaultFont);
 		cancelButton.addMouseListener(new ButtonListener(cancelButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -96,7 +96,7 @@ public class DisplayLevel extends JPanel{
 		
 		JOptionPane saveGestion = new JOptionPane();
 		
-		Button validateButton = new Button("Valider", Menu.defaultColor, Menu.defaultFont);
+		Button validateButton = new Button("Valider", Options.buttonsColor, Options.defaultFont);
 		validateButton.addMouseListener(new ButtonListener(validateButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -120,7 +120,7 @@ public class DisplayLevel extends JPanel{
 		saveFrame.add(validateButton);
 		saveFrame.add(cancelButton);
 		
-		Button saveButton = new Button("Save", Menu.defaultColor, localButtonsFont);
+		Button saveButton = new Button("Save", Options.buttonsColor, localButtonsFont);
 		saveButton.addMouseListener(new ButtonListener(saveButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -129,14 +129,14 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(saveButton);
 		
-		Button menuButton = new Button("Menu", Menu.defaultColor, localButtonsFont);
-		menuButton.addMouseListener(new ButtonListener(menuButton) {
+		Button OptionsButton = new Button("Options", Options.buttonsColor, localButtonsFont);
+		OptionsButton.addMouseListener(new ButtonListener(OptionsButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				game.loadMenu();
 			}
 		});
-		buttonsPanel.add(menuButton);
+		buttonsPanel.add(OptionsButton);
 		
 		InfoPanel infoPanel = new InfoPanel(game, grid);
 		infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());

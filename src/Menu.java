@@ -1,6 +1,5 @@
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -20,14 +19,6 @@ public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
-	public static final String fontName = "century";
-	
-	public static final Font defaultFont = new Font(fontName, 0, 40);
-	
-	public static final Color defaultColor = Color.orange;
-	
-	public static final Font menuButtonsFont = new Font(fontName, 0, 70);
-	
 	public Menu(Game game) {
 		
 		CardLayout cd = new CardLayout();
@@ -37,13 +28,13 @@ public class Menu extends JPanel {
 		GridLayout gl = new GridLayout(6, 1, 3, 3);
 		gl.setVgap(3);
 		main.setLayout(gl);
-		main.setBackground(Game.BLEU_CLAIR);
+		main.setBackground(Options.backGroundColor);
 		
 		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
-		title.setFont(new Font("arial", 0, 100));
+		title.setFont(new Font(Options.fontName, 0, 100));
 		main.add(title);
 		
-		Button campaignButton = new Button("Campain", defaultColor, menuButtonsFont);
+		Button campaignButton = new Button("Campain", Options.buttonsColor, Options.menuButtonsFont);
 		campaignButton.addMouseListener(new ButtonListener(campaignButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -51,7 +42,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button exitButton = new Button("Exit", defaultColor, menuButtonsFont);
+		Button exitButton = new Button("Exit", Options.buttonsColor, Options.menuButtonsFont);
 		exitButton.addMouseListener(new ButtonListener(exitButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -113,7 +104,7 @@ public class Menu extends JPanel {
 		});
 		
 		
-		Button validateGeneratorButton = new Button("Generate", defaultColor, defaultFont);
+		Button validateGeneratorButton = new Button("Generate", Options.buttonsColor, Options.defaultFont);
 		validateGeneratorButton.addMouseListener(new ButtonListener(validateGeneratorButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -126,7 +117,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button cancelGeneratorButton = new Button("Cancel", defaultColor, defaultFont);
+		Button cancelGeneratorButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
 		cancelGeneratorButton.addMouseListener(new ButtonListener(cancelGeneratorButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -137,7 +128,7 @@ public class Menu extends JPanel {
 		generatorFrame.add(validateGeneratorButton);
 		generatorFrame.add(cancelGeneratorButton);
 		
-		Button generateLevelButton = new Button("Generate level", defaultColor, menuButtonsFont);
+		Button generateLevelButton = new Button("Generate level", Options.buttonsColor, Options.menuButtonsFont);
 		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -153,15 +144,15 @@ public class Menu extends JPanel {
 		
 		JComboBox<String> listChoice = new JComboBox<String>();
 		//listChoice.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
-		listChoice.setFont(defaultFont);
-		listChoice.setBackground(defaultColor);
+		listChoice.setFont(Options.defaultFont);
+		listChoice.setBackground(Options.buttonsColor);
 		listChoice.setFocusable(false);
 		listChoice.setEditable(false);
 		saveChoice.add(listChoice);
 		
 		JOptionPane saveError = new JOptionPane();
 		
-		Button validateLoadingButton = new Button("Load", defaultColor, defaultFont);
+		Button validateLoadingButton = new Button("Load", Options.buttonsColor, Options.defaultFont);
 		validateLoadingButton.addMouseListener(new ButtonListener(validateLoadingButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -176,7 +167,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button cancelLoadingButton = new Button("Cancel", defaultColor, defaultFont);
+		Button cancelLoadingButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
 		cancelLoadingButton.addMouseListener(new ButtonListener(cancelLoadingButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -184,7 +175,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button loadButton = new Button("Load a game", defaultColor, menuButtonsFont);
+		Button loadButton = new Button("Load a game", Options.buttonsColor, Options.menuButtonsFont);
 		loadButton.addMouseListener(new ButtonListener(loadButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -210,11 +201,11 @@ public class Menu extends JPanel {
 		add(main);
 		
 		JPanel levelListPanel = new JPanel();
-		levelListPanel.setBackground(Game.BLEU_CLAIR);
+		levelListPanel.setOpaque(false);
 		int levelIndex = 1;
 		File level = new File("../levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
-			Button loadLevelButton = new Button("level " + levelIndex, defaultColor, menuButtonsFont);
+			Button loadLevelButton = new Button("level " + levelIndex, Options.buttonsColor, Options.defaultFont);
 			loadLevelButton.addMouseListener(new ButtonListener(loadLevelButton) {
 				@Override
 				public void mouseReleased(MouseEvent e) {
@@ -230,7 +221,7 @@ public class Menu extends JPanel {
 			level = new File("../levels/level " + levelIndex + ".xsb");
 		}
 		
-		Button returnButton = new Button("Return", defaultColor, menuButtonsFont);
+		Button returnButton = new Button("Return", Options.buttonsColor, Options.defaultFont);
 		returnButton.addMouseListener(new ButtonListener(returnButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -266,6 +257,6 @@ public class Menu extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBackground(Game.BLEU_CLAIR);
+		setBackground(Options.backGroundColor);
 	}
 }

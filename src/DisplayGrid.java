@@ -80,7 +80,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		int y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
 		
 		super.paintComponent(g);
-		setBackground(Game.BLEU_CLAIR);
+		setBackground(Options.backGroundColor);
 		
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(borderThickness));
@@ -125,7 +125,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
-		if (Game.SHOW_PLAYER_ARROWS && grid.getTracker().hasMoved()) {
+		if (Options.SHOW_PLAYER_ARROWS && grid.getTracker().hasMoved()) {
 			buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 			buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 			buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);

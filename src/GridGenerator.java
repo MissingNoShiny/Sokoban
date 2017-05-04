@@ -34,12 +34,12 @@ public final class GridGenerator {
 	 * @return
 	 */
 	public static Grid generateGrid(int width, int height, int numberCrates, int difficulty) throws IllegalArgumentException{
-		if (width < 6 || height < 6 || width > 30 || height > 30 || numberCrates < 2 || numberCrates >= ((width-2)*(height-2))/3 || difficulty > 20)
+		if (width < 6 || height < 6 || width > 30 || height > 30 || numberCrates < 2 || numberCrates >= ((width-2)*(height-2))/4 || difficulty > 20)
 			throw new IllegalArgumentException();
 		
 		Boolean validGoalsDisposition;
 		Grid grid;
-		final int seuilMaxIterations = 7;
+		final int seuilMaxIterations = 10;
 		
 		do {
 			int numberIterations = 0;
@@ -50,9 +50,9 @@ public final class GridGenerator {
 			System.out.println("Room generee");
 			while (!validGoalsDisposition && numberIterations < seuilMaxIterations) {
 				validGoalsDisposition = true;
+				try {
 				placeGoals(grid, numberCrates);
 				placePlayer(grid);
-				try {
 				movePlayer(grid, difficulty*10);
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
@@ -332,7 +332,7 @@ public final class GridGenerator {
 		}
 	}
 	
-	private static void placeGoals(Grid grid, int number) {
+	private static void placeGoals(Grid grid, int number) throws InvalidDispositionException {
 		if (!grid.getCrateList().isEmpty()) {
 			for (int i = 0; i < grid.getWidth(); i++) {
 				for (int j = 0; j < grid.getHeight(); j++) {
@@ -344,8 +344,8 @@ public final class GridGenerator {
 			grid.getCrateList().clear();
 		}
 		Random rand = new Random();
-		int x, y, nbIterations = 0;
-		while (nbIterations < number){
+		int x, y, nbPlacedCrates = 0, nbIterations = 0;
+		while (nbPlacedCrates < number){
 			x = rand.nextInt(grid.getWidth());
 			y = rand.nextInt(grid.getHeight());
 			if (grid.getComponentAt(x, y).getName().equals("Ground")) {
@@ -353,13 +353,16 @@ public final class GridGenerator {
 				grid.addCrate(x, y);
 				Crate crate = grid.getCrateAt(x, y);
 				if (crate.canBePulled(Direction.UP)||crate.canBePulled(Direction.RIGHT) || crate.canBePulled(Direction.DOWN) || crate.canBePulled(Direction.LEFT)){
-					nbIterations++;
+					nbPlacedCrates++;
 				}
 				else {
-					grid.removeCrate(nbIterations);
+					grid.removeCrate(nbPlacedCrates);
 					grid.placeComponentAt(x, y, new Ground());
 				}
+				nbIterations++;
 			}
+			if (nbIterations > 500)
+				throw new InvalidDispositionException();
 		}
 	}
 	

@@ -13,7 +13,7 @@ public class DefaultSlider extends JSlider{
 		setMinorTickSpacing(1);
 		setPaintTicks(true);
 		setPaintLabels(true);
-		setBackground(Menu.defaultColor);
-		setFont(new Font(Menu.fontName, 0 , 20));
+		setBackground(Options.buttonsColor);
+		setFont(new Font(Options.fontName, 0 , 20));
 	}
 }
