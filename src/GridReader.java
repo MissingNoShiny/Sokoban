@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,12 +13,14 @@ public class GridReader {
 		
 	}
 	
-	public static void saveGrid(Grid grid, String path, Game game) {
+	/**
+	 * If the saving emplacement is already used, the old save is ecrased.
+	 * @param grid
+	 * @param path
+	 * @param game
+	 */
+	public static void saveGrid(Grid grid, String path){
 		File file = new File(path + ".xsb");
-		if (file.exists()) {
-			if (!game.canOverrideLevel())
-				return;
-		}
 		int px = grid.getPlayer().getX();
 		int py = grid.getPlayer().getY();
 		BufferedWriter buff = null;
@@ -72,9 +75,9 @@ public class GridReader {
 		}
 	}
 	
-    public static void saveGame(Grid grid, String saveName, Game game) throws IOException{
+    public static void saveGame(Grid grid, String saveName) throws IOException{
     	grid.getTracker().saveMov("../saves/" + saveName + ".mov");
-        saveGrid(grid, "../saves/"+saveName, game);
+        saveGrid(grid, "../saves/"+saveName);
     }
 	
     public static Grid loadGame(String path) throws IOException {
@@ -186,7 +189,7 @@ public class GridReader {
 			else 
 				throw new IOException("Grid et machin pas valide");
 		}
-		GridReader.saveGrid(grid, pathOut, game);
+		GridReader.saveGrid(grid, pathOut);
 	}
 	
 	private static void placeBlanks(Grid grid) {

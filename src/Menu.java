@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -19,7 +20,7 @@ public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
-	public static final String fontName = "arial";
+	public static final String fontName = "century";
 	
 	public static final Font defaultFont = new Font(fontName, 0, 40);
 	
@@ -42,15 +43,15 @@ public class Menu extends JPanel {
 		title.setFont(new Font("arial", 0, 100));
 		main.add(title);
 		
-		Button playButton = new Button("Play", defaultColor, menuButtonsFont);
-		playButton.addMouseListener(new ButtonListener(playButton) {
+		Button campaignButton = new Button("Campagne", defaultColor, menuButtonsFont);
+		campaignButton.addMouseListener(new ButtonListener(campaignButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				cd.next(main.getParent());
 			}
 		});
 		
-		Button quitButton = new Button("Quit", defaultColor, menuButtonsFont);
+		Button quitButton = new Button("Quitter", defaultColor, menuButtonsFont);
 		quitButton.addMouseListener(new ButtonListener(quitButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -59,6 +60,7 @@ public class Menu extends JPanel {
 		});
 		
 		JFrame generatorFrame = new JFrame();
+		generatorFrame.setTitle("Parametres de generation");
 		generatorFrame.setSize(800, 400);
 		generatorFrame.setLocationRelativeTo(null); 
 		generatorFrame.setResizable(false);
@@ -85,7 +87,7 @@ public class Menu extends JPanel {
 		generatorParameters2.add(new defaultLabel("Nombre de caisses"));
 		generatorParameters2.add(new defaultLabel("Difficulte"));
 		
-		defaultSlider numberCratesSlider = new defaultSlider(2, 28*28/5-1, (28*28/5-1)/3);
+		defaultSlider numberCratesSlider = new defaultSlider(2, (widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1, ((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-3)/3);
 		generatorParameters2.add(numberCratesSlider);
 		
 		defaultSlider difficultySlider = new defaultSlider(0, 20, 5);
@@ -135,7 +137,7 @@ public class Menu extends JPanel {
 		generatorFrame.add(validateGeneratorButton);
 		generatorFrame.add(cancelGeneratorButton);
 		
-		Button generateLevelButton = new Button("Generate level", defaultColor, menuButtonsFont);
+		Button generateLevelButton = new Button("Generer niveau", defaultColor, menuButtonsFont);
 		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -149,53 +151,55 @@ public class Menu extends JPanel {
 		saveChoice.setResizable(false);
 		saveChoice.setLayout(new GridLayout(3,1));
 		
-		String[] savesList = getSavesList();	
-		JComboBox<String> listChoice = new JComboBox<String>(savesList);
+		JComboBox<String> listChoice = new JComboBox<String>();
+		//listChoice.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
 		listChoice.setFont(defaultFont);
 		listChoice.setBackground(defaultColor);
 		listChoice.setFocusable(false);
 		listChoice.setEditable(false);
 		saveChoice.add(listChoice);
 		
-		//JLabel errorSave = new JLabel("La sauvegarde a echoue");
+		JOptionPane saveError = new JOptionPane();
 		
-		Button validateButton = new Button("Valider", defaultColor, defaultFont);
-		validateButton.addMouseListener(new ButtonListener(validateButton) {
+		Button validateLoadingButton = new Button("Valider", defaultColor, defaultFont);
+		validateLoadingButton.addMouseListener(new ButtonListener(validateLoadingButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				String levelName = (String) listChoice.getSelectedItem();
 				try {
 					game.loadLevel("../saves/"+levelName, false);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("ici");
+					JOptionPane.showMessageDialog(saveError, "La chargement de la sauvegarde a echoue", "Sauvegarde inaccessible", JOptionPane.ERROR_MESSAGE);
 				}
 				saveChoice.setVisible(false);
 			}
 		});
 		
-		Button cancelButton = new Button("Annuler", defaultColor, defaultFont);
-		cancelButton.addMouseListener(new ButtonListener(cancelButton){
+		Button cancelLoadingButton = new Button("Annuler", defaultColor, defaultFont);
+		cancelLoadingButton.addMouseListener(new ButtonListener(cancelLoadingButton){
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				saveChoice.setVisible(false);
 			}
 		});
 		
-		Button loadButton = new Button("Load a game", defaultColor, menuButtonsFont);
+		Button loadButton = new Button("Charger une partie", defaultColor, menuButtonsFont);
 		loadButton.addMouseListener(new ButtonListener(loadButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				saveChoice.add(validateButton);
-				saveChoice.add(cancelButton);
+				listChoice.removeAllItems();
+				String[] savesList = getSavesList();
+				for (int i = 0; i < savesList.length; i++)
+					listChoice.addItem(savesList[i]);
+				saveChoice.add(validateLoadingButton);
+				saveChoice.add(cancelLoadingButton);
 				saveChoice.setVisible(true);
 			}
 		});
 		
-		saveChoice.add(listChoice);
 		
-		
-		main.add(playButton);
+		main.add(campaignButton);
 		
 		main.add(generateLevelButton);
 		

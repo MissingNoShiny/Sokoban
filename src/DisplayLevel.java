@@ -7,9 +7,11 @@ import java.awt.GridLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -92,20 +94,26 @@ public class DisplayLevel extends JPanel{
 			}
 		});
 		
+		JOptionPane saveGestion = new JOptionPane();
+		
 		Button validateButton = new Button("Valider", Menu.defaultColor, Menu.defaultFont);
 		validateButton.addMouseListener(new ButtonListener(validateButton) {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				String name = saveFrameField.getText();
-				try {
-					GridReader.saveGame(grid, name, game);
-					System.out.println("Save reussie");
-					saveFrame.setVisible(false);
-				} catch (IOException e1) {
-					System.out.println("Save impossible");
-					e1.printStackTrace();
-					//Creer JLabel pour avertir qu'un problème de sauvegarde a eu lieu
-				};
+				File file = new File("../saves/" + name + ".xsb");
+				int canOverrideSave = 0;
+				if (file.exists()) {
+					canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Voulez-vous ecraser la sauvegarde ?", "Nom de sauvegarde deja utilise",  JOptionPane.YES_NO_OPTION);
+				}
+				if (canOverrideSave == 0) {
+					try {
+						GridReader.saveGame(grid, name);
+						saveFrame.setVisible(false);
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(saveGestion, "La sauvegarde a echoue", "Sauvegarde impossible", JOptionPane.ERROR_MESSAGE);
+					};
+				}
 			}
 		});
 		

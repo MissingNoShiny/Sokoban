@@ -115,8 +115,8 @@ public class Game implements Runnable {
 	 * @param path The path of the level to load (must end with ".xsb")
 	 * @throws IOException If the path is incorrect or doesn't exist
 	 */
-	public void loadLevel(String path, boolean isVirginLevel) throws IOException { //pas trouve d'autre nom pour le booleen :)
-		if (isVirginLevel) 
+	public void loadLevel(String path, boolean isClearLevel) throws IOException { //pas trouve d'autre nom pour le booleen :)
+		if (isClearLevel) 
 			grid = GridReader.readGrid(path);
 		else
 			grid = GridReader.loadGame(path);

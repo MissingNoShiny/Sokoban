@@ -216,6 +216,11 @@ public class MovementTracker {
 	public void readMov(String path) throws IOException {
 		if (!path.endsWith(".mov"))
 			throw new IOException();
+		
+		File file = new File(path);
+		if (!file.exists()) 
+			throw new IOException();
+		
 		BufferedReader buff = null;
 		try {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
