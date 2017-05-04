@@ -2,11 +2,11 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -37,15 +37,8 @@ public class DisplayLevel extends JPanel{
 		displayGrid = new DisplayGrid(grid);
 		add(displayGrid, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel(){
-		
-			private static final long serialVersionUID = 1L;
-
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				setBackground(Options.backGroundColor);
-			}
-		};
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBackground(Options.backGroundColor);
 		//buttonsPanel.setOpaque(true);
 		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 		buttonsPanel.setLayout(new GridLayout(4, 1, 3, 3));
@@ -54,18 +47,18 @@ public class DisplayLevel extends JPanel{
 		
 
 		Button undoButton = new Button("Undo", Options.buttonsColor, localButtonsFont);
-		undoButton.addMouseListener(new ButtonListener(undoButton) {
+		undoButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				grid.getTracker().undo(grid);
+			public void actionPerformed(ActionEvent e) {
+				grid.getTracker().undo(grid);		
 			}
 		});
 		buttonsPanel.add(undoButton);
 		
 		Button resetButton = new Button("Reset", Options.buttonsColor, localButtonsFont);
-		resetButton.addMouseListener(new ButtonListener(resetButton) {
+		resetButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				grid.getTracker().reset(grid);
 			}
 		});
@@ -87,9 +80,9 @@ public class DisplayLevel extends JPanel{
 		saveFrame.add(saveFrameField);
 		
 		Button cancelButton = new Button("Annuler", Options.buttonsColor, Options.defaultFont);
-		cancelButton.addMouseListener(new ButtonListener(cancelButton){
+		cancelButton.addActionListener(new ActionListener(){
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				saveFrame.setVisible(false);
 			}
 		});
@@ -97,9 +90,9 @@ public class DisplayLevel extends JPanel{
 		JOptionPane saveGestion = new JOptionPane();
 		
 		Button validateButton = new Button("Valider", Options.buttonsColor, Options.defaultFont);
-		validateButton.addMouseListener(new ButtonListener(validateButton) {
+		validateButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				String name = saveFrameField.getText();
 				File file = new File("../saves/" + name + ".xsb");
 				int canOverrideSave = 0;
@@ -121,22 +114,22 @@ public class DisplayLevel extends JPanel{
 		saveFrame.add(cancelButton);
 		
 		Button saveButton = new Button("Save", Options.buttonsColor, localButtonsFont);
-		saveButton.addMouseListener(new ButtonListener(saveButton) {
+		saveButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				saveFrame.setVisible(true);
 			}
 		});
 		buttonsPanel.add(saveButton);
 		
-		Button OptionsButton = new Button("Options", Options.buttonsColor, localButtonsFont);
-		OptionsButton.addMouseListener(new ButtonListener(OptionsButton) {
+		Button MenuButton = new Button("Menu", Options.buttonsColor, localButtonsFont);
+		MenuButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				game.loadMenu();
 			}
 		});
-		buttonsPanel.add(OptionsButton);
+		buttonsPanel.add(MenuButton);
 		
 		InfoPanel infoPanel = new InfoPanel(game, grid);
 		infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());

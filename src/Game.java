@@ -21,8 +21,6 @@ public class Game implements Runnable {
 	private DisplayLevel level;
 	private int fpsTemp = 0;
 	
-	//Plutot que de deplacer player depuis le grid, creer un nouvelle classe (avec un string et un int comme attributs)
-	//et faire en sorte que grid retourne les points acquis a a la fin d'un niveau. A chaque nouveau niveau, nouveau grid
 	
 	public static void main(String[] args) {
 		
@@ -32,6 +30,7 @@ public class Game implements Runnable {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		game.window = new JFrame(Game.TITLE);
+		game.window.setResizable(true);
 		game.window.setSize((int) screenSize.getWidth(), (int) screenSize.getHeight());
 		game.window.setLocationRelativeTo(null);
 		game.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,7 +87,7 @@ public class Game implements Runnable {
 		if (!running)
 			return;
 		try {
-			getWindow().dispose();
+			window.dispose();
 			running = false;
 			thread.join();
 		} catch (InterruptedException e) {
@@ -102,7 +101,7 @@ public class Game implements Runnable {
 	 * @param path The path of the level to load (must end with ".xsb")
 	 * @throws IOException If the path is incorrect or doesn't exist
 	 */
-	public void loadLevel(String path, boolean isClearLevel) throws IOException { //pas trouve d'autre nom pour le booleen :)
+	public void loadLevel(String path, boolean isClearLevel) throws IOException {
 		if (isClearLevel) 
 			grid = GridReader.readGrid(path);
 		else
@@ -112,6 +111,13 @@ public class Game implements Runnable {
 		level.displayGrid.requestFocusInWindow();
 	}
 	
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 * @param numberCrates
+	 * @param difficulty
+	 */
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
 		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);
 		level = new DisplayLevel(grid, this);
@@ -126,7 +132,11 @@ public class Game implements Runnable {
 		window.setContentPane(menu);
 		level = null;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public JFrame getWindow() {
 		return window;
 	}

@@ -9,13 +9,15 @@ import java.util.Random;
 
 public final class GridGenerator {
 	
-	//Je ne suis pas sur que faire une classe statique privee soit une bonne solution, donc c'est peut etre temporaire
 	private static class InvalidDispositionException extends Exception {
 
 		private static final long serialVersionUID = 1L;
 		
 	}
 	
+	/**
+	 * 
+	 */
 	private GridGenerator() {
 		
 	}
@@ -30,8 +32,9 @@ public final class GridGenerator {
 	 * @param width
 	 * @param height
 	 * @param numberCrates
-	 * @param difficulty pour le moment difficulty est la distance max (notion de distance du tracker)
+	 * @param difficulty
 	 * @return
+	 * @throws IllegalArgumentException
 	 */
 	public static Grid generateGrid(int width, int height, int numberCrates, int difficulty) throws IllegalArgumentException{
 		if (width < 6 || height < 6 || width > 30 || height > 30 || numberCrates < 2 || numberCrates >= ((width-2)*(height-2))/4 || difficulty > 20)
@@ -67,7 +70,12 @@ public final class GridGenerator {
 		return grid;
 	}
 	
-	
+	/**
+	 * Generate an empty room 
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	private static Grid generateRoom(int width, int height) {
 		Grid grid = new Grid(width, height);
 		grid.fill(new Blank());
@@ -87,7 +95,6 @@ public final class GridGenerator {
 			}
 		}
 		removeDeadEnds(grid);
-		removeRectGrounds(grid);
 		surroundGridWithWalls(grid);
 		return grid;
 	}
@@ -229,6 +236,10 @@ public final class GridGenerator {
 		return count;
 	}
 	
+	/**
+	 * 
+	 * @param grid
+	 */
 	private static void removeDeadEnds(Grid grid) {
 		for (int i = 1; i < grid.getWidth()-1; i++){
 			for (int j = 1; j < grid.getHeight()-1; j++) {
@@ -263,10 +274,6 @@ public final class GridGenerator {
 				}
 			}
 		}
-	}
-	
-	private static void removeRectGrounds(Grid grid) {
-		
 	}
 	
 	private static int countAdjacentWall(Grid grid, int x, int y) {

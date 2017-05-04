@@ -1,9 +1,9 @@
 
 import java.awt.CardLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -21,31 +21,32 @@ public class Menu extends JPanel {
 	
 	public Menu(Game game) {
 		
+		setBackground(Options.backGroundColor);
+		
 		CardLayout cd = new CardLayout();
 		setLayout(cd);
 		
-		JPanel main = new JPanel();
-		GridLayout gl = new GridLayout(6, 1, 3, 3);
-		gl.setVgap(3);
-		main.setLayout(gl);
-		main.setBackground(Options.backGroundColor);
+		JPanel mainMenuPanel = new JPanel();
+		mainMenuPanel.setLayout(new GridLayout(6, 1, 3, 3));
+		mainMenuPanel.setOpaque(false);
+		add(mainMenuPanel);
 		
 		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
 		title.setFont(new Font(Options.fontName, 0, 100));
-		main.add(title);
+		mainMenuPanel.add(title);
 		
 		Button campaignButton = new Button("Campain", Options.buttonsColor, Options.menuButtonsFont);
-		campaignButton.addMouseListener(new ButtonListener(campaignButton) {
+		campaignButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				cd.next(main.getParent());
+			public void actionPerformed(ActionEvent e) {
+				cd.next(mainMenuPanel.getParent());
 			}
 		});
 		
 		Button exitButton = new Button("Exit", Options.buttonsColor, Options.menuButtonsFont);
-		exitButton.addMouseListener(new ButtonListener(exitButton) {
+		exitButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				game.stop();
 			}
 		});
@@ -105,9 +106,9 @@ public class Menu extends JPanel {
 		
 		
 		Button validateGeneratorButton = new Button("Generate", Options.buttonsColor, Options.defaultFont);
-		validateGeneratorButton.addMouseListener(new ButtonListener(validateGeneratorButton) {
+		validateGeneratorButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				int difficulty = difficultySlider.getValue();
 				int widthLevel = widthLevelSlider.getValue();
 				int heightLevel = heightLevelSlider.getValue();
@@ -118,9 +119,9 @@ public class Menu extends JPanel {
 		});
 		
 		Button cancelGeneratorButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
-		cancelGeneratorButton.addMouseListener(new ButtonListener(cancelGeneratorButton){
+		cancelGeneratorButton.addActionListener(new ActionListener(){
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				generatorFrame.setVisible(false);
 			}
 		});
@@ -129,9 +130,9 @@ public class Menu extends JPanel {
 		generatorFrame.add(cancelGeneratorButton);
 		
 		Button generateLevelButton = new Button("Generate level", Options.buttonsColor, Options.menuButtonsFont);
-		generateLevelButton.addMouseListener(new ButtonListener(generateLevelButton) {
+		generateLevelButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				generatorFrame.setVisible(true);
 			}
 		});
@@ -153,9 +154,9 @@ public class Menu extends JPanel {
 		JOptionPane saveError = new JOptionPane();
 		
 		Button validateLoadingButton = new Button("Load", Options.buttonsColor, Options.defaultFont);
-		validateLoadingButton.addMouseListener(new ButtonListener(validateLoadingButton) {
+		validateLoadingButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				String levelName = (String) listChoice.getSelectedItem();
 				try {
 					game.loadLevel("../saves/"+levelName, false);
@@ -168,17 +169,17 @@ public class Menu extends JPanel {
 		});
 		
 		Button cancelLoadingButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
-		cancelLoadingButton.addMouseListener(new ButtonListener(cancelLoadingButton){
+		cancelLoadingButton.addActionListener(new ActionListener(){
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				saveChoice.setVisible(false);
 			}
 		});
 		
 		Button loadButton = new Button("Load a game", Options.buttonsColor, Options.menuButtonsFont);
-		loadButton.addMouseListener(new ButtonListener(loadButton) {
+		loadButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				listChoice.removeAllItems();
 				String[] savesList = getSavesList();
 				for (int i = 0; i < savesList.length; i++)
@@ -190,15 +191,14 @@ public class Menu extends JPanel {
 		});
 		
 		
-		main.add(campaignButton);
+		mainMenuPanel.add(campaignButton);
 		
-		main.add(generateLevelButton);
+		mainMenuPanel.add(generateLevelButton);
 		
-		main.add(loadButton);
+		mainMenuPanel.add(loadButton);
 		
-		main.add(exitButton);
-		
-		add(main);
+		mainMenuPanel.add(exitButton);
+
 		
 		JPanel levelListPanel = new JPanel();
 		levelListPanel.setOpaque(false);
@@ -206,9 +206,9 @@ public class Menu extends JPanel {
 		File level = new File("../levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
 			Button loadLevelButton = new Button("level " + levelIndex, Options.buttonsColor, Options.defaultFont);
-			loadLevelButton.addMouseListener(new ButtonListener(loadLevelButton) {
+			loadLevelButton.addActionListener(new ActionListener() {
 				@Override
-				public void mouseReleased(MouseEvent e) {
+				public void actionPerformed(ActionEvent e) {
 					try {
 						game.loadLevel("../levels/" + loadLevelButton.getText() + ".xsb", true);
 					} catch (IOException e1) {
@@ -222,9 +222,9 @@ public class Menu extends JPanel {
 		}
 		
 		Button returnButton = new Button("Return", Options.buttonsColor, Options.defaultFont);
-		returnButton.addMouseListener(new ButtonListener(returnButton){
+		returnButton.addActionListener(new ActionListener(){
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				cd.previous(levelListPanel.getParent());
 			}
 		});
@@ -253,10 +253,5 @@ public class Menu extends JPanel {
 		String[] savesList = new String[countFile];
 		System.arraycopy(tempList, 0, savesList, 0, countFile);
 		return savesList;
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		setBackground(Options.backGroundColor);
 	}
 }
