@@ -72,8 +72,11 @@ public class Grid {
 	 * @param x The X-coordinate of the cell to get data from
 	 * @param y The y-coordinate of the cell to get data from
 	 * @return The Component contained in specified cell
+	 * @throws IllegalArgumentException
 	 */
-	public Component getComponentAt(int x, int y) {
+	public Component getComponentAt(int x, int y) throws IllegalArgumentException {
+		if (x < 0 || x >= width || y < 0 || y >= height)
+			throw new IllegalArgumentException();
 		return matrix[x][y];
 	}
 	
@@ -82,8 +85,11 @@ public class Grid {
 	 * @param x The X-coordinate of the cell to set a new Component
 	 * @param y The Y-coordinate of the cell to set a new Component
 	 * @param comp  The Component to set at the specified cell
+	 * @throws IllegalArgumentException
 	 */
-	public void placeComponentAt(int x, int y, Component comp) {
+	public void placeComponentAt(int x, int y, Component comp) throws IllegalArgumentException {
+		if (x < 0 || x >= width || y < 0 || y >= height)
+			throw new IllegalArgumentException();
 		matrix[x][y] = comp;
 	}
 	
@@ -92,17 +98,20 @@ public class Grid {
 	 * @return true if the grid is in a won state, false else
 	 */
 	public boolean isWon(){
-		boolean test = true;
 		String comp;
 		for (int i = 0; i < crateList.size(); i++) {
 			comp = getComponentAt(crateList.get(i).getX(), crateList.get(i).getY()).getName();
-			if  (! comp.equals("CrateOnGoal")) {
-				test= false;
-			}
+			if  (! comp.equals("CrateOnGoal"))
+				return false;
 		}
-		return test;
+		return true;
 	}
 	
+	/**
+	 * Il faut limiter l'accès à cette fonction
+	 * @param x
+	 * @param y
+	 */
 	public void setPlayer (int x, int y) {
 		player.setX(x);
 		player.setY(y);

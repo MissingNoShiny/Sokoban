@@ -16,6 +16,26 @@ public class Player extends Position {
 		return direction;
 	}
 	
+	/**
+	 * Sets the X-coordinate of the object to a new value.
+	 * @param inputX The new X-coordinate
+	 */
+	public void setX(int inputX) {
+		x = inputX;
+	}
+	
+	/**
+	 * Sets the Y-coordinate of the object to a new value.
+	 * @param inputY The new Y-coordinate
+	 */
+	public void setY(int inputY) {
+		y = inputY;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean canMove() {
 		return canMove(direction);
 	}
@@ -90,8 +110,8 @@ public class Player extends Position {
 		}
 		else if (isTracked)
 			grid.getTracker().addMove(dir);
-		setX(newX);
-		setY(newY);
+		x = newX;
+		y = newY;
 	}
 	
 	public void pullCrate() {

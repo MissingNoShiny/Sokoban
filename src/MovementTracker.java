@@ -111,8 +111,9 @@ public class MovementTracker {
 	
 	/**
 	 * Undoes the last move/push of the grid.
+	 * @param grid
 	 */
-	public void undo(Grid grid) {
+	public void undo() {
 		if (moves.isEmpty())
 			return;
 		Character c = moves.get(moves.size()-1);
@@ -174,9 +175,12 @@ public class MovementTracker {
 		}
 	}
 	
-	public void reset(Grid grid) {
+	/**
+	 * Undo all moves and clear moveList
+	 */
+	public void reset() {
 		while (!moves.isEmpty())
-			undo(grid);
+			undo();
 	}
 	
 	/**

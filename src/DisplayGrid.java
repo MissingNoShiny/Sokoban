@@ -153,7 +153,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		int input = e.getKeyCode();
 		switch (input){
 		case KeyEvent.VK_R:
-			grid.getTracker().reset(grid);
+			grid.getTracker().reset();
 			grid.setPlayer(grid.getHeight(), grid.getWidth());
 			break;
 		case KeyEvent.VK_ENTER:

@@ -1,5 +1,6 @@
 
 import java.awt.Graphics;
+import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +22,7 @@ public class InfoPanel extends JPanel{
 	public InfoPanel(Game game, Grid grid) {
 		this.game = game;
 		this.grid = grid;
+		setLayout(new GridLayout(10, 1));
 		setBackground(Options.backGroundColor);
 		fps = new DefaultLabel("", Options.backGroundColor);
 		add(fps);

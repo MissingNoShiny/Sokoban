@@ -3,7 +3,7 @@
  * Description
  * @author Vincent Larcin, Joachim Sneessens
  */
-public abstract class Position extends Component{
+public abstract class Position extends Component {
 	
 	/**
 	 * The X-coordinate of the object.
@@ -44,21 +44,5 @@ public abstract class Position extends Component{
 	 */
 	public int getY() {
 		return y;
-	}
-
-	/**
-	 * Sets the X-coordinate of the object to a new value.
-	 * @param inputX The new X-coordinate
-	 */
-	public void setX(int inputX) {
-		x = inputX;
-	}
-	
-	/**
-	 * Sets the Y-coordinate of the object to a new value.
-	 * @param inputY The new Y-coordinate
-	 */
-	public void setY(int inputY) {
-		y = inputY;
 	}
 }

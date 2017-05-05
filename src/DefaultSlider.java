@@ -16,4 +16,8 @@ public class DefaultSlider extends JSlider{
 		setBackground(Options.buttonsColor);
 		setFont(new Font(Options.fontName, 0 , 20));
 	}
+
+	public void adaptBounds(int value, int value2) {
+			
+	}
 }

@@ -95,8 +95,8 @@ public class Crate extends Position {
 		}
 		grid.placeComponentAt(x, y, support);
 		support = grid.getComponentAt(newX, newY);
-		setX(newX);
-		setY(newY);
+		x = newX;
+		y = newY;
 		grid.placeComponentAt(newX, newY, this);
 	}
 	

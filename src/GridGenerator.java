@@ -37,12 +37,12 @@ public final class GridGenerator {
 	 * @throws IllegalArgumentException
 	 */
 	public static Grid generateGrid(int width, int height, int numberCrates, int difficulty) throws IllegalArgumentException{
-		if (width < 6 || height < 6 || width > 30 || height > 30 || numberCrates < 2 || numberCrates >= ((width-2)*(height-2))/4 || difficulty > 20)
+		if (width < 6 || height < 6 || width > 30 || height > 30 || numberCrates < 2 || numberCrates > ((width-2)*(height-2))/5 || difficulty > 20)
 			throw new IllegalArgumentException();
 		
 		Boolean validGoalsDisposition;
 		Grid grid;
-		final int seuilMaxIterations = 10;
+		final int seuilMaxIterations = 8;
 		
 		do {
 			int numberIterations = 0;
@@ -56,7 +56,7 @@ public final class GridGenerator {
 				try {
 				placeGoals(grid, numberCrates);
 				placePlayer(grid);
-				movePlayer(grid, difficulty*10);
+				movePlayer(grid, (int)Math.pow(difficulty,2)*(int)Math.pow(numberCrates,2/3));
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
 					validGoalsDisposition = false;
@@ -323,6 +323,13 @@ public final class GridGenerator {
 		}
 	}
 	
+	/**
+	 * Set true on all blocks wich can be reach from the position specified by x and y.
+	 * @param grid
+	 * @param mat
+	 * @param x
+	 * @param y
+	 */
 	private static void detectUselessWalls(Grid grid, boolean[][] mat, int x, int y) {
 		if (mat[x][y] == false) {
 			mat[x][y] = true;
@@ -339,6 +346,14 @@ public final class GridGenerator {
 		}
 	}
 	
+	/**
+	 * Remove all existing crates and goals from the grid.
+	 * Place at random valid locations the goals. Above each goal is placed an crate.
+	 * The location is not valid if the cannot be pulled in at least one direction.
+	 * @param grid
+	 * @param number The number of goals/crates to be placed
+	 * @throws InvalidDispositionException If it's impossible placing crates in the specified grid.
+	 */
 	private static void placeGoals(Grid grid, int number) throws InvalidDispositionException {
 		if (!grid.getCrateList().isEmpty()) {
 			for (int i = 0; i < grid.getWidth(); i++) {
@@ -361,6 +376,7 @@ public final class GridGenerator {
 				Crate crate = grid.getCrateAt(x, y);
 				if (crate.canBePulled(Direction.UP)||crate.canBePulled(Direction.RIGHT) || crate.canBePulled(Direction.DOWN) || crate.canBePulled(Direction.LEFT)){
 					nbPlacedCrates++;
+					nbIterations = 0;
 				}
 				else {
 					grid.removeCrate(nbPlacedCrates);
@@ -374,7 +390,7 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * If the player exist not yet, the method create one. In the other case, the coordinates of him are just changed.
+	 * Find a valid place for the player
 	 * @param grid
 	 */
 	private static void placePlayer(Grid grid) {
@@ -391,6 +407,12 @@ public final class GridGenerator {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param grid
+	 * @param numberMoves
+	 * @throws InvalidDispositionException
+	 */
 	private static void movePlayer(Grid grid, int numberMoves) throws InvalidDispositionException {
 		Random rand = new Random();
 		Crate crate = null;
@@ -447,22 +469,15 @@ public final class GridGenerator {
 		//player.setDirection(Direction.DOWN);
 	}
 	
-	
-	private static void goToSource(Grid grid, int[][] tab) {
-		while (tab[grid.getPlayer().getX()][grid.getPlayer().getY()]!=1) {
-			int x = grid.getPlayer().getX();
-			int y = grid.getPlayer().getY();
-			if (y-1 >= 0 && tab[x][y-1]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.UP, true);
-			else if (x+1 < grid.getWidth() && tab[x+1][y]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.RIGHT, true);
-			else if (y+1 < grid.getHeight() && tab[x][y+1]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.DOWN, true);
-			else if (x-1 >= 0 && tab[x-1][y]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.LEFT, true);
-		}
-	}
-	
+	/**
+	 * Used to find the fastest way to join the source. 
+	 * @param grid
+	 * @param tab
+	 * @param xSource
+	 * @param ySource
+	 * @param xGoal	if the point specified by xGoal and yGoal is reach,  the filling is stopped 
+	 * @param yGoal
+	 */
 	private static void fillLee(Grid grid, int[][] tab, int xSource, int ySource, int xGoal, int yGoal) {
 		boolean goalIsReach = false;
 		int ind = 0, deb = 0;
@@ -504,9 +519,29 @@ public final class GridGenerator {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param grid
+	 * @param tab
+	 */
+	private static void goToSource(Grid grid, int[][] tab) {
+		while (tab[grid.getPlayer().getX()][grid.getPlayer().getY()]!=1) {
+			int x = grid.getPlayer().getX();
+			int y = grid.getPlayer().getY();
+			if (y-1 >= 0 && tab[x][y-1]==tab[x][y]-1)
+				grid.getPlayer().move(Direction.UP, true);
+			else if (x+1 < grid.getWidth() && tab[x+1][y]==tab[x][y]-1)
+				grid.getPlayer().move(Direction.RIGHT, true);
+			else if (y+1 < grid.getHeight() && tab[x][y+1]==tab[x][y]-1)
+				grid.getPlayer().move(Direction.DOWN, true);
+			else if (x-1 >= 0 && tab[x-1][y]==tab[x][y]-1)
+				grid.getPlayer().move(Direction.LEFT, true);
+		}
+	}
 	
 	/**
-	 * Attention cette fonction a des effets de bord ET retourne qqch
+	 * Return true if an crateCanBePulled by the player
+	 * This method have border effects on the tab.
 	 * @param grid
 	 * @param tab
 	 * @param crate
@@ -538,6 +573,12 @@ public final class GridGenerator {
 		return false;
 	}
 	
+	/**
+	 * Replace the all elements of the tab by 0
+	 * @param tab
+	 * @param width
+	 * @param height
+	 */
 	private static void cleanTab(int[][] tab, int width, int height) {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++)

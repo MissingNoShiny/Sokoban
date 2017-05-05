@@ -39,7 +39,6 @@ public class DisplayLevel extends JPanel{
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setBackground(Options.backGroundColor);
-		//buttonsPanel.setOpaque(true);
 		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 		buttonsPanel.setLayout(new GridLayout(4, 1, 3, 3));
 		
@@ -50,7 +49,7 @@ public class DisplayLevel extends JPanel{
 		undoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				grid.getTracker().undo(grid);		
+				grid.getTracker().undo();		
 			}
 		});
 		buttonsPanel.add(undoButton);
@@ -59,10 +58,11 @@ public class DisplayLevel extends JPanel{
 		resetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				grid.getTracker().reset(grid);
+				grid.getTracker().reset();
 			}
 		});
 		buttonsPanel.add(resetButton);
+		
 		
 		JFrame saveFrame = new JFrame();
 		saveFrame.setSize(500, 300);

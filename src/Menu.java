@@ -79,7 +79,24 @@ public class Menu extends JPanel {
 		generatorParameters2.add(new DefaultLabel("Amount of crates"));
 		generatorParameters2.add(new DefaultLabel("Difficulty"));
 		
-		DefaultSlider numberCratesSlider = new DefaultSlider(2, (widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1, ((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-3)/3);
+		
+		DefaultSlider numberCratesSlider = new DefaultSlider(2, 10, 10){
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void adaptBounds(int widthLevel, int heightLevel) {
+				setMaximum((widthLevel-2)*(heightLevel-2)/5);
+				int sliderSize = getMaximum()-getMinimum();
+				if (sliderSize/3 > 0) {
+					setMajorTickSpacing(sliderSize/3);
+					setLabelTable(createStandardLabels(sliderSize/3));
+				}
+				else {
+					setMajorTickSpacing(1);
+					setLabelTable(createStandardLabels(1));
+				}
+			}
+		};
+		numberCratesSlider.adaptBounds(widthLevelSlider.getValue(), heightLevelSlider.getValue());
 		generatorParameters2.add(numberCratesSlider);
 		
 		DefaultSlider difficultySlider = new DefaultSlider(0, 20, 5);
@@ -88,19 +105,13 @@ public class Menu extends JPanel {
 		
 		widthLevelSlider.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e) {
-				numberCratesSlider.setMaximum((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1);
-				int sliderSize = numberCratesSlider.getMaximum()-numberCratesSlider.getMinimum();
-				numberCratesSlider.setMajorTickSpacing(sliderSize/3);
-				numberCratesSlider.setLabelTable(numberCratesSlider.createStandardLabels(sliderSize/3));
+				numberCratesSlider.adaptBounds(widthLevelSlider.getValue(), heightLevelSlider.getValue());
 		    }    
 		});
 		
 		heightLevelSlider.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e) {
-				numberCratesSlider.setMaximum((widthLevelSlider.getValue()-2)*(heightLevelSlider.getValue()-2)/5-1);
-				int sliderSize = numberCratesSlider.getMaximum()-numberCratesSlider.getMinimum();
-				numberCratesSlider.setMajorTickSpacing(sliderSize/3);
-				numberCratesSlider.setLabelTable(numberCratesSlider.createStandardLabels(sliderSize/3));
+				numberCratesSlider.adaptBounds(widthLevelSlider.getValue(), heightLevelSlider.getValue());
 		    }    
 		});
 		
