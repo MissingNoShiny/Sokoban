@@ -9,16 +9,49 @@ import javax.swing.JFrame;
 
 public class Game implements Runnable {
 	
+	/**
+	 * The title of the JFrame the game will run in.
+	 */
 	public static final String TITLE = "Sokoban";
 	
+	/**
+	 * The approximate number of frame the game will render a second.
+	 */
 	public static final int FPS_CAP = 30;
 
+	/**
+	 * Boolean value used to make the game loop run.
+	 */
 	private boolean running = false;
-	private Menu menu = new Menu(this);
-	private Thread thread;
-	private Grid grid;
+	
+	/**
+	 * The JFrame the game will run in.
+	 */
 	private JFrame window;
+	
+	/**
+	 * The menu of the game.
+	 */
+	private Menu menu = new Menu(this);
+	
+	/**
+	 * The separate thread the game loop will run in.
+	 */
+	private Thread thread;
+	
+	/**
+	 * The grid of the current level on screen (when a level is being displayed).
+	 */
+	private Grid grid;
+	
+	/**
+	 * 
+	 */
 	private DisplayLevel level;
+	
+	/**
+	 * The amount of rendered frame in the last second.
+	 */
 	private int fpsTemp = 0;
 	
 	
@@ -41,6 +74,10 @@ public class Game implements Runnable {
 			
 	}
 	
+	/**
+	 * Gets the amount of rendered frames in the last second.
+	 * @return The amount of rendered frames in the last second
+	 */
 	public int getFps() {
 		return fpsTemp;
 	}
@@ -112,11 +149,11 @@ public class Game implements Runnable {
 	}
 	
 	/**
-	 * 
-	 * @param width
-	 * @param height
-	 * @param numberCrates
-	 * @param difficulty
+	 * Generates a new level with specified requirements.
+	 * @param width The width of the level
+	 * @param height The height of the level
+	 * @param numberCrates The amount of crates of the level
+	 * @param difficulty The difficulty of the level
 	 */
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
 		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);
@@ -126,7 +163,7 @@ public class Game implements Runnable {
 	}
 	
 	/**
-	 * Loads the menu
+	 * Loads the menu.
 	 */
 	public void loadMenu() {
 		window.setContentPane(menu);
@@ -134,8 +171,8 @@ public class Game implements Runnable {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Gets the JFrame the game is running in.
+	 * @return The JFrame the game is running in
 	 */
 	public JFrame getWindow() {
 		return window;
