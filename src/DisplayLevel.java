@@ -101,7 +101,7 @@ public class DisplayLevel extends JPanel{
 				}
 				if (canOverrideSave == 0) {
 					try {
-						GridReader.saveGame(grid, name);
+						GridReader.saveGridState(grid, name);
 						saveFrame.setVisible(false);
 					} catch (IOException e1) {
 						JOptionPane.showMessageDialog(saveGestion, "Save failed", "Error", JOptionPane.ERROR_MESSAGE);
