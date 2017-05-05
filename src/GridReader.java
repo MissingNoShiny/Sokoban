@@ -17,10 +17,9 @@ public class GridReader {
 	}
 	
 	/**
-	 * If the saving emplacement is already used, the old save is ecrased.
-	 * @param grid
-	 * @param path
-	 * @param game
+	 * Saves a grid to a .xsb file at specified path. IF that file already exists, it is overwritten
+	 * @param grid The grid to save
+	 * @param path The path to save the grid to (without the ".xsb" extension)
 	 */
 	public static void saveGrid(Grid grid, String path){
 		File file = new File(path + ".xsb");
@@ -78,7 +77,13 @@ public class GridReader {
 		}
 	}
 	
-    public static void saveGame(Grid grid, String saveName) throws IOException{
+	/**
+	 * Saves a grid and its move list.
+	 * @param grid The grid to save
+	 * @param saveName The name of the save file
+	 * @throws IOException
+	 */
+    public static void saveGridState(Grid grid, String saveName) throws IOException{
     	grid.getTracker().saveMov("../saves/" + saveName + ".mov");
         saveGrid(grid, "../saves/"+saveName);
     }

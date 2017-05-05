@@ -22,15 +22,30 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	
 
 	private static final long serialVersionUID = -5700571976068104061L;
-
+	
+	/**
+	 * The map that contains the sprite associated to each Component.
+	 */
 	private Map<String, Image> sprites = new HashMap<String, Image>();
 	
+	/**
+	 * The grid to display.
+	 */
 	private Grid grid;
 	
+	/**
+	 * The size of each cell of the grid, in pixels.
+	 */
 	private int cellSize = 64;
 	
+	/**
+	 * The thickness of the border around the level, in pixels.
+	 */
 	private int borderThickness = 5;
 	
+	/**
+	 * The arrow buttons that allows the user to move the player using a mouse or touch screen.
+	 */
 	JButton buttonLeft, buttonRight, buttonUp, buttonDown;
 	
 	public DisplayGrid (Grid grid) {
@@ -60,15 +75,15 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		initializeButton(buttonDown, Direction.DOWN);
 		buttonDown.setIcon(new ImageIcon("../resources/arrowDown.png"));
 		
-		addToMap(sprites, "Ground", "../resources/ground.png");
-		addToMap(sprites, "Crate", "../resources/crate.png");
-		addToMap(sprites, "Wall", "../resources/wall.png");
-		addToMap(sprites, "Goal", "../resources/goal.png");
-		addToMap(sprites, "CrateOnGoal", "../resources/crateOnGoal.png");
-		addToMap(sprites, "PlayerUP", "../resources/playerUp.png");
-		addToMap(sprites, "PlayerRIGHT", "../resources/playerRight.png");
-		addToMap(sprites, "PlayerDOWN", "../resources/playerDown.png");
-		addToMap(sprites, "PlayerLEFT", "../resources/playerLeft.png");
+		addToMap("Ground", "../resources/ground.png");
+		addToMap("Crate", "../resources/crate.png");
+		addToMap("Wall", "../resources/wall.png");
+		addToMap("Goal", "../resources/goal.png");
+		addToMap("CrateOnGoal", "../resources/crateOnGoal.png");
+		addToMap("PlayerUP", "../resources/playerUp.png");
+		addToMap("PlayerRIGHT", "../resources/playerRight.png");
+		addToMap("PlayerDOWN", "../resources/playerDown.png");
+		addToMap("PlayerLEFT", "../resources/playerLeft.png");
 	}
 	
 	public void paintComponent(Graphics g) {	
@@ -138,13 +153,18 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		}
 	}
 	
-	public void addToMap(Map<String, Image> map, String comp, String nameResource) {
+	/**
+	 * Adds a sprite for specified component in the sprite map. The specified sprite must exist in the ../resources directory.
+	 * @param componentName The name of the component to add a sprite for
+	 * @param resourceName The name of the file that contains the sprite
+	 */
+	private void addToMap(String componentName, String resourceName) {
 		Image sprite = null;
 		try {
-		    sprite = ImageIO.read(new File(nameResource));
+		    sprite = ImageIO.read(new File(resourceName));
 		} catch (IOException e) {
 		}
-		map.put(comp, sprite);
+		sprites.put(componentName, sprite);
 	
 	}
 	
@@ -193,7 +213,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 	}
 	
-	public void initializeButton(JButton button, Direction dir) {
+
+	public void initializeButton(JButton button, final Direction dir) {
 		button.setFocusable(false);
 		button.setBounds(0, 0, 0, 0);
 		button.setBorderPainted(false);

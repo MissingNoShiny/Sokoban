@@ -177,7 +177,7 @@ public class MovementTracker {
 	}
 	
 	/**
-	 * Undo all moves and clear moveList
+	 * Undoes all moves.
 	 */
 	public void reset() {
 		while (!moves.isEmpty())
@@ -250,6 +250,10 @@ public class MovementTracker {
 		}
 	}
 	
+	/**
+	 * Checks if the player has moved since the last execution of this function.
+	 * @return true if the player has moved, false else
+	 */
 	public boolean hasMoved() {
 		if (hasMoved == false)
 			return false;
@@ -278,13 +282,12 @@ public class MovementTracker {
 		return count;
 	}
 	
+	/**
+	 * Resets the MovementTracker.
+	 */
 	public void empty() {
 		moves.clear();
 		pushesCount = 0;
 		movesCount = 0;
-	}
-	
-	public String toString() {
-		return moves.toString();
 	}
 }
