@@ -196,7 +196,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 	}
 	
-	public void initializeButton(JButton button, Direction direction) {
+	public void initializeButton(JButton button, final Direction direction) {
 		button.setFocusable(false);
 		button.setBounds(0, 0, 0, 0);
 		button.setBorderPainted(false);
