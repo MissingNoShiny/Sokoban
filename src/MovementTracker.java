@@ -213,7 +213,7 @@ public class MovementTracker {
 	}
 	
 	/**
-	 * Je ne gère pas les cas où quelqu'un aurait mis un fichier .mov contenant n'importe quoi
+	 * Je ne gere pas les cas ou quelqu'un aurait mis un fichier .mov contenant n'importe quoi
 	 * @param path
 	 * @throws IOException
 	 */

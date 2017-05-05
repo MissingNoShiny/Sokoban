@@ -17,8 +17,8 @@ public class Options {
 	public static boolean SHOW_PLAYER_ARROWS = false;
 	
 	/**
-	 * Pour le moment je rends l'instanciation impossible. A l'avenir c'est lors de l'instanciation que l'on chargera les paramètres
-	 * precedents.
+	 * Pour le moment je rends l'instanciation impossible. A l'avenir c'est lors de l'instanciation que l'on chargera 
+	 * les parametres precedents.
 	 */
 	private Options() {
 		

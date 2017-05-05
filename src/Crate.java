@@ -4,7 +4,7 @@ public class Crate extends Position {
 	private Component support;
 	
 	/**
-	 * Warning : toujours placer la caisse sur une case de grid contenant déjà une instance
+	 * Warning : crate must be placed on an existing component
 	 * @param x
 	 * @param y
 	 * @param grid

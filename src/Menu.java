@@ -148,11 +148,11 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		JFrame saveChoice = new JFrame();
-		saveChoice.setSize(500, 300);
-		saveChoice.setLocationRelativeTo(null); 
-		saveChoice.setResizable(false);
-		saveChoice.setLayout(new GridLayout(3,1));
+		JFrame loadFrame = new JFrame("Load a save");
+		loadFrame.setSize(500, 300);
+		loadFrame.setLocationRelativeTo(null); 
+		loadFrame.setResizable(false);
+		loadFrame.setLayout(new GridLayout(3,1));
 		
 		JComboBox<String> listChoice = new JComboBox<String>();
 		//listChoice.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
@@ -160,7 +160,7 @@ public class Menu extends JPanel {
 		listChoice.setBackground(Options.buttonsColor);
 		listChoice.setFocusable(false);
 		listChoice.setEditable(false);
-		saveChoice.add(listChoice);
+		loadFrame.add(listChoice);
 		
 		JOptionPane saveError = new JOptionPane();
 		
@@ -175,7 +175,7 @@ public class Menu extends JPanel {
 					System.out.println("ici");
 					JOptionPane.showMessageDialog(saveError, "Loading failed.\nSave not found.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				saveChoice.setVisible(false);
+				loadFrame.setVisible(false);
 			}
 		});
 		
@@ -183,7 +183,7 @@ public class Menu extends JPanel {
 		cancelLoadingButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveChoice.setVisible(false);
+				loadFrame.setVisible(false);
 			}
 		});
 		
@@ -195,9 +195,9 @@ public class Menu extends JPanel {
 				String[] savesList = getSavesList();
 				for (int i = 0; i < savesList.length; i++)
 					listChoice.addItem(savesList[i]);
-				saveChoice.add(validateLoadingButton);
-				saveChoice.add(cancelLoadingButton);
-				saveChoice.setVisible(true);
+				loadFrame.add(validateLoadingButton);
+				loadFrame.add(cancelLoadingButton);
+				loadFrame.setVisible(true);
 			}
 		});
 		

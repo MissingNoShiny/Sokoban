@@ -157,7 +157,6 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			grid.setPlayerCoordinates(grid.getHeight(), grid.getWidth());
 			break;
 		case KeyEvent.VK_ENTER:
-			System.out.print("Coordonnées du joueur: ");
 			System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
 			System.out.println(grid.getPlayer().getDirection());
 			break;
@@ -181,11 +180,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 			if (grid.getPlayer().canMove())
 				grid.getPlayer().move();
 			break;
-		default :
-			System.out.println("On a appuyé, \nComposant en (6,5) : " + grid.getComponentAt(6, 5).getName());
 		}
-		
-
 
 		if (grid.isWon())
 			System.out.println("Vivent les castors!");

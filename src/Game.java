@@ -1,4 +1,5 @@
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -62,6 +63,7 @@ public class Game implements Runnable {
 		
 		game.window = new JFrame(Game.TITLE);
 		game.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		game.window.setMinimumSize(new Dimension(600, 300));
 		game.window.setResizable(true);
 		game.window.setLocationRelativeTo(null);
 		game.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
