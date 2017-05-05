@@ -173,6 +173,7 @@ public class MovementTracker {
 				break;
 			}
 		}
+		hasMoved = true;
 	}
 	
 	/**

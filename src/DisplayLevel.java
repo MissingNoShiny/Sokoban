@@ -22,8 +22,7 @@ public class DisplayLevel extends JPanel{
 	private static final Font localButtonsFont = new Font (Options.fontName, 0, 50);
 	
 	/*
-	 * J'ai du faire de displaygrid un attribut de displayLevel, pour lui donner le focus. Il faudra trouver 
-	 * une meilleure solution
+	 * For the focus
 	 */
 	public DisplayGrid displayGrid;
 	
@@ -94,18 +93,23 @@ public class DisplayLevel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = saveFrameField.getText();
-				File file = new File("../saves/" + name + ".xsb");
-				int canOverrideSave = 0;
-				if (file.exists()) {
-					canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
+				if (name.length() > 10) {
+					JOptionPane.showMessageDialog(saveGestion, "Number characters must be less than 10 !!!!!!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				if (canOverrideSave == 0) {
-					try {
-						GridReader.saveGame(grid, name);
-						saveFrame.setVisible(false);
-					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(saveGestion, "Save failed", "Error", JOptionPane.ERROR_MESSAGE);
-					};
+				else {
+					File file = new File("../saves/" + name + ".xsb");
+					int canOverrideSave = 0;
+					if (file.exists()) {
+						canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
+					}
+					if (canOverrideSave == 0) {
+						try {
+							GridReader.saveGame(grid, name);
+							saveFrame.setVisible(false);
+						} catch (IOException e1) {
+							JOptionPane.showMessageDialog(saveGestion, "Save failed", "Error", JOptionPane.ERROR_MESSAGE);
+						};
+					}
 				}
 			}
 		});

@@ -106,6 +106,15 @@ public class Game implements Runnable {
 		}
 	}
 	
+	/*
+	private void displayVictoryScreen() {
+		JOptionPane victoryScreen = new JOptionPane();
+		victoryScreen.setOpaque(true);
+		victoryScreen.setBackground(Options.backGroundColor);
+		JOptionPane.showMessageDialog(victoryScreen, "Congratulations ! It was a high level Sokoban !", "You Win", JOptionPane.INFORMATION_MESSAGE);
+	}
+	*/
+	
 	/**
 	 * Starts the game loop.
 	 */

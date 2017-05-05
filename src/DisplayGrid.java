@@ -125,7 +125,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
-		if (Options.SHOW_PLAYER_ARROWS && grid.getTracker().hasMoved()) {
+		if (grid.getTracker().hasMoved() && Options.SHOW_PLAYER_ARROWS) {
 			buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 			buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 			buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);
@@ -181,9 +181,6 @@ public class DisplayGrid extends JPanel implements KeyListener{
 				grid.getPlayer().move();
 			break;
 		}
-
-		if (grid.isWon())
-			System.out.println("Vivent les castors!");
 	}
 
 	@Override
@@ -196,7 +193,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 	}
 	
-	public void initializeButton(JButton button, Direction direction) {
+	public void initializeButton(JButton button, Direction dir) {
 		button.setFocusable(false);
 		button.setBounds(0, 0, 0, 0);
 		button.setBorderPainted(false);
@@ -204,8 +201,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		button.setContentAreaFilled(false);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				grid.getPlayer().setDirection(direction);
-				grid.getPlayer().move(direction, true);
+				grid.getPlayer().setDirection(dir);
+				grid.getPlayer().move(dir, true);
 			}
 		});
 	}

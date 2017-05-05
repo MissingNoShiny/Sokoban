@@ -155,7 +155,6 @@ public class Menu extends JPanel {
 		loadFrame.setLayout(new GridLayout(3,1));
 		
 		JComboBox<String> listChoice = new JComboBox<String>();
-		//listChoice.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
 		listChoice.setFont(Options.defaultFont);
 		listChoice.setBackground(Options.buttonsColor);
 		listChoice.setFocusable(false);
