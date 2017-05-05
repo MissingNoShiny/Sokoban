@@ -70,7 +70,7 @@ public class DisplayLevel extends JPanel{
 		saveFrame.setResizable(false);
 		saveFrame.setLayout(new GridLayout(4,1));
 		
-		DefaultLabel saveFrameLabel = new DefaultLabel("Nom de la sauvegarde :");
+		DefaultLabel saveFrameLabel = new DefaultLabel("Save name:");
 		saveFrame.add(saveFrameLabel);
 		
 		JTextField saveFrameField = new JTextField();
@@ -79,7 +79,7 @@ public class DisplayLevel extends JPanel{
 		saveFrameField.setFont(Options.defaultFont);
 		saveFrame.add(saveFrameField);
 		
-		Button cancelButton = new Button("Annuler", Options.buttonsColor, Options.defaultFont);
+		Button cancelButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
 		cancelButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -89,7 +89,7 @@ public class DisplayLevel extends JPanel{
 		
 		JOptionPane saveGestion = new JOptionPane();
 		
-		Button validateButton = new Button("Valider", Options.buttonsColor, Options.defaultFont);
+		Button validateButton = new Button("Save", Options.buttonsColor, Options.defaultFont);
 		validateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -97,14 +97,14 @@ public class DisplayLevel extends JPanel{
 				File file = new File("../saves/" + name + ".xsb");
 				int canOverrideSave = 0;
 				if (file.exists()) {
-					canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Do you want to overwrite existing save?", "Save name already used",  JOptionPane.YES_NO_OPTION);
+					canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
 				}
 				if (canOverrideSave == 0) {
 					try {
 						GridReader.saveGame(grid, name);
 						saveFrame.setVisible(false);
 					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(saveGestion, "Save failed", "Save failed", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(saveGestion, "Save failed", "Error", JOptionPane.ERROR_MESSAGE);
 					};
 				}
 			}

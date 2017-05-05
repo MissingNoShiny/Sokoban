@@ -154,7 +154,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		switch (input){
 		case KeyEvent.VK_R:
 			grid.getTracker().reset();
-			grid.setPlayer(grid.getHeight(), grid.getWidth());
+			grid.setPlayerCoordinates(grid.getHeight(), grid.getWidth());
 			break;
 		case KeyEvent.VK_ENTER:
 			System.out.print("Coordonnées du joueur: ");

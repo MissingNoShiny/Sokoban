@@ -131,11 +131,11 @@ public class GridReader {
 						break;
 					case ('@'):
 						grid.placeComponentAt(j, i, new Ground());
-						grid.setPlayer(j, i);
+						grid.setPlayerCoordinates(j, i);
 						break;
 					case ('+'):
 						grid.placeComponentAt(j, i, new Goal());
-						grid.setPlayer(j, i);
+						grid.setPlayerCoordinates(j, i);
 						break;
 					case ('*'):
 						grid.placeComponentAt(j, i, new Goal());

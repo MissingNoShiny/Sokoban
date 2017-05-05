@@ -401,7 +401,7 @@ public final class GridGenerator {
 			x = rand.nextInt(grid.getWidth());
 			y = rand.nextInt(grid.getHeight());
 			if (grid.getComponentAt(x, y).getName().equals("Ground")) {
-				grid.setPlayer(x, y);
+				grid.setPlayerCoordinates(x, y);
 				isOnValidPlace = true;
 			}
 		}

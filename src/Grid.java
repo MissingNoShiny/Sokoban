@@ -28,12 +28,12 @@ public class Grid {
 	private ArrayList <Crate> crateList; 
 	
 	/**
-	 * 	
+	 * The Player of this grid.
 	 */
 	private Player player;
 	
 	/**
-	 * 
+	 * The MovementTracker of this grid.
 	 */
 	private MovementTracker tracker;
 	
@@ -108,25 +108,34 @@ public class Grid {
 	}
 	
 	/**
-	 * Il faut limiter l'accès à cette fonction
-	 * @param x
-	 * @param y
+	 * Moves the player to specified coordinates.
+	 * @param x The new x-coordinate of the player
+	 * @param y The new y-coordinate of the player
 	 */
-	public void setPlayer (int x, int y) {
+	public void setPlayerCoordinates(int x, int y) {
 		player.setX(x);
 		player.setY(y);
 	}
 	
+	/**
+	 * Gets the player of this grid.
+	 * @return The player of this grid
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Adds a crate Component at specified location.
+	 * @param x The x-coordinate of the crate
+	 * @param y The y-coordinate of the crate
+	 */
 	public void addCrate(int x, int y) {
 		crateList.add(new Crate(this, x, y));
 	}
 	
 	/**
-	 * Utilisee uniquement pour le gridGenerator
+	 * Removes a crate Component from the grid. This method is only used when generating a level.
 	 * @param ind The index of the crate in the crateList
 	 */
 	public void removeCrate(int ind) {
@@ -136,7 +145,7 @@ public class Grid {
 	}
 	
 	/**
-	 * Checks if the component at specified coordinates is a Crate.
+	 * Checks if the Component at specified coordinates is a Crate.
 	 * @param x The x-coordinate of the cell to check
 	 * @param y The y-coordinate of the cell to check
 	 * @return true if the coordinates are inside the grid and the Component is a Crate, false else
@@ -149,30 +158,34 @@ public class Grid {
 	}
 	
 	/**
-	 * Must to be sure that there is an crate in the specified position
-	 * @param x
-	 * @param y
-	 * @return
+	 * Gets a reference to a crate Component using its coordinates. This method is only used by other methods, and will only be executed if there is a crate at specified coordinates.
+	 * @param x The x-coordinate of the crate
+	 * @param y The y-coordinate of the crate
+	 * @return The crate at specified coordinates
 	 */
 	public Crate getCrateAt(int x, int y) {
 		return (Crate) getComponentAt(x, y);
 	}
 	
 	/**
-	 * Gets the list of Crate components contained in the matrix.
-	 * @return the list of Crate components contained in the matrix
+	 * Gets the list of crate Components contained in the matrix.
+	 * @return the list of crate Components contained in the matrix
 	 */
 	public ArrayList<Crate> getCrateList() {
 		return crateList;
 	}
 	
+	/**
+	 * Gets the MovementTracker of this grid.
+	 * @return The MovementTracker of this grid
+	 */
 	public MovementTracker getTracker() {
 		return tracker;
 	}
 	
-	/*
-	 * Attention, le fill ne remplit pas tous le tableau avec des instances differentes d'une même classe, mais avec
-	 * la même objet a chaque fois. Toutes les cases pointent vers le même objet.
+	/**
+	 * Fills the grid with an instance of a chosen Component.
+	 * @param component The component to fill the grid with an instance of
 	 */
 	public void fill(Component component) {
 		for (int i = 0; i < width; i++) {

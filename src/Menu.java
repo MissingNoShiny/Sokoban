@@ -173,7 +173,7 @@ public class Menu extends JPanel {
 					game.loadLevel("../saves/"+levelName, false);
 				} catch (IOException e1) {
 					System.out.println("ici");
-					JOptionPane.showMessageDialog(saveError, "Loading failed", "Save not found", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(saveError, "Loading failed.\nSave not found.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				saveChoice.setVisible(false);
 			}
