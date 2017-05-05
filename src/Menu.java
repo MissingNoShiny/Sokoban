@@ -19,14 +19,14 @@ public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
-	public Menu(Game game) {
+	public Menu(final Game game) {
 		
 		setBackground(Options.backGroundColor);
 		
-		CardLayout cd = new CardLayout();
+		final CardLayout cd = new CardLayout();
 		setLayout(cd);
 		
-		JPanel mainMenuPanel = new JPanel();
+		final JPanel mainMenuPanel = new JPanel();
 		mainMenuPanel.setLayout(new GridLayout(6, 1, 3, 3));
 		mainMenuPanel.setOpaque(false);
 		add(mainMenuPanel);
@@ -51,7 +51,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		JFrame generatorFrame = new JFrame();
+		final JFrame generatorFrame = new JFrame();
 		generatorFrame.setTitle("Generator options");
 		generatorFrame.setSize(800, 400);
 		generatorFrame.setLocationRelativeTo(null); 
@@ -65,11 +65,11 @@ public class Menu extends JPanel {
 		generatorParameters1.add(new DefaultLabel("Width"));
 		generatorParameters1.add(new DefaultLabel("Height"));
 		
-		DefaultSlider widthLevelSlider = new DefaultSlider(6, 30, 6);
-		generatorParameters1.add(widthLevelSlider);
+		final DefaultSlider levelWidthSlider = new DefaultSlider(6, 30, 6);
+		generatorParameters1.add(levelWidthSlider);
 		
-		DefaultSlider heightLevelSlider = new DefaultSlider(6, 30, 6);
-		generatorParameters1.add(heightLevelSlider);
+		final DefaultSlider levelHeightSlider = new DefaultSlider(6, 30, 6);
+		generatorParameters1.add(levelHeightSlider);
 		
 		
 		JPanel generatorParameters2 = new JPanel();
@@ -80,7 +80,7 @@ public class Menu extends JPanel {
 		generatorParameters2.add(new DefaultLabel("Difficulty"));
 		
 		
-		DefaultSlider numberCratesSlider = new DefaultSlider(2, 10, 10){
+		final DefaultSlider crateAmountSlider = new DefaultSlider(2, 10, 10){
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void adaptBounds(int widthLevel, int heightLevel) {
@@ -96,22 +96,22 @@ public class Menu extends JPanel {
 				}
 			}
 		};
-		numberCratesSlider.adaptBounds(widthLevelSlider.getValue(), heightLevelSlider.getValue());
-		generatorParameters2.add(numberCratesSlider);
+		crateAmountSlider.adaptBounds(levelWidthSlider.getValue(), levelHeightSlider.getValue());
+		generatorParameters2.add(crateAmountSlider);
 		
-		DefaultSlider difficultySlider = new DefaultSlider(0, 20, 5);
+		final DefaultSlider difficultySlider = new DefaultSlider(0, 20, 5);
 		generatorParameters2.add(difficultySlider);
 		
 		
-		widthLevelSlider.addChangeListener(new ChangeListener(){
+		levelWidthSlider.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e) {
-				numberCratesSlider.adaptBounds(widthLevelSlider.getValue(), heightLevelSlider.getValue());
+				crateAmountSlider.adaptBounds(levelWidthSlider.getValue(), levelHeightSlider.getValue());
 		    }    
 		});
 		
-		heightLevelSlider.addChangeListener(new ChangeListener(){
+		levelHeightSlider.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e) {
-				numberCratesSlider.adaptBounds(widthLevelSlider.getValue(), heightLevelSlider.getValue());
+				crateAmountSlider.adaptBounds(levelWidthSlider.getValue(), levelHeightSlider.getValue());
 		    }    
 		});
 		
@@ -121,9 +121,9 @@ public class Menu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int difficulty = difficultySlider.getValue();
-				int widthLevel = widthLevelSlider.getValue();
-				int heightLevel = heightLevelSlider.getValue();
-				int numberCrates = numberCratesSlider.getValue();
+				int widthLevel = levelWidthSlider.getValue();
+				int heightLevel = levelHeightSlider.getValue();
+				int numberCrates = crateAmountSlider.getValue();
 				game.generateLevel(widthLevel, heightLevel, numberCrates, difficulty);
 				generatorFrame.setVisible(false);
 			}
@@ -148,27 +148,27 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		JFrame loadFrame = new JFrame("Load a save");
+		final JFrame loadFrame = new JFrame("Load a save");
 		loadFrame.setSize(500, 300);
 		loadFrame.setLocationRelativeTo(null); 
 		loadFrame.setResizable(false);
 		loadFrame.setLayout(new GridLayout(3,1));
 		
-		JComboBox<String> listChoice = new JComboBox<String>();
+		final JComboBox<String> saveChoice = new JComboBox<String>();
 		//listChoice.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
-		listChoice.setFont(Options.defaultFont);
-		listChoice.setBackground(Options.buttonsColor);
-		listChoice.setFocusable(false);
-		listChoice.setEditable(false);
-		loadFrame.add(listChoice);
+		saveChoice.setFont(Options.defaultFont);
+		saveChoice.setBackground(Options.buttonsColor);
+		saveChoice.setFocusable(false);
+		saveChoice.setEditable(false);
+		loadFrame.add(saveChoice);
 		
-		JOptionPane saveError = new JOptionPane();
+		final JOptionPane saveError = new JOptionPane();
 		
-		Button validateLoadingButton = new Button("Load", Options.buttonsColor, Options.defaultFont);
+		final Button validateLoadingButton = new Button("Load", Options.buttonsColor, Options.defaultFont);
 		validateLoadingButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String levelName = (String) listChoice.getSelectedItem();
+				String levelName = (String) saveChoice.getSelectedItem();
 				try {
 					game.loadLevel("../saves/"+levelName, false);
 				} catch (IOException e1) {
@@ -179,7 +179,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button cancelLoadingButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
+		final Button cancelLoadingButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
 		cancelLoadingButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -191,10 +191,10 @@ public class Menu extends JPanel {
 		loadButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				listChoice.removeAllItems();
+				saveChoice.removeAllItems();
 				String[] savesList = getSavesList();
 				for (int i = 0; i < savesList.length; i++)
-					listChoice.addItem(savesList[i]);
+					saveChoice.addItem(savesList[i]);
 				loadFrame.add(validateLoadingButton);
 				loadFrame.add(cancelLoadingButton);
 				loadFrame.setVisible(true);
@@ -211,12 +211,12 @@ public class Menu extends JPanel {
 		mainMenuPanel.add(exitButton);
 
 		
-		JPanel levelListPanel = new JPanel();
+		final JPanel levelListPanel = new JPanel();
 		levelListPanel.setOpaque(false);
 		int levelIndex = 1;
 		File level = new File("../levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
-			Button loadLevelButton = new Button("level " + levelIndex, Options.buttonsColor, Options.defaultFont);
+			final Button loadLevelButton = new Button("level " + levelIndex, Options.buttonsColor, Options.defaultFont);
 			loadLevelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

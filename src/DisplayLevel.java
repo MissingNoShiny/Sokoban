@@ -28,7 +28,7 @@ public class DisplayLevel extends JPanel{
 	public DisplayGrid displayGrid;
 	
 	
-	public DisplayLevel(Grid grid, Game game) {
+	public DisplayLevel(final Grid grid, final Game game) {
 		setFocusable(true);
 		setOpaque(false);
 		setVisible(true);
@@ -37,7 +37,7 @@ public class DisplayLevel extends JPanel{
 		displayGrid = new DisplayGrid(grid);
 		add(displayGrid, BorderLayout.CENTER);
 		
-		JPanel buttonsPanel = new JPanel();
+		final JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setBackground(Options.backGroundColor);
 		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 		buttonsPanel.setLayout(new GridLayout(4, 1, 3, 3));
@@ -64,7 +64,7 @@ public class DisplayLevel extends JPanel{
 		buttonsPanel.add(resetButton);
 		
 		
-		JFrame saveFrame = new JFrame();
+		final JFrame saveFrame = new JFrame();
 		saveFrame.setSize(500, 300);
 		saveFrame.setLocationRelativeTo(null); 
 		saveFrame.setResizable(false);
@@ -73,7 +73,7 @@ public class DisplayLevel extends JPanel{
 		DefaultLabel saveFrameLabel = new DefaultLabel("Save name:");
 		saveFrame.add(saveFrameLabel);
 		
-		JTextField saveFrameField = new JTextField();
+		final JTextField saveFrameField = new JTextField();
 		saveFrameField.setBackground(Options.buttonsColor);
 		saveFrameField.setHorizontalAlignment(JTextField.CENTER);
 		saveFrameField.setFont(Options.defaultFont);
@@ -87,7 +87,7 @@ public class DisplayLevel extends JPanel{
 			}
 		});
 		
-		JOptionPane saveGestion = new JOptionPane();
+		final JOptionPane saveGestion = new JOptionPane();
 		
 		Button validateButton = new Button("Save", Options.buttonsColor, Options.defaultFont);
 		validateButton.addActionListener(new ActionListener() {
@@ -131,7 +131,7 @@ public class DisplayLevel extends JPanel{
 		});
 		buttonsPanel.add(MenuButton);
 		
-		InfoPanel infoPanel = new InfoPanel(game, grid);
+		final InfoPanel infoPanel = new InfoPanel(game, grid);
 		infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
 		infoPanel.setOpaque(true);
 		add(infoPanel, BorderLayout.WEST);

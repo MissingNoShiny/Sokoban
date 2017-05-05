@@ -8,7 +8,7 @@ public class Player extends Position {
 		direction = Direction.DOWN;
 	}
 	
-	public void setDirection(Direction direction) {
+	public void setDirection(final Direction direction) {
 		this.direction = direction;
 	}
 	
@@ -84,7 +84,7 @@ public class Player extends Position {
 	 * @param grid
 	 * @param dir
 	 */
-	public void move(Direction dir, boolean isTracked) {
+	public void move(final Direction dir, boolean isTracked) {
 		int newX = getX(), newY = getY();
 		switch (dir) {
 		case UP:
