@@ -154,7 +154,7 @@ public class Menu extends JPanel {
 		loadFrame.setResizable(false);
 		loadFrame.setLayout(new GridLayout(3,1));
 		
-
+		
 		final JComboBox<String> saveChoice = new JComboBox<String>();
 		saveChoice.setFont(Options.defaultFont);
 		saveChoice.setBackground(Options.buttonsColor);

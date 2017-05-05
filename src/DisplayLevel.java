@@ -101,7 +101,7 @@ public class DisplayLevel extends JPanel{
 					int canOverrideSave = 0;
 					if (file.exists()) 
 						canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
-
+	
 					if (canOverrideSave == 0) {
 						try {
 							GridReader.saveGridState(grid, name);
