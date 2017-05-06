@@ -44,6 +44,16 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	private int borderThickness = 5;
 	
 	/**
+	 * The x-coordinate of the upper left corner of the grid.
+	 */
+	private int x0;
+	
+	/**
+	 * The y-coordinate of the upper left corner of the grid.
+	 */
+	private int y0;
+	
+	/**
 	 * The arrow buttons that allows the user to move the player using a mouse or touch screen.
 	 */
 	JButton buttonLeft, buttonRight, buttonUp, buttonDown;
@@ -91,8 +101,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		cellSize = 64;
 		while (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight())
 			cellSize --;
-		int x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
-		int y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
+		x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
+		y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
 		
 		super.paintComponent(g);
 		setBackground(Options.backGroundColor);
@@ -103,53 +113,17 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++) {
-				if (!grid.getComponentAt(i, j).getName().equals("Blank")) {
+				if (!grid.getComponentAt(i, j).getName().equals("Blank"))
 					g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
-					if (i == 0)
-						g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + j*cellSize - borderThickness/2, x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2);
-					if (i == grid.getWidth() - 1)
-						g2d.drawLine(x0 + (i+1)*cellSize + borderThickness/2, y0 + j*cellSize - borderThickness/2, x0 + (i+1)*cellSize + borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2);
-					if (j == 0)
-						g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + j*cellSize - borderThickness/2, x0 + (i+1)*cellSize + borderThickness/2, y0 + j*cellSize - borderThickness/2);
-					if (j == grid.getHeight() - 1)
-						g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2, x0 + (i+1)*cellSize + borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2);
-				} else {
-					if (i > 0 && !grid.getComponentAt(i - 1, j).getName().equals("Blank")) {
-						g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + i*cellSize + borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
-						if (j > 0 && grid.getComponentAt(i, j - 1).getName().equals("Blank"))
-							g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + j*cellSize - borderThickness/2, x0 + i*cellSize + borderThickness/2, y0 + j*cellSize - borderThickness/2);
-					}
-					if (i + 1 < grid.getWidth() && !grid.getComponentAt(i + 1, j).getName().equals("Blank")) {
-						g2d.drawLine(x0 + (i+1)*cellSize - borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
-						if (j + 1 < grid.getHeight() && grid.getComponentAt(i, j + 1).getName().equals("Blank"))
-							g2d.drawLine(x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize + borderThickness/2);
-					}
-					if (j > 0 && !grid.getComponentAt(i, j - 1).getName().equals("Blank")) {
-						g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + j*cellSize + borderThickness/2);
-						if (i + 1 < grid.getWidth() && grid.getComponentAt(i + 1, j).getName().equals("Blank"))
-							g2d.drawLine(x0 + (i+1)*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2, x0 + (i+1)*cellSize + borderThickness/2, y0 + j*cellSize + borderThickness/2);
-					}
-					if (j + 1 < grid.getHeight() && !grid.getComponentAt(i, j + 1).getName().equals("Blank")) {
-						g2d.drawLine(x0 + i*cellSize + borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2, x0 + (i+1)*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
-						if (i > 0 && grid.getComponentAt(i - 1, j).getName().equals("Blank"))
-							g2d.drawLine(x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2, x0 + i*cellSize - borderThickness/2, y0 + (j+1)*cellSize - borderThickness/2);
-					}
-				}
+				if (borderThickness > 0)
+					drawBorder(i, j, g2d);
 			}
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
 		if (grid.getTracker().hasMoved() && Options.SHOW_PLAYER_ARROWS) {
-			buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
-			buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
-			buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);
-			buttonDown.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()+1)*cellSize, cellSize, cellSize);
-			
-			buttonLeft.setVisible(grid.getPlayer().canMove(Direction.LEFT));
-			buttonRight.setVisible(grid.getPlayer().canMove(Direction.RIGHT));
-			buttonUp.setVisible(grid.getPlayer().canMove(Direction.UP));
-			buttonDown.setVisible(grid.getPlayer().canMove(Direction.DOWN));
+			updateButtons();
 		}
 	}
 	
@@ -213,8 +187,12 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 	}
 	
-
-	public void initializeButton(JButton button, final Direction dir) {
+	/**
+	 * Used to avoid repeating code while initializing the arrow buttons around the player.
+	 * @param button The Button to initialize
+	 * @param dir The direction associated with the button
+	 */
+	private void initializeButton(JButton button, final Direction dir) {
 		button.setFocusable(false);
 		button.setBounds(0, 0, 0, 0);
 		button.setBorderPainted(false);
@@ -226,5 +204,61 @@ public class DisplayGrid extends JPanel implements KeyListener{
 				grid.getPlayer().move(dir, true);
 			}
 		});
+	}
+	
+	/**
+	 * Draws a border next to the cell at specified coordinates if that cell is at the border of the playing area.
+	 * Draws a square in the corner of a cell if it contains a blank Component next to a cell at the border of the playing area to allow border continuity.
+	 * @param x The x-coordinate of the cell
+	 * @param y The y-coordinate of the cell
+	 * @param g2d The Graphics2D object to draw the border with
+	 */
+	public void drawBorder(int x, int y, Graphics2D g2d) {
+		if (!grid.getComponentAt(x, y).getName().equals("Blank")) {
+			if (x == 0)
+				g2d.drawLine(x0 + x*cellSize - borderThickness/2, y0 + y*cellSize - borderThickness/2, x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2);
+			if (x == grid.getWidth() - 1)
+				g2d.drawLine(x0 + (x+1)*cellSize + borderThickness/2, y0 + y*cellSize - borderThickness/2, x0 + (x+1)*cellSize + borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2);
+			if (y == 0)
+				g2d.drawLine(x0 + x*cellSize - borderThickness/2, y0 + y*cellSize - borderThickness/2, x0 + (x+1)*cellSize + borderThickness/2, y0 + y*cellSize - borderThickness/2);
+			if (y == grid.getHeight() - 1)
+				g2d.drawLine(x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2, x0 + (x+1)*cellSize + borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2);
+		} else {
+			if (x > 0 && !grid.getComponentAt(x - 1, y).getName().equals("Blank")) {
+				g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + x*cellSize + borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
+				if (y > 0 && grid.getComponentAt(x, y - 1).getName().equals("Blank"))
+					g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + y*cellSize - borderThickness/2, x0 + x*cellSize + borderThickness/2, y0 + y*cellSize - borderThickness/2);
+			}
+			if (x + 1 < grid.getWidth() && !grid.getComponentAt(x + 1, y).getName().equals("Blank")) {
+				g2d.drawLine(x0 + (x+1)*cellSize - borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
+				if (y + 1 < grid.getHeight() && grid.getComponentAt(x, y + 1).getName().equals("Blank"))
+					g2d.drawLine(x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2);
+			}
+			if (y > 0 && !grid.getComponentAt(x, y - 1).getName().equals("Blank")) {
+				g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + y*cellSize + borderThickness/2);
+				if (x + 1 < grid.getWidth() && grid.getComponentAt(x + 1, y).getName().equals("Blank"))
+					g2d.drawLine(x0 + (x+1)*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + (x+1)*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2);
+			}
+			if (y + 1 < grid.getHeight() && !grid.getComponentAt(x, y + 1).getName().equals("Blank")) {
+				g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
+				if (x > 0 && grid.getComponentAt(x - 1, y).getName().equals("Blank"))
+					g2d.drawLine(x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2, x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
+			}
+		}
+	}
+	
+	/**
+	 * Updates the position of the arrow buttons around the player.
+	 */
+	private void updateButtons() {
+		buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
+		buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
+		buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);
+		buttonDown.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()+1)*cellSize, cellSize, cellSize);
+		
+		buttonLeft.setVisible(grid.getPlayer().canMove(Direction.LEFT));
+		buttonRight.setVisible(grid.getPlayer().canMove(Direction.RIGHT));
+		buttonUp.setVisible(grid.getPlayer().canMove(Direction.UP));
+		buttonDown.setVisible(grid.getPlayer().canMove(Direction.DOWN));
 	}
 }

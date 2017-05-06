@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * A static class used to generate random levels.
+ * @author Joachim Sneessens
+ */
 public final class GridGenerator {
 	
 	private static class InvalidDispositionException extends Exception {
@@ -15,7 +19,7 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * 
+	 * Constructor is private to prevent instantiations
 	 */
 	private GridGenerator() {
 		
@@ -93,7 +97,7 @@ public final class GridGenerator {
 					pattern = getPattern(rand.nextInt(17));
 					numberRotations = rand.nextInt(4);
 					for (int k = 0; k < numberRotations; k++)
-						turnPattern(pattern);
+						rotatePattern(pattern);
 				}while (! canplaceHere(grid, i, j, pattern));
 				placeHere(grid, i, j, pattern);
 			}
@@ -172,7 +176,11 @@ public final class GridGenerator {
 		}
 	}
 	
-	private static void turnPattern(Component[][] pattern) {
+	/**
+	 * Rotates a pattern 90 degrees to the right.
+	 * @param pattern the pattern to rotate
+	 */
+	private static void rotatePattern(Component[][] pattern) {
 		Component[][] tmp = new Component[patternSize][patternSize];
 		for (int i = 0; i < patternSize; i++){
 			for (int j = 0; j < patternSize; j++)
@@ -196,7 +204,11 @@ public final class GridGenerator {
 		return true;
 	}
 	
-	
+	/**
+	 * Counts all the ground Components in a grid.
+	 * @param grid The grid to count the ground Components of
+	 * @return The amount of ground Components the grid contains
+	 */
 	private static int countAllGrounds (Grid grid) {
 		int count = 0;
 		for (int i = 0; i < grid.getWidth(); i++){
@@ -263,7 +275,7 @@ public final class GridGenerator {
 							pattern = getPattern(rand.nextInt(17));
 							int numberRotations = rand.nextInt(4);
 							for (int k = 0; k < numberRotations; k++)
-								turnPattern(pattern);
+								rotatePattern(pattern);
 						}while (! canplaceHere(grid, xCenterPattern, yCenterPattern, pattern));
 						placeHere(grid, xCenterPattern, yCenterPattern, pattern);
 						if (xCenterPattern > 2)
@@ -280,6 +292,13 @@ public final class GridGenerator {
 		}
 	}
 	
+	/**
+	 * Counts the wall Components surrounding a cell at specified coordinates in a specified grid.
+	 * @param grid The grid containing the cell
+	 * @param x The x-coordinate of the cell
+	 * @param y The y-coordinate of the cell
+	 * @return The number of wall Components surrounding the cell
+	 */
 	private static int countAdjacentWall(Grid grid, int x, int y) {
 		int count = 0;
 		if (x+1 > grid.getWidth()-2 || grid.getComponentAt(x+1, y).getName().equals("Wall"))
@@ -293,6 +312,10 @@ public final class GridGenerator {
 		return count;
 	}
 	
+	/**
+	 * Surrounds specified grid with wall Components.
+	 * @param grid The grid to surround with wall Components
+	 */
 	private static void surroundGridWithWalls(Grid grid) {
 		Wall wall = new Wall();
 		for (int i = 0; i < grid.getWidth(); i++){
@@ -328,7 +351,7 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Set true on all blocks wich can be reach from the position specified by x and y.
+	 * Sets true on all blocks wich can be reach from the position specified by x and y.
 	 * @param grid
 	 * @param mat
 	 * @param x
@@ -351,7 +374,7 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Remove all existing crates and goals from the grid.
+	 * Removes all existing crates and goals from the grid.
 	 * Place at random valid locations the goals. Above each goal is placed an crate.
 	 * The location is not valid if the cannot be pulled in at least one direction.
 	 * @param grid
@@ -394,8 +417,9 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Find a valid place for the player
-	 * @param grid
+	 * Finds a valid starting location for the player of a grid.
+	 * Sets the player coordinates to found location.
+	 * @param grid The grid to find a valid location for the player of
 	 */
 	private static void placePlayer(Grid grid) {
 		Random rand = new Random();
