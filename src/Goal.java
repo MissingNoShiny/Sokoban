@@ -3,6 +3,11 @@
  * A Component used to represent a goal.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public class Goal extends Component{
+public class Goal implements Component{
+
+	@Override
+	public boolean canBePassedThrough() {
+		return true;
+	}
 
 }

@@ -3,7 +3,7 @@
  * A Component that has dynamic coordinates, which therefore need to be tracked.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public abstract class Position extends Component {
+public abstract class Position implements Component {
 	
 	/**
 	 * The X-coordinate of the object.
