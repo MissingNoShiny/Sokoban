@@ -113,8 +113,7 @@ public class Grid {
 	 * @param y The new y-coordinate of the player
 	 */
 	public void setPlayerCoordinates(int x, int y) {
-		player.setX(x);
-		player.setY(y);
+		player.setNewCoordinates(x, y);
 	}
 	
 	/**

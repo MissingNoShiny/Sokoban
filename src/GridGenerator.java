@@ -1,5 +1,4 @@
 
-import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -528,8 +527,8 @@ public final class GridGenerator {
 			ind++;
 			int size = list.size();
 			for (int i = deb; i < size; i++){
-				int x = (int)list.get(i).getX();
-				int y = (int)list.get(i).getY();
+				int x = list.get(i).getX();
+				int y = list.get(i).getY();
 				tab[x][y] = ind;
 				if (x == xGoal && y == yGoal) {
 					goalIsReach = true;
@@ -589,24 +588,12 @@ public final class GridGenerator {
 	 * @param direction
 	 * @return
 	 */
-	private static boolean isPossiblePullCrate(Grid grid, int[][] tab, Crate crate, Direction direction) {
+	private static boolean isPossiblePullCrate(Grid grid, int[][] tab, Crate crate, Direction dir) {
 		cleanTab(tab, grid.getWidth(), grid.getHeight());
-		if (crate.canBePulled(direction)){
-			int x = crate.getX();
-			int y = crate.getY();
-			switch(direction){
-			case UP:
-				y--;
-				break;
-			case RIGHT:
-				x++;
-				break;
-			case DOWN:
-				y++;
-				break;
-			case LEFT:
-				x--;
-			}
+		if (crate.canBePulled(dir)){
+			Point p = Direction.assocyDirectionToNewPoint(crate.getX(), crate.getY(), dir);
+			int x = p.getX();
+			int y = p.getY();
 			fillLee(grid, tab, x, y, grid.getPlayer().getX(), grid.getPlayer().getY());
 			if (tab[grid.getPlayer().getX()][grid.getPlayer().getY()]!=0)
 				return true;

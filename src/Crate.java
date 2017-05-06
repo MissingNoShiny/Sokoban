@@ -4,13 +4,20 @@ public class Crate extends Position {
 	private Component support;
 	
 	/**
-	 * Warning : crate must be placed on an existing component
+	 * 
+	 * @param grid
 	 * @param x
 	 * @param y
-	 * @param grid
+	 * @throws IllegalArgumentException
 	 */
-	public Crate(Grid grid, int x, int y) {
+	public Crate(Grid grid, int x, int y) throws IllegalArgumentException {
 		super(grid, x, y);
+		try {
+			if (!grid.getComponentAt(x, y).canBePassedThrough())
+				throw new IllegalArgumentException();
+		} catch (NullPointerException e) {
+			throw new IllegalArgumentException();
+		}
 		support = grid.getComponentAt(x, y);
 		grid.placeComponentAt(x, y, this);
 	}
@@ -20,51 +27,27 @@ public class Crate extends Position {
 	}
 	
 	public boolean canMove(Direction dir) {
-		boolean test = true;
-		switch (dir) {
-		case UP:
-			if (y-1 < 0 || !grid.getComponentAt(x, y-1).canBePassedThrough())
-				test = false;
-			break;
-		case RIGHT:
-			if (x+1 >= grid.getWidth() || !grid.getComponentAt(x+1, y).canBePassedThrough())
-				test = false;
-			break;
-		case DOWN:
-			if (y+1 >= grid.getHeight() || !grid.getComponentAt(x, y+1).canBePassedThrough())
-				test = false;
-			break;
-		case LEFT:
-			if (x-1 < 0 || !grid.getComponentAt(x-1, y).canBePassedThrough())
-				test = false;
-			break;
-		}
-		return test;
+		
+		Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
+		int newX = p.getX();
+		int newY = p.getY();
+		
+		if (newX < 0 || newX >= grid.getWidth() || newY < 0 || newY >= grid.getHeight() || !grid.getComponentAt(newX, newY).canBePassedThrough())
+			return false;
+			
+		return true;
 	}
 	
 	public boolean canBePulled(Direction dir) {
-		boolean test = false;
 		if (canMove(dir)) {
-			switch (dir) {
-			case UP:
-				if (y-2 >= 0 && grid.getComponentAt(x, y-2).canBePassedThrough())
-					test = true;
-				break;
-			case RIGHT:
-				if (x+2 < grid.getWidth() && grid.getComponentAt(x+2, y).canBePassedThrough())
-					test = true;
-				break;
-			case DOWN:
-				if (y+2 < grid.getHeight() && grid.getComponentAt(x, y+2).canBePassedThrough())
-					test = true;
-				break;
-			case LEFT:
-				if (x-2 >= 0 && grid.getComponentAt(x-2, y).canBePassedThrough())
-					test = true;
-				break;
-			}
+			Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
+			p = Direction.assocyDirectionToNewPoint(p.getX(), p.getY(), dir);
+			int newX = p.getX();
+			int newY = p.getY();
+			if (newX >= 0 && newX < grid.getWidth() && newY >= 0 && newY < grid.getHeight() && grid.getComponentAt(newX, newY).canBePassedThrough())
+				return true;
 		}
-		return test;
+		return false;
 	}
 	
 	/*

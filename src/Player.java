@@ -20,15 +20,14 @@ public class Player extends Position {
 	 * Sets the X-coordinate of the object to a new value.
 	 * @param inputX The new X-coordinate
 	 */
-	public void setX(int inputX) {
+	public void setNewCoordinates(int inputX, int inputY) {
+		try {
+			if (!grid.getComponentAt(x, y).canBePassedThrough())
+				throw new IllegalArgumentException();
+		} catch (NullPointerException e) {
+			throw new IllegalArgumentException();
+		}
 		x = inputX;
-	}
-	
-	/**
-	 * Sets the Y-coordinate of the object to a new value.
-	 * @param inputY The new Y-coordinate
-	 */
-	public void setY(int inputY) {
 		y = inputY;
 	}
 	
@@ -45,32 +44,19 @@ public class Player extends Position {
 	 * @param dir
 	 */
 	public boolean canMove(Direction dir) {
-		int newX = x, newY = y;
+		
 		boolean test = false;
 		
-		switch (dir) {
-		case UP:
-			newY--; 
-			break;
-		case RIGHT:
-			newX++;
-			break;
-		case DOWN:
-			newY++;
-			break;
-		case LEFT:
-			newX--;
-			break;
-		}
+		Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
+		int newX = p.getX();
+		int newY = p.getY();
 		
 		if (newX < grid.getWidth() && newX >= 0 && newY < grid.getHeight() && newY >= 0) {
 			if (grid.getComponentAt(newX, newY).canBePassedThrough()) {
 				test = true;
 			}
-
 			else if (grid.hasCrateAt(newX, newY)) 
 				test = grid.getCrateAt(newX, newY).canMove(dir);
-
 		}
 		return test;
 	}
@@ -85,21 +71,10 @@ public class Player extends Position {
 	 * @param dir
 	 */
 	public void move(Direction dir, boolean isTracked) {
-		int newX = getX(), newY = getY();
-		switch (dir) {
-		case UP:
-			newY--; 
-			break;
-		case RIGHT:
-			newX++;
-			break;
-		case DOWN:
-			newY++;
-			break;
-		case LEFT:
-			newX--;
-			break;
-		}
+		Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
+		int newX = p.getX();
+		int newY = p.getY();
+		
 		if (grid.hasCrateAt(newX, newY)) {
 			Crate crate = grid.getCrateAt(newX, newY);
 			crate.move(dir);
