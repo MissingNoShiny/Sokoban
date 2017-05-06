@@ -28,6 +28,11 @@ public final class GridGenerator {
 	private final static int patternSize = 5;
 	
 	/**
+	 * Used in the movePlayer method. An generation parameter.
+	 */
+	private final static int playerTrialsOnSameCrate = 2;
+	
+	/**
 	 * 
 	 * @param width
 	 * @param height
@@ -56,7 +61,7 @@ public final class GridGenerator {
 				try {
 				placeGoals(grid, numberCrates);
 				placePlayer(grid);
-				movePlayer(grid, (int)Math.pow(difficulty,2)*(int)Math.pow(numberCrates,2/3));
+				movePlayer(grid, (int)(Math.pow(difficulty,3/2)+10)*10*(int)Math.pow(numberCrates,2/3));
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
 					validGoalsDisposition = false;
@@ -416,56 +421,92 @@ public final class GridGenerator {
 	private static void movePlayer(Grid grid, int numberMoves) throws InvalidDispositionException {
 		Random rand = new Random();
 		Crate crate = null;
-		int i = 0, indexPrecCrate = -1, oldDirection = -1, newDirection;
+		int i, iDep ,indexPrecCrate = -1, oldDirection = -1, newDirection;
 		Player player = grid.getPlayer();
 		int[][] tab = new int[grid.getWidth()][grid.getHeight()];
 		ArrayList<Crate> crateList = grid.getCrateList();
+		boolean[] movedCratesList = new boolean[crateList.size()];
 		Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
 		while (grid.getTracker().getDistanceTraveled()<numberMoves) {
 			do {
-				i = rand.nextInt(crateList.size());
-			} while (i == indexPrecCrate);
+				iDep = rand.nextInt(crateList.size());
+			} while (iDep == indexPrecCrate);
 			int numberIterations = 0;
+			i = iDep;
 			boolean hasFoundPossibleCrate = false;
-			while (!hasFoundPossibleCrate && numberIterations <= crateList.size()) {
-				crate = crateList.get(i);
-				for (int j = 0; j < 4; j++) {
-					hasFoundPossibleCrate = isPossiblePullCrate(grid, tab, crate, directions[j]);
-					if (hasFoundPossibleCrate) {
-						oldDirection = j;
-						break;
+			//Loop on all non-moved crates
+			while (!hasFoundPossibleCrate && numberIterations <= (crateList.size()-getMovedCratesAmount(movedCratesList))) {
+				if (movedCratesList[i] == false && i != indexPrecCrate) {
+					crate = crateList.get(i);
+					for (int j = 0; j < 4; j++) {
+						hasFoundPossibleCrate = isPossiblePullCrate(grid, tab, crate, directions[j]);
+						if (hasFoundPossibleCrate) {
+							oldDirection = j;
+							break;
+						}
 					}
 				}
 				if (!hasFoundPossibleCrate) {
 					i = (i+1)%crateList.size();
-					if (i == indexPrecCrate)
-						i = (i+1)%crateList.size();
 					numberIterations++;
 				}
 			} 
+			//Loop on all moved crates
+			numberIterations = 0;
+			i = iDep;
+			while (!hasFoundPossibleCrate && numberIterations <= getMovedCratesAmount(movedCratesList)) {
+				if (movedCratesList[i] == true && i != indexPrecCrate) {
+					crate = crateList.get(i);
+					for (int j = 0; j < 4; j++) {
+						hasFoundPossibleCrate = isPossiblePullCrate(grid, tab, crate, directions[j]);
+						if (hasFoundPossibleCrate) {
+							oldDirection = j;
+							break;
+						}
+					}
+				}
+				if (!hasFoundPossibleCrate) {
+					i = (i+1)%crateList.size();
+					numberIterations++;
+				}
+			} 
+			
 			if (hasFoundPossibleCrate) {
 				indexPrecCrate = i%crateList.size();
 				goToSource(grid, tab);
 				if (grid.getTracker().getDistanceTraveled()<numberMoves) {
+					movedCratesList[i] = true;
 					player.pullCrate(directions[oldDirection], true);
-					do {
-						newDirection = rand.nextInt(4);
-					} while (newDirection == (oldDirection+2)%4);
-					while (isPossiblePullCrate(grid, tab, crate, directions[newDirection])) {
-						goToSource(grid, tab);
-						player.pullCrate(directions[newDirection], true);
-						oldDirection = newDirection;
+					int trialsNumber = 0;
+					while (trialsNumber < playerTrialsOnSameCrate) {
 						do {
 							newDirection = rand.nextInt(4);
 						} while (newDirection == (oldDirection+2)%4);
+						trialsNumber++;
+						if (isPossiblePullCrate(grid, tab, crate, directions[newDirection])) {
+							goToSource(grid, tab);
+							player.pullCrate(directions[newDirection], true);
+							oldDirection = newDirection;
+							trialsNumber = 0;
+						}
 					}
 				}
 			}
 			else {
-				grid.getTracker().empty();
-				throw new InvalidDispositionException();
+				if (getMovedCratesAmount(movedCratesList) > crateList.size()*4/5)
+					break;
+				else {
+					grid.getTracker().empty();
+					throw new InvalidDispositionException();
+				}
 			}
+		}		
+		if (getMovedCratesAmount(movedCratesList) <= crateList.size()*3/4){
+			System.out.println("pas assez caisses bougees");
+			grid.getTracker().empty();
+			throw new InvalidDispositionException();
 		}
+		System.out.println(crateList.size()+ "  "+ getMovedCratesAmount(movedCratesList));
 		//player.setDirection(Direction.DOWN);
 	}
 	
@@ -584,5 +625,14 @@ public final class GridGenerator {
 			for (int j = 0; j < height; j++)
 				tab[i][j]=0;
 		}
+	}
+	
+	private static int getMovedCratesAmount(boolean[] movedCrates) {
+		int movedCratesAmount = 0;
+		for (int i = 0; i < movedCrates.length; i++) {
+			if (movedCrates[i] == true)
+				movedCratesAmount++;
+		}
+		return movedCratesAmount;
 	}
 }
