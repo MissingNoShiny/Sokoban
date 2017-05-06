@@ -9,7 +9,8 @@ public enum Direction {
 	DOWN,
 	LEFT;
 	
-	public static Point assocyDirectionToNewPoint(int x, int y, Direction dir) {
+	
+	public static Point associateDirectionToNewPoint(int x, int y, Direction dir) {
 		switch (dir) {
 		case UP:
 			y--; 

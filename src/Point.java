@@ -6,19 +6,19 @@
 public class Point {
 	
 	/*
-	 * The x-coordinate of the Point
+	 * The X-coordinate of the Point
 	 */
 	private int x;
 	
 	/**
-	 * The y-coordinate of the Point
+	 * The Y-coordinate of the Point
 	 */
 	private int y;
 	
 	/**
 	 * Creates a Point with specified coordinates.
-	 * @param x The x-coordinate of the point
-	 * @param y The y-coordinate of the point
+	 * @param x The X-coordinate of the point
+	 * @param y The Y-coordinate of the point
 	 */
 	public Point(int x, int y) {
 		this.x = x;
@@ -26,16 +26,16 @@ public class Point {
 	}
 
 	/**
-	 * Gets the x-coordinate of the Point.
-	 * @return The x-coordinate of the Point
+	 * Gets the X-coordinate of the Point.
+	 * @return The X-coordinate of the Point
 	 */
 	public int getX(){
 		return x;
 	}
 	
 	/**
-	 * Gets the y-coordinate of the Point
-	 * @return the y-coordinate of the Point
+	 * Gets the Y-coordinate of the Point
+	 * @return the Y-coordinate of the Point
 	 */
 	public int getY(){
 		return y;

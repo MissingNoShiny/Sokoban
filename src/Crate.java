@@ -22,13 +22,21 @@ public class Crate extends Position {
 		grid.placeComponentAt(x, y, this);
 	}
 	
+	/**
+	 * Gets the current support of the Crate.
+	 * @return The support of the Crate
+	 */
 	public Component getSupport() {
 		return support;
 	}
 	
+	/**
+	 * Checks if the Crate can move in specified Direction.
+	 * @param dir The Direction to check for
+	 * @return true if the Crate can move in that Direction, false else
+	 */
 	public boolean canMove(Direction dir) {
-		
-		Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
+		Point p = Direction.associateDirectionToNewPoint(x, y, dir);
 		int newX = p.getX();
 		int newY = p.getY();
 		
@@ -38,10 +46,15 @@ public class Crate extends Position {
 		return true;
 	}
 	
+	/**
+	 * Checks if the Crate can be pulled in specified Direction.
+	 * @param dir The Direction to check for
+	 * @return true if the Crate can be pulled in that Direction, false else
+	 */
 	public boolean canBePulled(Direction dir) {
 		if (canMove(dir)) {
-			Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
-			p = Direction.assocyDirectionToNewPoint(p.getX(), p.getY(), dir);
+			Point p = Direction.associateDirectionToNewPoint(x, y, dir);
+			p = Direction.associateDirectionToNewPoint(p.getX(), p.getY(), dir);
 			int newX = p.getX();
 			int newY = p.getY();
 			if (newX >= 0 && newX < grid.getWidth() && newY >= 0 && newY < grid.getHeight() && grid.getComponentAt(newX, newY).canBePassedThrough())
@@ -60,6 +73,10 @@ public class Crate extends Position {
 	 * Peut etre ensuite faire en sorte que position implemente movable et faire passer les moveUp, etc. dans position
 	 */
 	
+	/**
+	 * Moves the Crate in specified Direction.
+	 * @param dir The Direction to move the Crate in
+	 */
 	public void move(Direction dir) {
 		int newX = x, newY = y;
 		switch (dir) {

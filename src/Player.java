@@ -47,7 +47,7 @@ public class Player extends Position {
 		
 		boolean test = false;
 		
-		Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
+		Point p = Direction.associateDirectionToNewPoint(x, y, dir);
 		int newX = p.getX();
 		int newY = p.getY();
 		
@@ -71,7 +71,7 @@ public class Player extends Position {
 	 * @param dir
 	 */
 	public void move(Direction dir, boolean isTracked) {
-		Point p = Direction.assocyDirectionToNewPoint(x, y, dir);
+		Point p = Direction.associateDirectionToNewPoint(x, y, dir);
 		int newX = p.getX();
 		int newY = p.getY();
 		

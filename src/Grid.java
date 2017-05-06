@@ -109,8 +109,8 @@ public class Grid {
 	
 	/**
 	 * Moves the player to specified coordinates.
-	 * @param x The new x-coordinate of the player
-	 * @param y The new y-coordinate of the player
+	 * @param x The new X-coordinate of the player
+	 * @param y The new Y-coordinate of the player
 	 */
 	public void setPlayerCoordinates(int x, int y) {
 		player.setNewCoordinates(x, y);

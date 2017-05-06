@@ -1,4 +1,8 @@
 
+/**
+ * An abstract class from which inherit all components of the game.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
 public abstract class Component {
 
 	/**

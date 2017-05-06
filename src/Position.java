@@ -1,6 +1,6 @@
 
 /**
- * Description
+ * A Component that has dynamic coordinates, which therefore need to be tracked.
  * @author Vincent Larcin, Joachim Sneessens
  */
 public abstract class Position extends Component {
@@ -19,6 +19,7 @@ public abstract class Position extends Component {
 	 * The Grid object which contains the position.
 	 */
 	protected Grid grid;
+	
 	/**
 	 * Creates a position with the specified coordinates in input.
 	 * @param inputX The X-coordinate of the object

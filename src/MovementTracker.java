@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * A class used to track the moves of a player.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
 public class MovementTracker {
 
 	/**
@@ -31,19 +35,24 @@ public class MovementTracker {
 	private int pushesCount;
 	
 	/**
-	*
-	*/
+	 * A boolean value used to determine if the player has moved.
+	 * @see hasMoved()
+	 */
 	private boolean hasMoved = true;
 	
 	/**
-	 * 
-	 * @param grid The grid to track the moves of.
+	 * Creates a MovementTracker that tracks the moves of a specified player.
+	 * @param player The grid to track the moves of
 	 */
 	public MovementTracker(Player player) {
 		moves = new ArrayList<Character>();
 		this.player = player;
 	}
 
+	/**
+	 * Gets the current list of moves.
+	 * @return The list of moves
+	 */
 	public ArrayList<Character> getMoves() {
 		return moves;
 	}

@@ -44,12 +44,12 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	private int borderThickness = 5;
 	
 	/**
-	 * The x-coordinate of the upper left corner of the grid.
+	 * The X-coordinate of the upper left corner of the grid.
 	 */
 	private int x0;
 	
 	/**
-	 * The y-coordinate of the upper left corner of the grid.
+	 * The Y-coordinate of the upper left corner of the grid.
 	 */
 	private int y0;
 	
@@ -209,8 +209,8 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	/**
 	 * Draws a border next to the cell at specified coordinates if that cell is at the border of the playing area.
 	 * Draws a square in the corner of a cell if it contains a blank Component next to a cell at the border of the playing area to allow border continuity.
-	 * @param x The x-coordinate of the cell
-	 * @param y The y-coordinate of the cell
+	 * @param x The X-coordinate of the cell
+	 * @param y The Y-coordinate of the cell
 	 * @param g2d The Graphics2D object to draw the border with
 	 */
 	public void drawBorder(int x, int y, Graphics2D g2d) {

@@ -1,4 +1,8 @@
 
+/**
+ * A Component used to represent a goal.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
 public class Goal extends Component{
 
 }
