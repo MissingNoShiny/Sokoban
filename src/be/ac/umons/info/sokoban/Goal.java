@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 /**
  * A Component used to represent a goal.

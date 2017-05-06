@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 import java.awt.CardLayout;
 import java.awt.Font;

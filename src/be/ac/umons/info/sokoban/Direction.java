@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 /**
  * The four directions that describe the orientation of a Player or Component.

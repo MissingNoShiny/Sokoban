@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 public interface Component {
 

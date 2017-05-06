@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

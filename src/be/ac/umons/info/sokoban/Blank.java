@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 /**
  * A placeholder Component to represent empty spaces.

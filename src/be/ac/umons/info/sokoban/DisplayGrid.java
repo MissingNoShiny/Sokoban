@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

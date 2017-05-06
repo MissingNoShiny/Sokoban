@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 /**
  * A substitute to awt's Point using ints instead of doubles.

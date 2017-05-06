@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

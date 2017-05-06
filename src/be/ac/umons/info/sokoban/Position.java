@@ -1,3 +1,4 @@
+package be.ac.umons.info.sokoban;
 
 /**
  * A Component that has dynamic coordinates, which therefore need to be tracked.
