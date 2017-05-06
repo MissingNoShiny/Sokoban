@@ -89,10 +89,6 @@ public class Player extends Position {
 		y = newY;
 	}
 	
-	public void pullCrate() {
-		pullCrate(direction, true);
-	}
-	
 	public void pullCrate(Direction dir, boolean isTracked) {
 		switch (dir) {
 		case UP:

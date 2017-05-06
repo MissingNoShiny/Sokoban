@@ -89,9 +89,4 @@ public class Crate extends Position {
 			return "CrateOnGoal";	
 		return "Crate";
 	}
-
-	@Override
-	public boolean canBePassedThrough() {
-		return false;
-	}
 }

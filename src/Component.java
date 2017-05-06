@@ -1,19 +1,19 @@
 
-public abstract class Component {
+public interface Component {
 
 	/**
 	 * Gets the name of the class.
 	 * @return the name of the class
 	 */
-	public String getName() {
+	public default String getName() {
 		return getClass().getSimpleName();
 	}
 	
 	/**
-	 * Checks if the Component can be passed through by a Player.
+	 * Checks if the Component can be passed through by a Player or a Crate.
 	 * @return true if the Component can be passed through, false else
 	 */
-	public boolean canBePassedThrough() {
-		return true;
-	};
+	public default boolean canBePassedThrough(){
+		return false;
+	}
 }
