@@ -21,6 +21,9 @@ public class Tests {
 		}
 	}
 	
+	/**
+	 * Deletes all the outputs from the test folder.
+	 */
 	public static void cleanFolder() {
 		File folder = new File("tests");
 		File[] fileList = folder.listFiles();
