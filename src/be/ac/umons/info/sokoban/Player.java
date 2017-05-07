@@ -66,6 +66,10 @@ public class Player extends Position {
 		move(direction, true);
 	}
 	
+	public void move(boolean isTracked) {
+		move(direction, isTracked);
+	}
+	
 	/**
 	 * 
 	 * @param grid

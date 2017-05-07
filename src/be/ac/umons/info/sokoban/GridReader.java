@@ -169,11 +169,20 @@ public class GridReader {
 		return grid;
 	}
 	
-	public void applyMovesToGrid(String pathIn, String pathOut, Game game, MovementTracker tracker) throws IOException {
-		Grid grid = GridReader.readGrid(pathIn);
+	/**
+	 * Applies the specified moves to the specified grid, and saves the resulting grid.
+	 * @param gridInputPath The path of the input .xsb file containing the grid
+	 * @param movInputPath The path of the input .mov file containing the moves
+	 * @throws IOException If any of the paths are invalid
+	 */
+	public static void applyMovesToGrid(String gridInputPath, String movInputPath) throws IOException {
+		Grid grid = GridReader.readGrid(gridInputPath);
+		String gridName = gridInputPath.split("[.]")[0];
+		String gridOutputPath = gridName + "_output";
+		grid.getTracker().readMov(movInputPath);
 		Player player = grid.getPlayer();
-		for (int i = 0; i < tracker.getMoves().size(); i++) {
-			switch(tracker.getMoves().get(i)){
+		for (int i = 0; i < grid.getTracker().getMoves().size(); i++) {
+			switch(grid.getTracker().getMoves().get(i)){
 			case('u'):
 			case('U'):
 				player.setDirection(Direction.UP);
@@ -194,11 +203,9 @@ public class GridReader {
 				throw new IOException();
 			}
 			if (player.canMove())
-				player.move();
-			else 
-				throw new IOException("Grid et machin pas valide");
+				player.move(false);
 		}
-		GridReader.saveGrid(grid, pathOut);
+		GridReader.saveGrid(grid, gridOutputPath);
 	}
 	
 	/**
