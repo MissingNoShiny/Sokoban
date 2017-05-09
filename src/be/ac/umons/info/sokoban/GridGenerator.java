@@ -65,7 +65,7 @@ public final class GridGenerator {
 				try {
 				placeGoals(grid, numberCrates);
 				placePlayer(grid);
-				movePlayer(grid, (int)(Math.pow(difficulty,3/2)+10)*10*(int)Math.pow(numberCrates,2/3));
+				movePlayer(grid, difficulty*12*(int)Math.pow(numberCrates,2/3));
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
 					validGoalsDisposition = false;
@@ -112,7 +112,7 @@ public final class GridGenerator {
 		Component[][] tab = new Component[patternSize][patternSize];
 		BufferedReader buff = null;
 		try {
-			buff = new BufferedReader(new InputStreamReader(new FileInputStream("../patterns/pattern"+ Integer.toString(numberPattern) + ".txt")));
+			buff = new BufferedReader(new InputStreamReader(new FileInputStream("patterns/pattern"+ Integer.toString(numberPattern) + ".txt")));
 			String ligne;
 			Character character;
 			for (int i = 0; i < patternSize; i++){

@@ -89,8 +89,8 @@ public final class GridReader {
 	 * @throws IOException
 	 */
     public static void saveGridState(Grid grid, String saveName) throws IOException{
-    	grid.getTracker().saveMov("../saves/" + saveName + ".mov");
-        saveGrid(grid, "../saves/"+saveName);
+    	grid.getTracker().saveMov("saves/" + saveName + ".mov");
+        saveGrid(grid, "saves/"+saveName);
     }
 	
     public static Grid loadGame(String path) throws IOException {

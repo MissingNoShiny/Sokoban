@@ -23,7 +23,7 @@ public class Player extends Position {
 	 */
 	public void setNewCoordinates(int inputX, int inputY) {
 		try {
-			if (!grid.getComponentAt(x, y).canBePassedThrough())
+			if (!grid.getComponentAt(inputX, inputY).canBePassedThrough())
 				throw new IllegalArgumentException();
 		} catch (NullPointerException e) {
 			throw new IllegalArgumentException();

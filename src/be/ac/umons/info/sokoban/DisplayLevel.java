@@ -27,6 +27,7 @@ public class DisplayLevel extends JPanel{
 	 */
 	public DisplayGrid displayGrid;
 	
+	private JPanel buttonsPanel;
 	
 	public DisplayLevel(final Grid grid, final Game game) {
 		setFocusable(true);
@@ -37,7 +38,7 @@ public class DisplayLevel extends JPanel{
 		displayGrid = new DisplayGrid(grid);
 		add(displayGrid, BorderLayout.CENTER);
 		
-		final JPanel buttonsPanel = new JPanel();
+		buttonsPanel = new JPanel();
 		buttonsPanel.setBackground(Options.backGroundColor);
 		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 		buttonsPanel.setLayout(new GridLayout(4, 1, 3, 3));
@@ -83,6 +84,7 @@ public class DisplayLevel extends JPanel{
 		cancelButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(true);
 				saveFrame.setVisible(false);
 			}
 		});
@@ -106,6 +108,7 @@ public class DisplayLevel extends JPanel{
 					if (canOverrideSave == 0) {
 						try {
 							GridReader.saveGridState(grid, name);
+							setEnabledButtons(true);
 							saveFrame.setVisible(false);
 						} catch (IOException e1) {
 							JOptionPane.showMessageDialog(saveGestion, "Save failed", "Error", JOptionPane.ERROR_MESSAGE);
@@ -122,6 +125,7 @@ public class DisplayLevel extends JPanel{
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(false);
 				saveFrame.setVisible(true);
 			}
 		});
@@ -164,5 +168,11 @@ public class DisplayLevel extends JPanel{
 				
 			}
 		});
+	}
+	
+	private void setEnabledButtons(boolean arg) {
+		for (int i = 0; i < buttonsPanel.getComponentCount(); i++) {
+			buttonsPanel.getComponent(i).setEnabled(arg);
+		}
 	}
 }

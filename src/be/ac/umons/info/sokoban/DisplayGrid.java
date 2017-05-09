@@ -69,32 +69,32 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		buttonLeft = new JButton();
 		add(buttonLeft);
 		initializeButton(buttonLeft, Direction.LEFT);
-		buttonLeft.setIcon(new ImageIcon("../resources/arrowLeft.png"));
+		buttonLeft.setIcon(new ImageIcon("resources/arrowLeft.png"));
 		
 		buttonRight = new JButton();
 		add(buttonRight);
 		initializeButton(buttonRight, Direction.RIGHT);
-		buttonRight.setIcon(new ImageIcon("../resources/arrowRight.png"));
+		buttonRight.setIcon(new ImageIcon("resources/arrowRight.png"));
 		
 		buttonUp = new JButton();
 		add(buttonUp);
 		initializeButton(buttonUp, Direction.UP);
-		buttonUp.setIcon(new ImageIcon("../resources/arrowUp.png"));
+		buttonUp.setIcon(new ImageIcon("resources/arrowUp.png"));
 		
 		buttonDown = new JButton();
 		add(buttonDown);
 		initializeButton(buttonDown, Direction.DOWN);
-		buttonDown.setIcon(new ImageIcon("../resources/arrowDown.png"));
+		buttonDown.setIcon(new ImageIcon("resources/arrowDown.png"));
 		
-		addToMap("Ground", "../resources/ground.png");
-		addToMap("Crate", "../resources/crate.png");
-		addToMap("Wall", "../resources/wall.png");
-		addToMap("Goal", "../resources/goal.png");
-		addToMap("CrateOnGoal", "../resources/crateOnGoal.png");
-		addToMap("PlayerUP", "../resources/playerUp.png");
-		addToMap("PlayerRIGHT", "../resources/playerRight.png");
-		addToMap("PlayerDOWN", "../resources/playerDown.png");
-		addToMap("PlayerLEFT", "../resources/playerLeft.png");
+		addToMap("Ground", "resources/ground.png");
+		addToMap("Crate", "resources/crate.png");
+		addToMap("Wall", "resources/wall.png");
+		addToMap("Goal", "resources/goal.png");
+		addToMap("CrateOnGoal", "resources/crateOnGoal.png");
+		addToMap("PlayerUP", "resources/playerUp.png");
+		addToMap("PlayerRIGHT", "resources/playerRight.png");
+		addToMap("PlayerDOWN", "resources/playerDown.png");
+		addToMap("PlayerLEFT", "resources/playerLeft.png");
 	}
 	
 	public void paintComponent(Graphics g) {	
@@ -129,7 +129,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	}
 	
 	/**
-	 * Adds a sprite for specified component in the sprite map. The specified sprite must exist in the ../resources directory.
+	 * Adds a sprite for specified component in the sprite map. The specified sprite must exist in the resources directory.
 	 * @param componentName The name of the component to add a sprite for
 	 * @param resourceName The name of the file that contains the sprite
 	 */

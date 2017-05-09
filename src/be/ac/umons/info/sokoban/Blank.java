@@ -5,5 +5,5 @@ package be.ac.umons.info.sokoban;
  * @author Vincent Larcin, Joachim Sneessens
  */
 public class Blank implements Component {
-
+	
 }

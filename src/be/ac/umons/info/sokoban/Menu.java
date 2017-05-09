@@ -20,6 +20,8 @@ public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
+	private JPanel mainMenuPanel;
+	
 	public Menu(final Game game) {
 		
 		setBackground(Options.backGroundColor);
@@ -27,7 +29,7 @@ public class Menu extends JPanel {
 		final CardLayout cd = new CardLayout();
 		setLayout(cd);
 		
-		final JPanel mainMenuPanel = new JPanel();
+		mainMenuPanel = new JPanel();
 		mainMenuPanel.setLayout(new GridLayout(6, 1, 3, 3));
 		mainMenuPanel.setOpaque(false);
 		add(mainMenuPanel);
@@ -126,6 +128,7 @@ public class Menu extends JPanel {
 				int heightLevel = levelHeightSlider.getValue();
 				int numberCrates = crateAmountSlider.getValue();
 				game.generateLevel(widthLevel, heightLevel, numberCrates, difficulty);
+				setEnabledButtons(true);
 				generatorFrame.setVisible(false);
 			}
 		});
@@ -134,6 +137,7 @@ public class Menu extends JPanel {
 		cancelGeneratorButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(true);
 				generatorFrame.setVisible(false);
 			}
 		});
@@ -145,6 +149,7 @@ public class Menu extends JPanel {
 		generateLevelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(false);
 				generatorFrame.setVisible(true);
 			}
 		});
@@ -171,11 +176,12 @@ public class Menu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String levelName = (String) saveChoice.getSelectedItem();
 				try {
-					game.loadLevel("../saves/"+levelName, false);
+					game.loadLevel("saves/"+levelName, false);
 				} catch (IOException e1) {
 					System.out.println("ici");
 					JOptionPane.showMessageDialog(saveError, "Loading failed.\nSave not found.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
+				setEnabledButtons(true);
 				loadFrame.setVisible(false);
 			}
 		});
@@ -184,6 +190,7 @@ public class Menu extends JPanel {
 		cancelLoadingButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(true);
 				loadFrame.setVisible(false);
 			}
 		});
@@ -198,6 +205,7 @@ public class Menu extends JPanel {
 					saveChoice.addItem(savesList[i]);
 				loadFrame.add(validateLoadingButton);
 				loadFrame.add(cancelLoadingButton);
+				setEnabledButtons(false);
 				loadFrame.setVisible(true);
 			}
 		});
@@ -210,19 +218,19 @@ public class Menu extends JPanel {
 		mainMenuPanel.add(loadButton);
 		
 		mainMenuPanel.add(exitButton);
-
+		
 		
 		final JPanel levelListPanel = new JPanel();
 		levelListPanel.setOpaque(false);
 		int levelIndex = 1;
-		File level = new File("../levels/level " + levelIndex + ".xsb");
+		File level = new File("levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
 			final Button loadLevelButton = new Button("level " + levelIndex, Options.buttonsColor, Options.defaultFont);
 			loadLevelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						game.loadLevel("../levels/" + loadLevelButton.getText() + ".xsb", true);
+						game.loadLevel("levels/" + loadLevelButton.getText() + ".xsb", true);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -230,7 +238,7 @@ public class Menu extends JPanel {
 			});
 			levelListPanel.add(loadLevelButton);
 			levelIndex++;
-			level = new File("../levels/level " + levelIndex + ".xsb");
+			level = new File("levels/level " + levelIndex + ".xsb");
 		}
 		
 		Button returnButton = new Button("Return", Options.buttonsColor, Options.defaultFont);
@@ -247,7 +255,7 @@ public class Menu extends JPanel {
 	}
 	
 	private static String[] getSavesList() {
-		File saveDirectory = new File("../saves/");
+		File saveDirectory = new File("saves/");
 		File[] saves = saveDirectory.listFiles();
 		String[] tempList = new String[saves.length];
 		String name;
@@ -265,5 +273,11 @@ public class Menu extends JPanel {
 		String[] savesList = new String[countFile];
 		System.arraycopy(tempList, 0, savesList, 0, countFile);
 		return savesList;
+	}
+	
+	private void setEnabledButtons(boolean arg) {
+		for (int i = 0; i < mainMenuPanel.getComponentCount(); i++) {
+			mainMenuPanel.getComponent(i).setEnabled(arg);
+		}
 	}
 }
