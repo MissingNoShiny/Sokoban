@@ -197,13 +197,11 @@ public class MovementTracker {
 	/**
 	 * Saves the current moves ArrayList to a .mov file at specified path.
 	 * @param path The path to save to (must end with ".mov")
-	 * @throws IOException
+	 * @throws IOException if the path is invalid.
 	 */
 	public void saveMov(String path) throws IOException {
 		if (!path.endsWith(".mov"))
 			throw new IOException("path must end with \".mov\"");
-		if (moves.isEmpty())
-			throw new IOException();
 		File file = new File(path);
 		BufferedWriter buff = null;
 		try {
@@ -224,9 +222,9 @@ public class MovementTracker {
 	}
 	
 	/**
-	 * Je ne gere pas les cas ou quelqu'un aurait mis un fichier .mov contenant n'importe quoi
-	 * @param path
-	 * @throws IOException
+	 * Reads a .mov file and adds its data to the moves ArrayList.
+	 * @param path The path of the file
+	 * @throws IOException if the path is invalid, the file not readable or if the file contains illegal characters
 	 */
 	public void readMov(String path) throws IOException {
 		if (!path.endsWith(".mov"))
@@ -241,6 +239,8 @@ public class MovementTracker {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			String moveList = buff.readLine();
 			for (int i = 0; i < moveList.length(); i++) {
+                if (!"lurdLURD".contains(Character.toString(moveList.charAt(i))))
+                	throw new IOException("Specified file contains illegal characters");
 				moves.add(moveList.charAt(i));
 				if (Character.isLowerCase(moveList.charAt(i)))
 					movesCount++;

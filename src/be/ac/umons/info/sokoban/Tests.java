@@ -3,8 +3,23 @@ package be.ac.umons.info.sokoban;
 import java.io.File;
 import java.io.IOException;
 
-public class Tests {
+/**
+ * A class used to execute all the tests made for the package. 
+ * @author Vincent Larcin, Joachim Sneessens
+ */
+public final class Tests {
 
+	/**
+	 * Constructor is private to prevent instantiations.
+	 */
+	private Tests() {
+		
+	}
+	
+	/**
+	 * Executes all the tests it can find in the test folder.
+	 * @param args Unused
+	 */
 	public static void main(String[] args) {
 		File folder = new File("tests");
 		File[] fileList = folder.listFiles();

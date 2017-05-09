@@ -8,7 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class GridReader {
+/**
+ * A class used to manage grid inputs and outputs.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
+public final class GridReader {
 	
 	/**
 	 * Constructor is private to prevent instantiations.
