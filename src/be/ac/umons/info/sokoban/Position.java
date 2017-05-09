@@ -4,17 +4,7 @@ package be.ac.umons.info.sokoban;
  * A Component that has dynamic coordinates, which therefore need to be tracked.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public abstract class Position implements Component {
-	
-	/**
-	 * The X-coordinate of the object.
-	 */
-	protected int x;
-	
-	/**
-	 * The Y-coordinate of the object.
-	 */
-	protected int y;
+public abstract class Position extends Point implements Component {
 	
 	/**
 	 * The Grid object which contains the position.
@@ -26,25 +16,13 @@ public abstract class Position implements Component {
 	 * @param inputX The X-coordinate of the object
 	 * @param inputY The Y-coordinate of the object
 	 */
-	public Position(Grid grid, int inputX, int inputY) {
+	public Position(Grid grid, int xInput, int yInput) {
+		super(xInput, yInput);
 		this.grid = grid;
-		x = inputX;
-		y = inputY;
 	}
-	
-	/**
-	 * Gets the current position of the object on the X-axis.
-	 * @return The X-coordinate of the object
-	 */
-	public int getX() {
-		return x;
-	}
-	
-	/**
-	 * Gets the current position of the object on the Y-axis.
-	 * @return The Y-coordinate of the object
-	 */
-	public int getY() {
-		return y;
+
+	@Override
+	public boolean canBePassedThrough() {
+		return false;
 	}
 }

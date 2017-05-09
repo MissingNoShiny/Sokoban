@@ -6,4 +6,14 @@ package be.ac.umons.info.sokoban;
  */
 public class Wall implements Component {
 
+	@Override
+	public String getName() {
+		return "Wall";
+	}
+
+	@Override
+	public boolean canBePassedThrough() {
+		return false;
+	}
+
 }
