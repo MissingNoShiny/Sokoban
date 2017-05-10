@@ -147,8 +147,9 @@ public class Game implements Runnable {
 	 * Loads the level of specified path.
 	 * @param path The path of the level to load (must end with ".xsb")
 	 * @throws IOException If the path is incorrect or doesn't exist
+	 * @throws InvalidFileException 
 	 */
-	public void loadLevel(String path, boolean isClearLevel) throws IOException {
+	public void loadLevel(String path, boolean isClearLevel) throws IOException, InvalidFileException {
 		if (isClearLevel) 
 			grid = GridReader.readGrid(path);
 		else

@@ -168,7 +168,7 @@ public class Menu extends JPanel {
 		saveChoice.setEditable(false);
 		loadFrame.add(saveChoice);
 		
-		final JOptionPane saveError = new JOptionPane();
+		final JOptionPane IOError = new JOptionPane();
 		
 		final Button validateLoadingButton = new Button("Load", Options.buttonsColor, Options.defaultFont);
 		validateLoadingButton.addActionListener(new ActionListener() {
@@ -178,8 +178,9 @@ public class Menu extends JPanel {
 				try {
 					game.loadLevel("saves/"+levelName, false);
 				} catch (IOException e1) {
-					System.out.println("ici");
-					JOptionPane.showMessageDialog(saveError, "Loading failed.\nSave not found.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(IOError, "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
+				} catch (InvalidFileException e2) {
+					JOptionPane.showMessageDialog(IOError, "Invalid File", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				setEnabledButtons(true);
 				loadFrame.setVisible(false);
@@ -232,7 +233,9 @@ public class Menu extends JPanel {
 					try {
 						game.loadLevel("levels/" + loadLevelButton.getText() + ".xsb", true);
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(IOError, "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
+					} catch (InvalidFileException e2) {
+						JOptionPane.showMessageDialog(IOError, "Invalid File", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});

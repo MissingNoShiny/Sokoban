@@ -65,7 +65,7 @@ public final class GridGenerator {
 				try {
 				placeGoals(grid, numberCrates);
 				placePlayer(grid);
-				movePlayer(grid, difficulty*12*(int)Math.pow(numberCrates,2/3));
+				movePlayer(grid, difficulty*15*(int)Math.pow(numberCrates,2/3));
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
 					validGoalsDisposition = false;

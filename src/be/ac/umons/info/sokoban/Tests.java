@@ -31,6 +31,8 @@ public final class Tests {
 						GridReader.applyMovesToGrid(file1.getPath(), file2.getPath());
 					} catch (IOException e) {
 						e.printStackTrace();
+					} catch (InvalidFileException e) {
+						e.printStackTrace();
 					}
 			}
 		}

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -93,22 +94,24 @@ public final class GridReader {
         saveGrid(grid, "saves/"+saveName);
     }
 	
-    public static Grid loadGame(String path) throws IOException {
+    public static Grid loadGame(String path) throws IOException, InvalidFileException {
     	Grid grid = readGrid(path + ".xsb");
     	grid.getTracker().readMov(path + ".mov");
     	return grid;
     }
     
-	public static Grid readGrid (String path) throws IOException {
+	public static Grid readGrid (String path) throws IOException, InvalidFileException {
 		if (!path.endsWith(".xsb"))
 			throw new IOException();
+		File file = new File(path);
+		if (! file.exists())
+			throw new FileNotFoundException();
 		Grid grid = null;
 		BufferedReader buff = null;
 		try {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			String ligne;
-			int height = 1, width;
-			width = buff.readLine().length();
+			int height = 0, width = 0;
 			while ((ligne = buff.readLine())!=null){
 				if (ligne.length() > width)
 					width = ligne.length();
@@ -117,8 +120,12 @@ public final class GridReader {
 			grid = new Grid(width, height);
 			buff.close();
 			
+			if (height < 3 || width < 3)
+				throw new InvalidFileException("File not valid");
+			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-			Character character;
+			char character;
+			int playersAmount = 0;
 			for (int i = 0; i < height; i++){
 				int j;
 				ligne = buff.readLine();
@@ -142,10 +149,12 @@ public final class GridReader {
 					case ('@'):
 						grid.placeComponentAt(j, i, new Ground());
 						grid.setPlayerCoordinates(j, i);
+						playersAmount++;
 						break;
 					case ('+'):
 						grid.placeComponentAt(j, i, new Goal());
 						grid.setPlayerCoordinates(j, i);
+						playersAmount++;
 						break;
 					case ('*'):
 						grid.placeComponentAt(j, i, new Goal());
@@ -158,6 +167,8 @@ public final class GridReader {
 					j++;
 				}
 			}
+			if (playersAmount != 1)
+				throw new InvalidFileException("File not valid");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -178,8 +189,9 @@ public final class GridReader {
 	 * @param gridInputPath The path of the input .xsb file containing the grid
 	 * @param movInputPath The path of the input .mov file containing the moves
 	 * @throws IOException If any of the paths are invalid
+	 * @throws InvalidFileException
 	 */
-	public static void applyMovesToGrid(String gridInputPath, String movInputPath) throws IOException {
+	public static void applyMovesToGrid(String gridInputPath, String movInputPath) throws IOException, InvalidFileException {
 		Grid grid = GridReader.readGrid(gridInputPath);
 		String gridName = gridInputPath.split("[.]")[0];
 		String gridOutputPath = gridName + "_output";
