@@ -3,7 +3,7 @@ package be.ac.umons.info.sokoban;
 import java.util.ArrayList;
 
 /**
- * Description
+ * A class used to manage the data of a level.
  * @author Vincent Larcin, Joachim Sneessens
  */
 public class Grid {

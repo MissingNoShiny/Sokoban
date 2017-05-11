@@ -25,7 +25,7 @@ public class DisplayLevel extends JPanel{
 	/*
 	 * For the focus
 	 */
-	public DisplayGrid displayGrid;
+	public GridDisplay displayGrid;
 	
 	
 	public DisplayLevel(final Grid grid, final Game game) {
@@ -34,7 +34,7 @@ public class DisplayLevel extends JPanel{
 		setVisible(true);
 		setLayout(new BorderLayout());
 		
-		displayGrid = new DisplayGrid(grid);
+		displayGrid = new GridDisplay(grid);
 		add(displayGrid, BorderLayout.CENTER);
 		
 		final JPanel buttonsPanel = new JPanel();

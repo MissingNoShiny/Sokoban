@@ -1,5 +1,9 @@
 package be.ac.umons.info.sokoban;
 
+/**
+ * A class used to manage the player.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
 public class Player extends Position {
 	
 	private Direction direction;

@@ -18,8 +18,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-
-public class DisplayGrid extends JPanel implements KeyListener{
+/**
+ * A class used to display a Grid.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
+public class GridDisplay extends JPanel implements KeyListener{
 	
 
 	private static final long serialVersionUID = -5700571976068104061L;
@@ -59,7 +62,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	 */
 	JButton buttonLeft, buttonRight, buttonUp, buttonDown;
 	
-	public DisplayGrid (Grid grid) {
+	public GridDisplay (Grid grid) {
 		addKeyListener(this);
 		setFocusable(true);
 		setOpaque(true);
