@@ -75,7 +75,7 @@ public final class GridGenerator {
 		} while(!validGoalsDisposition);
 		System.out.println("Room generee et tout place");
 		removeUselessWall(grid);
-		//grid.getTracker().empty();
+		grid.getTracker().empty();
 		return grid;
 	}
 	

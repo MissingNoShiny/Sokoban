@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -199,9 +200,9 @@ public class MovementTracker {
 	 * @param path The path to save to (must end with ".mov")
 	 * @throws IOException if the path is invalid.
 	 */
-	public void saveMov(String path) throws IOException {
+	public void saveMov(String path) {
 		if (!path.endsWith(".mov"))
-			throw new IOException("path must end with \".mov\"");
+			throw new IllegalArgumentException("path must end with \".mov\"");
 		File file = new File(path);
 		BufferedWriter buff = null;
 		try {
@@ -225,22 +226,29 @@ public class MovementTracker {
 	 * Reads a .mov file and adds its data to the moves ArrayList.
 	 * @param path The path of the file
 	 * @throws IOException if the path is invalid, the file not readable or if the file contains illegal characters
+	 * @throws InvalidFileException 
 	 */
-	public void readMov(String path) throws IOException {
+	public void readMov(String path) throws FileNotFoundException, InvalidFileException {
 		if (!path.endsWith(".mov"))
-			throw new IOException();
+			throw new IllegalArgumentException("path must end with \".mov\"");
 		
 		File file = new File(path);
 		if (!file.exists()) 
-			throw new IOException();
+			throw new FileNotFoundException("File not found");
 		
 		BufferedReader buff = null;
 		try {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			String moveList = buff.readLine();
-			for (int i = 0; i < moveList.length(); i++) {
+			int length;
+			try {
+				length = moveList.length();
+			} catch (NullPointerException e) {
+				length = 0;
+			}
+			for (int i = 0; i < length; i++) {
                 if (!"lurdLURD".contains(Character.toString(moveList.charAt(i))))
-                	throw new IOException("Specified file contains illegal characters");
+                	throw new InvalidFileException("Specified file contains illegal characters");
 				moves.add(moveList.charAt(i));
 				if (Character.isLowerCase(moveList.charAt(i)))
 					movesCount++;

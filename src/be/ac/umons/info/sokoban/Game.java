@@ -140,9 +140,12 @@ public class Game implements Runnable {
 	 * @throws IOException If the path is incorrect or doesn't exist
 	 * @throws InvalidFileException 
 	 */
-	public void loadLevel(String path, boolean isClearLevel, int levelIndex) throws IOException, InvalidFileException {
-		grid = GridReader.loadGame(path, isClearLevel);
-		level = new DisplayLevel(grid, this, levelIndex);
+	public void loadLevel(String path, int levelIndex, String levelName) throws IOException, InvalidFileException {
+		if (levelIndex < 0)
+			grid = GridReader.loadGame(path, false);
+		else
+			grid = GridReader.loadGame(path, true);
+		level = new DisplayLevel(grid, this, levelIndex, levelName);
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 	}
@@ -156,7 +159,7 @@ public class Game implements Runnable {
 	 */
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
 		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);
-		level = new DisplayLevel(grid, this, -1);
+		level = new DisplayLevel(grid, this, -2, "NOTHING");
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 	}

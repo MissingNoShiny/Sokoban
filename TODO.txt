@@ -11,6 +11,9 @@ TRES IMPORTANT : faire en sorte que les positions du player soient toujours vali
 
 PARTOUT : il faut harmoniser ordre des arguments (width avant height notamment)
 
+Ne devrait on pas remplacer les IOException par des IllegalArgumentException lorsque le path specifie est incorrect?
+Dans le saveMov, que se passe-t-il si on indique un path correspondant à des dossiers inexistants?
+
 QUESTIONS :
 - Pas d'interfaces, c'est grave docteur?
 - Les tests, sont-ils corrects et suffisants?

@@ -53,7 +53,7 @@ public class Menu extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						game.loadLevel("levels/" + getText(), true, levelIndex);
+						game.loadLevel("levels/" + getText(), levelIndex, "campaignLevel");
 					} catch (IOException e1) {
 						e1.printStackTrace();
 						JOptionPane.showMessageDialog(IOError, "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
@@ -222,14 +222,12 @@ public class Menu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String levelName = (String) saveChoice.getSelectedItem();
 				try {
-					game.loadLevel("saves/"+levelName, false, -1);
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(IOError, "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
-				} catch (InvalidFileException e2) {
-					JOptionPane.showMessageDialog(IOError, "Invalid File", "Error", JOptionPane.ERROR_MESSAGE);
+					game.loadLevel("saves/"+levelName, -1, levelName);
+					setEnabledButtons(true);
+					loadFrame.setVisible(false);
+				} catch (IOException | InvalidFileException e1) {
+					JOptionPane.showMessageDialog(IOError, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				setEnabledButtons(true);
-				loadFrame.setVisible(false);
 			}
 		});
 		
