@@ -107,15 +107,6 @@ public class Game implements Runnable {
 		}
 	}
 	
-	/*
-	private void displayVictoryScreen() {
-		JOptionPane victoryScreen = new JOptionPane();
-		victoryScreen.setOpaque(true);
-		victoryScreen.setBackground(Options.backGroundColor);
-		JOptionPane.showMessageDialog(victoryScreen, "Congratulations ! It was a high level Sokoban !", "You Win", JOptionPane.INFORMATION_MESSAGE);
-	}
-	*/
-	
 	/**
 	 * Starts the game loop.
 	 */
@@ -149,12 +140,9 @@ public class Game implements Runnable {
 	 * @throws IOException If the path is incorrect or doesn't exist
 	 * @throws InvalidFileException 
 	 */
-	public void loadLevel(String path, boolean isClearLevel) throws IOException, InvalidFileException {
-		if (isClearLevel) 
-			grid = GridReader.readGrid(path);
-		else
-			grid = GridReader.loadGame(path);
-		level = new DisplayLevel(grid, this);
+	public void loadLevel(String path, boolean isClearLevel, int levelIndex) throws IOException, InvalidFileException {
+		grid = GridReader.loadGame(path, isClearLevel);
+		level = new DisplayLevel(grid, this, levelIndex);
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 	}
@@ -168,7 +156,7 @@ public class Game implements Runnable {
 	 */
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
 		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);
-		level = new DisplayLevel(grid, this);
+		level = new DisplayLevel(grid, this, -1);
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 	}

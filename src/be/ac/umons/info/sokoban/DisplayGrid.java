@@ -59,12 +59,15 @@ public class DisplayGrid extends JPanel implements KeyListener{
 	 */
 	JButton buttonLeft, buttonRight, buttonUp, buttonDown;
 	
-	public DisplayGrid (Grid grid) {
+	private DisplayLevel displayLevel;
+	
+	public DisplayGrid (Grid grid, DisplayLevel displayLevel) {
 		addKeyListener(this);
 		setFocusable(true);
 		setOpaque(true);
 		setLayout(null);
 		this.grid = grid;
+		this.displayLevel = displayLevel;
 
 		buttonLeft = new JButton();
 		add(buttonLeft);
@@ -114,8 +117,7 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++) {
-				if (!grid.getComponentAt(i, j).getName().equals("Blank"))
-					g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
+				g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
 				if (borderThickness > 0)
 					drawBorder(i, j, g2d);
@@ -123,8 +125,11 @@ public class DisplayGrid extends JPanel implements KeyListener{
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
-		if (grid.getTracker().hasMoved() && Options.SHOW_PLAYER_ARROWS) {
-			updateButtons();
+		if (grid.getTracker().hasMoved()) {
+			if (Options.SHOW_PLAYER_ARROWS) 
+				updateButtons();
+			if (grid.isWon())
+				displayLevel.displayVictoryScreen();
 		}
 	}
 	

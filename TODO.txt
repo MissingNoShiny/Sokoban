@@ -16,3 +16,4 @@ QUESTIONS :
 - Les tests, sont-ils corrects et suffisants?
 - Faut-il préciser les IOExceptions, et faut-il que chaque exception soit accompagnée d'un texte descriptif?
 - Package|s|?
+- Javadoc doit expliquer uniquement l'utilité d'une methode ou bien aussi son fonctionnement

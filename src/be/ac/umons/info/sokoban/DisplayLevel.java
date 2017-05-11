@@ -27,15 +27,25 @@ public class DisplayLevel extends JPanel{
 	 */
 	public DisplayGrid displayGrid;
 	
+	private JOptionPane IOError = new JOptionPane();
+	
 	private JPanel buttonsPanel;
 	
-	public DisplayLevel(final Grid grid, final Game game) {
+	private Game game;
+	
+	private int levelIndex;
+	
+	public DisplayLevel(final Grid grid, Game game, int levelIndex) {
+		
+		this.game = game;
+		this.levelIndex = levelIndex;
+		
 		setFocusable(true);
 		setOpaque(false);
 		setVisible(true);
 		setLayout(new BorderLayout());
 		
-		displayGrid = new DisplayGrid(grid);
+		displayGrid = new DisplayGrid(grid, this);
 		add(displayGrid, BorderLayout.CENTER);
 		
 		buttonsPanel = new JPanel();
@@ -89,7 +99,7 @@ public class DisplayLevel extends JPanel{
 			}
 		});
 		
-		final JOptionPane saveGestion = new JOptionPane();
+		
 		
 		Button validateButton = new Button("Save", Options.buttonsColor, Options.defaultFont);
 		validateButton.addActionListener(new ActionListener() {
@@ -97,13 +107,13 @@ public class DisplayLevel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				String name = saveFrameField.getText();
 				if (name.length() > 10) {
-					JOptionPane.showMessageDialog(saveGestion, "Number characters must be less than 10 !!!!!!", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(IOError, "Number characters must be less than 10 !!!!!!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
 					File file = new File("../saves/" + name + ".xsb");
 					int canOverrideSave = 0;
 					if (file.exists()) 
-						canOverrideSave = JOptionPane.showConfirmDialog(saveGestion, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
+						canOverrideSave = JOptionPane.showConfirmDialog(IOError, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
 	
 					if (canOverrideSave == 0) {
 						try {
@@ -111,7 +121,7 @@ public class DisplayLevel extends JPanel{
 							setEnabledButtons(true);
 							saveFrame.setVisible(false);
 						} catch (IOException e1) {
-							JOptionPane.showMessageDialog(saveGestion, "Save failed", "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(IOError, "Save failed", "Error", JOptionPane.ERROR_MESSAGE);
 						};
 					}
 				}
@@ -145,6 +155,7 @@ public class DisplayLevel extends JPanel{
 		infoPanel.setOpaque(true);
 		add(infoPanel, BorderLayout.WEST);
 		
+
 		addComponentListener(new ComponentListener() {
 
 			@Override
@@ -169,6 +180,55 @@ public class DisplayLevel extends JPanel{
 			}
 		});
 	}
+	
+	public void displayVictoryScreen() {
+		setEnabledButtons(false);
+		JFrame victoryScreen = new JFrame();
+		victoryScreen.setSize(500, 300);
+		victoryScreen.setLocationRelativeTo(null);
+		
+		if (levelIndex > 0)
+			victoryScreen.setLayout(new GridLayout(3,1));
+		else
+			victoryScreen.setLayout(new GridLayout(2,1));
+		
+		victoryScreen.add(new DefaultLabel("You win"));
+		
+		if (levelIndex > 0) {
+			Button nextLevelButton = new Button("Next level", Options.buttonsColor, Options.defaultFont);
+			nextLevelButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						levelIndex++;
+						game.loadLevel("levels/level "+levelIndex, true, levelIndex);
+						victoryScreen.setVisible(false);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(IOError, "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
+					} catch (InvalidFileException e2) {
+						JOptionPane.showMessageDialog(IOError, "Invalid File", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+			victoryScreen.add(nextLevelButton);
+		}
+		
+		
+		Button MenuButton = new Button("Menu", Options.buttonsColor, Options.defaultFont);
+		MenuButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.loadMenu();
+				victoryScreen.setVisible(false);
+			}
+		});
+		
+		victoryScreen.add(MenuButton);
+		
+		victoryScreen.setVisible(true);
+	}
+	
 	
 	private void setEnabledButtons(boolean arg) {
 		for (int i = 0; i < buttonsPanel.getComponentCount(); i++) {

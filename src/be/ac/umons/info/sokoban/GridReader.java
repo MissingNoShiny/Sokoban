@@ -94,13 +94,14 @@ public final class GridReader {
         saveGrid(grid, "saves/"+saveName);
     }
 	
-    public static Grid loadGame(String path) throws IOException, InvalidFileException {
+    public static Grid loadGame(String path, boolean isClearLevel) throws IOException, InvalidFileException {
     	Grid grid = readGrid(path + ".xsb");
-    	grid.getTracker().readMov(path + ".mov");
+    	if (!isClearLevel)
+    		grid.getTracker().readMov(path + ".mov");
     	return grid;
     }
     
-	public static Grid readGrid (String path) throws IOException, InvalidFileException {
+	private static Grid readGrid (String path) throws IOException, InvalidFileException {
 		if (!path.endsWith(".xsb"))
 			throw new IOException();
 		File file = new File(path);
