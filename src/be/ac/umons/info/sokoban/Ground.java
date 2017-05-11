@@ -7,6 +7,11 @@ package be.ac.umons.info.sokoban;
 public class Ground implements Component{
 
 	@Override
+	public String getName() {
+		return "Ground";
+	}	
+	
+	@Override
 	public boolean canBePassedThrough() {
 		return true;
 	}

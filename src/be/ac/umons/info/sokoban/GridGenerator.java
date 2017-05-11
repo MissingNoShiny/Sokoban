@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * A static class used to generate random levels.
- * @author Joachim Sneessens
+ * A class used to generate random levels.
+ * @author Vincent Larcin, Joachim Sneessens
  */
 public final class GridGenerator {
 	
 	private static class InvalidDispositionException extends Exception {
-
-		private static final long serialVersionUID = 1L;
+		
+		private static final long serialVersionUID = -6319481640977055123L;
 		
 	}
 	
@@ -65,7 +65,7 @@ public final class GridGenerator {
 				try {
 				placeGoals(grid, numberCrates);
 				placePlayer(grid);
-				movePlayer(grid, (int)(Math.pow(difficulty,3/2)+10)*10*(int)Math.pow(numberCrates,2/3));
+				movePlayer(grid, difficulty*15*(int)Math.pow(numberCrates,2/3));
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
 					validGoalsDisposition = false;
@@ -75,7 +75,7 @@ public final class GridGenerator {
 		} while(!validGoalsDisposition);
 		System.out.println("Room generee et tout place");
 		removeUselessWall(grid);
-		//grid.getTracker().empty();
+		grid.getTracker().empty();
 		return grid;
 	}
 	
@@ -112,7 +112,7 @@ public final class GridGenerator {
 		Component[][] tab = new Component[patternSize][patternSize];
 		BufferedReader buff = null;
 		try {
-			buff = new BufferedReader(new InputStreamReader(new FileInputStream("../patterns/pattern"+ Integer.toString(numberPattern) + ".txt")));
+			buff = new BufferedReader(new InputStreamReader(new FileInputStream("patterns/pattern"+ Integer.toString(numberPattern) + ".txt")));
 			String ligne;
 			Character character;
 			for (int i = 0; i < patternSize; i++){
@@ -463,7 +463,7 @@ public final class GridGenerator {
 				if (movedCratesList[i] == false && i != indexPrecCrate) {
 					crate = crateList.get(i);
 					for (int j = 0; j < 4; j++) {
-						hasFoundPossibleCrate = isPossiblePullCrate(grid, tab, crate, directions[j]);
+						hasFoundPossibleCrate = canPlayerPullCrate(grid, tab, crate, directions[j]);
 						if (hasFoundPossibleCrate) {
 							oldDirection = j;
 							break;
@@ -482,7 +482,7 @@ public final class GridGenerator {
 				if (movedCratesList[i] == true && i != indexPrecCrate) {
 					crate = crateList.get(i);
 					for (int j = 0; j < 4; j++) {
-						hasFoundPossibleCrate = isPossiblePullCrate(grid, tab, crate, directions[j]);
+						hasFoundPossibleCrate = canPlayerPullCrate(grid, tab, crate, directions[j]);
 						if (hasFoundPossibleCrate) {
 							oldDirection = j;
 							break;
@@ -507,7 +507,7 @@ public final class GridGenerator {
 							newDirection = rand.nextInt(4);
 						} while (newDirection == (oldDirection+2)%4);
 						trialsNumber++;
-						if (isPossiblePullCrate(grid, tab, crate, directions[newDirection])) {
+						if (canPlayerPullCrate(grid, tab, crate, directions[newDirection])) {
 							goToSource(grid, tab);
 							player.pullCrate(directions[newDirection], true);
 							oldDirection = newDirection;
@@ -540,7 +540,7 @@ public final class GridGenerator {
 	 * @param tab
 	 * @param xSource
 	 * @param ySource
-	 * @param xGoal	if the point specified by xGoal and yGoal is reach,  the filling is stopped 
+	 * @param xGoal	if the point specified by xGoal and yGoal is reached,  the filling is stopped 
 	 * @param yGoal
 	 */
 	private static void fillLee(Grid grid, int[][] tab, int xSource, int ySource, int xGoal, int yGoal) {
@@ -590,22 +590,23 @@ public final class GridGenerator {
 	 * @param tab
 	 */
 	private static void goToSource(Grid grid, int[][] tab) {
-		while (tab[grid.getPlayer().getX()][grid.getPlayer().getY()]!=1) {
-			int x = grid.getPlayer().getX();
-			int y = grid.getPlayer().getY();
+		Player player = grid.getPlayer();
+		while (tab[player.getX()][player.getY()]!=1) {
+			int x = player.getX();
+			int y = player.getY();
 			if (y-1 >= 0 && tab[x][y-1]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.UP, true);
+				player.move(Direction.UP, true);
 			else if (x+1 < grid.getWidth() && tab[x+1][y]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.RIGHT, true);
+				player.move(Direction.RIGHT, true);
 			else if (y+1 < grid.getHeight() && tab[x][y+1]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.DOWN, true);
+				player.move(Direction.DOWN, true);
 			else if (x-1 >= 0 && tab[x-1][y]==tab[x][y]-1)
-				grid.getPlayer().move(Direction.LEFT, true);
+				player.move(Direction.LEFT, true);
 		}
 	}
 	
 	/**
-	 * Return true if an crateCanBePulled by the player
+	 * Return true if a crate can be pulled by a player and the player can pull it from where he currently is.
 	 * This method have border effects on the tab.
 	 * @param grid
 	 * @param tab
@@ -613,8 +614,8 @@ public final class GridGenerator {
 	 * @param direction
 	 * @return
 	 */
-	private static boolean isPossiblePullCrate(Grid grid, int[][] tab, Crate crate, Direction dir) {
-		cleanTab(tab, grid.getWidth(), grid.getHeight());
+	private static boolean canPlayerPullCrate(Grid grid, int[][] tab, Crate crate, Direction dir) {
+		cleanTab(tab);
 		if (crate.canBePulled(dir)){
 			Point p = Direction.associateDirectionToNewPoint(crate.getX(), crate.getY(), dir);
 			int x = p.getX();
@@ -627,18 +628,23 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Replace the all elements of the tab by 0
-	 * @param tab
-	 * @param width
-	 * @param height
+	 * Replaces the all elements of the tab by 0
+	 * @param tab The matrix to replace all the elements of
 	 */
-	private static void cleanTab(int[][] tab, int width, int height) {
+	private static void cleanTab(int[][] tab) {
+		int width = tab.length;
+		int height = tab[0].length;
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++)
 				tab[i][j]=0;
 		}
 	}
 	
+	/**
+	 * Counts the number of occurrences of true in an array of booleans representing if a Crate has moved or not.
+	 * @param movedCrates The array of booleans
+	 * @return The number of occurrences of true in the array
+	 */
 	private static int getMovedCratesAmount(boolean[] movedCrates) {
 		int movedCratesAmount = 0;
 		for (int i = 0; i < movedCrates.length; i++) {

@@ -6,4 +6,13 @@ package be.ac.umons.info.sokoban;
  */
 public class Blank implements Component {
 
+	@Override
+	public String getName() {
+		return "Blank";
+	}
+
+	@Override
+	public boolean canBePassedThrough() {
+		return false;
+	}
 }

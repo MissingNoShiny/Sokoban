@@ -62,42 +62,45 @@ public class GridDisplay extends JPanel implements KeyListener{
 	 */
 	JButton buttonLeft, buttonRight, buttonUp, buttonDown;
 	
-	public GridDisplay (Grid grid) {
+	private LevelDisplay displayLevel;
+	
+	public GridDisplay (Grid grid, LevelDisplay displayLevel) {
 		addKeyListener(this);
 		setFocusable(true);
 		setOpaque(true);
 		setLayout(null);
 		this.grid = grid;
+		this.displayLevel = displayLevel;
 
 		buttonLeft = new JButton();
 		add(buttonLeft);
 		initializeButton(buttonLeft, Direction.LEFT);
-		buttonLeft.setIcon(new ImageIcon("../resources/arrowLeft.png"));
+		buttonLeft.setIcon(new ImageIcon("resources/arrowLeft.png"));
 		
 		buttonRight = new JButton();
 		add(buttonRight);
 		initializeButton(buttonRight, Direction.RIGHT);
-		buttonRight.setIcon(new ImageIcon("../resources/arrowRight.png"));
+		buttonRight.setIcon(new ImageIcon("resources/arrowRight.png"));
 		
 		buttonUp = new JButton();
 		add(buttonUp);
 		initializeButton(buttonUp, Direction.UP);
-		buttonUp.setIcon(new ImageIcon("../resources/arrowUp.png"));
+		buttonUp.setIcon(new ImageIcon("resources/arrowUp.png"));
 		
 		buttonDown = new JButton();
 		add(buttonDown);
 		initializeButton(buttonDown, Direction.DOWN);
-		buttonDown.setIcon(new ImageIcon("../resources/arrowDown.png"));
+		buttonDown.setIcon(new ImageIcon("resources/arrowDown.png"));
 		
-		addToMap("Ground", "../resources/ground.png");
-		addToMap("Crate", "../resources/crate.png");
-		addToMap("Wall", "../resources/wall.png");
-		addToMap("Goal", "../resources/goal.png");
-		addToMap("CrateOnGoal", "../resources/crateOnGoal.png");
-		addToMap("PlayerUP", "../resources/playerUp.png");
-		addToMap("PlayerRIGHT", "../resources/playerRight.png");
-		addToMap("PlayerDOWN", "../resources/playerDown.png");
-		addToMap("PlayerLEFT", "../resources/playerLeft.png");
+		addToMap("Ground", "resources/ground.png");
+		addToMap("Crate", "resources/crate.png");
+		addToMap("Wall", "resources/wall.png");
+		addToMap("Goal", "resources/goal.png");
+		addToMap("CrateOnGoal", "resources/crateOnGoal.png");
+		addToMap("PlayerUP", "resources/playerUp.png");
+		addToMap("PlayerRIGHT", "resources/playerRight.png");
+		addToMap("PlayerDOWN", "resources/playerDown.png");
+		addToMap("PlayerLEFT", "resources/playerLeft.png");
 	}
 	
 	public void paintComponent(Graphics g) {	
@@ -117,8 +120,7 @@ public class GridDisplay extends JPanel implements KeyListener{
 		
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++) {
-				if (!grid.getComponentAt(i, j).getName().equals("Blank"))
-					g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
+				g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
 				if (borderThickness > 0)
 					drawBorder(i, j, g2d);
@@ -126,13 +128,16 @@ public class GridDisplay extends JPanel implements KeyListener{
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
-		if (grid.getTracker().hasMoved() && Options.SHOW_PLAYER_ARROWS) {
-			updateButtons();
+		if (grid.getTracker().hasMoved()) {
+			if (Options.SHOW_PLAYER_ARROWS) 
+				updateButtons();
+			if (grid.isWon())
+				displayLevel.displayVictoryScreen();
 		}
 	}
 	
 	/**
-	 * Adds a sprite for specified component in the sprite map. The specified sprite must exist in the ../resources directory.
+	 * Adds a sprite for specified component in the sprite map. The specified sprite must exist in the resources directory.
 	 * @param componentName The name of the component to add a sprite for
 	 * @param resourceName The name of the file that contains the sprite
 	 */

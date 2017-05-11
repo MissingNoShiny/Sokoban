@@ -1,6 +1,7 @@
 package be.ac.umons.info.sokoban;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -20,14 +22,62 @@ public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
-	public Menu(final Game game) {
+	private Game game;
+	
+	private JOptionPane IOError = new JOptionPane();
+	
+	private class LocalSlider extends JSlider{
+		private static final long serialVersionUID = -3599885387076371591L;
+		
+		public LocalSlider(int min, int max, int majorTickSpacing) {
+			super(JSlider.HORIZONTAL, min, max, (min+max)/2);
+			setMajorTickSpacing(majorTickSpacing);
+			setMinorTickSpacing(1);
+			setPaintTicks(true);
+			setPaintLabels(true);
+			setBackground(Options.buttonsColor);
+			setFont(new Font(Options.fontName, 0 , 20));
+		}
+
+		public void adaptBounds(int value, int value2) {
+				
+		}
+	}
+
+	private class CampaignButton extends Button {
+		private static final long serialVersionUID = 1259333880542050320L;
+				
+		public CampaignButton(String text, Color color, Font font, int levelIndex) {
+			super(text, color, font);
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						game.loadLevel("levels/" + getText(), levelIndex, "campaignLevel");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(IOError, "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
+					} catch (InvalidFileException e2) {
+						JOptionPane.showMessageDialog(IOError, "Invalid File", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+		}
+	}
+	
+	
+	private JPanel mainMenuPanel;
+	
+	public Menu(Game game) {
+		
+		this.game = game;
 		
 		setBackground(Options.backGroundColor);
 		
 		final CardLayout cd = new CardLayout();
 		setLayout(cd);
 		
-		final JPanel mainMenuPanel = new JPanel();
+		mainMenuPanel = new JPanel();
 		mainMenuPanel.setLayout(new GridLayout(6, 1, 3, 3));
 		mainMenuPanel.setOpaque(false);
 		add(mainMenuPanel);
@@ -66,10 +116,10 @@ public class Menu extends JPanel {
 		generatorParameters1.add(new DefaultLabel("Width"));
 		generatorParameters1.add(new DefaultLabel("Height"));
 		
-		final DefaultSlider levelWidthSlider = new DefaultSlider(6, 30, 6);
+		final LocalSlider levelWidthSlider = new LocalSlider(6, 30, 6);
 		generatorParameters1.add(levelWidthSlider);
 		
-		final DefaultSlider levelHeightSlider = new DefaultSlider(6, 30, 6);
+		final LocalSlider levelHeightSlider = new LocalSlider(6, 30, 6);
 		generatorParameters1.add(levelHeightSlider);
 		
 		
@@ -81,7 +131,7 @@ public class Menu extends JPanel {
 		generatorParameters2.add(new DefaultLabel("Difficulty"));
 		
 		
-		final DefaultSlider crateAmountSlider = new DefaultSlider(2, 10, 10){
+		final LocalSlider crateAmountSlider = new LocalSlider(2, 10, 10){
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void adaptBounds(int widthLevel, int heightLevel) {
@@ -100,7 +150,7 @@ public class Menu extends JPanel {
 		crateAmountSlider.adaptBounds(levelWidthSlider.getValue(), levelHeightSlider.getValue());
 		generatorParameters2.add(crateAmountSlider);
 		
-		final DefaultSlider difficultySlider = new DefaultSlider(0, 20, 5);
+		final LocalSlider difficultySlider = new LocalSlider(0, 20, 5);
 		generatorParameters2.add(difficultySlider);
 		
 		
@@ -126,6 +176,7 @@ public class Menu extends JPanel {
 				int heightLevel = levelHeightSlider.getValue();
 				int numberCrates = crateAmountSlider.getValue();
 				game.generateLevel(widthLevel, heightLevel, numberCrates, difficulty);
+				setEnabledButtons(true);
 				generatorFrame.setVisible(false);
 			}
 		});
@@ -134,6 +185,7 @@ public class Menu extends JPanel {
 		cancelGeneratorButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(true);
 				generatorFrame.setVisible(false);
 			}
 		});
@@ -145,6 +197,7 @@ public class Menu extends JPanel {
 		generateLevelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(false);
 				generatorFrame.setVisible(true);
 			}
 		});
@@ -163,20 +216,18 @@ public class Menu extends JPanel {
 		saveChoice.setEditable(false);
 		loadFrame.add(saveChoice);
 		
-		final JOptionPane saveError = new JOptionPane();
-		
 		final Button validateLoadingButton = new Button("Load", Options.buttonsColor, Options.defaultFont);
 		validateLoadingButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String levelName = (String) saveChoice.getSelectedItem();
 				try {
-					game.loadLevel("../saves/"+levelName, false);
-				} catch (IOException e1) {
-					System.out.println("ici");
-					JOptionPane.showMessageDialog(saveError, "Loading failed.\nSave not found.", "Error", JOptionPane.ERROR_MESSAGE);
+					game.loadLevel("saves/"+levelName, -1, levelName);
+					setEnabledButtons(true);
+					loadFrame.setVisible(false);
+				} catch (IOException | InvalidFileException e1) {
+					JOptionPane.showMessageDialog(IOError, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				loadFrame.setVisible(false);
 			}
 		});
 		
@@ -184,6 +235,7 @@ public class Menu extends JPanel {
 		cancelLoadingButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setEnabledButtons(true);
 				loadFrame.setVisible(false);
 			}
 		});
@@ -198,6 +250,7 @@ public class Menu extends JPanel {
 					saveChoice.addItem(savesList[i]);
 				loadFrame.add(validateLoadingButton);
 				loadFrame.add(cancelLoadingButton);
+				setEnabledButtons(false);
 				loadFrame.setVisible(true);
 			}
 		});
@@ -210,27 +263,16 @@ public class Menu extends JPanel {
 		mainMenuPanel.add(loadButton);
 		
 		mainMenuPanel.add(exitButton);
-
+		
 		
 		final JPanel levelListPanel = new JPanel();
 		levelListPanel.setOpaque(false);
 		int levelIndex = 1;
-		File level = new File("../levels/level " + levelIndex + ".xsb");
+		File level = new File("levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
-			final Button loadLevelButton = new Button("level " + levelIndex, Options.buttonsColor, Options.defaultFont);
-			loadLevelButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						game.loadLevel("../levels/" + loadLevelButton.getText() + ".xsb", true);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
-			levelListPanel.add(loadLevelButton);
+			levelListPanel.add(new CampaignButton("level " + levelIndex, Options.buttonsColor, Options.defaultFont, levelIndex));
 			levelIndex++;
-			level = new File("../levels/level " + levelIndex + ".xsb");
+			level = new File("levels/level " + levelIndex + ".xsb");
 		}
 		
 		Button returnButton = new Button("Return", Options.buttonsColor, Options.defaultFont);
@@ -247,7 +289,7 @@ public class Menu extends JPanel {
 	}
 	
 	private static String[] getSavesList() {
-		File saveDirectory = new File("../saves/");
+		File saveDirectory = new File("saves/");
 		File[] saves = saveDirectory.listFiles();
 		String[] tempList = new String[saves.length];
 		String name;
@@ -265,5 +307,11 @@ public class Menu extends JPanel {
 		String[] savesList = new String[countFile];
 		System.arraycopy(tempList, 0, savesList, 0, countFile);
 		return savesList;
+	}
+	
+	private void setEnabledButtons(boolean arg) {
+		for (int i = 0; i < mainMenuPanel.getComponentCount(); i++) {
+			mainMenuPanel.getComponent(i).setEnabled(arg);
+		}
 	}
 }

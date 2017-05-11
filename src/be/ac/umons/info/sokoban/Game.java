@@ -47,7 +47,7 @@ public class Game implements Runnable {
 	/**
 	 * 
 	 */
-	private DisplayLevel level;
+	private LevelDisplay level;
 	
 	/**
 	 * The amount of rendered frame in the last second.
@@ -107,15 +107,6 @@ public class Game implements Runnable {
 		}
 	}
 	
-	/*
-	private void displayVictoryScreen() {
-		JOptionPane victoryScreen = new JOptionPane();
-		victoryScreen.setOpaque(true);
-		victoryScreen.setBackground(Options.backGroundColor);
-		JOptionPane.showMessageDialog(victoryScreen, "Congratulations ! It was a high level Sokoban !", "You Win", JOptionPane.INFORMATION_MESSAGE);
-	}
-	*/
-	
 	/**
 	 * Starts the game loop.
 	 */
@@ -147,13 +138,14 @@ public class Game implements Runnable {
 	 * Loads the level of specified path.
 	 * @param path The path of the level to load (must end with ".xsb")
 	 * @throws IOException If the path is incorrect or doesn't exist
+	 * @throws InvalidFileException 
 	 */
-	public void loadLevel(String path, boolean isClearLevel) throws IOException {
-		if (isClearLevel) 
-			grid = GridReader.readGrid(path);
+	public void loadLevel(String path, int levelIndex, String levelName) throws IOException, InvalidFileException {
+		if (levelIndex < 0)
+			grid = GridReader.loadGame(path, false);
 		else
-			grid = GridReader.loadGame(path);
-		level = new DisplayLevel(grid, this);
+			grid = GridReader.loadGame(path, true);
+		level = new LevelDisplay(grid, this, levelIndex, levelName);
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 	}
@@ -167,7 +159,7 @@ public class Game implements Runnable {
 	 */
 	public void generateLevel(int width, int height, int numberCrates, int difficulty) {
 		grid = GridGenerator.generateGrid(width, height, numberCrates, difficulty);
-		level = new DisplayLevel(grid, this);
+		level = new LevelDisplay(grid, this, -2, "NOTHING");
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();
 	}

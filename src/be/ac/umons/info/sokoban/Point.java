@@ -9,12 +9,12 @@ public class Point {
 	/*
 	 * The X-coordinate of the Point
 	 */
-	private int x;
+	protected int x;
 	
 	/**
 	 * The Y-coordinate of the Point
 	 */
-	private int y;
+	protected int y;
 	
 	/**
 	 * Creates a Point with specified coordinates.

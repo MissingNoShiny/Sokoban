@@ -4,11 +4,16 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class GridReader {
+/**
+ * A class used to manage grid inputs and outputs.
+ * @author Vincent Larcin, Joachim Sneessens
+ */
+public final class GridReader {
 	
 	/**
 	 * Constructor is private to prevent instantiations.
@@ -22,8 +27,8 @@ public class GridReader {
 	 * @param grid The grid to save
 	 * @param path The path to save the grid to (without the ".xsb" extension)
 	 */
-	public static void saveGrid(Grid grid, String path){
-		File file = new File(path + ".xsb");
+	public static void saveGrid(Grid grid, String name){
+		File file = new File("saves/" + name + ".xsb");
 		int px = grid.getPlayer().getX();
 		int py = grid.getPlayer().getY();
 		BufferedWriter buff = null;
@@ -79,32 +84,46 @@ public class GridReader {
 	}
 	
 	/**
-	 * Saves a grid and its move list.
-	 * @param grid The grid to save
-	 * @param saveName The name of the save file
-	 * @throws IOException
+	 * 
+	 * @param path
+	 * @param isCampaignLevel
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws InvalidFileException
 	 */
-    public static void saveGridState(Grid grid, String saveName) throws IOException{
-    	grid.getTracker().saveMov("../saves/" + saveName + ".mov");
-        saveGrid(grid, "../saves/"+saveName);
-    }
-	
-    public static Grid loadGame(String path) throws IOException {
+    public static Grid loadGame(String path, boolean isCampaignLevel) throws FileNotFoundException, InvalidFileException {
     	Grid grid = readGrid(path + ".xsb");
-    	grid.getTracker().readMov(path + ".mov");
+    	try {
+        	if (isCampaignLevel) {
+        		String levelName = path.substring(path.lastIndexOf("/"));
+        		String parentPath = path.substring(0, path.lastIndexOf("/"));
+        		applyMovesToGrid(grid, parentPath + "/saved" + levelName + ".mov");
+        	}
+        	else
+        		applyMovesToGrid(grid, path + ".mov");
+    	} catch (FileNotFoundException e) {
+    		
+    	}
     	return grid;
     }
     
-	public static Grid readGrid (String path) throws IOException {
-		if (!path.endsWith(".xsb"))
-			throw new IOException();
+    /**
+     * 
+     * @param path
+     * @return
+     * @throws FileNotFoundException
+     * @throws InvalidFileException
+     */
+	private static Grid readGrid (String path) throws FileNotFoundException, InvalidFileException {
+		File file = new File(path);
+		if (! file.exists())
+			throw new FileNotFoundException();
 		Grid grid = null;
 		BufferedReader buff = null;
 		try {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			String ligne;
-			int height = 1, width;
-			width = buff.readLine().length();
+			int height = 0, width = 0;
 			while ((ligne = buff.readLine())!=null){
 				if (ligne.length() > width)
 					width = ligne.length();
@@ -113,8 +132,12 @@ public class GridReader {
 			grid = new Grid(width, height);
 			buff.close();
 			
+			if (height < 2 || width < 2)
+				throw new InvalidFileException("File represent a too little level.");
+			
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-			Character character;
+			char character;
+			int playersAmount = 0;
 			for (int i = 0; i < height; i++){
 				int j;
 				ligne = buff.readLine();
@@ -138,15 +161,19 @@ public class GridReader {
 					case ('@'):
 						grid.placeComponentAt(j, i, new Ground());
 						grid.setPlayerCoordinates(j, i);
+						playersAmount++;
 						break;
 					case ('+'):
 						grid.placeComponentAt(j, i, new Goal());
 						grid.setPlayerCoordinates(j, i);
+						playersAmount++;
 						break;
 					case ('*'):
 						grid.placeComponentAt(j, i, new Goal());
 						grid.addCrate(j, i);
 						break;
+					default:
+						throw new InvalidFileException("File contain illegal character.");
 					}
 				}
 				while(j < width) {
@@ -154,6 +181,8 @@ public class GridReader {
 					j++;
 				}
 			}
+			if (playersAmount != 1)
+				throw new InvalidFileException("Level must have one player.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -170,16 +199,14 @@ public class GridReader {
 	}
 	
 	/**
-	 * Applies the specified moves to the specified grid, and saves the resulting grid.
-	 * @param gridInputPath The path of the input .xsb file containing the grid
-	 * @param movInputPath The path of the input .mov file containing the moves
-	 * @throws IOException If any of the paths are invalid
+	 * 
+	 * @param grid
+	 * @param path
+	 * @throws FileNotFoundException
+	 * @throws InvalidFileException
 	 */
-	public static void applyMovesToGrid(String gridInputPath, String movInputPath) throws IOException {
-		Grid grid = GridReader.readGrid(gridInputPath);
-		String gridName = gridInputPath.split("[.]")[0];
-		String gridOutputPath = gridName + "_output";
-		grid.getTracker().readMov(movInputPath);
+	private static void applyMovesToGrid(Grid grid, String path) throws FileNotFoundException, InvalidFileException {
+		grid.getTracker().readMov(path);
 		Player player = grid.getPlayer();
 		for (int i = 0; i < grid.getTracker().getMoves().size(); i++) {
 			switch(grid.getTracker().getMoves().get(i)){
@@ -200,11 +227,25 @@ public class GridReader {
 				player.setDirection(Direction.LEFT);
 				break;
 			default :
-				throw new IOException();
+				throw new InvalidFileException("The specified file contain illegal character");
 			}
 			if (player.canMove())
 				player.move(false);
 		}
+	}
+	
+	/**
+	 * Applies the specified moves to the specified grid, and saves the resulting grid.
+	 * @param gridInputPath The path of the input .xsb file containing the grid
+	 * @param movInputPath The path of the input .mov file containing the moves
+	 * @throws IOException If any of the paths are invalid
+	 * @throws InvalidFileException
+	 */
+	public static void applyMovesToGrid(String gridInputPath, String movInputPath) throws IOException, InvalidFileException {
+		Grid grid = GridReader.readGrid(gridInputPath);
+		String gridName = gridInputPath.split("[.]")[0];
+		String gridOutputPath = gridName + "_output";
+		applyMovesToGrid(grid, movInputPath);
 		GridReader.saveGrid(grid, gridOutputPath);
 	}
 	

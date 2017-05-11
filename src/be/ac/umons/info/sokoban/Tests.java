@@ -4,11 +4,22 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * A class used to test other classes in this package.
- * @author Vincent Larcin
+ * A class used to execute all the tests made for the package. 
+ * @author Vincent Larcin, Joachim Sneessens
  */
-public class Tests {
+public final class Tests {
 
+	/**
+	 * Constructor is private to prevent instantiations.
+	 */
+	private Tests() {
+		
+	}
+	
+	/**
+	 * Executes all the tests it can find in the test folder.
+	 * @param args Unused
+	 */
 	public static void main(String[] args) {
 		File folder = new File("tests");
 		File[] fileList = folder.listFiles();
@@ -19,6 +30,8 @@ public class Tests {
 					try {
 						GridReader.applyMovesToGrid(file1.getPath(), file2.getPath());
 					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (InvalidFileException e) {
 						e.printStackTrace();
 					}
 				}
