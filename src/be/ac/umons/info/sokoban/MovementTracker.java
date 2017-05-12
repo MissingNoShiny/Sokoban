@@ -250,10 +250,9 @@ public class MovementTracker {
                 if (!"lurdLURD".contains(Character.toString(moveList.charAt(i))))
                 	throw new InvalidFileException("Specified file contains illegal characters");
 				moves.add(moveList.charAt(i));
-				if (Character.isLowerCase(moveList.charAt(i)))
-					movesCount++;
-				else 
+				if (!Character.isLowerCase(moveList.charAt(i)))
 					pushesCount++;
+				movesCount++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

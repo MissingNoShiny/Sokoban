@@ -83,6 +83,56 @@ public final class GridReader {
 		}
 	}
 	
+	public static boolean isLevelAlreadyWon(String path) {
+		path += ".txt";
+		File file = new File(path);
+		if (! file.exists()) 
+			return false;
+		BufferedReader buff = null;
+		String isDone = null;
+		try {
+			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+			isDone = buff.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (buff !=null) {
+				try {
+					buff.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	 	}
+		if (isDone.equals("true")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static void saveVictory(String path, int moves, int pushes) {
+		File file = new File(path + ".txt");
+		BufferedWriter buff = null;
+		try {
+			buff = new BufferedWriter(new FileWriter(file));
+			buff.write("true");
+			buff.newLine();
+			buff.write(moves);
+			buff.newLine();
+			buff.write(pushes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (buff != null) {
+				try {
+					buff.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param path

@@ -179,6 +179,7 @@ public class Game implements Runnable {
 	 */
 	public void loadMenu() {
 		window.setContentPane(menu);
+		menu.updateCampaignPanel();
 		level = null;
 	}
 	

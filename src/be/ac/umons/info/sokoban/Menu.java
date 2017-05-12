@@ -1,7 +1,6 @@
 package be.ac.umons.info.sokoban;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,11 +22,17 @@ public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
+	private static final int campaignLevelsAmount = 22;
+	
 	private Game game;
 	
 	private JOptionPane IOError = new JOptionPane();
 	
 	private JPanel mainMenuPanel;
+	
+	private CardLayout cd = new CardLayout();
+	
+	private CampaignPanel campaignPanel = new CampaignPanel();
 	
 	private class LocalSlider extends JSlider{
 		private static final long serialVersionUID = -3599885387076371591L;
@@ -46,12 +51,54 @@ public class Menu extends JPanel {
 				
 		}
 	}
-
+	
+	private class CampaignPanel extends JPanel {
+		
+		private static final long serialVersionUID = 1523939439467197461L;
+		
+		private CampaignButton[] campaignButtonsList = new CampaignButton[campaignLevelsAmount];
+		
+		public CampaignPanel() {
+			GridBagLayout campaignLayout = new GridBagLayout();
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.fill = GridBagConstraints.BOTH;
+			setLayout(campaignLayout);
+			setOpaque(false);
+			int levelIndex = 1;
+			File level = new File("levels/level " + levelIndex + ".xsb");
+			while (level.exists()) {
+				gbc.gridx = (levelIndex-1)%5;
+				gbc.gridy = (levelIndex-1)/5;
+				campaignButtonsList[levelIndex-1] = new CampaignButton(levelIndex);
+				add(campaignButtonsList[levelIndex-1], gbc);
+				levelIndex++;
+				level = new File("levels/level " + levelIndex + ".xsb");
+			}
+			
+			Button returnButton = new Button("Return", Options.getButtonColor(), Options.littleFont);
+			returnButton.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cd.previous(getParent());
+				}
+			});
+			
+			gbc.gridx = 4;
+			gbc.gridy = 7;
+			add(returnButton, gbc);
+		}
+		
+		public void update() {
+			for (int i = 1; i < campaignButtonsList.length; i++) 
+				campaignButtonsList[i].setEnabled(GridReader.isLevelAlreadyWon("levels/saved/level "+i));
+		}
+	}
+	
 	private class CampaignButton extends Button {
 		private static final long serialVersionUID = 1259333880542050320L;
 				
-		public CampaignButton(String text, Color color, Font font, int levelIndex) {
-			super(text, color, font);
+		public CampaignButton(int levelIndex) {
+			super("level " + levelIndex, Options.getButtonColor(), Options.littleFont);
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -74,7 +121,6 @@ public class Menu extends JPanel {
 		
 		setBackground(Options.getBackgroundColor());
 		
-		final CardLayout cd = new CardLayout();
 		setLayout(cd);
 		
 		mainMenuPanel = new JPanel();
@@ -90,6 +136,7 @@ public class Menu extends JPanel {
 		campaignButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				campaignPanel.update();
 				cd.next(mainMenuPanel.getParent());
 			}
 		});
@@ -252,36 +299,11 @@ public class Menu extends JPanel {
 		
 		mainMenuPanel.add(exitButton);
 		
-		
-		final JPanel levelListPanel = new JPanel();
-		GridBagLayout levelListLayout = new GridBagLayout();
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-		levelListPanel.setLayout(levelListLayout);
-		levelListPanel.setOpaque(false);
-		int levelIndex = 1;
-		File level = new File("levels/level " + levelIndex + ".xsb");
-		while (level.exists()) {
-			gbc.gridx = (levelIndex-1)%5;
-			gbc.gridy = (levelIndex-1)/5;
-			levelListPanel.add(new CampaignButton("level " + levelIndex, Options.getButtonColor(), Options.littleFont, levelIndex), gbc);
-			levelIndex++;
-			level = new File("levels/level " + levelIndex + ".xsb");
-		}
-		
-		Button returnButton = new Button("Return", Options.getButtonColor(), Options.littleFont);
-		returnButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cd.previous(levelListPanel.getParent());
-			}
-		});
-		
-		gbc.gridx = 4;
-		gbc.gridy = 7;
-		levelListPanel.add(returnButton, gbc);
-		
-		add(levelListPanel);
+		add(campaignPanel);
+	}
+	
+	public void updateCampaignPanel() {
+		campaignPanel.update();
 	}
 	
 	/**

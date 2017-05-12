@@ -193,15 +193,17 @@ public class LevelDisplay extends JPanel {
 	public void displayVictoryScreen() {
 		setEnabledButtons(false);
 		DefaultFrame victoryScreen = new DefaultFrame("Victory !", 500, 300);
-		
-		if (levelIndex > 0 && levelIndex < 25)
+		if (levelIndex > 0 && levelIndex <= 25) {
+			GridReader.saveVictory("levels/saved/level "+levelIndex, grid.getTracker().getMovesCount(), grid.getTracker().getPushesCount());
+		}
+		if (levelIndex > 0 && levelIndex <= 25)
 			victoryScreen.setLayout(new GridLayout(3,1));
 		else
 			victoryScreen.setLayout(new GridLayout(2,1));
 		
-		victoryScreen.add(new DefaultLabel("You win"));
+		victoryScreen.add(new DefaultLabel("You win !"));
 		
-		if (levelIndex > 0 && levelIndex < 25) {
+		if (levelIndex > 0 && levelIndex <= 25) {
 			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), Options.littleFont);
 			nextLevelButton.addActionListener(new ActionListener() {
 				@Override
