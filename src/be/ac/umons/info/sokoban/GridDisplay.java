@@ -31,7 +31,7 @@ public class GridDisplay extends JPanel implements KeyListener{
 
 		private static final long serialVersionUID = 4616710500625962373L;
 		
-		public ArrowButton(Direction dir, String resourcePath) {
+		public ArrowButton(final Direction dir, String resourcePath) {
 			setFocusable(false);
 			setBounds(0, 0, 0, 0);
 			setBorderPainted(false);
