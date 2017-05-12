@@ -1,12 +1,7 @@
 package be.ac.umons.info.sokoban;
 
 import java.awt.Dimension;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -68,7 +63,7 @@ public class Game implements Runnable {
 		
 		Game game = new Game();
 		
-		game.loadOptions();
+		game.options = Options.load();
 		
 		game.menu = new Menu(game);
 		
@@ -133,7 +128,7 @@ public class Game implements Runnable {
 	public synchronized void stop() {
 		if (!running)
 			return;
-		saveOptions();
+		options.save();
 		try {
 			window.dispose();
 			running = false;
@@ -181,40 +176,6 @@ public class Game implements Runnable {
 		window.setContentPane(menu);
 		menu.updateCampaignPanel();
 		level = null;
-	}
-	
-	private void loadOptions() {
-		if (new File("options.ser").exists()) {
-			try {
-				FileInputStream fileIn = new FileInputStream("options.ser");
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				options = (Options) in.readObject();
-				in.close();
-				fileIn.close();
-				options.load();
-				System.out.println("Options loaded");
-			} catch (IOException i) {
-				i.printStackTrace();
-			} catch (ClassNotFoundException c) {
-				System.out.println("Options class not found");
-				c.printStackTrace();
-			}
-		} else 
-			options = new Options();
-	}
-	
-	private void saveOptions() {
-		try {
-			FileOutputStream fileOut = new FileOutputStream("options.ser");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			options.save();
-			out.writeObject(options);
-			out.close();
-			fileOut.close();
-			System.out.println("Options saved");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	/**

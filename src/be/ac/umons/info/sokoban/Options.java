@@ -2,6 +2,12 @@ package be.ac.umons.info.sokoban;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Options implements java.io.Serializable {
 	
@@ -38,13 +44,41 @@ public class Options implements java.io.Serializable {
 		backgroundColorSave = backgroundColor;
 		playerArrowsShownSave = playerArrowsShown;
 		textureDirSave = textureDir;
+		try {
+			FileOutputStream fileOut = new FileOutputStream("options.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this);
+			out.close();
+			fileOut.close();
+			System.out.println("Options saved");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void load() {
-		buttonColor = buttonColorSave;
-		backgroundColor = backgroundColorSave;
-		playerArrowsShown = playerArrowsShownSave;
-		textureDir = textureDirSave;
+	public static Options load() {
+		Options output = new Options();
+		if (new File("options.ser").exists()) {
+			try {
+				FileInputStream fileIn = new FileInputStream("options.ser");
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				output = (Options) in.readObject();
+				in.close();
+				fileIn.close();
+				System.out.println("Options loaded");
+				buttonColor = output.buttonColorSave;
+				backgroundColor = output.backgroundColorSave;
+				playerArrowsShown = output.playerArrowsShownSave;
+				textureDir = output.textureDirSave;
+			} catch (IOException i) {
+				i.printStackTrace();
+			} catch (ClassNotFoundException c) {
+				System.out.println("Options class not found");
+				c.printStackTrace();
+			}
+		}
+		return output;
+
 	}
 
 	public static Color getButtonColor() {

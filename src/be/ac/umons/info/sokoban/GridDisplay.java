@@ -9,11 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,7 +25,7 @@ import javax.swing.JPanel;
  * A class used to display a Grid.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public class GridDisplay extends JPanel implements KeyListener{
+public class GridDisplay extends JPanel {
 	
 
 	private static final long serialVersionUID = -5700571976068104061L;
@@ -43,7 +46,8 @@ public class GridDisplay extends JPanel implements KeyListener{
 					grid.getPlayer().move(dir, true);
 				}
 			});
-			setIcon(new ImageIcon(resourcePath));
+			String path = "resources/" + Options.getTextureDir() + "/";
+			setIcon(new ImageIcon(path + resourcePath));
 		}
 	}
 	/**
@@ -59,7 +63,12 @@ public class GridDisplay extends JPanel implements KeyListener{
 	/**
 	 * The size of each cell of the grid, in pixels.
 	 */
-	private int cellSize = 64;
+	private int cellSize = 256;
+	
+	/**
+	 * A boolean value to keep track of whether the cell size has already been calculated.
+	 */
+	private boolean hasCellSizeBeenCalculated = false;
 	
 	/**
 	 * The thickness of the border around the level, in pixels.
@@ -79,40 +88,136 @@ public class GridDisplay extends JPanel implements KeyListener{
 	/**
 	 * The arrow buttons that allows the user to move the player using a mouse or touch screen.
 	 */
-	ArrowButton buttonLeft, buttonRight, buttonUp, buttonDown;
+	ArrowButton buttonUp, buttonRight, buttonDown, buttonLeft;
 	
-	private LevelDisplay displayLevel;
-	
-	public GridDisplay (Grid grid, LevelDisplay displayLevel) {
-		addKeyListener(this);
+	public GridDisplay (Grid gridInput) {
+		grid = gridInput;
+		
+		addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) { 
+				Options.setPlayerArrowsShown(false);
+				updateArrowButtonsVisibility();
+				int input = e.getKeyCode();
+				switch (input){
+				case KeyEvent.VK_R:
+					grid.getTracker().reset();
+					grid.setPlayerCoordinates(grid.getHeight(), grid.getWidth());
+					break;
+				case KeyEvent.VK_ENTER:
+					System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
+					System.out.println(grid.getPlayer().getDirection());
+					break;
+				case KeyEvent.VK_UP:
+					grid.getPlayer().setDirection(Direction.UP);
+					if (grid.getPlayer().canMove())
+						grid.getPlayer().move();
+					break;
+				case KeyEvent.VK_DOWN :
+					grid.getPlayer().setDirection(Direction.DOWN);
+					if (grid.getPlayer().canMove())
+						grid.getPlayer().move();
+					break;
+				case KeyEvent.VK_RIGHT:
+					grid.getPlayer().setDirection(Direction.RIGHT);
+					if (grid.getPlayer().canMove())
+						grid.getPlayer().move();
+					break;
+				case KeyEvent.VK_LEFT:
+					grid.getPlayer().setDirection(Direction.LEFT);
+					if (grid.getPlayer().canMove())
+						grid.getPlayer().move();
+					break;
+				case KeyEvent.VK_G:
+					Options.setButtonColor(Color.green);
+					break;
+				case KeyEvent.VK_O:
+					Options.setButtonColor(Color.orange);
+					break;
+				case KeyEvent.VK_1:
+					Options.setTextureDir("classic");
+					updateMap();
+					break;
+				case KeyEvent.VK_2:
+					Options.setTextureDir("test");
+					updateMap();
+					break;
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+		});
+		
+		addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				Options.setPlayerArrowsShown(true);
+				updateArrowButtonsVisibility();
+			}
+		});
+		
 		setFocusable(true);
 		setOpaque(true);
 		setLayout(null);
-		this.grid = grid;
-		this.displayLevel = displayLevel;
 
-		add(new ArrowButton(Direction.UP, "resources/arrowUp.png"));
+		buttonUp = new ArrowButton(Direction.UP, "arrowUp.png");
+		add(buttonUp);
+
+		buttonRight = new ArrowButton(Direction.RIGHT, "arrowRight.png");
+		add(buttonRight);
 		
-		add(new ArrowButton(Direction.RIGHT, "resources/arrowRight.png"));
+		buttonDown = new ArrowButton(Direction.DOWN, "arrowDown.png");
+		add(buttonDown);
 		
-		add(new ArrowButton(Direction.DOWN, "resources/arrowDown.png"));
-		
-		add(new ArrowButton(Direction.LEFT, "resources/arrowLeft.png"));
+		buttonLeft = new ArrowButton(Direction.LEFT, "arrowLeft.png");
+		add(buttonLeft);
 		
 		updateMap();
 	}
 	
-	public void paintComponent(Graphics g) {	
-		
-		cellSize = 64;
-		while (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight())
-			cellSize --;
-		x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
-		y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
-		
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		setBackground(Options.getBackgroundColor());
 		
+		if (!hasCellSizeBeenCalculated) {
+			while (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight())
+				cellSize --;
+			x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
+			y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
+			updateArrowButtonsIconSize();
+			hasCellSizeBeenCalculated = true;
+		}
+			
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(borderThickness));
 		g2d.setColor(Color.DARK_GRAY);
@@ -128,13 +233,13 @@ public class GridDisplay extends JPanel implements KeyListener{
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
 		if (grid.getTracker().hasMoved()) {
-			if (Options.arePlayerArrowsShown()) 
-				updateButtons();
+			updateArrowButtonsLocation();
+			updateArrowButtonsVisibility();
 			if (grid.isWon())
-				displayLevel.displayVictoryScreen();
+				((LevelDisplay) getParent()).displayVictoryScreen();
 		}
 	}
-	
+
 	/**
 	 * Adds a sprite for specified component in the sprite map. The specified sprite must exist in the resources directory.
 	 * @param componentName The name of the component to add a sprite for
@@ -161,66 +266,7 @@ public class GridDisplay extends JPanel implements KeyListener{
 		addToMap("PlayerDOWN", path + "playerDown.png");
 		addToMap("PlayerLEFT", path + "playerLeft.png");
 	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) { 
-		int input = e.getKeyCode();
-		switch (input){
-		case KeyEvent.VK_R:
-			grid.getTracker().reset();
-			grid.setPlayerCoordinates(grid.getHeight(), grid.getWidth());
-			break;
-		case KeyEvent.VK_ENTER:
-			System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
-			System.out.println(grid.getPlayer().getDirection());
-			break;
-		case KeyEvent.VK_UP:
-			grid.getPlayer().setDirection(Direction.UP);
-			if (grid.getPlayer().canMove())
-				grid.getPlayer().move();
-			break;
-		case KeyEvent.VK_DOWN :
-			grid.getPlayer().setDirection(Direction.DOWN);
-			if (grid.getPlayer().canMove())
-				grid.getPlayer().move();
-			break;
-		case KeyEvent.VK_RIGHT:
-			grid.getPlayer().setDirection(Direction.RIGHT);
-			if (grid.getPlayer().canMove())
-				grid.getPlayer().move();
-			break;
-		case KeyEvent.VK_LEFT:
-			grid.getPlayer().setDirection(Direction.LEFT);
-			if (grid.getPlayer().canMove())
-				grid.getPlayer().move();
-			break;
-		case KeyEvent.VK_G:
-			Options.setButtonColor(Color.green);
-			break;
-		case KeyEvent.VK_O:
-			Options.setButtonColor(Color.orange);
-			break;
-		case KeyEvent.VK_1:
-			Options.setTextureDir("classic");
-			updateMap();
-			break;
-		case KeyEvent.VK_2:
-			Options.setTextureDir("test");
-			updateMap();
-			break;
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
 		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
-	
 	/**
 	 * Draws a border next to the cell at specified coordinates if that cell is at the border of the playing area.
 	 * Draws a square in the corner of a cell if it contains a blank Component next to a cell at the border of the playing area to allow border continuity.
@@ -263,17 +309,29 @@ public class GridDisplay extends JPanel implements KeyListener{
 	}
 	
 	/**
-	 * Updates the position of the arrow buttons around the player.
+	 * Updates the location of the arrow buttons.
 	 */
-	private void updateButtons() {
+	private void updateArrowButtonsLocation() {
 		buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 		buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 		buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);
 		buttonDown.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()+1)*cellSize, cellSize, cellSize);
-		
-		buttonLeft.setVisible(grid.getPlayer().canMove(Direction.LEFT));
-		buttonRight.setVisible(grid.getPlayer().canMove(Direction.RIGHT));
-		buttonUp.setVisible(grid.getPlayer().canMove(Direction.UP));
-		buttonDown.setVisible(grid.getPlayer().canMove(Direction.DOWN));
+	}
+	
+	/**
+	 * Updates the visibility of the arrow buttons.
+	 */
+	private void updateArrowButtonsVisibility() {
+		buttonLeft.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.LEFT));
+		buttonRight.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.RIGHT));
+		buttonUp.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.UP));
+		buttonDown.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.DOWN));
+	}
+	
+	private void updateArrowButtonsIconSize() {
+		buttonUp.setIcon(new ImageIcon((((ImageIcon) buttonUp.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
+		buttonRight.setIcon(new ImageIcon((((ImageIcon) buttonRight.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
+		buttonDown.setIcon(new ImageIcon((((ImageIcon) buttonDown.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
+		buttonLeft.setIcon(new ImageIcon((((ImageIcon) buttonLeft.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
 	}
 }

@@ -82,7 +82,7 @@ public class LevelDisplay extends JPanel {
 		setVisible(true);
 		setLayout(new BorderLayout());
 		
-		displayGrid = new GridDisplay(grid, this);
+		displayGrid = new GridDisplay(grid);
 		add(displayGrid, BorderLayout.CENTER);
 		
 		buttonsPanel = new JPanel();
