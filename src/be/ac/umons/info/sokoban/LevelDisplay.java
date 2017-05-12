@@ -71,11 +71,11 @@ public class LevelDisplay extends JPanel {
 	}
 	
 	
-	public LevelDisplay(Grid grid, Game game, int levelIndex, String inputName) {
+	public LevelDisplay(Grid gridInput, Game gameInput, final levelIndexInput, String inputName) {
 		
-		this.grid = grid;
-		this.game = game;
-		this.levelIndex = levelIndex;
+		grid = gridInput;
+		game = gameInput;
+		levelIndex = levelIndexInput;
 		
 		setFocusable(true);
 		setOpaque(false);
@@ -192,7 +192,7 @@ public class LevelDisplay extends JPanel {
 	
 	public void displayVictoryScreen() {
 		setEnabledButtons(false);
-		DefaultFrame victoryScreen = new DefaultFrame("Victory !", 500, 300);
+		final DefaultFrame victoryScreen = new DefaultFrame("Victory !", 500, 300);
 		if (levelIndex > 0 && levelIndex <= 25) {
 			GridReader.saveVictory("levels/saved/level "+levelIndex, grid.getTracker().getMovesCount(), grid.getTracker().getPushesCount());
 		}
