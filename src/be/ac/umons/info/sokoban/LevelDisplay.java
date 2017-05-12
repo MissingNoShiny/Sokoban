@@ -71,7 +71,7 @@ public class LevelDisplay extends JPanel {
 	}
 	
 	
-	public LevelDisplay(Grid gridInput, Game gameInput, final levelIndexInput, String inputName) {
+	public LevelDisplay(Grid gridInput, Game gameInput, int levelIndexInput, String inputName) {
 		
 		grid = gridInput;
 		game = gameInput;
