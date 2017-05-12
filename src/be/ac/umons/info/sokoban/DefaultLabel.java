@@ -1,8 +1,6 @@
 package be.ac.umons.info.sokoban;
 
 import java.awt.Color;
-import java.awt.Font;
-
 import javax.swing.JLabel;
 
 public class DefaultLabel extends JLabel {
@@ -14,7 +12,7 @@ public class DefaultLabel extends JLabel {
 		setBackground(color);
 		setOpaque(true);
 		setHorizontalAlignment(JLabel.CENTER);
-		setFont(new Font(Options.getFontName(), 0, Options.getFontSize()));
+		setFont(Options.littleFont);
 	}
 	
 	public DefaultLabel(String string) {

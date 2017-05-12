@@ -27,6 +27,25 @@ public class GridDisplay extends JPanel implements KeyListener{
 
 	private static final long serialVersionUID = -5700571976068104061L;
 	
+	private class ArrowButton extends JButton {
+
+		private static final long serialVersionUID = 4616710500625962373L;
+		
+		public ArrowButton(Direction dir, String resourcePath) {
+			setFocusable(false);
+			setBounds(0, 0, 0, 0);
+			setBorderPainted(false);
+			setFocusPainted(false);
+			setContentAreaFilled(false);
+			addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					grid.getPlayer().setDirection(dir);
+					grid.getPlayer().move(dir, true);
+				}
+			});
+			setIcon(new ImageIcon(resourcePath));
+		}
+	}
 	/**
 	 * The map that contains the sprite associated to each Component.
 	 */
@@ -60,7 +79,7 @@ public class GridDisplay extends JPanel implements KeyListener{
 	/**
 	 * The arrow buttons that allows the user to move the player using a mouse or touch screen.
 	 */
-	JButton buttonLeft, buttonRight, buttonUp, buttonDown;
+	ArrowButton buttonLeft, buttonRight, buttonUp, buttonDown;
 	
 	private LevelDisplay displayLevel;
 	
@@ -72,25 +91,13 @@ public class GridDisplay extends JPanel implements KeyListener{
 		this.grid = grid;
 		this.displayLevel = displayLevel;
 
-		buttonLeft = new JButton();
-		add(buttonLeft);
-		initializeButton(buttonLeft, Direction.LEFT);
-		buttonLeft.setIcon(new ImageIcon("resources/arrowLeft.png"));
+		add(new ArrowButton(Direction.UP, "resources/arrowUp.png"));
 		
-		buttonRight = new JButton();
-		add(buttonRight);
-		initializeButton(buttonRight, Direction.RIGHT);
-		buttonRight.setIcon(new ImageIcon("resources/arrowRight.png"));
+		add(new ArrowButton(Direction.RIGHT, "resources/arrowRight.png"));
 		
-		buttonUp = new JButton();
-		add(buttonUp);
-		initializeButton(buttonUp, Direction.UP);
-		buttonUp.setIcon(new ImageIcon("resources/arrowUp.png"));
+		add(new ArrowButton(Direction.DOWN, "resources/arrowDown.png"));
 		
-		buttonDown = new JButton();
-		add(buttonDown);
-		initializeButton(buttonDown, Direction.DOWN);
-		buttonDown.setIcon(new ImageIcon("resources/arrowDown.png"));
+		add(new ArrowButton(Direction.LEFT, "resources/arrowLeft.png"));
 		
 		updateMap();
 	}
@@ -140,7 +147,6 @@ public class GridDisplay extends JPanel implements KeyListener{
 		} catch (IOException e) {
 		}
 		sprites.put(componentName, sprite);
-	
 	}
 	
 	public void updateMap() {
@@ -213,25 +219,6 @@ public class GridDisplay extends JPanel implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
-	}
-	
-	/**
-	 * Used to avoid repeating code while initializing the arrow buttons around the player.
-	 * @param button The Button to initialize
-	 * @param dir The direction associated with the button
-	 */
-	private void initializeButton(JButton button, final Direction dir) {
-		button.setFocusable(false);
-		button.setBounds(0, 0, 0, 0);
-		button.setBorderPainted(false);
-		button.setFocusPainted(false);
-		button.setContentAreaFilled(false);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				grid.getPlayer().setDirection(dir);
-				grid.getPlayer().move(dir, true);
-			}
-		});
 	}
 	
 	/**

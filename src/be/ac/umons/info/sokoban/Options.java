@@ -1,16 +1,17 @@
 package be.ac.umons.info.sokoban;
 
 import java.awt.Color;
+import java.awt.Font;
 
 public class Options implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 880731819964339511L;
 
-	private static String fontName = "century";
+	public static final String fontName = "century";
 
-	private static int fontSize = 40;
+	public static final Font littleFont  = new Font(fontName, 0, 40);
 	
-	private static int buttonFontSize = 70;
+	public static final Font bigFont = new Font(fontName, 0, 40);
 	
 	private static Color buttonColor = Color.orange;
 	
@@ -19,12 +20,6 @@ public class Options implements java.io.Serializable {
 	private static boolean playerArrowsShown = false;
 	
 	private static String textureDir = "classic";
-	
-	private String fontNameSave;
-	
-	private int fontSizeSave;
-	
-	private int buttonFontSizeSave;
 	
 	private Color buttonColorSave;
 	
@@ -39,9 +34,6 @@ public class Options implements java.io.Serializable {
 	}
 
 	public void save() {
-		fontNameSave = fontName;
-		fontSizeSave = fontSize;
-		buttonFontSizeSave = buttonFontSize;
 		buttonColorSave = buttonColor;
 		backgroundColorSave = backgroundColor;
 		playerArrowsShownSave = playerArrowsShown;
@@ -49,37 +41,10 @@ public class Options implements java.io.Serializable {
 	}
 	
 	public void load() {
-		fontName = fontNameSave;
-		fontSize = fontSizeSave;
-		buttonFontSize = buttonFontSizeSave;
 		buttonColor = buttonColorSave;
 		backgroundColor = backgroundColorSave;
 		playerArrowsShown = playerArrowsShownSave;
 		textureDir = textureDirSave;
-	}
-	
-	public static String getFontName() {
-		return fontName;
-	}
-
-	public static void setFontName(String fontName) {
-		Options.fontName = fontName;
-	}
-
-	public static int getFontSize() {
-		return fontSize;
-	}
-
-	public static void setFontSize(int fontSize) {
-		Options.fontSize = fontSize;
-	}
-
-	public static int getButtonFontSize() {
-		return buttonFontSize;
-	}
-
-	public static void setButtonFontSize(int buttonFontSize) {
-		Options.buttonFontSize = buttonFontSize;
 	}
 
 	public static Color getButtonColor() {

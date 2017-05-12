@@ -2,12 +2,10 @@ package be.ac.umons.info.sokoban;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,8 +18,6 @@ public class LevelDisplay extends JPanel {
 
 	private static final long serialVersionUID = 4992322428530946741L;
 	
-	private static final Font localButtonsFont = new Font (Options.getFontName(), 0, 50);
-	
 	/*
 	 * For the focus
 	 */
@@ -30,6 +26,8 @@ public class LevelDisplay extends JPanel {
 	private JOptionPane IOError = new JOptionPane();
 	
 	private JPanel buttonsPanel;
+	
+	private Grid grid;
 	
 	private Game game;
 	
@@ -45,8 +43,38 @@ public class LevelDisplay extends JPanel {
 	 */
 	private String levelName;
 	
-	public LevelDisplay(final Grid grid, Game game, int levelIndex, String inputName) {
+	private class InfoPanel extends JPanel{
+
+		private static final long serialVersionUID = 6195740163330975520L;		
+		/**
+		 * The JLabel that displays the current moves count.
+		 */
+		private DefaultLabel movesCount;
+			
+		/**
+		 * The JLabel that displays the current pushes count.
+		 */
+		private DefaultLabel pushesCount;
 		
+		public InfoPanel(Grid grid) {
+			setBackground(Options.getBackgroundColor());
+			movesCount = new DefaultLabel("", Options.getBackgroundColor());
+			add(movesCount);
+			pushesCount = new DefaultLabel("", Options.getBackgroundColor());
+			add(pushesCount);
+		}
+		
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			movesCount.setText("Moves: " + grid.getTracker().getMovesCount());
+			pushesCount.setText("Pushes: " + grid.getTracker().getPushesCount());
+		}
+	}
+	
+	
+	public LevelDisplay(Grid grid, Game game, int levelIndex, String inputName) {
+		
+		this.grid = grid;
 		this.game = game;
 		this.levelIndex = levelIndex;
 		
@@ -65,7 +93,7 @@ public class LevelDisplay extends JPanel {
 		
 		add(buttonsPanel, BorderLayout.EAST);
 
-		Button undoButton = new Button("Undo", Options.getButtonColor(), localButtonsFont);
+		Button undoButton = new Button("Undo", Options.getButtonColor(), Options.bigFont);
 		undoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -74,7 +102,7 @@ public class LevelDisplay extends JPanel {
 		});
 		buttonsPanel.add(undoButton);
 		
-		Button resetButton = new Button("Reset", Options.getButtonColor(), localButtonsFont);
+		Button resetButton = new Button("Reset", Options.getButtonColor(), Options.bigFont);
 		resetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +111,7 @@ public class LevelDisplay extends JPanel {
 		});
 		buttonsPanel.add(resetButton);
 		
-		Button MenuButton = new Button("Menu", Options.getButtonColor(), localButtonsFont);
+		Button MenuButton = new Button("Menu", Options.getButtonColor(), Options.bigFont);
 		MenuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -101,6 +129,7 @@ public class LevelDisplay extends JPanel {
 		infoPanel.setOpaque(true);
 		add(infoPanel, BorderLayout.WEST);
 		
+		//If the level is an generate level
 		if (levelIndex == -2) {
 			setEnabledButtons(false);
 			
@@ -116,10 +145,10 @@ public class LevelDisplay extends JPanel {
 			final JTextField saveFrameField = new JTextField();
 			saveFrameField.setBackground(Options.getButtonColor());
 			saveFrameField.setHorizontalAlignment(JTextField.CENTER);
-			saveFrameField.setFont(new Font(Options.getFontName(), 0, Options.getFontSize()));
+			saveFrameField.setFont(Options.littleFont);
 			saveFrame.add(saveFrameField);
 			
-			Button cancelButton = new Button("Cancel", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
+			Button cancelButton = new Button("Cancel", Options.getButtonColor(), Options.littleFont);
 			cancelButton.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -131,7 +160,7 @@ public class LevelDisplay extends JPanel {
 			
 			
 			
-			Button validateButton = new Button("Save", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
+			Button validateButton = new Button("Save", Options.getButtonColor(), Options.littleFont);
 			validateButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -163,30 +192,6 @@ public class LevelDisplay extends JPanel {
 		}
 		else 
 			levelName = inputName;
-
-		addComponentListener(new ComponentListener() {
-
-			@Override
-			public void componentHidden(ComponentEvent arg0) {
-				
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent e) {
-				
-			}
-
-			@Override
-			public void componentResized(ComponentEvent e) {
-				buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
-				infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
-			}
-
-			@Override
-			public void componentShown(ComponentEvent e) {
-				
-			}
-		});
 	}
 	
 	public void displayVictoryScreen() {
@@ -204,7 +209,7 @@ public class LevelDisplay extends JPanel {
 		victoryScreen.add(new DefaultLabel("You win"));
 		
 		if (levelIndex > 0 && levelIndex < 25) {
-			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
+			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), Options.bigFont);
 			nextLevelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -221,7 +226,7 @@ public class LevelDisplay extends JPanel {
 		}
 		
 		
-		Button MenuButton = new Button("Menu", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
+		Button MenuButton = new Button("Menu", Options.getButtonColor(), Options.bigFont);
 		MenuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

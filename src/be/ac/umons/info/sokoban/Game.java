@@ -74,8 +74,7 @@ public class Game implements Runnable {
 		
 		game.window = new JFrame(Game.TITLE);
 		game.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		game.window.setMinimumSize(new Dimension(600, 300));
-		game.window.setResizable(true);
+		game.window.setMinimumSize(new Dimension(game.window.getWidth(), game.window.getHeight()));
 		game.window.setLocationRelativeTo(null);
 		game.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.window.setVisible(true);
