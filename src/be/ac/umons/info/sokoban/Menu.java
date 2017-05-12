@@ -3,6 +3,8 @@ package be.ac.umons.info.sokoban;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,6 +26,8 @@ public class Menu extends JPanel {
 	private Game game;
 	
 	private JOptionPane IOError = new JOptionPane();
+	
+	private JPanel mainMenuPanel;
 	
 	private class LocalSlider extends JSlider{
 		private static final long serialVersionUID = -3599885387076371591L;
@@ -65,9 +68,6 @@ public class Menu extends JPanel {
 		}
 	}
 	
-	
-	private JPanel mainMenuPanel;
-	
 	public Menu(Game game) {
 		
 		this.game = game;
@@ -102,11 +102,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final JFrame generatorFrame = new JFrame();
-		generatorFrame.setTitle("Generator options");
-		generatorFrame.setSize(800, 400);
-		generatorFrame.setLocationRelativeTo(null); 
-		generatorFrame.setResizable(false);
+		final DefaultFrame generatorFrame = new DefaultFrame("Generator options", 800, 400);
 		generatorFrame.setLayout(new GridLayout(4,1));
 		
 		JPanel generatorParameters1 = new JPanel();
@@ -170,11 +166,7 @@ public class Menu extends JPanel {
 		validateGeneratorButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int difficulty = difficultySlider.getValue();
-				int widthLevel = levelWidthSlider.getValue();
-				int heightLevel = levelHeightSlider.getValue();
-				int numberCrates = crateAmountSlider.getValue();
-				game.generateLevel(widthLevel, heightLevel, numberCrates, difficulty);
+				game.generateLevel(levelWidthSlider.getValue(), levelHeightSlider.getValue(), crateAmountSlider.getValue(), difficultySlider.getValue());
 				setEnabledButtons(true);
 				generatorFrame.setVisible(false);
 			}
@@ -201,10 +193,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final JFrame loadFrame = new JFrame("Load a save");
-		loadFrame.setSize(500, 300);
-		loadFrame.setLocationRelativeTo(null); 
-		loadFrame.setResizable(false);
+		final DefaultFrame loadFrame = new DefaultFrame("Load a save", 500, 300);
 		loadFrame.setLayout(new GridLayout(3,1));
 		
 		
@@ -265,11 +254,17 @@ public class Menu extends JPanel {
 		
 		
 		final JPanel levelListPanel = new JPanel();
+		GridBagLayout levelListLayout = new GridBagLayout();
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		levelListPanel.setLayout(levelListLayout);
 		levelListPanel.setOpaque(false);
 		int levelIndex = 1;
 		File level = new File("levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
-			levelListPanel.add(new CampaignButton("level " + levelIndex, Options.getButtonColor(), Options.littleFont, levelIndex));
+			gbc.gridx = (levelIndex-1)%5;
+			gbc.gridy = (levelIndex-1)/5;
+			levelListPanel.add(new CampaignButton("level " + levelIndex, Options.getButtonColor(), Options.littleFont, levelIndex), gbc);
 			levelIndex++;
 			level = new File("levels/level " + levelIndex + ".xsb");
 		}
@@ -282,11 +277,17 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		levelListPanel.add(returnButton);
+		gbc.gridx = 4;
+		gbc.gridy = 7;
+		levelListPanel.add(returnButton, gbc);
 		
 		add(levelListPanel);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private static String[] getSavesList() {
 		File saveDirectory = new File("saves/");
 		File[] saves = saveDirectory.listFiles();

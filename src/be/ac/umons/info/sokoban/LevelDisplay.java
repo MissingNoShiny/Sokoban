@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -133,10 +132,7 @@ public class LevelDisplay extends JPanel {
 		if (levelIndex == -2) {
 			setEnabledButtons(false);
 			
-			final JFrame saveFrame = new JFrame();
-			saveFrame.setSize(600, 300);
-			//saveFrame.setLocationRelativeTo(null); 
-			saveFrame.setResizable(false);
+			final DefaultFrame saveFrame = new DefaultFrame("", 600, 300);
 			saveFrame.setLayout(new GridLayout(5,1));
 			
 			saveFrame.add(new DefaultLabel("Do you want to save this level?"));
@@ -196,10 +192,7 @@ public class LevelDisplay extends JPanel {
 	
 	public void displayVictoryScreen() {
 		setEnabledButtons(false);
-		JFrame victoryScreen = new JFrame();
-		victoryScreen.setSize(500, 300);
-		victoryScreen.setResizable(false);
-		victoryScreen.setLocationRelativeTo(null);
+		DefaultFrame victoryScreen = new DefaultFrame("Victory !", 500, 300);
 		
 		if (levelIndex > 0 && levelIndex < 25)
 			victoryScreen.setLayout(new GridLayout(3,1));
@@ -209,7 +202,7 @@ public class LevelDisplay extends JPanel {
 		victoryScreen.add(new DefaultLabel("You win"));
 		
 		if (levelIndex > 0 && levelIndex < 25) {
-			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), Options.bigFont);
+			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), Options.littleFont);
 			nextLevelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -226,7 +219,7 @@ public class LevelDisplay extends JPanel {
 		}
 		
 		
-		Button MenuButton = new Button("Menu", Options.getButtonColor(), Options.bigFont);
+		Button MenuButton = new Button("Menu", Options.getButtonColor(), Options.littleFont);
 		MenuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -117,7 +117,7 @@ public final class GridReader {
 	private static Grid readGrid (String path) throws FileNotFoundException, InvalidFileException {
 		File file = new File(path);
 		if (! file.exists())
-			throw new FileNotFoundException();
+			throw new FileNotFoundException("File not found");
 		Grid grid = null;
 		BufferedReader buff = null;
 		try {

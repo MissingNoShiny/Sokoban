@@ -11,7 +11,7 @@ public class Options implements java.io.Serializable {
 
 	public static final Font littleFont  = new Font(fontName, 0, 40);
 	
-	public static final Font bigFont = new Font(fontName, 0, 40);
+	public static final Font bigFont = new Font(fontName, 0, 70);
 	
 	private static Color buttonColor = Color.orange;
 	
