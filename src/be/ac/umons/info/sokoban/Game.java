@@ -37,7 +37,7 @@ public class Game implements Runnable {
 	/**
 	 * The menu of the game.
 	 */
-	private Menu menu = new Menu(this);
+	private Menu menu;
 	
 	/**
 	 * The separate thread the game loop will run in.
@@ -67,7 +67,10 @@ public class Game implements Runnable {
 		Locale.setDefault(Locale.ENGLISH);
 		
 		Game game = new Game();
-		game.start();
+		
+		game.loadOptions();
+		
+		game.menu = new Menu(game);
 		
 		game.window = new JFrame(Game.TITLE);
 		game.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -77,6 +80,8 @@ public class Game implements Runnable {
 		game.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.window.setVisible(true);
 		game.loadMenu();
+		
+		game.start();
 			
 	}
 	
@@ -118,7 +123,6 @@ public class Game implements Runnable {
 	public synchronized void start() {
 		if (running)
 			return;
-		loadOptions();
 		thread = new Thread(this);
 		thread.start();
 		running = true;

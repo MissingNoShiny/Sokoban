@@ -18,6 +18,8 @@ public class Options implements java.io.Serializable {
 
 	private static boolean playerArrowsShown = false;
 	
+	private static String textureDir = "classic";
+	
 	private String fontNameSave;
 	
 	private int fontSizeSave;
@@ -30,6 +32,8 @@ public class Options implements java.io.Serializable {
 	
 	private boolean playerArrowsShownSave;
 	
+	private String textureDirSave;
+	
 	public Options() {
 
 	}
@@ -41,6 +45,7 @@ public class Options implements java.io.Serializable {
 		buttonColorSave = buttonColor;
 		backgroundColorSave = backgroundColor;
 		playerArrowsShownSave = playerArrowsShown;
+		textureDirSave = textureDir;
 	}
 	
 	public void load() {
@@ -50,6 +55,7 @@ public class Options implements java.io.Serializable {
 		buttonColor = buttonColorSave;
 		backgroundColor = backgroundColorSave;
 		playerArrowsShown = playerArrowsShownSave;
+		textureDir = textureDirSave;
 	}
 	
 	public static String getFontName() {
@@ -98,5 +104,13 @@ public class Options implements java.io.Serializable {
 
 	public static void setPlayerArrowsShown(boolean playerArrowsShown) {
 		Options.playerArrowsShown = playerArrowsShown;
+	}
+
+	public static String getTextureDir() {
+		return textureDir;
+	}
+
+	public static void setTextureDir(String textureDir) {
+		Options.textureDir = textureDir;
 	}
 }

@@ -92,15 +92,7 @@ public class GridDisplay extends JPanel implements KeyListener{
 		initializeButton(buttonDown, Direction.DOWN);
 		buttonDown.setIcon(new ImageIcon("resources/arrowDown.png"));
 		
-		addToMap("Ground", "resources/ground.png");
-		addToMap("Crate", "resources/crate.png");
-		addToMap("Wall", "resources/wall.png");
-		addToMap("Goal", "resources/goal.png");
-		addToMap("CrateOnGoal", "resources/crateOnGoal.png");
-		addToMap("PlayerUP", "resources/playerUp.png");
-		addToMap("PlayerRIGHT", "resources/playerRight.png");
-		addToMap("PlayerDOWN", "resources/playerDown.png");
-		addToMap("PlayerLEFT", "resources/playerLeft.png");
+		updateMap();
 	}
 	
 	public void paintComponent(Graphics g) {	
@@ -151,6 +143,19 @@ public class GridDisplay extends JPanel implements KeyListener{
 	
 	}
 	
+	public void updateMap() {
+		String path = "resources/" + Options.getTextureDir() + "/";
+		addToMap("Ground", path + "ground.png");
+		addToMap("Crate", path + "crate.png");
+		addToMap("Wall", path + "wall.png");
+		addToMap("Goal", path + "goal.png");
+		addToMap("CrateOnGoal", path + "crateOnGoal.png");
+		addToMap("PlayerUP", path + "playerUp.png");
+		addToMap("PlayerRIGHT", path + "playerRight.png");
+		addToMap("PlayerDOWN", path + "playerDown.png");
+		addToMap("PlayerLEFT", path + "playerLeft.png");
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) { 
 		int input = e.getKeyCode();
@@ -188,6 +193,14 @@ public class GridDisplay extends JPanel implements KeyListener{
 			break;
 		case KeyEvent.VK_O:
 			Options.setButtonColor(Color.orange);
+			break;
+		case KeyEvent.VK_1:
+			Options.setTextureDir("classic");
+			updateMap();
+			break;
+		case KeyEvent.VK_2:
+			Options.setTextureDir("test");
+			updateMap();
 			break;
 		}
 	}
