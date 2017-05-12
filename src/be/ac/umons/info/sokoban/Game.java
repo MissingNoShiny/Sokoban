@@ -65,9 +65,9 @@ public class Game implements Runnable {
 	public static void main(String[] args) {
 		
 		Locale.setDefault(Locale.ENGLISH);
-		game.start();
-		Game game = new Game();
 		
+		Game game = new Game();
+		game.start();
 		
 		game.window = new JFrame(Game.TITLE);
 		game.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
