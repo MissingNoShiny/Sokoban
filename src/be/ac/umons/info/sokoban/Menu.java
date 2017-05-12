@@ -115,9 +115,9 @@ public class Menu extends JPanel {
 		}
 	}
 	
-	public Menu(Game game) {
+	public Menu(Game gameInput) {
 		
-		this.game = game;
+		this.game = gameInput;
 		
 		setBackground(Options.getBackgroundColor());
 		
