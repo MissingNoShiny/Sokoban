@@ -71,3 +71,5 @@ bin
 *.metadata
 *doc
 *_output.xsb
+levels/saved/*
+*.ser

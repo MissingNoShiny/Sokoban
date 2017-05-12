@@ -20,7 +20,7 @@ public class LevelDisplay extends JPanel {
 
 	private static final long serialVersionUID = 4992322428530946741L;
 	
-	private static final Font localButtonsFont = new Font (Options.fontName, 0, 50);
+	private static final Font localButtonsFont = new Font (Options.getFontName(), 0, 50);
 	
 	/*
 	 * For the focus
@@ -59,13 +59,13 @@ public class LevelDisplay extends JPanel {
 		add(displayGrid, BorderLayout.CENTER);
 		
 		buttonsPanel = new JPanel();
-		buttonsPanel.setBackground(Options.backGroundColor);
+		buttonsPanel.setBackground(Options.getBackgroundColor());
 		buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 		buttonsPanel.setLayout(new GridLayout(3, 1, 3, 3));
 		
 		add(buttonsPanel, BorderLayout.EAST);
 
-		Button undoButton = new Button("Undo", Options.buttonsColor, localButtonsFont);
+		Button undoButton = new Button("Undo", Options.getButtonColor(), localButtonsFont);
 		undoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -74,7 +74,7 @@ public class LevelDisplay extends JPanel {
 		});
 		buttonsPanel.add(undoButton);
 		
-		Button resetButton = new Button("Reset", Options.buttonsColor, localButtonsFont);
+		Button resetButton = new Button("Reset", Options.getButtonColor(), localButtonsFont);
 		resetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +83,7 @@ public class LevelDisplay extends JPanel {
 		});
 		buttonsPanel.add(resetButton);
 		
-		Button MenuButton = new Button("Menu", Options.buttonsColor, localButtonsFont);
+		Button MenuButton = new Button("Menu", Options.getButtonColor(), localButtonsFont);
 		MenuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -114,12 +114,12 @@ public class LevelDisplay extends JPanel {
 			saveFrame.add(new DefaultLabel("Save name:"));
 			
 			final JTextField saveFrameField = new JTextField();
-			saveFrameField.setBackground(Options.buttonsColor);
+			saveFrameField.setBackground(Options.getButtonColor());
 			saveFrameField.setHorizontalAlignment(JTextField.CENTER);
-			saveFrameField.setFont(Options.defaultFont);
+			saveFrameField.setFont(new Font(Options.getFontName(), 0, Options.getFontSize()));
 			saveFrame.add(saveFrameField);
 			
-			Button cancelButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
+			Button cancelButton = new Button("Cancel", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 			cancelButton.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -131,7 +131,7 @@ public class LevelDisplay extends JPanel {
 			
 			
 			
-			Button validateButton = new Button("Save", Options.buttonsColor, Options.defaultFont);
+			Button validateButton = new Button("Save", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 			validateButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -204,7 +204,7 @@ public class LevelDisplay extends JPanel {
 		victoryScreen.add(new DefaultLabel("You win"));
 		
 		if (levelIndex > 0 && levelIndex < 25) {
-			Button nextLevelButton = new Button("Next level", Options.buttonsColor, Options.defaultFont);
+			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 			nextLevelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -221,7 +221,7 @@ public class LevelDisplay extends JPanel {
 		}
 		
 		
-		Button MenuButton = new Button("Menu", Options.buttonsColor, Options.defaultFont);
+		Button MenuButton = new Button("Menu", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		MenuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

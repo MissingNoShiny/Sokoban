@@ -112,7 +112,7 @@ public class GridDisplay extends JPanel implements KeyListener{
 		y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
 		
 		super.paintComponent(g);
-		setBackground(Options.backGroundColor);
+		setBackground(Options.getBackgroundColor());
 		
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(borderThickness));
@@ -129,7 +129,7 @@ public class GridDisplay extends JPanel implements KeyListener{
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
 		if (grid.getTracker().hasMoved()) {
-			if (Options.SHOW_PLAYER_ARROWS) 
+			if (Options.arePlayerArrowsShown()) 
 				updateButtons();
 			if (grid.isWon())
 				displayLevel.displayVictoryScreen();
@@ -182,6 +182,12 @@ public class GridDisplay extends JPanel implements KeyListener{
 			grid.getPlayer().setDirection(Direction.LEFT);
 			if (grid.getPlayer().canMove())
 				grid.getPlayer().move();
+			break;
+		case KeyEvent.VK_G:
+			Options.setButtonColor(Color.green);
+			break;
+		case KeyEvent.VK_O:
+			Options.setButtonColor(Color.orange);
 			break;
 		}
 	}

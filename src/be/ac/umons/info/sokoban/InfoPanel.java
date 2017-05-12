@@ -27,10 +27,10 @@ public class InfoPanel extends JPanel{
 	
 	public InfoPanel(Grid grid) {
 		this.grid = grid;
-		setBackground(Options.backGroundColor);
-		movesCount = new DefaultLabel("", Options.backGroundColor);
+		setBackground(Options.getBackgroundColor());
+		movesCount = new DefaultLabel("", Options.getBackgroundColor());
 		add(movesCount);
-		pushesCount = new DefaultLabel("", Options.backGroundColor);
+		pushesCount = new DefaultLabel("", Options.getBackgroundColor());
 		add(pushesCount);
 	}
 	

@@ -35,8 +35,8 @@ public class Menu extends JPanel {
 			setMinorTickSpacing(1);
 			setPaintTicks(true);
 			setPaintLabels(true);
-			setBackground(Options.buttonsColor);
-			setFont(new Font(Options.fontName, 0 , 20));
+			setBackground(Options.getButtonColor());
+			setFont(new Font(Options.getFontName(), 0 , 20));
 		}
 
 		public void adaptBounds(int value, int value2) {
@@ -72,7 +72,7 @@ public class Menu extends JPanel {
 		
 		this.game = game;
 		
-		setBackground(Options.backGroundColor);
+		setBackground(Options.getBackgroundColor());
 		
 		final CardLayout cd = new CardLayout();
 		setLayout(cd);
@@ -83,10 +83,10 @@ public class Menu extends JPanel {
 		add(mainMenuPanel);
 		
 		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
-		title.setFont(new Font(Options.fontName, 0, 100));
+		title.setFont(new Font(Options.getFontName(), 0, 100));
 		mainMenuPanel.add(title);
 		
-		Button campaignButton = new Button("Campain", Options.buttonsColor, Options.menuButtonsFont);
+		Button campaignButton = new Button("Campaign", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		campaignButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -94,7 +94,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button exitButton = new Button("Exit", Options.buttonsColor, Options.menuButtonsFont);
+		Button exitButton = new Button("Exit", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		exitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +167,7 @@ public class Menu extends JPanel {
 		});
 		
 		
-		Button validateGeneratorButton = new Button("Generate", Options.buttonsColor, Options.defaultFont);
+		Button validateGeneratorButton = new Button("Generate", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		validateGeneratorButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -181,7 +181,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button cancelGeneratorButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
+		Button cancelGeneratorButton = new Button("Cancel", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		cancelGeneratorButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -193,7 +193,7 @@ public class Menu extends JPanel {
 		generatorFrame.add(validateGeneratorButton);
 		generatorFrame.add(cancelGeneratorButton);
 		
-		Button generateLevelButton = new Button("Generate level", Options.buttonsColor, Options.menuButtonsFont);
+		Button generateLevelButton = new Button("Generate level", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		generateLevelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -210,13 +210,13 @@ public class Menu extends JPanel {
 		
 		
 		final JComboBox<String> saveChoice = new JComboBox<String>();
-		saveChoice.setFont(Options.defaultFont);
-		saveChoice.setBackground(Options.buttonsColor);
+		saveChoice.setFont(new Font(Options.getFontName(), 0, Options.getFontSize()));
+		saveChoice.setBackground(Options.getButtonColor());
 		saveChoice.setFocusable(false);
 		saveChoice.setEditable(false);
 		loadFrame.add(saveChoice);
 		
-		final Button validateLoadingButton = new Button("Load", Options.buttonsColor, Options.defaultFont);
+		final Button validateLoadingButton = new Button("Load", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		validateLoadingButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -231,7 +231,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final Button cancelLoadingButton = new Button("Cancel", Options.buttonsColor, Options.defaultFont);
+		final Button cancelLoadingButton = new Button("Cancel", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		cancelLoadingButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -240,7 +240,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button loadButton = new Button("Load a game", Options.buttonsColor, Options.menuButtonsFont);
+		Button loadButton = new Button("Load a game", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getButtonFontSize()));
 		loadButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -270,12 +270,12 @@ public class Menu extends JPanel {
 		int levelIndex = 1;
 		File level = new File("levels/level " + levelIndex + ".xsb");
 		while (level.exists()) {
-			levelListPanel.add(new CampaignButton("level " + levelIndex, Options.buttonsColor, Options.defaultFont, levelIndex));
+			levelListPanel.add(new CampaignButton("level " + levelIndex, Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getFontSize()), levelIndex));
 			levelIndex++;
 			level = new File("levels/level " + levelIndex + ".xsb");
 		}
 		
-		Button returnButton = new Button("Return", Options.buttonsColor, Options.defaultFont);
+		Button returnButton = new Button("Return", Options.getButtonColor(), new Font(Options.getFontName(), 0, Options.getFontSize()));
 		returnButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {

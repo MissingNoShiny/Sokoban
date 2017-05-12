@@ -1,7 +1,12 @@
 package be.ac.umons.info.sokoban;
 
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -49,6 +54,8 @@ public class Game implements Runnable {
 	 */
 	private LevelDisplay level;
 	
+	private Options options;
+	
 	/**
 	 * The amount of rendered frame in the last second.
 	 */
@@ -58,7 +65,7 @@ public class Game implements Runnable {
 	public static void main(String[] args) {
 		
 		Locale.setDefault(Locale.ENGLISH);
-		
+		game.start();
 		Game game = new Game();
 		
 		
@@ -70,8 +77,6 @@ public class Game implements Runnable {
 		game.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.window.setVisible(true);
 		game.loadMenu();
-		
-		game.start();
 			
 	}
 	
@@ -113,6 +118,7 @@ public class Game implements Runnable {
 	public synchronized void start() {
 		if (running)
 			return;
+		loadOptions();
 		thread = new Thread(this);
 		thread.start();
 		running = true;
@@ -124,6 +130,7 @@ public class Game implements Runnable {
 	public synchronized void stop() {
 		if (!running)
 			return;
+		saveOptions();
 		try {
 			window.dispose();
 			running = false;
@@ -170,6 +177,40 @@ public class Game implements Runnable {
 	public void loadMenu() {
 		window.setContentPane(menu);
 		level = null;
+	}
+	
+	private void loadOptions() {
+		if (new File("options.ser").exists()) {
+			try {
+				FileInputStream fileIn = new FileInputStream("options.ser");
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				options = (Options) in.readObject();
+				in.close();
+				fileIn.close();
+				options.load();
+				System.out.println("Options loaded");
+			} catch (IOException i) {
+				i.printStackTrace();
+			} catch (ClassNotFoundException c) {
+				System.out.println("Options class not found");
+				c.printStackTrace();
+			}
+		} else 
+			options = new Options();
+	}
+	
+	private void saveOptions() {
+		try {
+			FileOutputStream fileOut = new FileOutputStream("options.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			options.save();
+			out.writeObject(options);
+			out.close();
+			fileOut.close();
+			System.out.println("Options saved");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

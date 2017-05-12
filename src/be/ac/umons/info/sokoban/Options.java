@@ -1,27 +1,102 @@
 package be.ac.umons.info.sokoban;
 
 import java.awt.Color;
-import java.awt.Font;
 
-public class Options {
+public class Options implements java.io.Serializable {
 	
-	public static final String fontName = "century";
-	
-	public static final Font defaultFont = new Font(fontName, 0, 40);
-	
-	public static final Font menuButtonsFont = new Font(fontName, 0, 70);
-	
-	public static Color buttonsColor = Color.orange;
-	
-	public static Color backGroundColor = new Color(135, 206, 250);
+	private static final long serialVersionUID = 880731819964339511L;
 
-	public static boolean SHOW_PLAYER_ARROWS = false;
+	private static String fontName = "century";
+
+	private static int fontSize = 40;
 	
-	/**
-	 * Pour le moment je rends l'instanciation impossible. A l'avenir c'est lors de l'instanciation que l'on chargera 
-	 * les parametres precedents.
-	 */
-	private Options() {
-		
+	private static int buttonFontSize = 70;
+	
+	private static Color buttonColor = Color.orange;
+	
+	private static Color backgroundColor = new Color(135, 206, 250);
+
+	private static boolean playerArrowsShown = false;
+	
+	private String fontNameSave;
+	
+	private int fontSizeSave;
+	
+	private int buttonFontSizeSave;
+	
+	private Color buttonColorSave;
+	
+	private Color backgroundColorSave;
+	
+	private boolean playerArrowsShownSave;
+	
+	public Options() {
+
+	}
+
+	public void save() {
+		fontNameSave = fontName;
+		fontSizeSave = fontSize;
+		buttonFontSizeSave = buttonFontSize;
+		buttonColorSave = buttonColor;
+		backgroundColorSave = backgroundColor;
+		playerArrowsShownSave = playerArrowsShown;
+	}
+	
+	public void load() {
+		fontName = fontNameSave;
+		fontSize = fontSizeSave;
+		buttonFontSize = buttonFontSizeSave;
+		buttonColor = buttonColorSave;
+		backgroundColor = backgroundColorSave;
+		playerArrowsShown = playerArrowsShownSave;
+	}
+	
+	public static String getFontName() {
+		return fontName;
+	}
+
+	public static void setFontName(String fontName) {
+		Options.fontName = fontName;
+	}
+
+	public static int getFontSize() {
+		return fontSize;
+	}
+
+	public static void setFontSize(int fontSize) {
+		Options.fontSize = fontSize;
+	}
+
+	public static int getButtonFontSize() {
+		return buttonFontSize;
+	}
+
+	public static void setButtonFontSize(int buttonFontSize) {
+		Options.buttonFontSize = buttonFontSize;
+	}
+
+	public static Color getButtonColor() {
+		return buttonColor;
+	}
+
+	public static void setButtonColor(Color buttonColor) {
+		Options.buttonColor = buttonColor;
+	}
+
+	public static Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public static void setBackgroundColor(Color backgroundColor) {
+		Options.backgroundColor = backgroundColor;
+	}
+
+	public static boolean arePlayerArrowsShown() {
+		return playerArrowsShown;
+	}
+
+	public static void setPlayerArrowsShown(boolean playerArrowsShown) {
+		Options.playerArrowsShown = playerArrowsShown;
 	}
 }
