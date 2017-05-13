@@ -1,6 +1,6 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
-public interface Component {
+interface Component {
 
 	/**
 	 * Gets the name of the class.

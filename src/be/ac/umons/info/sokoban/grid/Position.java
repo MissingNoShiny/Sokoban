@@ -1,10 +1,10 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 /**
  * A Component that has dynamic coordinates, which therefore need to be tracked.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public abstract class Position extends Point implements Component {
+abstract class Position extends Point implements Component {
 	
 	/**
 	 * The Grid object which contains the position.
@@ -16,7 +16,7 @@ public abstract class Position extends Point implements Component {
 	 * @param inputX The X-coordinate of the object
 	 * @param inputY The Y-coordinate of the object
 	 */
-	public Position(Grid grid, int xInput, int yInput) {
+	Position(Grid grid, int xInput, int yInput) {
 		super(xInput, yInput);
 		this.grid = grid;
 	}

@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.GUI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -19,6 +19,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import be.ac.umons.info.sokoban.grid.Direction;
+import be.ac.umons.info.sokoban.grid.Grid;
 
 /**
  * A class used to display a Grid.
@@ -102,7 +105,6 @@ public class GridDisplay extends JPanel {
 				switch (input){
 				case KeyEvent.VK_R:
 					grid.getTracker().reset();
-					grid.setPlayerCoordinates(grid.getHeight(), grid.getWidth());
 					break;
 				case KeyEvent.VK_ENTER:
 					System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
@@ -223,7 +225,7 @@ public class GridDisplay extends JPanel {
 		
 		for (int i = 0; i < grid.getWidth(); i++){
 			for (int j = 0; j < grid.getHeight(); j++) {
-				g.drawImage(sprites.get(grid.getComponentAt(i, j).getName()), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
+				g.drawImage(sprites.get(grid.getComponentTypeAt(i, j)), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
 				if (borderThickness > 0)
 					drawBorder(i, j, g2d);
@@ -274,7 +276,7 @@ public class GridDisplay extends JPanel {
 	 * @param g2d The Graphics2D object to draw the border with
 	 */
 	public void drawBorder(int x, int y, Graphics2D g2d) {
-		if (!grid.getComponentAt(x, y).getName().equals("Blank")) {
+		if (!grid.getComponentTypeAt(x, y).equals("Blank")) {
 			if (x == 0)
 				g2d.drawLine(x0 + x*cellSize - borderThickness/2, y0 + y*cellSize - borderThickness/2, x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2);
 			if (x == grid.getWidth() - 1)
@@ -284,24 +286,24 @@ public class GridDisplay extends JPanel {
 			if (y == grid.getHeight() - 1)
 				g2d.drawLine(x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2, x0 + (x+1)*cellSize + borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2);
 		} else {
-			if (x > 0 && !grid.getComponentAt(x - 1, y).getName().equals("Blank")) {
+			if (x > 0 && !grid.getComponentTypeAt(x - 1, y).equals("Blank")) {
 				g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + x*cellSize + borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
-				if (y > 0 && grid.getComponentAt(x, y - 1).getName().equals("Blank"))
+				if (y > 0 && grid.getComponentTypeAt(x, y - 1).equals("Blank"))
 					g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + y*cellSize - borderThickness/2, x0 + x*cellSize + borderThickness/2, y0 + y*cellSize - borderThickness/2);
 			}
-			if (x + 1 < grid.getWidth() && !grid.getComponentAt(x + 1, y).getName().equals("Blank")) {
+			if (x + 1 < grid.getWidth() && !grid.getComponentTypeAt(x + 1, y).equals("Blank")) {
 				g2d.drawLine(x0 + (x+1)*cellSize - borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
-				if (y + 1 < grid.getHeight() && grid.getComponentAt(x, y + 1).getName().equals("Blank"))
+				if (y + 1 < grid.getHeight() && grid.getComponentTypeAt(x, y + 1).equals("Blank"))
 					g2d.drawLine(x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize + borderThickness/2);
 			}
-			if (y > 0 && !grid.getComponentAt(x, y - 1).getName().equals("Blank")) {
+			if (y > 0 && !grid.getComponentTypeAt(x, y - 1).equals("Blank")) {
 				g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + y*cellSize + borderThickness/2);
-				if (x + 1 < grid.getWidth() && grid.getComponentAt(x + 1, y).getName().equals("Blank"))
+				if (x + 1 < grid.getWidth() && grid.getComponentTypeAt(x + 1, y).equals("Blank"))
 					g2d.drawLine(x0 + (x+1)*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2, x0 + (x+1)*cellSize + borderThickness/2, y0 + y*cellSize + borderThickness/2);
 			}
-			if (y + 1 < grid.getHeight() && !grid.getComponentAt(x, y + 1).getName().equals("Blank")) {
+			if (y + 1 < grid.getHeight() && !grid.getComponentTypeAt(x, y + 1).equals("Blank")) {
 				g2d.drawLine(x0 + x*cellSize + borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2, x0 + (x+1)*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
-				if (x > 0 && grid.getComponentAt(x - 1, y).getName().equals("Blank"))
+				if (x > 0 && grid.getComponentTypeAt(x - 1, y).equals("Blank"))
 					g2d.drawLine(x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2, x0 + x*cellSize - borderThickness/2, y0 + (y+1)*cellSize - borderThickness/2);
 			}
 		}

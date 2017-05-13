@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class Grid {
 	 * @param width The width of the matrix
 	 * @param height The height of the matrix
 	 */
-	public Grid(int width, int height) {
+	Grid(int width, int height) {
 		this.width = width;
 		this.height = height;
 		matrix = new Component[width][height];
@@ -75,10 +75,14 @@ public class Grid {
 	 * @return The Component contained in specified cell
 	 * @throws IllegalArgumentException
 	 */
-	public Component getComponentAt(int x, int y) throws IllegalArgumentException {
+	Component getComponentAt(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height)
 			throw new IllegalArgumentException();
 		return matrix[x][y];
+	}
+	
+	public String getComponentTypeAt(int x, int y) {
+		return getComponentAt(x, y).getName();
 	}
 	
 	/**
@@ -88,7 +92,7 @@ public class Grid {
 	 * @param comp  The Component to set at the specified cell
 	 * @throws IllegalArgumentException
 	 */
-	public void placeComponentAt(int x, int y, Component comp) throws IllegalArgumentException {
+	void placeComponentAt(int x, int y, Component comp) throws IllegalArgumentException {
 		if (x < 0 || x >= width || y < 0 || y >= height)
 			throw new IllegalArgumentException();
 		matrix[x][y] = comp;
@@ -113,7 +117,7 @@ public class Grid {
 	 * @param x The new X-coordinate of the player
 	 * @param y The new Y-coordinate of the player
 	 */
-	public void setPlayerCoordinates(int x, int y) {
+	void setPlayerCoordinates(int x, int y) {
 		player.setNewCoordinates(x, y);
 	}
 	
@@ -130,7 +134,7 @@ public class Grid {
 	 * @param x The x-coordinate of the crate
 	 * @param y The y-coordinate of the crate
 	 */
-	public void addCrate(int x, int y) {
+	void addCrate(int x, int y) {
 		crateList.add(new Crate(this, x, y));
 	}
 	
@@ -150,11 +154,10 @@ public class Grid {
 	 * @param y The y-coordinate of the cell to check
 	 * @return true if the coordinates are inside the grid and the Component is a Crate, false else
 	 */
-	public boolean hasCrateAt (int x, int y) {
-		if (x >= width || y >=height)
-			return false;
-		String nameComponent = getComponentAt(x, y).getName();
-		return (nameComponent == "Crate" || nameComponent == "CrateOnGoal");
+	boolean hasCrateAt (int x, int y) {
+		if (x < 0 || x >= width || y < 0 || y >=height)
+			throw new IllegalArgumentException();
+		return (getComponentTypeAt(x, y).equals("Crate") || getComponentTypeAt(x, y).equals("CrateOnGoal"));
 	}
 	
 	/**
@@ -163,7 +166,7 @@ public class Grid {
 	 * @param y The y-coordinate of the crate
 	 * @return The crate at specified coordinates
 	 */
-	public Crate getCrateAt(int x, int y) {
+	Crate getCrateAt(int x, int y) {
 		return (Crate) getComponentAt(x, y);
 	}
 	
@@ -171,7 +174,7 @@ public class Grid {
 	 * Gets the list of crate Components contained in the matrix.
 	 * @return the list of crate Components contained in the matrix
 	 */
-	public ArrayList<Crate> getCrateList() {
+	ArrayList<Crate> getCrateList() {
 		return crateList;
 	}
 	
@@ -187,7 +190,7 @@ public class Grid {
 	 * Fills the grid with an instance of a chosen Component.
 	 * @param component The component to fill the grid with an instance of
 	 */
-	public void fill(Component component) {
+	void fill(Component component) {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++)
 				matrix[i][j] = component;

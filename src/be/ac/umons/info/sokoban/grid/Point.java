@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 /**
  * A substitute to awt's Point using ints instead of doubles.

@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.GUI;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -27,8 +27,6 @@ public class Options implements Serializable {
 	private static boolean playerArrowsShown = false;
 	
 	private static String textureDir = "classic";
-	
-	private String fontNameSave;
 	
 	private Color buttonColorSave;
 	
@@ -92,14 +90,6 @@ public class Options implements Serializable {
 		}
 		return output;
 
-	}
-
-	public String getFontNameSave() {
-		return fontNameSave;
-	}
-
-	public void setFontNameSave(String fontNameSave) {
-		this.fontNameSave = fontNameSave;
 	}
 	
 	public static Color getButtonColor() {

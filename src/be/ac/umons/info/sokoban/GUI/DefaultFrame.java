@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.GUI;
 
 import javax.swing.JFrame;
 

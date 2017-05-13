@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.GUI;
 
 import java.awt.CardLayout;
 import java.awt.Font;
@@ -18,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import be.ac.umons.info.sokoban.grid.GridReader;
+import be.ac.umons.info.sokoban.grid.InvalidFileException;
 
 public class Menu extends JPanel {
 

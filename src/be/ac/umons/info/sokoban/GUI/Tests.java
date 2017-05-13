@@ -1,7 +1,10 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.GUI;
 
 import java.io.File;
 import java.io.IOException;
+
+import be.ac.umons.info.sokoban.grid.GridReader;
+import be.ac.umons.info.sokoban.grid.InvalidFileException;
 
 /**
  * A class used to execute all the tests made for the package. 

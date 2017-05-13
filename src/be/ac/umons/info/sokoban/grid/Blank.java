@@ -1,19 +1,18 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 /**
- * A Component used to represent a wall.
+ * A placeholder Component to represent empty spaces.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public class Wall implements Component {
+class Blank implements Component {
 
 	@Override
 	public String getName() {
-		return "Wall";
+		return "Blank";
 	}
 
 	@Override
 	public boolean canBePassedThrough() {
 		return false;
 	}
-
 }

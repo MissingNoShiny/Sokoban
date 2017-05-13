@@ -1,10 +1,15 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.GUI;
 
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Locale;
 
 import javax.swing.JFrame;
+
+import be.ac.umons.info.sokoban.grid.Grid;
+import be.ac.umons.info.sokoban.grid.GridGenerator;
+import be.ac.umons.info.sokoban.grid.GridReader;
+import be.ac.umons.info.sokoban.grid.InvalidFileException;
 
 
 public class Game implements Runnable {

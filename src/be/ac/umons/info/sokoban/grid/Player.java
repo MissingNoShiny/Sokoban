@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 /**
  * A class used to manage the player.
@@ -8,7 +8,7 @@ public class Player extends Position {
 	
 	private Direction direction;
 	
-	public Player(Grid grid, int x, int y) {
+	Player(Grid grid, int x, int y) {
 		super(grid, x, y);
 		direction = Direction.DOWN;
 	}
@@ -25,7 +25,7 @@ public class Player extends Position {
 	 * Sets the X-coordinate of the object to a new value.
 	 * @param inputX The new X-coordinate
 	 */
-	public void setNewCoordinates(int inputX, int inputY) {
+	void setNewCoordinates(int inputX, int inputY) {
 		try {
 			if (!grid.getComponentAt(inputX, inputY).canBePassedThrough())
 				throw new IllegalArgumentException();
@@ -98,7 +98,7 @@ public class Player extends Position {
 		y = newY;
 	}
 	
-	public void pullCrate(Direction dir, boolean isTracked) {
+	void pullCrate(Direction dir, boolean isTracked) {
 		switch (dir) {
 		case UP:
 			pullCrateUp();
@@ -119,22 +119,22 @@ public class Player extends Position {
 	 * ->En realite, je bouge la caisse puis le joueur. C'est pour ne pas devoir adapter les coordonnees a l'avance.
 	 * @param grid
 	 */
-	public void pullCrateUp() {
+	void pullCrateUp() {
 		grid.getCrateAt(x, y+1).move(Direction.UP);
 		y--;
 	}
 	
-	public void pullCrateRight() {
+	void pullCrateRight() {
 		grid.getCrateAt(x-1, y).move(Direction.RIGHT);
 		x++;
 	}
 	
-	public void pullCrateDown() {
+	void pullCrateDown() {
 		grid.getCrateAt(x, y-1).move(Direction.DOWN);
 		y++;
 	}
 	
-	public void pullCrateLeft() {
+	void pullCrateLeft() {
 		grid.getCrateAt(x+1, y).move(Direction.LEFT);
 		x--;
 	}

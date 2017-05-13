@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

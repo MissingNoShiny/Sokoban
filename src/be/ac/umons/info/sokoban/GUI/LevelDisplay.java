@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -12,6 +12,10 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import be.ac.umons.info.sokoban.grid.Grid;
+import be.ac.umons.info.sokoban.grid.GridReader;
+import be.ac.umons.info.sokoban.grid.InvalidFileException;
 
 public class LevelDisplay extends JPanel {
 

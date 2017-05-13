@@ -1,15 +1,15 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 /**
- * A Component used to represent a goal.
+ * A Component used to represent ground.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public class Goal implements Component{
-	
+class Ground implements Component{
+
 	@Override
 	public String getName() {
-		return "Goal";
-	}
+		return "Ground";
+	}	
 	
 	@Override
 	public boolean canBePassedThrough() {

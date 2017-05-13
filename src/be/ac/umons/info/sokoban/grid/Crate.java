@@ -1,6 +1,6 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
-public class Crate extends Position {
+class Crate extends Position {
 	
 	private Component support;
 	

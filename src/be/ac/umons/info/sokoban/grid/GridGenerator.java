@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban;
+package be.ac.umons.info.sokoban.grid;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -40,13 +40,13 @@ public final class GridGenerator {
 	 * 
 	 * @param width
 	 * @param height
-	 * @param numberCrates
+	 * @param cratesAmount
 	 * @param difficulty
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	public static Grid generateGrid(int width, int height, int numberCrates, int difficulty) throws IllegalArgumentException{
-		if (width < 6 || height < 6 || width > 30 || height > 30 || numberCrates < 2 || numberCrates > ((width-2)*(height-2))/5 || difficulty > 20)
+	public static Grid generateGrid(int width, int height, int cratesAmount, int difficulty) throws IllegalArgumentException{
+		if (width < 6 || height < 6 || width > 30 || height > 30 || cratesAmount < 2 || cratesAmount > ((width-2)*(height-2))/5 || difficulty > 20)
 			throw new IllegalArgumentException();
 		
 		Boolean validGoalsDisposition;
@@ -58,14 +58,14 @@ public final class GridGenerator {
 			validGoalsDisposition = false;
 			do {
 				grid = generateRoom(width, height);
-			}while(!isGroundConnected(grid, numberCrates));
+			}while(!isGroundConnected(grid, cratesAmount));
 			System.out.println("Room generee");
 			while (!validGoalsDisposition && numberIterations < seuilMaxIterations) {
 				validGoalsDisposition = true;
 				try {
-				placeGoals(grid, numberCrates);
+				placeGoals(grid, cratesAmount);
 				placePlayer(grid);
-				movePlayer(grid, difficulty*15*(int)Math.pow(numberCrates,2/3));
+				movePlayer(grid, cratesAmount*15*(int)Math.pow((difficulty+5),2/3));
 				}catch (InvalidDispositionException e) {
 					System.out.println("exception catch");
 					validGoalsDisposition = false;
