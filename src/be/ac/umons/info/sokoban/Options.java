@@ -8,14 +8,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Options implements java.io.Serializable {
+public class Options implements Serializable {
 	
 	private static final long serialVersionUID = 880731819964339511L;
+	
+	public static String fontName = "Century";
 
-	public static final String fontName = "century";
-
-	public static final Font littleFont  = new Font(fontName, 0, 40);
+	public static final Font smallFont  = new Font(fontName, 0, 40);
 	
 	public static final Font bigFont = new Font(fontName, 0, 70);
 	
@@ -27,6 +28,8 @@ public class Options implements java.io.Serializable {
 	
 	private static String textureDir = "classic";
 	
+	private String fontNameSave;
+	
 	private Color buttonColorSave;
 	
 	private Color backgroundColorSave;
@@ -35,10 +38,16 @@ public class Options implements java.io.Serializable {
 	
 	private String textureDirSave;
 	
+	/**
+	 * Creates a new Options object with the default values.
+	 */
 	public Options() {
 
 	}
 
+	/**
+	 * Saves the current options to a file
+	 */
 	public void save() {
 		buttonColorSave = buttonColor;
 		backgroundColorSave = backgroundColor;
@@ -56,6 +65,10 @@ public class Options implements java.io.Serializable {
 		}
 	}
 	
+	/**
+	 * Loads a saved Options object or creates a new one if none exists.
+	 * @return The loaded Options object, or a new one if none could be loaded.
+	 */
 	public static Options load() {
 		Options output = new Options();
 		if (new File("options.ser").exists()) {
@@ -81,6 +94,14 @@ public class Options implements java.io.Serializable {
 
 	}
 
+	public String getFontNameSave() {
+		return fontNameSave;
+	}
+
+	public void setFontNameSave(String fontNameSave) {
+		this.fontNameSave = fontNameSave;
+	}
+	
 	public static Color getButtonColor() {
 		return buttonColor;
 	}

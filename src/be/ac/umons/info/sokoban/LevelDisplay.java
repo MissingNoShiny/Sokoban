@@ -141,10 +141,10 @@ public class LevelDisplay extends JPanel {
 			final JTextField saveFrameField = new JTextField();
 			saveFrameField.setBackground(Options.getButtonColor());
 			saveFrameField.setHorizontalAlignment(JTextField.CENTER);
-			saveFrameField.setFont(Options.littleFont);
+			saveFrameField.setFont(Options.smallFont);
 			saveFrame.add(saveFrameField);
 			
-			Button cancelButton = new Button("Cancel", Options.getButtonColor(), Options.littleFont);
+			Button cancelButton = new Button("Cancel", Options.getButtonColor(), Options.smallFont);
 			cancelButton.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -156,7 +156,7 @@ public class LevelDisplay extends JPanel {
 			
 			
 			
-			Button validateButton = new Button("Save", Options.getButtonColor(), Options.littleFont);
+			Button validateButton = new Button("Save", Options.getButtonColor(), Options.smallFont);
 			validateButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -204,7 +204,7 @@ public class LevelDisplay extends JPanel {
 		victoryScreen.add(new DefaultLabel("You win !"));
 		
 		if (levelIndex > 0 && levelIndex <= 25) {
-			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), Options.littleFont);
+			Button nextLevelButton = new Button("Next level", Options.getButtonColor(), Options.smallFont);
 			nextLevelButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -221,7 +221,7 @@ public class LevelDisplay extends JPanel {
 		}
 		
 		
-		Button MenuButton = new Button("Menu", Options.getButtonColor(), Options.littleFont);
+		Button MenuButton = new Button("Menu", Options.getButtonColor(), Options.smallFont);
 		MenuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

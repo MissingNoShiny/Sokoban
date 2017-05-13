@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -63,7 +62,7 @@ public class GridDisplay extends JPanel {
 	/**
 	 * The size of each cell of the grid, in pixels.
 	 */
-	private int cellSize = 256;
+	private int cellSize = 64;
 	
 	/**
 	 * A boolean value to keep track of whether the cell size has already been calculated.
@@ -328,6 +327,9 @@ public class GridDisplay extends JPanel {
 		buttonDown.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.DOWN));
 	}
 	
+	/**
+	 * Adapts the icon of the arrow buttons to the cell size.
+	 */
 	private void updateArrowButtonsIconSize() {
 		buttonUp.setIcon(new ImageIcon((((ImageIcon) buttonUp.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
 		buttonRight.setIcon(new ImageIcon((((ImageIcon) buttonRight.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));

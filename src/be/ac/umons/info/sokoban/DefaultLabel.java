@@ -12,7 +12,7 @@ public class DefaultLabel extends JLabel {
 		setBackground(color);
 		setOpaque(true);
 		setHorizontalAlignment(JLabel.CENTER);
-		setFont(Options.littleFont);
+		setFont(Options.smallFont);
 	}
 	
 	public DefaultLabel(String string) {

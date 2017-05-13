@@ -62,11 +62,7 @@ public class Game implements Runnable {
 		Locale.setDefault(Locale.ENGLISH);
 		
 		Game game = new Game();
-		
-		game.options = Options.load();
-		
 		game.menu = new Menu(game);
-		
 		game.window = new JFrame(Game.TITLE);
 		game.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		game.window.setMinimumSize(new Dimension(game.window.getWidth(), game.window.getHeight()));
@@ -117,6 +113,7 @@ public class Game implements Runnable {
 	public synchronized void start() {
 		if (running)
 			return;
+		options = Options.load();
 		thread = new Thread(this);
 		thread.start();
 		running = true;
@@ -128,8 +125,8 @@ public class Game implements Runnable {
 	public synchronized void stop() {
 		if (!running)
 			return;
-		options.save();
 		try {
+			options.save();
 			window.dispose();
 			running = false;
 			thread.join();

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -75,7 +76,7 @@ public class Menu extends JPanel {
 				level = new File("levels/level " + levelIndex + ".xsb");
 			}
 			
-			Button returnButton = new Button("Return", Options.getButtonColor(), Options.littleFont);
+			Button returnButton = new Button("Return", Options.getButtonColor(), Options.smallFont);
 			returnButton.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -98,7 +99,7 @@ public class Menu extends JPanel {
 		private static final long serialVersionUID = 1259333880542050320L;
 				
 		public CampaignButton(int levelIndex) {
-			super("level " + levelIndex, Options.getButtonColor(), Options.littleFont);
+			super("level " + levelIndex, Options.getButtonColor(), Options.smallFont);
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -209,7 +210,7 @@ public class Menu extends JPanel {
 		});
 		
 		
-		Button validateGeneratorButton = new Button("Generate", Options.getButtonColor(), Options.littleFont);
+		Button validateGeneratorButton = new Button("Generate", Options.getButtonColor(), Options.smallFont);
 		validateGeneratorButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -219,7 +220,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		Button cancelGeneratorButton = new Button("Cancel", Options.getButtonColor(), Options.littleFont);
+		Button cancelGeneratorButton = new Button("Cancel", Options.getButtonColor(), Options.smallFont);
 		cancelGeneratorButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -245,13 +246,13 @@ public class Menu extends JPanel {
 		
 		
 		final JComboBox<String> saveChoice = new JComboBox<String>();
-		saveChoice.setFont(Options.littleFont);
+		saveChoice.setFont(Options.smallFont);
 		saveChoice.setBackground(Options.getButtonColor());
 		saveChoice.setFocusable(false);
 		saveChoice.setEditable(false);
 		loadFrame.add(saveChoice);
 		
-		final Button validateLoadingButton = new Button("Load", Options.getButtonColor(), Options.littleFont);
+		final Button validateLoadingButton = new Button("Load", Options.getButtonColor(), Options.smallFont);
 		validateLoadingButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -266,7 +267,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final Button cancelLoadingButton = new Button("Cancel", Options.getButtonColor(), Options.littleFont);
+		final Button cancelLoadingButton = new Button("Cancel", Options.getButtonColor(), Options.smallFont);
 		cancelLoadingButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -292,14 +293,16 @@ public class Menu extends JPanel {
 		
 		
 		mainMenuPanel.add(campaignButton);
-		
 		mainMenuPanel.add(generateLevelButton);
-		
 		mainMenuPanel.add(loadButton);
-		
 		mainMenuPanel.add(exitButton);
 		
 		add(campaignPanel);
+		
+		
+		JPanel optionsPanel = new JPanel();
+		optionsPanel.setBackground(Options.getBackgroundColor());
+		optionsPanel.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 	}
 	
 	public void updateCampaignPanel() {
