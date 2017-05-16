@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban.GUI;
+package be.ac.umons.info.sokoban.gui;
 
 import java.awt.Dimension;
 import java.io.IOException;
@@ -62,7 +62,10 @@ public class Game implements Runnable {
 	private int fpsTemp = 0;
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+	        
+		 String current = new java.io.File( "." ).getCanonicalPath();
+	        System.out.println("Current dir:"+current);
 		
 		Locale.setDefault(Locale.ENGLISH);
 		

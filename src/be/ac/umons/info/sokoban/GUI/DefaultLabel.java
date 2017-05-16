@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban.GUI;
+package be.ac.umons.info.sokoban.gui;
 
 import java.awt.Color;
 import javax.swing.JLabel;

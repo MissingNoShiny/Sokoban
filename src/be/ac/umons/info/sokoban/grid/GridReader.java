@@ -27,7 +27,7 @@ public final class GridReader {
 	 * @param grid The grid to save
 	 * @param path The path to save the grid to (without the ".xsb" extension)
 	 */
-	public static void saveGrid(Grid grid, String name){
+	public static void saveGrid(Grid grid, String name) {
 		File file = new File("saves/" + name + ".xsb");
 		int px = grid.getPlayer().getX();
 		int py = grid.getPlayer().getY();

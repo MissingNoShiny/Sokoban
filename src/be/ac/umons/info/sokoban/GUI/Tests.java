@@ -1,4 +1,4 @@
-package be.ac.umons.info.sokoban.GUI;
+package be.ac.umons.info.sokoban.gui;
 
 import java.io.File;
 import java.io.IOException;
