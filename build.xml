@@ -14,7 +14,7 @@
 	</target>
 	
 	<target name="run" depends="build">
-		<java classname="be.ac.umons.info.sokoban.gui.Game" classpath="${build.dir}"/>
+		<java classname="be.ac.umons.info.sokoban.gui.Game" classpath="${build.dir}" fork="true"/>
 	</target>
 	
 	<target name="test" depends="build">
