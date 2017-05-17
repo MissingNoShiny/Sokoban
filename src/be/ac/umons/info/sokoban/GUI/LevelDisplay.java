@@ -48,7 +48,8 @@ public class LevelDisplay extends JPanel {
 	
 	private class InfoPanel extends JPanel{
 
-		private static final long serialVersionUID = 6195740163330975520L;		
+		private static final long serialVersionUID = 6195740163330975520L;
+		
 		/**
 		 * The JLabel that displays the current moves count.
 		 */
