@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import be.ac.umons.info.sokoban.grid.Grid;
 import be.ac.umons.info.sokoban.grid.GridReader;
 import be.ac.umons.info.sokoban.grid.InvalidFileException;
+import be.ac.umons.info.sokoban.grid.Point;
 
 public class LevelDisplay extends JPanel {
 
@@ -46,6 +47,11 @@ public class LevelDisplay extends JPanel {
 	 */
 	private String levelName;
 	
+	/**
+	 * The x of the point is the best movesCount  and the y is the best pushesCount
+	 */
+	private Point bestScores = null;
+	
 	private class InfoPanel extends JPanel{
 
 		private static final long serialVersionUID = 6195740163330975520L;
@@ -61,11 +67,25 @@ public class LevelDisplay extends JPanel {
 		private DefaultLabel pushesCount;
 		
 		public InfoPanel(Grid grid) {
+			setLayout(new GridLayout(10, 1));
 			setBackground(Options.getBackgroundColor());
+			if (levelIndex > 0)
+				add(new DefaultLabel("Level "+levelIndex, Options.getBackgroundColor()));
+			else
+				add(new DefaultLabel("", Options.getBackgroundColor()));
+			add(new DefaultLabel("", Options.getBackgroundColor()));
+			
 			movesCount = new DefaultLabel("", Options.getBackgroundColor());
 			add(movesCount);
 			pushesCount = new DefaultLabel("", Options.getBackgroundColor());
 			add(pushesCount);
+			add(new DefaultLabel("", Options.getBackgroundColor()));		
+			
+			if (bestScores != null) {
+				add(new DefaultLabel("Best scores :", Options.getBackgroundColor()));
+				add(new DefaultLabel("Moves: "+bestScores.getX(), Options.getBackgroundColor()));
+				add(new DefaultLabel("Pushes: "+bestScores.getY(), Options.getBackgroundColor()));
+			}
 		}
 		
 		public void paintComponent(Graphics g) {
@@ -81,6 +101,8 @@ public class LevelDisplay extends JPanel {
 		grid = gridInput;
 		game = gameInput;
 		levelIndex = levelIndexInput;
+		levelName = inputName;
+		setBestScores();
 		
 		setFocusable(true);
 		setOpaque(false);
@@ -191,15 +213,13 @@ public class LevelDisplay extends JPanel {
 			
 			saveFrame.setVisible(true);
 		}
-		else 
-			levelName = inputName;
 	}
 	
 	public void displayVictoryScreen() {
 		setEnabledButtons(false);
 		final DefaultFrame victoryScreen = new DefaultFrame("Victory !", 500, 300);
 		if (levelIndex > 0 && levelIndex <= 25) {
-			GridReader.saveVictory("levels/saved/level "+levelIndex, grid.getTracker().getMovesCount(), grid.getTracker().getPushesCount());
+			GridReader.saveVictory("levels/saved/level "+levelIndex +".txt", levelIndex,grid.getTracker().getMovesCount(), grid.getTracker().getPushesCount());
 		}
 		if (levelIndex > 0 && levelIndex <= 25)
 			victoryScreen.setLayout(new GridLayout(3,1));
@@ -240,6 +260,12 @@ public class LevelDisplay extends JPanel {
 		victoryScreen.setVisible(true);
 	}
 	
+	private void setBestScores() {
+		if (levelIndex == -1)
+			bestScores = GridReader.getBestScores("saves/"+levelName+".txt");
+		else if (levelIndex > 0)
+			bestScores = GridReader.getBestScores("levels/saved/"+levelName+".txt");
+	}
 	
 	private void setEnabledButtons(boolean arg) {
 		for (int i = 0; i < buttonsPanel.getComponentCount(); i++) {
