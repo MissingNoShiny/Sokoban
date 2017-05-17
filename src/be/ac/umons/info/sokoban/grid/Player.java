@@ -87,10 +87,8 @@ public class Player extends Position {
 		if (grid.hasCrateAt(newX, newY)) {
 			Crate crate = grid.getCrateAt(newX, newY);
 			crate.move(dir);
-			if (isTracked && grid.frozenDeadlockDetector(crate))
-				System.out.println("deadlock");
 			if (isTracked)
-			grid.getTracker().addPush(dir);
+				grid.getTracker().addPush(dir);
 		}
 		else if (isTracked)
 			grid.getTracker().addMove(dir);

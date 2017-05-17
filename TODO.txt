@@ -1,22 +1,17 @@
 
 TODO List
 
-Joachim:
-- Rendre le plus possible d'instanciations inutiles et impossible depuis main 
-
-C'est surtout de ma faute, mais on a des game qui désignent la JFrame et d'autres qui désignent une partie en cours (surtout dans le nom des méthodes et variables)
-Ca porte a confusion. Il faudra y remédier.
-
-TRES IMPORTANT : faire en sorte que les positions du player soient toujours valides.
-
-PARTOUT : il faut harmoniser ordre des arguments (width avant height notamment)
-
-Ne devrait on pas remplacer les IOException par des IllegalArgumentException lorsque le path specifie est incorrect?
-Dans le saveMov, que se passe-t-il si on indique un path correspondant à des dossiers inexistants?
-
-QUESTIONS :
-- Pas d'interfaces, c'est grave docteur?
-- Les tests, sont-ils corrects et suffisants?
-- Faut-il préciser les IOExceptions, et faut-il que chaque exception soit accompagnée d'un texte descriptif?
-- Package|s|?
-- Javadoc doit expliquer uniquement l'utilité d'une methode ou bien aussi son fonctionnement
+- Rapport
+- Mode console : appliquer fichier.mov a fichier.xsb
+- (Mode console : importer fichier)
+- Terminer javadoc
+- terminer les options
+- Gestion des textures
+- Mettre les meilleurs scores dans l'info panel
+- supprimer mouse listener et méthodes rendues inutiles pour les arrowButtons
+- Mettre le score dans le victoryScreen
+- creer fichiers finishedLevels
+- supprimer fichier.mov quand niveau fini
+- supprimer probleme redimensionnement
+- sauvegarder état du niveau quand on quitte
+- (eventuellement verifier intégrité des sauvegardes

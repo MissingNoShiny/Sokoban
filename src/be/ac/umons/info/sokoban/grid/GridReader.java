@@ -27,10 +27,8 @@ public final class GridReader {
 	 * @param grid The grid to save
 	 * @param path The path to save the grid to (without the ".xsb" extension)
 	 */
-	public static void saveGrid(Grid grid, String name, boolean isLevel) {
-		String path = name + ".xsb";
-		if (isLevel)
-			path = "saves/" + path;
+	public static void saveGrid(Grid grid, String name) {
+		String path = "saves/" + name + ".xsb";
 		File file = new File(path);
 		int px = grid.getPlayer().getX();
 		int py = grid.getPlayer().getY();
@@ -84,10 +82,6 @@ public final class GridReader {
 				}
 			}
 		}
-	}
-	
-	public static void saveGrid(Grid grid, String name) {
-		saveGrid(grid, name, false);
 	}
 	
 	public static boolean isLevelAlreadyWon(String path) {
@@ -154,10 +148,10 @@ public final class GridReader {
         	if (isCampaignLevel) {
         		String levelName = path.substring(path.lastIndexOf("/"));
         		String parentPath = path.substring(0, path.lastIndexOf("/"));
-        		applyMovesToGrid(grid, parentPath + "/saved" + levelName + ".mov");
+        		applyMovesToGrid(grid, parentPath + "/saved" + levelName + ".mov", false);
         	}
         	else
-        		applyMovesToGrid(grid, path + ".mov");
+        		applyMovesToGrid(grid, path + ".mov", false);
     	} catch (FileNotFoundException e) {
     		
     	}
@@ -262,7 +256,7 @@ public final class GridReader {
 	 * @throws FileNotFoundException
 	 * @throws InvalidFileException
 	 */
-	private static void applyMovesToGrid(Grid grid, String path) throws FileNotFoundException, InvalidFileException {
+	private static void applyMovesToGrid(Grid grid, String path, boolean acceptImpossibleMoves) throws FileNotFoundException, InvalidFileException {
 		grid.getTracker().readMov(path);
 		Player player = grid.getPlayer();
 		for (int i = 0; i < grid.getTracker().getMoves().size(); i++) {
@@ -288,6 +282,8 @@ public final class GridReader {
 			}
 			if (player.canMove())
 				player.move(false);
+			else if (!acceptImpossibleMoves)
+				throw new InvalidFileException("Corrupted file");
 		}
 	}
 	
@@ -302,8 +298,8 @@ public final class GridReader {
 		Grid grid = GridReader.readGrid(gridInputPath);
 		String gridName = gridInputPath.split("[.]")[0];
 		String gridOutputPath = gridName + "_output";
-		applyMovesToGrid(grid, movInputPath);
-		GridReader.saveGrid(grid, gridOutputPath, false);
+		applyMovesToGrid(grid, movInputPath, true);
+		GridReader.saveGrid(grid, gridOutputPath);
 	}
 	
 	/**
