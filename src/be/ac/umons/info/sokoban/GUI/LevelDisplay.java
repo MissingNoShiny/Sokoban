@@ -199,7 +199,7 @@ public class LevelDisplay extends JPanel {
 							canOverrideSave = JOptionPane.showConfirmDialog(IOError, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
 		
 						if (canOverrideSave == 0) {
-							GridReader.saveGrid(grid, saveName);
+							GridReader.saveGrid(grid, saveName, false);
 							levelName = saveName;
 							setEnabledButtons(true);
 							saveFrame.setVisible(false);;
