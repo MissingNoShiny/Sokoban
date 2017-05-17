@@ -3,9 +3,11 @@ package be.ac.umons.info.sokoban.gui;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,12 +15,14 @@ import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicSliderUI;
 
 import be.ac.umons.info.sokoban.grid.GridReader;
 import be.ac.umons.info.sokoban.grid.InvalidFileException;
@@ -118,6 +122,45 @@ public class Menu extends JPanel {
 				}
 			});
 		}
+	}
+	
+	/**
+	 * A class used to change the knob color of JSliders.
+	 * https://coderanch.com/t/338457/java/JSlider-knob-color
+	 * @author Gregg Bolinger
+	 */
+	private class coloredThumbSliderUI extends BasicSliderUI {
+	 
+	    Color thumbColor;
+	    coloredThumbSliderUI(JSlider s, Color tColor) {
+	        super(s);
+	        thumbColor=tColor;
+	    }
+	 
+	    public void paint( Graphics g, JComponent c ) {
+	        recalculateIfInsetsChanged();
+	        recalculateIfOrientationChanged();
+	        Rectangle clip = g.getClipBounds();
+	 
+	        if ( slider.getPaintTrack() && clip.intersects( trackRect ) ) {
+	            paintTrack( g );
+	        }
+	        if ( slider.getPaintTicks() && clip.intersects( tickRect ) ) {
+	            paintTicks( g );
+	        }
+	        if ( slider.getPaintLabels() && clip.intersects( labelRect ) ) {
+	            paintLabels( g );
+	        }
+	        if ( slider.hasFocus() && clip.intersects( focusRect ) ) {
+	            paintFocus( g );      
+	        }
+	        if ( clip.intersects( thumbRect ) ) {
+	            Color savedColor = slider.getBackground();
+	            slider.setBackground(thumbColor);
+	            paintThumb( g );
+	            slider.setBackground(savedColor);
+	        }
+	    }
 	}
 	
 	public Menu(Game gameInput) {
@@ -325,6 +368,7 @@ public class Menu extends JPanel {
 		optionsButtonColorPanelSliders.setLayout(new BoxLayout(optionsButtonColorPanelSliders, BoxLayout.PAGE_AXIS));
 		
 		JSlider optionsButtonColorSlider1 = new JSlider(0, 255, 16);
+		optionsButtonColorSlider1.setUI(new coloredThumbSliderUI(optionsButtonColorSlider1, Color.red));
 		optionsButtonColorSlider1.setValue(optionsButtonColorPanelColor.getBackground().getRed());
 		optionsButtonColorSlider1.addChangeListener(new ChangeListener() {
 			@Override
@@ -338,6 +382,7 @@ public class Menu extends JPanel {
 		});
 		
 		JSlider optionsButtonColorSlider2 = new JSlider(0, 255, 16);
+		optionsButtonColorSlider2.setUI(new coloredThumbSliderUI(optionsButtonColorSlider2, Color.green));
 		optionsButtonColorSlider2.setValue(optionsButtonColorPanelColor.getBackground().getGreen());
 		optionsButtonColorSlider2.addChangeListener(new ChangeListener() {
 			@Override
@@ -351,6 +396,7 @@ public class Menu extends JPanel {
 		});
 		
 		JSlider optionsButtonColorSlider3 = new JSlider(0, 255, 16);
+		optionsButtonColorSlider3.setUI(new coloredThumbSliderUI(optionsButtonColorSlider3, Color.blue));
 		optionsButtonColorSlider3.setValue(optionsButtonColorPanelColor.getBackground().getBlue());
 		optionsButtonColorSlider3.addChangeListener(new ChangeListener() {
 			@Override
@@ -380,6 +426,7 @@ public class Menu extends JPanel {
 		optionsBackgroundColorPanelSliders.setLayout(new BoxLayout(optionsBackgroundColorPanelSliders, BoxLayout.PAGE_AXIS));
 		
 		JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
+		optionsBackgroundColorSlider1.setUI(new coloredThumbSliderUI(optionsBackgroundColorSlider1, Color.red));
 		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorPanelColor.getBackground().getRed());
 		optionsBackgroundColorSlider1.addChangeListener(new ChangeListener() {
 			@Override
@@ -393,6 +440,7 @@ public class Menu extends JPanel {
 		});
 		
 		JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255, 16);
+		optionsBackgroundColorSlider2.setUI(new coloredThumbSliderUI(optionsBackgroundColorSlider2, Color.green));
 		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorPanelColor.getBackground().getGreen());
 		optionsBackgroundColorSlider2.addChangeListener(new ChangeListener() {
 			@Override
@@ -406,6 +454,7 @@ public class Menu extends JPanel {
 		});
 		
 		JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255, 16);
+		optionsBackgroundColorSlider3.setUI(new coloredThumbSliderUI(optionsBackgroundColorSlider3, Color.blue));
 		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorPanelColor.getBackground().getBlue());
 		optionsBackgroundColorSlider3.addChangeListener(new ChangeListener() {
 			@Override
