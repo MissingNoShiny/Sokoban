@@ -27,8 +27,11 @@ public final class GridReader {
 	 * @param grid The grid to save
 	 * @param path The path to save the grid to (without the ".xsb" extension)
 	 */
-	public static void saveGrid(Grid grid, String name) {
-		File file = new File("saves/" + name + ".xsb");
+	public static void saveGrid(Grid grid, String name, boolean isLevel) {
+		String path = name + ".xsb";
+		if (isLevel)
+			path = "saves/" + path;
+		File file = new File(path);
 		int px = grid.getPlayer().getX();
 		int py = grid.getPlayer().getY();
 		BufferedWriter buff = null;
@@ -81,6 +84,10 @@ public final class GridReader {
 				}
 			}
 		}
+	}
+	
+	public static void saveGrid(Grid grid, String name) {
+		saveGrid(grid, name, false);
 	}
 	
 	public static boolean isLevelAlreadyWon(String path) {
@@ -296,7 +303,7 @@ public final class GridReader {
 		String gridName = gridInputPath.split("[.]")[0];
 		String gridOutputPath = gridName + "_output";
 		applyMovesToGrid(grid, movInputPath);
-		GridReader.saveGrid(grid, gridOutputPath);
+		GridReader.saveGrid(grid, gridOutputPath, false);
 	}
 	
 	/**

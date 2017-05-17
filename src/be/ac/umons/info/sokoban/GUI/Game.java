@@ -50,10 +50,13 @@ public class Game implements Runnable {
 	private Grid grid;
 	
 	/**
-	 * 
+	 * The panel to display levels on.
 	 */
 	private LevelDisplay level;
 	
+	/**
+	 * The options of the game.
+	 */
 	private Options options;
 	
 	/**
@@ -63,24 +66,24 @@ public class Game implements Runnable {
 	
 	
 	public static void main(String[] args) throws IOException {
-	        
-		 String current = new java.io.File( "." ).getCanonicalPath();
-	        System.out.println("Current dir:"+current);
 		
 		Locale.setDefault(Locale.ENGLISH);
 		
 		Game game = new Game();
-		game.menu = new Menu(game);
-		game.window = new JFrame(Game.TITLE);
-		game.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		game.window.setMinimumSize(new Dimension(game.window.getWidth(), game.window.getHeight()));
-		game.window.setLocationRelativeTo(null);
-		game.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		game.window.setVisible(true);
-		game.loadMenu();
-		
 		game.start();
 			
+	}
+	
+	public Game() {
+		options = Options.load();
+		menu = new Menu(this);
+		window = new JFrame(Game.TITLE);
+		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		window.setMinimumSize(new Dimension(window.getWidth(), window.getHeight()));
+		window.setLocationRelativeTo(null);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setVisible(true);
+		loadMenu();
 	}
 	
 	/**
@@ -121,7 +124,6 @@ public class Game implements Runnable {
 	public synchronized void start() {
 		if (running)
 			return;
-		options = Options.load();
 		thread = new Thread(this);
 		thread.start();
 		running = true;

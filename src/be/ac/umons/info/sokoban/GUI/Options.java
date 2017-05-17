@@ -57,7 +57,6 @@ public class Options implements Serializable {
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
-			System.out.println("Options saved");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -76,7 +75,6 @@ public class Options implements Serializable {
 				output = (Options) in.readObject();
 				in.close();
 				fileIn.close();
-				System.out.println("Options loaded");
 				buttonColor = output.buttonColorSave;
 				backgroundColor = output.backgroundColorSave;
 				playerArrowsShown = output.playerArrowsShownSave;
