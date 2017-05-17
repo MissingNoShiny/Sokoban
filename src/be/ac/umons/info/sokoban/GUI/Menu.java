@@ -31,7 +31,7 @@ public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
-	private static final int campaignLevelsAmount = 22;
+	private static final int campaignLevelsAmount = 25;
 	
 	private Game game;
 	
@@ -360,12 +360,13 @@ public class Menu extends JPanel {
 		optionsPanel.setLayout(new GridLayout(4, 1, 3, 3));
 		
 		JPanel optionsButtonColorPanel = new JPanel();
+		optionsButtonColorPanel.setLayout(new GridLayout(1, 2, 0, 0));
 		
 		JPanel optionsButtonColorPanelColor = new JPanel();
 		optionsButtonColorPanelColor.setBackground(Options.getButtonColor());
 		
 		JPanel optionsButtonColorPanelSliders = new JPanel();
-		optionsButtonColorPanelSliders.setLayout(new BoxLayout(optionsButtonColorPanelSliders, BoxLayout.PAGE_AXIS));
+		optionsButtonColorPanelSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
 		JSlider optionsButtonColorSlider1 = new JSlider(0, 255, 16);
 		optionsButtonColorSlider1.setUI(new coloredThumbSliderUI(optionsButtonColorSlider1, Color.red));
@@ -418,12 +419,13 @@ public class Menu extends JPanel {
 		
 		
 		JPanel optionsBackgroundColorPanel = new JPanel();
+		optionsBackgroundColorPanel.setLayout(new GridLayout(1, 2, 0, 0));
 		
 		JPanel optionsBackgroundColorPanelColor = new JPanel();
 		optionsBackgroundColorPanelColor.setBackground(Options.getBackgroundColor());
 		
 		JPanel optionsBackgroundColorPanelSliders = new JPanel();
-		optionsBackgroundColorPanelSliders.setLayout(new BoxLayout(optionsBackgroundColorPanelSliders, BoxLayout.PAGE_AXIS));
+		optionsBackgroundColorPanelSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
 		JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
 		optionsBackgroundColorSlider1.setUI(new coloredThumbSliderUI(optionsBackgroundColorSlider1, Color.red));
@@ -475,7 +477,7 @@ public class Menu extends JPanel {
 		optionsBackgroundColorPanel.add(optionsBackgroundColorPanelSliders);
 		
 		Button optionsSaveButton = new Button("Save", Options.getButtonColor(), Options.bigFont);
-		exitButton.addActionListener(new ActionListener() {
+		optionsSaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
@@ -483,7 +485,7 @@ public class Menu extends JPanel {
 		});
 		
 		Button optionsCancelButton = new Button("Cancel", Options.getButtonColor(), Options.bigFont);
-		exitButton.addActionListener(new ActionListener() {
+		optionsCancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
