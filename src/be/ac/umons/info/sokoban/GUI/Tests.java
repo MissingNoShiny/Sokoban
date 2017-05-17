@@ -41,17 +41,4 @@ public final class Tests {
 			}
 		}
 	}
-	
-	/**
-	 * Deletes all the outputs from the test folder.
-	 */
-	public static void cleanFolder() {
-		File folder = new File("tests");
-		File[] fileList = folder.listFiles();
-		for (File file : fileList) {
-			if (file.getName().endsWith("_output.xsb")) {
-				file.delete();
-			}
-		}
-	}
 }

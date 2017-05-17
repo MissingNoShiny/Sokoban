@@ -9,7 +9,7 @@
 		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}"/>
 	</target>
 	
-	<target name="clean">
+	<target name="clean" depends="build">
 		<delete dir="${build.dir}"/>
 	</target>
 	
@@ -19,6 +19,12 @@
 	
 	<target name="test" depends="build">
 		<java classname="be.ac.umons.info.sokoban.gui.Tests" classpath="${build.dir}"/>
+	</target>
+	
+	<target name="cleanTestsOutput">
+		<delete>
+			<fileset dir="tests" includes="*_output.xsb"/>
+		</delete>
 	</target>
 	
 </project>
