@@ -165,8 +165,8 @@ public class LevelDisplay extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String saveName = saveFrameField.getText();
-					if (saveName.length() > 10) 
-						JOptionPane.showMessageDialog(IOError, "Number characters must be less than 10 !!!!!!", "Error", JOptionPane.ERROR_MESSAGE);
+					if (saveName.length() > 20) 
+						JOptionPane.showMessageDialog(IOError, "Number characters must be less than 20 !!!!!!", "Error", JOptionPane.ERROR_MESSAGE);
 					else if (saveName.equals("NOTHING"))
 						JOptionPane.showMessageDialog(IOError, "Please change your save choice.", "Error", JOptionPane.ERROR_MESSAGE);
 					else {

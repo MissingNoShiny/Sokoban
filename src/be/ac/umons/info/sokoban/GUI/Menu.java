@@ -1,6 +1,7 @@
 package be.ac.umons.info.sokoban.gui;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -83,7 +84,7 @@ public class Menu extends JPanel {
 			returnButton.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cd.previous(getParent());
+					cd.show(getParent(), "mainMenuPanel");
 				}
 			});
 			
@@ -130,18 +131,29 @@ public class Menu extends JPanel {
 		mainMenuPanel = new JPanel();
 		mainMenuPanel.setLayout(new GridLayout(6, 1, 3, 3));
 		mainMenuPanel.setOpaque(false);
-		add(mainMenuPanel);
+		add(mainMenuPanel, "mainMenuPanel");
+		
+		JPanel optionsPanel = new JPanel();
+		add(optionsPanel, "optionsPanel");
+		Button optionsButton = new Button("Options", Options.getButtonColor(), Options.bigFont);
+		optionsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cd.show(mainMenuPanel.getParent(), "optionsPanel");
+			}
+		});
 		
 		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
 		title.setFont(new Font(Options.fontName, 0, 100));
 		mainMenuPanel.add(title);
 		
+		add(campaignPanel, "campaignPanel");
 		Button campaignButton = new Button("Campaign", Options.getButtonColor(), Options.bigFont);
 		campaignButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				campaignPanel.update();
-				cd.next(mainMenuPanel.getParent());
+				cd.show(mainMenuPanel.getParent(), "campaignPanel");
 			}
 		});
 		
@@ -177,7 +189,7 @@ public class Menu extends JPanel {
 		generatorParameters2.add(new DefaultLabel("Amount of crates"));
 		generatorParameters2.add(new DefaultLabel("Difficulty"));
 		
-		final LocalSlider crateAmountSlider = new LocalSlider(2, 10, 10){
+		final LocalSlider crateAmountSlider = new LocalSlider(2, 10, 10) {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void adaptBounds(int widthLevel, int heightLevel) {
@@ -298,14 +310,141 @@ public class Menu extends JPanel {
 		mainMenuPanel.add(campaignButton);
 		mainMenuPanel.add(generateLevelButton);
 		mainMenuPanel.add(loadButton);
+		mainMenuPanel.add(optionsButton);
 		mainMenuPanel.add(exitButton);
 		
-		add(campaignPanel);
-		
-		
-		JPanel optionsPanel = new JPanel();
 		optionsPanel.setBackground(Options.getBackgroundColor());
-		optionsPanel.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		optionsPanel.setLayout(new GridLayout(4, 1, 3, 3));
+		
+		JPanel optionsButtonColorPanel = new JPanel();
+		
+		JPanel optionsButtonColorPanelColor = new JPanel();
+		optionsButtonColorPanelColor.setBackground(Options.getButtonColor());
+		
+		JPanel optionsButtonColorPanelSliders = new JPanel();
+		optionsButtonColorPanelSliders.setLayout(new BoxLayout(optionsButtonColorPanelSliders, BoxLayout.PAGE_AXIS));
+		
+		JSlider optionsButtonColorSlider1 = new JSlider(0, 255, 16);
+		optionsButtonColorSlider1.setValue(optionsButtonColorPanelColor.getBackground().getRed());
+		optionsButtonColorSlider1.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				optionsButtonColorPanelColor.setBackground(new Color(
+						optionsButtonColorSlider1.getValue(), 
+						optionsButtonColorPanelColor.getBackground().getGreen(), 
+						optionsButtonColorPanelColor.getBackground().getBlue()
+						));
+			}
+		});
+		
+		JSlider optionsButtonColorSlider2 = new JSlider(0, 255, 16);
+		optionsButtonColorSlider2.setValue(optionsButtonColorPanelColor.getBackground().getGreen());
+		optionsButtonColorSlider2.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				optionsButtonColorPanelColor.setBackground(new Color(
+						optionsButtonColorPanelColor.getBackground().getRed(), 
+						optionsButtonColorSlider2.getValue(), 
+						optionsButtonColorPanelColor.getBackground().getBlue()
+						));
+			}
+		});
+		
+		JSlider optionsButtonColorSlider3 = new JSlider(0, 255, 16);
+		optionsButtonColorSlider3.setValue(optionsButtonColorPanelColor.getBackground().getBlue());
+		optionsButtonColorSlider3.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				optionsButtonColorPanelColor.setBackground(new Color(
+						optionsButtonColorPanelColor.getBackground().getRed(), 
+						optionsButtonColorPanelColor.getBackground().getGreen(),
+						optionsButtonColorSlider3.getValue() 
+						));
+			}
+		});
+		
+		optionsButtonColorPanelSliders.add(optionsButtonColorSlider1);
+		optionsButtonColorPanelSliders.add(optionsButtonColorSlider2);
+		optionsButtonColorPanelSliders.add(optionsButtonColorSlider3);
+		
+		optionsButtonColorPanel.add(optionsButtonColorPanelColor);
+		optionsButtonColorPanel.add(optionsButtonColorPanelSliders);
+		
+		
+		JPanel optionsBackgroundColorPanel = new JPanel();
+		
+		JPanel optionsBackgroundColorPanelColor = new JPanel();
+		optionsBackgroundColorPanelColor.setBackground(Options.getBackgroundColor());
+		
+		JPanel optionsBackgroundColorPanelSliders = new JPanel();
+		optionsBackgroundColorPanelSliders.setLayout(new BoxLayout(optionsBackgroundColorPanelSliders, BoxLayout.PAGE_AXIS));
+		
+		JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
+		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorPanelColor.getBackground().getRed());
+		optionsBackgroundColorSlider1.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				optionsBackgroundColorPanelColor.setBackground(new Color(
+						optionsBackgroundColorSlider1.getValue(), 
+						optionsBackgroundColorPanelColor.getBackground().getGreen(), 
+						optionsBackgroundColorPanelColor.getBackground().getBlue()
+						));
+			}
+		});
+		
+		JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255, 16);
+		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorPanelColor.getBackground().getGreen());
+		optionsBackgroundColorSlider2.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				optionsBackgroundColorPanelColor.setBackground(new Color(
+						optionsBackgroundColorPanelColor.getBackground().getRed(), 
+						optionsBackgroundColorSlider2.getValue(), 
+						optionsBackgroundColorPanelColor.getBackground().getBlue()
+						));
+			}
+		});
+		
+		JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255, 16);
+		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorPanelColor.getBackground().getBlue());
+		optionsBackgroundColorSlider3.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				optionsBackgroundColorPanelColor.setBackground(new Color(
+						optionsBackgroundColorPanelColor.getBackground().getRed(), 
+						optionsBackgroundColorPanelColor.getBackground().getGreen(),
+						optionsBackgroundColorSlider3.getValue() 
+						));
+			}
+		});
+		
+		optionsBackgroundColorPanelSliders.add(optionsBackgroundColorSlider1);
+		optionsBackgroundColorPanelSliders.add(optionsBackgroundColorSlider2);
+		optionsBackgroundColorPanelSliders.add(optionsBackgroundColorSlider3);
+		
+		optionsBackgroundColorPanel.add(optionsBackgroundColorPanelColor);
+		optionsBackgroundColorPanel.add(optionsBackgroundColorPanelSliders);
+		
+		Button optionsSaveButton = new Button("Save", Options.getButtonColor(), Options.bigFont);
+		exitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
+			}
+		});
+		
+		Button optionsCancelButton = new Button("Cancel", Options.getButtonColor(), Options.bigFont);
+		exitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
+			}
+		});
+		
+		optionsPanel.add(optionsButtonColorPanel);
+		optionsPanel.add(optionsBackgroundColorPanel);
+		optionsPanel.add(optionsSaveButton);
+		optionsPanel.add(optionsCancelButton);
 	}
 	
 	public void updateCampaignPanel() {
