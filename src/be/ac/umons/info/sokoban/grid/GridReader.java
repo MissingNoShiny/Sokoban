@@ -86,20 +86,15 @@ public final class GridReader {
 		}
 	}
 	
-	public static void saveGrid(Grid grid, String name) {
-		saveGrid(grid, name, true);
-	}
-	
-	public static boolean isLevelAlreadyWon(String path) {
-		path += ".txt";
-		File file = new File(path);
-		if (! file.exists()) 
-			return false;
+	public static int getMaxIndexLevel() {
+		File file = new File("levels/saved/maxIndexLevel.txt");
+		if (!file.exists()) 
+			return 0;
+		int max = 0;
 		BufferedReader buff = null;
-		String isDone = null;
 		try {
-			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-			isDone = buff.readLine();
+			buff = new BufferedReader(new InputStreamReader(new FileInputStream("levels/saved/maxIndexLevel.txt")));
+			max = buff.read();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -111,33 +106,87 @@ public final class GridReader {
 				}
 			}
 	 	}
-		if (isDone.equals("true")) {
-			return true;
-		}
-		return false;
+		return max;
 	}
 	
-	public static void saveVictory(String path, int moves, int pushes) {
-		File file = new File(path + ".txt");
+	
+	public static void saveVictory(String path, int levelIndex, int moves, int pushes) {
+		
 		BufferedWriter buff = null;
+		int bestMoves = moves+1, bestPushes = pushes + 1;
+		Point bestScores = getBestScores(path);
+		if (bestScores != null) {
+			bestMoves = bestScores.getX();
+			bestPushes = bestScores.getY();
+		}
+		
+		if ((bestMoves > moves) || (bestMoves == moves && bestPushes > pushes)) {
+			try {
+				buff = new BufferedWriter(new FileWriter(path));
+				buff.write(moves);
+				buff.newLine();
+				buff.write(pushes);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (buff != null) {
+					try {
+						buff.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+		
+		// if there is a progress in the campaign
+		if (levelIndex > getMaxIndexLevel()) {
+			try {
+				buff = new BufferedWriter(new FileWriter("levels/saved/maxIndexLevel.txt"));
+				buff.write(levelIndex);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (buff != null) {
+					try {
+						buff.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Return null if the level is not yet finished
+	 * @param path
+	 * @return a couple of int. The x is the best movesCount and the y is the best PushesCount
+	 */
+	public static Point getBestScores(String path) {
+		File file = new File(path);
+		if (!file.exists()) 
+			return null;
+		int moves = 0 , pushes = 0;
+		BufferedReader buff = null;
 		try {
-			buff = new BufferedWriter(new FileWriter(file));
-			buff.write("true");
-			buff.newLine();
-			buff.write(moves);
-			buff.newLine();
-			buff.write(pushes);
+			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+			moves = buff.read();
+			pushes = buff.read();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (buff != null) {
+			if (buff !=null) {
 				try {
 					buff.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-		}
+	 	}
+		return new Point(moves, pushes);
 	}
 	
 	/**

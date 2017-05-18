@@ -99,8 +99,9 @@ public class Menu extends JPanel {
 		}
 		
 		public void update() {
-			for (int i = 1; i < campaignButtonsList.length; i++) 
-				campaignButtonsList[i].setEnabled(GridReader.isLevelAlreadyWon("levels/saved/level "+i));
+			int max = GridReader.getMaxIndexLevel()+1;
+			for (int i = 0; i < max; i++) 
+				campaignButtonsList[i].setEnabled(true);
 		}
 	}
 	
@@ -113,7 +114,7 @@ public class Menu extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						game.loadLevel("levels/" + getText(), levelIndex, "campaignLevel");
+						game.loadLevel("levels/" + getText(), levelIndex, "level "+levelIndex);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 						JOptionPane.showMessageDialog(IOError, "Loading failed", "Error", JOptionPane.ERROR_MESSAGE);
@@ -122,6 +123,7 @@ public class Menu extends JPanel {
 					}
 				}
 			});
+			setEnabled(false);
 		}
 	}
 	
