@@ -223,10 +223,10 @@ public class Menu extends JPanel {
 		generatorParameters1.add(new DefaultLabel("Width"));
 		generatorParameters1.add(new DefaultLabel("Height"));
 		
-		final LocalSlider levelWidthSlider = new LocalSlider(6, 30, 6);
+		final LocalSlider levelWidthSlider = new LocalSlider(5, 20, 5);
 		generatorParameters1.add(levelWidthSlider);
 		
-		final LocalSlider levelHeightSlider = new LocalSlider(6, 30, 6);
+		final LocalSlider levelHeightSlider = new LocalSlider(5, 20, 5);
 		generatorParameters1.add(levelHeightSlider);
 		
 		
@@ -241,7 +241,7 @@ public class Menu extends JPanel {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void adaptBounds(int widthLevel, int heightLevel) {
-				setMaximum((widthLevel-2)*(heightLevel-2)/5);
+				setMaximum((widthLevel-2)*(heightLevel-2)/5+2);
 				int sliderSize = getMaximum()-getMinimum();
 				if (sliderSize/3 > 0) {
 					setMajorTickSpacing(sliderSize/3);

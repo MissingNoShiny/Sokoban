@@ -127,12 +127,18 @@ public final class GridReader {
 			bestPushes = bestScores.getY();
 		}
 		
-		if ((bestMoves > moves) || (bestMoves == moves && bestPushes > pushes)) {
+		if ((bestMoves > moves) || (bestPushes > pushes)) {
 			try {
 				buff = new BufferedWriter(new FileWriter(path));
-				buff.write(moves);
+				if (bestMoves > moves)
+					buff.write(moves);
+				else
+					buff.write(bestMoves);
 				buff.newLine();
-				buff.write(pushes);
+				if (bestPushes > pushes)
+					buff.write(pushes);
+				else
+					buff.write(bestPushes);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -181,6 +187,7 @@ public final class GridReader {
 		try {
 			buff = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			moves = buff.read();
+			buff.readLine();
 			pushes = buff.read();
 		} catch (IOException e) {
 			e.printStackTrace();
