@@ -522,11 +522,10 @@ public class Menu extends JPanel {
 		
 		JPanel optionsTextureDirPanel = new JPanel();
 		optionsTextureDirPanel.setLayout(new GridLayout(1, 2, 0, 0));
-		optionsTextureDirPanel.setOpaque(false);
+		optionsTextureDirPanel.setBackground(Options.getButtonColor());;
 		
 		JLabel optionsTextureDirLabel = new JLabel("Texture Pack: ", SwingConstants.RIGHT);
 		optionsTextureDirLabel.setFont(Options.bigFont);
-		optionsTextureDirLabel.setOpaque(true);
 		optionsTextureDirLabel.setBackground(Options.getButtonColor());
 		
 		JComboBox<String> optionsTextureDirList = new JComboBox<String>();
@@ -543,12 +542,12 @@ public class Menu extends JPanel {
 		
 		JToggleButton optionsPlayerArrowsButton = new JToggleButton();
 		optionsPlayerArrowsButton.setBackground(Options.getButtonColor());
-		if (Options.arePlayerArrowsShown())
-			optionsPlayerArrowsButton.setText("Player Arrows: Hidden");
-		else {
+		if (Options.arePlayerArrowsShown()) {
 			optionsPlayerArrowsButton.setText("Player Arrows: Shown");
 			optionsPlayerArrowsButton.setSelected(true);
 		}
+		else
+			optionsPlayerArrowsButton.setText("Player Arrows: Hidden");
 		optionsPlayerArrowsButton.setFont(Options.bigFont);
 		optionsPlayerArrowsButton.addChangeListener(new ChangeListener() {
 			@Override
@@ -583,6 +582,14 @@ public class Menu extends JPanel {
 		optionsCancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				optionsButtonColorSlider1.setValue(Options.getButtonColor().getRed());
+				optionsButtonColorSlider2.setValue(Options.getButtonColor().getGreen());
+				optionsButtonColorSlider3.setValue(Options.getButtonColor().getBlue());
+				optionsBackgroundColorSlider1.setValue(Options.getBackgroundColor().getRed());
+				optionsBackgroundColorSlider2.setValue(Options.getBackgroundColor().getGreen());
+				optionsBackgroundColorSlider3.setValue(Options.getBackgroundColor().getBlue());
+				optionsTextureDirList.setSelectedItem(Options.getTextureDir());
+				optionsPlayerArrowsButton.setSelected(Options.arePlayerArrowsShown());
 				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
 			}
 		});
