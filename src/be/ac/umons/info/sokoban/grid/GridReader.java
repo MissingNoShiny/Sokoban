@@ -84,6 +84,10 @@ public final class GridReader {
 		}
 	}
 	
+	/**
+	 * Gets the index of the last unlocked level of the campaign.
+	 * @return The index of the last unlocked level
+	 */
 	public static int getMaxIndexLevel() {
 		File file = new File("levels/saved/maxIndexLevel.txt");
 		if (!file.exists()) 
@@ -107,11 +111,16 @@ public final class GridReader {
 		return max;
 	}
 	
-	
+	/**
+	 * 
+	 * @param path
+	 * @param levelIndex
+	 * @param moves
+	 * @param pushes
+	 */
 	public static void saveVictory(String path, int levelIndex, int moves, int pushes) {
-		
 		BufferedWriter buff = null;
-		int bestMoves = moves+1, bestPushes = pushes + 1;
+		int bestMoves = moves + 1, bestPushes = pushes + 1;
 		Point bestScores = getBestScores(path);
 		if (bestScores != null) {
 			bestMoves = bestScores.getX();
@@ -218,7 +227,7 @@ public final class GridReader {
      * @throws FileNotFoundException
      * @throws InvalidFileException
      */
-	private static Grid readGrid (String path) throws FileNotFoundException, InvalidFileException {
+	private static Grid readGrid(String path) throws FileNotFoundException, InvalidFileException {
 		File file = new File(path);
 		if (! file.exists())
 			throw new FileNotFoundException("File not found");

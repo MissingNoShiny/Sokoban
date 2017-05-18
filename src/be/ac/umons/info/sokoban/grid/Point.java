@@ -1,7 +1,7 @@
 package be.ac.umons.info.sokoban.grid;
 
 /**
- * A substitute to awt's Point using ints instead of doubles.
+ * A substitute to awt's Point using int instead of double.
  * @author Vincent Larcin, Joachim Sneessens
  */
 public class Point {

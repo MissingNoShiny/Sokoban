@@ -46,7 +46,7 @@ public class GridDisplay extends JPanel {
 					grid.getPlayer().move(dir, true);
 				}
 			});
-			setIcon(new ImageIcon(resourcePath));
+			setIcon(new ImageIcon("resources/default/" + resourcePath));
 		}
 	}
 	/**
@@ -72,7 +72,7 @@ public class GridDisplay extends JPanel {
 	/**
 	 * The thickness of the border around the level, in pixels.
 	 */
-	private int borderThickness = 5;
+	private int borderThickness = 0;
 	
 	/**
 	 * The X-coordinate of the upper left corner of the grid.
@@ -175,8 +175,8 @@ public class GridDisplay extends JPanel {
 			for (int j = 0; j < grid.getHeight(); j++) {
 				g.drawImage(sprites.get(grid.getComponentTypeAt(i, j)), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
-				if (borderThickness > 0)
-					drawBorder(i, j, g2d);
+				//if (borderThickness > 0)
+					//drawBorder(i, j, g2d);
 			}
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);

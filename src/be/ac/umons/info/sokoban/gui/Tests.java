@@ -13,6 +13,11 @@ import be.ac.umons.info.sokoban.grid.InvalidFileException;
 public final class Tests {
 
 	/**
+	 * The folder this class
+	 */
+	private static final String TEST_FOLDER = "tests";
+	
+	/**
 	 * Constructor is private to prevent instantiations.
 	 */
 	private Tests() {
@@ -24,7 +29,7 @@ public final class Tests {
 	 * @param args Unused
 	 */
 	public static void main(String[] args) {
-		File folder = new File("tests");
+		File folder = new File(TEST_FOLDER);
 		File[] fileList = folder.listFiles();
 		for (File file1 : fileList) {
 			if (file1.getName().endsWith(".xsb")) {

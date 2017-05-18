@@ -73,8 +73,11 @@ public class Game implements Runnable {
 	 */
 	private int fpsTemp = 0;
 	
-	
-	public static void main(String[] args) throws IOException {
+	/**
+	 * Launches a new game.
+	 * @param args Unused
+	 */
+	public static void main(String[] args) {
 		
 		Locale.setDefault(Locale.ENGLISH);
 		
@@ -82,6 +85,9 @@ public class Game implements Runnable {
 		game.start();
 	}
 	
+	/**
+	 * Creates a new game.
+	 */
 	public Game() {
 		options = Options.load();
 		menu = new Menu(this);
@@ -201,6 +207,11 @@ public class Game implements Runnable {
 		return window;
 	}
 	
+	/**
+	 * Gets all the components in a container recursively.
+	 * @param The container to retrieve the components from.
+	 * @return An ArrayList containing all the components
+	 */
 	private static ArrayList<Component> getAllComponents(final Container c) {
 	    Component[] comps = c.getComponents();
 	    ArrayList<Component> compList = new ArrayList<Component>();
@@ -212,6 +223,10 @@ public class Game implements Runnable {
 	    return compList;
 	}
 	
+	/**
+	 * Updates the background of all the JPanels, JLabels, JButtons, JSliders, JToggleButtons and JComboBoxes in a frame.
+	 * @param frame The frame to update the component of.
+	 */
 	public void updateOptions(Container frame) {
 		ArrayList<Component> componentList = getAllComponents(frame);
 		for (Component comp : componentList) {
