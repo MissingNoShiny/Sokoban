@@ -1,5 +1,6 @@
 package be.ac.umons.info.sokoban.gui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -447,10 +448,14 @@ public class Menu extends JPanel {
 		optionsBackgroundColorPanel.setLayout(new GridLayout(1, 3, 3, 3));
 		optionsBackgroundColorPanel.setOpaque(false);
 		
+		JPanel optionsBackgroundColorLabelPanel = new JPanel();
+		optionsBackgroundColorLabelPanel.setLayout(new BorderLayout());
+		optionsBackgroundColorLabelPanel.setBackground(Options.getBackgroundColor());
+		
 		JLabel optionsBackgroundColorLabel = new JLabel("Background Color:", SwingConstants.CENTER);
 		optionsBackgroundColorLabel.setFont(Options.bigFont);
-		optionsBackgroundColorLabel.setOpaque(true);
-		optionsBackgroundColorLabel.setBackground(Options.getBackgroundColor());
+		
+		optionsBackgroundColorLabelPanel.add(optionsBackgroundColorLabel, BorderLayout.CENTER);
 		
 		JPanel optionsBackgroundColorSliders = new JPanel();
 		optionsBackgroundColorSliders.setLayout(new GridLayout(3, 1, 0, 0));
@@ -458,14 +463,14 @@ public class Menu extends JPanel {
 		JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
 		optionsBackgroundColorSlider1.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider1, Color.red));
 		optionsBackgroundColorSlider1.setBackground(Options.getButtonColor());
-		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorLabel.getBackground().getRed());
+		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorLabelPanel.getBackground().getRed());
 		optionsBackgroundColorSlider1.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsBackgroundColorLabel.setBackground(new Color(
+				optionsBackgroundColorLabelPanel.setBackground(new Color(
 						optionsBackgroundColorSlider1.getValue(), 
-						optionsBackgroundColorLabel.getBackground().getGreen(), 
-						optionsBackgroundColorLabel.getBackground().getBlue()
+						optionsBackgroundColorLabelPanel.getBackground().getGreen(), 
+						optionsBackgroundColorLabelPanel.getBackground().getBlue()
 						));
 			}
 		});
@@ -473,14 +478,14 @@ public class Menu extends JPanel {
 		JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255, 16);
 		optionsBackgroundColorSlider2.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider2, Color.green));
 		optionsBackgroundColorSlider2.setBackground(Options.getButtonColor());
-		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorLabel.getBackground().getGreen());
+		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorLabelPanel.getBackground().getGreen());
 		optionsBackgroundColorSlider2.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsBackgroundColorLabel.setBackground(new Color(
-						optionsBackgroundColorLabel.getBackground().getRed(), 
+				optionsBackgroundColorLabelPanel.setBackground(new Color(
+						optionsBackgroundColorLabelPanel.getBackground().getRed(), 
 						optionsBackgroundColorSlider2.getValue(), 
-						optionsBackgroundColorLabel.getBackground().getBlue()
+						optionsBackgroundColorLabelPanel.getBackground().getBlue()
 						));
 			}
 		});
@@ -488,13 +493,13 @@ public class Menu extends JPanel {
 		JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255, 16);
 		optionsBackgroundColorSlider3.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider3, Color.blue));
 		optionsBackgroundColorSlider3.setBackground(Options.getButtonColor());
-		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorLabel.getBackground().getBlue());
+		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorLabelPanel.getBackground().getBlue());
 		optionsBackgroundColorSlider3.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsBackgroundColorLabel.setBackground(new Color(
-						optionsBackgroundColorLabel.getBackground().getRed(), 
-						optionsBackgroundColorLabel.getBackground().getGreen(),
+				optionsBackgroundColorLabelPanel.setBackground(new Color(
+						optionsBackgroundColorLabelPanel.getBackground().getRed(), 
+						optionsBackgroundColorLabelPanel.getBackground().getGreen(),
 						optionsBackgroundColorSlider3.getValue() 
 						));
 			}
@@ -516,17 +521,18 @@ public class Menu extends JPanel {
 			
 		});
 		
-		optionsBackgroundColorPanel.add(optionsBackgroundColorLabel);
+		optionsBackgroundColorPanel.add(optionsBackgroundColorLabelPanel);
 		optionsBackgroundColorPanel.add(optionsBackgroundColorSliders);
 		optionsBackgroundColorPanel.add(optionsBackgroundColorReset);
 		
 		JPanel optionsTextureDirPanel = new JPanel();
 		optionsTextureDirPanel.setLayout(new GridLayout(1, 2, 0, 0));
-		optionsTextureDirPanel.setBackground(Options.getButtonColor());;
+		optionsTextureDirPanel.setOpaque(false);
 		
 		JLabel optionsTextureDirLabel = new JLabel("Texture Pack: ", SwingConstants.RIGHT);
 		optionsTextureDirLabel.setFont(Options.bigFont);
 		optionsTextureDirLabel.setBackground(Options.getButtonColor());
+		optionsTextureDirLabel.setOpaque(true);
 		
 		JComboBox<String> optionsTextureDirList = new JComboBox<String>();
 		optionsTextureDirList.setFont(Options.bigFont);

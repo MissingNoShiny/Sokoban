@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
@@ -214,7 +215,7 @@ public class Game implements Runnable {
 	public void updateOptions(Container frame) {
 		ArrayList<Component> componentList = getAllComponents(frame);
 		for (Component comp : componentList) {
-			if (comp instanceof JButton || comp instanceof JSlider || comp instanceof JToggleButton || comp instanceof JComboBox)
+			if ((comp instanceof JLabel && comp.isOpaque()) || comp instanceof JButton || comp instanceof JSlider || comp instanceof JToggleButton || comp instanceof JComboBox)
 				comp.setBackground(Options.getButtonColor());
 			else if (comp instanceof JPanel)
 				comp.setBackground(Options.getBackgroundColor());
