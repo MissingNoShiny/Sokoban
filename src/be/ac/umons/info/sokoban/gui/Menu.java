@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -312,6 +313,7 @@ public class Menu extends JPanel {
 		saveChoice.setBackground(Options.getButtonColor());
 		saveChoice.setFocusable(false);
 		saveChoice.setEditable(false);
+		((JLabel) saveChoice.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		loadFrame.add(saveChoice);
 		
 		final Button validateLoadingButton = new Button("Load", Options.getButtonColor(), Options.smallFont);
@@ -542,6 +544,7 @@ public class Menu extends JPanel {
 		String[] texturePackList = getTexturePackList();
 		for (int i = 0; i < texturePackList.length; i++)
 			optionsTextureDirList.addItem(texturePackList[i]);
+		((JLabel) optionsTextureDirList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		
 		optionsTextureDirPanel.add(optionsTextureDirLabel);
 		optionsTextureDirPanel.add(optionsTextureDirList);	
@@ -652,7 +655,7 @@ public class Menu extends JPanel {
 		File[] texturePackFileList = folder.listFiles();
 		String[] texturePackList = new String[texturePackFileList.length];
 		for (int i = 0; i < texturePackFileList.length; i++)
-			texturePackList[i] = texturePackFileList[i].getPath().split("\\\\")[1];
+			texturePackList[i] = texturePackFileList[i].getPath().split(Pattern.quote(File.separator))[1];
 		return texturePackList;
 	}
 }
