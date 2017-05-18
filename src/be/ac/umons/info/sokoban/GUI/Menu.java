@@ -572,6 +572,9 @@ public class Menu extends JPanel {
 				Options.setBackgroundColor(new Color(optionsBackgroundColorSlider1.getValue(), optionsBackgroundColorSlider2.getValue(), optionsBackgroundColorSlider3.getValue()));
 				Options.setTextureDir((String) optionsTextureDirList.getSelectedItem());
 				Options.setPlayerArrowsShown(optionsPlayerArrowsButton.isSelected());
+				gameInput.updateOptions(getParent());
+				gameInput.updateOptions(generatorFrame);
+				gameInput.updateOptions(loadFrame);
 				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
 			}
 		});

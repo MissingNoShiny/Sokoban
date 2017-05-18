@@ -1,10 +1,18 @@
 package be.ac.umons.info.sokoban.gui;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
 
 import be.ac.umons.info.sokoban.grid.Grid;
 import be.ac.umons.info.sokoban.grid.GridGenerator;
@@ -190,5 +198,26 @@ public class Game implements Runnable {
 	 */
 	public JFrame getWindow() {
 		return window;
+	}
+	
+	private static ArrayList<Component> getAllComponents(final Container c) {
+	    Component[] comps = c.getComponents();
+	    ArrayList<Component> compList = new ArrayList<Component>();
+	    for (Component comp : comps) {
+	        compList.add(comp);
+	        if (comp instanceof Container)
+	            compList.addAll(getAllComponents((Container) comp));
+	    }
+	    return compList;
+	}
+	
+	public void updateOptions(Container frame) {
+		ArrayList<Component> componentList = getAllComponents(frame);
+		for (Component comp : componentList) {
+			if (comp instanceof JButton || comp instanceof JSlider || comp instanceof JToggleButton || comp instanceof JComboBox)
+				comp.setBackground(Options.getButtonColor());
+			else if (comp instanceof JPanel)
+				comp.setBackground(Options.getBackgroundColor());
+		}
 	}
 }
