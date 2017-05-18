@@ -8,7 +8,5 @@ TODO List
 - terminer les options
 - Gestion des textures
 - supprimer mouse listener et méthodes rendues inutiles pour les arrowButtons
-- (Mettre le score dans le victoryScreen)
-- supprimer fichier.mov quand niveau fini
 - supprimer probleme redimensionnement
 - (eventuellement verifier intégrité des sauvegardes)

@@ -199,7 +199,7 @@ public class LevelDisplay extends JPanel {
 							canOverrideSave = JOptionPane.showConfirmDialog(IOError, "Do you want to overwrite existing save?", "Warning",  JOptionPane.YES_NO_OPTION);
 		
 						if (canOverrideSave == 0) {
-							GridReader.saveGrid(grid, saveName, false);
+							GridReader.saveGrid(grid, saveName);
 							levelName = saveName;
 							setEnabledButtons(true);
 							saveFrame.setVisible(false);;
@@ -215,7 +215,7 @@ public class LevelDisplay extends JPanel {
 		}
 	}
 	
-	public void displayVictoryScreen() {
+	public void displayVictoryScreen() {		
 		setEnabledButtons(false);
 		final DefaultFrame victoryScreen = new DefaultFrame("Victory !", 500, 300);
 		if (levelIndex > 0 && levelIndex <= 25) {
@@ -237,6 +237,11 @@ public class LevelDisplay extends JPanel {
 						levelIndex++;
 						game.loadLevel("levels/level "+levelIndex, levelIndex, "campaignLevel");
 						victoryScreen.setVisible(false);
+						grid.getTracker().reset();
+						if (levelIndex >= 0)
+							grid.getTracker().saveMov("levels/saved/level "+ levelIndex +".mov");
+						else if (!levelName.equals("NOTHING"))
+							grid.getTracker().saveMov("saves/" + levelName + ".mov");
 					} catch (IOException | InvalidFileException e1) {
 						JOptionPane.showMessageDialog(IOError, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -252,6 +257,11 @@ public class LevelDisplay extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				game.loadMenu();
 				victoryScreen.setVisible(false);
+				grid.getTracker().reset();
+				if (levelIndex >= 0)
+					grid.getTracker().saveMov("levels/saved/level "+ levelIndex +".mov");
+				else if (!levelName.equals("NOTHING"))
+					grid.getTracker().saveMov("saves/" + levelName + ".mov");
 			}
 		});
 		
