@@ -14,19 +14,27 @@ public class Options implements Serializable {
 	
 	private static final long serialVersionUID = 880731819964339511L;
 	
+	public static final Color DEFAULT_BUTTON_COLOR = Color.orange;
+	
+	public static final Color DEFAULT_BACKGROUND_COLOR = new Color(135, 206, 250);
+	
+	public static final String DEFAULT_TEXTURE_DIR = "default";
+	
 	public static String fontName = "Century";
 
 	public static final Font smallFont  = new Font(fontName, 0, 40);
 	
 	public static final Font bigFont = new Font(fontName, 0, 70);
 	
-	private static Color buttonColor = Color.orange;
+	public static final Font titleFont = new Font(fontName, 0, 100);
 	
-	private static Color backgroundColor = new Color(135, 206, 250);
+	private static Color buttonColor = DEFAULT_BUTTON_COLOR;
+	
+	private static Color backgroundColor = DEFAULT_BACKGROUND_COLOR;
 
 	private static boolean playerArrowsShown = false;
 	
-	private static String textureDir = "classic";
+	private static String textureDir = DEFAULT_TEXTURE_DIR;
 	
 	private Color buttonColorSave;
 	

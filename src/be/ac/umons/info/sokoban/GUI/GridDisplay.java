@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -99,8 +97,6 @@ public class GridDisplay extends JPanel {
 			
 			@Override
 			public void keyPressed(KeyEvent e) { 
-				Options.setPlayerArrowsShown(false);
-				updateArrowButtonsVisibility();
 				int input = e.getKeyCode();
 				switch (input){
 				case KeyEvent.VK_R:
@@ -155,35 +151,6 @@ public class GridDisplay extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				
-			}
-		});
-		
-		addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				Options.setPlayerArrowsShown(true);
-				updateArrowButtonsVisibility();
 			}
 		});
 		

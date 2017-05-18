@@ -76,7 +76,7 @@ public class LevelDisplay extends JPanel {
 	}
 	
 	
-	public LevelDisplay(Grid gridInput, Game gameInput, int levelIndexInput, String inputName) {
+	public LevelDisplay(Grid gridInput, Game gameInput, int levelIndexInput, String nameInput) {
 		
 		grid = gridInput;
 		game = gameInput;
@@ -192,7 +192,7 @@ public class LevelDisplay extends JPanel {
 			saveFrame.setVisible(true);
 		}
 		else 
-			levelName = inputName;
+			levelName = nameInput;
 	}
 	
 	public void displayVictoryScreen() {

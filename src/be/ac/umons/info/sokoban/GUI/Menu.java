@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -128,10 +130,10 @@ public class Menu extends JPanel {
 	 * https://coderanch.com/t/338457/java/JSlider-knob-color
 	 * @author Gregg Bolinger
 	 */
-	private class coloredThumbSliderUI extends BasicSliderUI {
+	private class ColoredThumbSliderUI extends BasicSliderUI {
 	 
 	    Color thumbColor;
-	    coloredThumbSliderUI(JSlider s, Color tColor) {
+	    ColoredThumbSliderUI(JSlider s, Color tColor) {
 	        super(s);
 	        thumbColor=tColor;
 	    }
@@ -186,7 +188,7 @@ public class Menu extends JPanel {
 		});
 		
 		JLabel title = new JLabel(Game.TITLE, JLabel.CENTER);
-		title.setFont(new Font(Options.fontName, 0, 100));
+		title.setFont(Options.titleFont);
 		mainMenuPanel.add(title);
 		
 		add(campaignPanel, "campaignPanel");
@@ -356,129 +358,218 @@ public class Menu extends JPanel {
 		mainMenuPanel.add(exitButton);
 		
 		optionsPanel.setBackground(Options.getBackgroundColor());
-		optionsPanel.setLayout(new GridLayout(4, 1, 3, 3));
+		optionsPanel.setLayout(new GridLayout(7, 1, 3, 3));
+		
+		JLabel optionsPanelTitle = new JLabel("Options", SwingConstants.CENTER);
+		optionsPanelTitle.setFont(Options.titleFont);
 		
 		JPanel optionsButtonColorPanel = new JPanel();
-		optionsButtonColorPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		optionsButtonColorPanel.setLayout(new GridLayout(1, 3, 3, 3));
+		optionsButtonColorPanel.setOpaque(false);
 		
-		JPanel optionsButtonColorPanelColor = new JPanel();
-		optionsButtonColorPanelColor.setBackground(Options.getButtonColor());
+		JLabel optionsButtonColorLabel = new JLabel("Button Color:", SwingConstants.CENTER);
+		optionsButtonColorLabel.setFont(Options.bigFont);
+		optionsButtonColorLabel.setOpaque(true);
+		optionsButtonColorLabel.setBackground(Options.getButtonColor());
 		
-		JPanel optionsButtonColorPanelSliders = new JPanel();
-		optionsButtonColorPanelSliders.setLayout(new GridLayout(3, 1, 0, 0));
+		JPanel optionsButtonColorSliders = new JPanel();
+		optionsButtonColorSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
 		JSlider optionsButtonColorSlider1 = new JSlider(0, 255, 16);
-		optionsButtonColorSlider1.setUI(new coloredThumbSliderUI(optionsButtonColorSlider1, Color.red));
-		optionsButtonColorSlider1.setValue(optionsButtonColorPanelColor.getBackground().getRed());
+		optionsButtonColorSlider1.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider1, Color.red));
+		optionsButtonColorSlider1.setBackground(Options.getButtonColor());
+		optionsButtonColorSlider1.setValue(optionsButtonColorLabel.getBackground().getRed());
 		optionsButtonColorSlider1.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsButtonColorPanelColor.setBackground(new Color(
+				optionsButtonColorLabel.setBackground(new Color(
 						optionsButtonColorSlider1.getValue(), 
-						optionsButtonColorPanelColor.getBackground().getGreen(), 
-						optionsButtonColorPanelColor.getBackground().getBlue()
+						optionsButtonColorLabel.getBackground().getGreen(), 
+						optionsButtonColorLabel.getBackground().getBlue()
 						));
 			}
 		});
 		
 		JSlider optionsButtonColorSlider2 = new JSlider(0, 255, 16);
-		optionsButtonColorSlider2.setUI(new coloredThumbSliderUI(optionsButtonColorSlider2, Color.green));
-		optionsButtonColorSlider2.setValue(optionsButtonColorPanelColor.getBackground().getGreen());
+		optionsButtonColorSlider2.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider2, Color.green));
+		optionsButtonColorSlider2.setBackground(Options.getButtonColor());
+		optionsButtonColorSlider2.setValue(optionsButtonColorLabel.getBackground().getGreen());
 		optionsButtonColorSlider2.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsButtonColorPanelColor.setBackground(new Color(
-						optionsButtonColorPanelColor.getBackground().getRed(), 
+				optionsButtonColorLabel.setBackground(new Color(
+						optionsButtonColorLabel.getBackground().getRed(), 
 						optionsButtonColorSlider2.getValue(), 
-						optionsButtonColorPanelColor.getBackground().getBlue()
+						optionsButtonColorLabel.getBackground().getBlue()
 						));
 			}
 		});
 		
 		JSlider optionsButtonColorSlider3 = new JSlider(0, 255, 16);
-		optionsButtonColorSlider3.setUI(new coloredThumbSliderUI(optionsButtonColorSlider3, Color.blue));
-		optionsButtonColorSlider3.setValue(optionsButtonColorPanelColor.getBackground().getBlue());
+		optionsButtonColorSlider3.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider3, Color.blue));
+		optionsButtonColorSlider3.setBackground(Options.getButtonColor());
+		optionsButtonColorSlider3.setValue(optionsButtonColorLabel.getBackground().getBlue());
 		optionsButtonColorSlider3.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsButtonColorPanelColor.setBackground(new Color(
-						optionsButtonColorPanelColor.getBackground().getRed(), 
-						optionsButtonColorPanelColor.getBackground().getGreen(),
+				optionsButtonColorLabel.setBackground(new Color(
+						optionsButtonColorLabel.getBackground().getRed(), 
+						optionsButtonColorLabel.getBackground().getGreen(),
 						optionsButtonColorSlider3.getValue() 
 						));
 			}
 		});
 		
-		optionsButtonColorPanelSliders.add(optionsButtonColorSlider1);
-		optionsButtonColorPanelSliders.add(optionsButtonColorSlider2);
-		optionsButtonColorPanelSliders.add(optionsButtonColorSlider3);
+		optionsButtonColorSliders.add(optionsButtonColorSlider1);
+		optionsButtonColorSliders.add(optionsButtonColorSlider2);
+		optionsButtonColorSliders.add(optionsButtonColorSlider3);
 		
-		optionsButtonColorPanel.add(optionsButtonColorPanelColor);
-		optionsButtonColorPanel.add(optionsButtonColorPanelSliders);
+		Button optionsButtonColorReset = new Button("Reset", Options.getButtonColor(), Options.bigFont);
+		optionsButtonColorReset.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				optionsButtonColorSlider1.setValue(Options.DEFAULT_BUTTON_COLOR.getRed());
+				optionsButtonColorSlider2.setValue(Options.DEFAULT_BUTTON_COLOR.getGreen());
+				optionsButtonColorSlider3.setValue(Options.DEFAULT_BUTTON_COLOR.getBlue());
+			}
+			
+		});
+		
+		optionsButtonColorPanel.add(optionsButtonColorLabel);
+		optionsButtonColorPanel.add(optionsButtonColorSliders);
+		optionsButtonColorPanel.add(optionsButtonColorReset);
 		
 		
 		JPanel optionsBackgroundColorPanel = new JPanel();
-		optionsBackgroundColorPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		optionsBackgroundColorPanel.setLayout(new GridLayout(1, 3, 3, 3));
+		optionsBackgroundColorPanel.setOpaque(false);
 		
-		JPanel optionsBackgroundColorPanelColor = new JPanel();
-		optionsBackgroundColorPanelColor.setBackground(Options.getBackgroundColor());
+		JLabel optionsBackgroundColorLabel = new JLabel("Background Color:", SwingConstants.CENTER);
+		optionsBackgroundColorLabel.setFont(Options.bigFont);
+		optionsBackgroundColorLabel.setOpaque(true);
+		optionsBackgroundColorLabel.setBackground(Options.getBackgroundColor());
 		
-		JPanel optionsBackgroundColorPanelSliders = new JPanel();
-		optionsBackgroundColorPanelSliders.setLayout(new GridLayout(3, 1, 0, 0));
+		JPanel optionsBackgroundColorSliders = new JPanel();
+		optionsBackgroundColorSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
 		JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
-		optionsBackgroundColorSlider1.setUI(new coloredThumbSliderUI(optionsBackgroundColorSlider1, Color.red));
-		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorPanelColor.getBackground().getRed());
+		optionsBackgroundColorSlider1.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider1, Color.red));
+		optionsBackgroundColorSlider1.setBackground(Options.getButtonColor());
+		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorLabel.getBackground().getRed());
 		optionsBackgroundColorSlider1.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsBackgroundColorPanelColor.setBackground(new Color(
+				optionsBackgroundColorLabel.setBackground(new Color(
 						optionsBackgroundColorSlider1.getValue(), 
-						optionsBackgroundColorPanelColor.getBackground().getGreen(), 
-						optionsBackgroundColorPanelColor.getBackground().getBlue()
+						optionsBackgroundColorLabel.getBackground().getGreen(), 
+						optionsBackgroundColorLabel.getBackground().getBlue()
 						));
 			}
 		});
 		
 		JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255, 16);
-		optionsBackgroundColorSlider2.setUI(new coloredThumbSliderUI(optionsBackgroundColorSlider2, Color.green));
-		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorPanelColor.getBackground().getGreen());
+		optionsBackgroundColorSlider2.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider2, Color.green));
+		optionsBackgroundColorSlider2.setBackground(Options.getButtonColor());
+		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorLabel.getBackground().getGreen());
 		optionsBackgroundColorSlider2.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsBackgroundColorPanelColor.setBackground(new Color(
-						optionsBackgroundColorPanelColor.getBackground().getRed(), 
+				optionsBackgroundColorLabel.setBackground(new Color(
+						optionsBackgroundColorLabel.getBackground().getRed(), 
 						optionsBackgroundColorSlider2.getValue(), 
-						optionsBackgroundColorPanelColor.getBackground().getBlue()
+						optionsBackgroundColorLabel.getBackground().getBlue()
 						));
 			}
 		});
 		
 		JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255, 16);
-		optionsBackgroundColorSlider3.setUI(new coloredThumbSliderUI(optionsBackgroundColorSlider3, Color.blue));
-		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorPanelColor.getBackground().getBlue());
+		optionsBackgroundColorSlider3.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider3, Color.blue));
+		optionsBackgroundColorSlider3.setBackground(Options.getButtonColor());
+		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorLabel.getBackground().getBlue());
 		optionsBackgroundColorSlider3.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				optionsBackgroundColorPanelColor.setBackground(new Color(
-						optionsBackgroundColorPanelColor.getBackground().getRed(), 
-						optionsBackgroundColorPanelColor.getBackground().getGreen(),
+				optionsBackgroundColorLabel.setBackground(new Color(
+						optionsBackgroundColorLabel.getBackground().getRed(), 
+						optionsBackgroundColorLabel.getBackground().getGreen(),
 						optionsBackgroundColorSlider3.getValue() 
 						));
 			}
 		});
 		
-		optionsBackgroundColorPanelSliders.add(optionsBackgroundColorSlider1);
-		optionsBackgroundColorPanelSliders.add(optionsBackgroundColorSlider2);
-		optionsBackgroundColorPanelSliders.add(optionsBackgroundColorSlider3);
+		optionsBackgroundColorSliders.add(optionsBackgroundColorSlider1);
+		optionsBackgroundColorSliders.add(optionsBackgroundColorSlider2);
+		optionsBackgroundColorSliders.add(optionsBackgroundColorSlider3);
 		
-		optionsBackgroundColorPanel.add(optionsBackgroundColorPanelColor);
-		optionsBackgroundColorPanel.add(optionsBackgroundColorPanelSliders);
+		Button optionsBackgroundColorReset = new Button("Reset", Options.getButtonColor(), Options.bigFont);
+		optionsBackgroundColorReset.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				optionsBackgroundColorSlider1.setValue(Options.DEFAULT_BACKGROUND_COLOR.getRed());
+				optionsBackgroundColorSlider2.setValue(Options.DEFAULT_BACKGROUND_COLOR.getGreen());
+				optionsBackgroundColorSlider3.setValue(Options.DEFAULT_BACKGROUND_COLOR.getBlue());
+			}
+			
+		});
+		
+		optionsBackgroundColorPanel.add(optionsBackgroundColorLabel);
+		optionsBackgroundColorPanel.add(optionsBackgroundColorSliders);
+		optionsBackgroundColorPanel.add(optionsBackgroundColorReset);
+		
+		JPanel optionsTextureDirPanel = new JPanel();
+		optionsTextureDirPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		optionsTextureDirPanel.setOpaque(false);
+		
+		JLabel optionsTextureDirLabel = new JLabel("Texture Pack: ", SwingConstants.RIGHT);
+		optionsTextureDirLabel.setFont(Options.bigFont);
+		optionsTextureDirLabel.setOpaque(true);
+		optionsTextureDirLabel.setBackground(Options.getButtonColor());
+		
+		JComboBox<String> optionsTextureDirList = new JComboBox<String>();
+		optionsTextureDirList.setFont(Options.bigFont);
+		optionsTextureDirList.setBackground(Options.getButtonColor());
+		optionsTextureDirList.setFocusable(false);
+		optionsTextureDirList.setEditable(false);
+		String[] texturePackList = getTexturePackList();
+		for (int i = 0; i < texturePackList.length; i++)
+			optionsTextureDirList.addItem(texturePackList[i]);
+		
+		optionsTextureDirPanel.add(optionsTextureDirLabel);
+		optionsTextureDirPanel.add(optionsTextureDirList);	
+		
+		JToggleButton optionsPlayerArrowsButton = new JToggleButton();
+		optionsPlayerArrowsButton.setBackground(Options.getButtonColor());
+		if (Options.arePlayerArrowsShown())
+			optionsPlayerArrowsButton.setText("Player Arrows: Hidden");
+		else {
+			optionsPlayerArrowsButton.setText("Player Arrows: Shown");
+			optionsPlayerArrowsButton.setSelected(true);
+		}
+		optionsPlayerArrowsButton.setFont(Options.bigFont);
+		optionsPlayerArrowsButton.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				if (optionsPlayerArrowsButton.isSelected())
+					optionsPlayerArrowsButton.setText("Player Arrows: Shown");
+				else
+					optionsPlayerArrowsButton.setText("Player Arrows: Hidden");
+			}
+		});
+		
+		JPanel optionsButtonsPanel = new JPanel();
+		optionsButtonsPanel.setOpaque(false);
+		optionsButtonsPanel.setLayout(new GridLayout(1, 2, 3, 3));
 		
 		Button optionsSaveButton = new Button("Save", Options.getButtonColor(), Options.bigFont);
 		optionsSaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Options.setButtonColor(new Color(optionsButtonColorSlider1.getValue(), optionsButtonColorSlider2.getValue(), optionsButtonColorSlider3.getValue()));
+				Options.setBackgroundColor(new Color(optionsBackgroundColorSlider1.getValue(), optionsBackgroundColorSlider2.getValue(), optionsBackgroundColorSlider3.getValue()));
+				Options.setTextureDir((String) optionsTextureDirList.getSelectedItem());
+				Options.setPlayerArrowsShown(optionsPlayerArrowsButton.isSelected());
 				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
 			}
 		});
@@ -491,10 +582,16 @@ public class Menu extends JPanel {
 			}
 		});
 		
+		optionsButtonsPanel.add(optionsSaveButton);
+		optionsButtonsPanel.add(optionsCancelButton);
+		
+		optionsPanel.add(optionsPanelTitle);
 		optionsPanel.add(optionsButtonColorPanel);
 		optionsPanel.add(optionsBackgroundColorPanel);
-		optionsPanel.add(optionsSaveButton);
-		optionsPanel.add(optionsCancelButton);
+		optionsPanel.add(optionsTextureDirPanel);
+		optionsPanel.add(optionsPlayerArrowsButton);
+		optionsPanel.add(new JLabel());
+		optionsPanel.add(optionsButtonsPanel);
 	}
 	
 	public void updateCampaignPanel() {
@@ -530,5 +627,14 @@ public class Menu extends JPanel {
 		for (int i = 0; i < mainMenuPanel.getComponentCount(); i++) {
 			mainMenuPanel.getComponent(i).setEnabled(arg);
 		}
+	}
+	
+	private String[] getTexturePackList() {
+		File folder = new File("resources");
+		File[] texturePackFileList = folder.listFiles();
+		String[] texturePackList = new String[texturePackFileList.length];
+		for (int i = 0; i < texturePackFileList.length; i++)
+			texturePackList[i] = texturePackFileList[i].getPath().split("\\\\")[1];
+		return texturePackList;
 	}
 }
