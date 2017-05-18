@@ -109,7 +109,7 @@ public class Menu extends JPanel {
 	private class CampaignButton extends Button {
 		private static final long serialVersionUID = 1259333880542050320L;
 				
-		public CampaignButton(int levelIndex) {
+		public CampaignButton(final int levelIndex) {
 			super("level " + levelIndex, Options.getButtonColor(), Options.smallFont);
 			addActionListener(new ActionListener() {
 				@Override
@@ -167,7 +167,7 @@ public class Menu extends JPanel {
 	    }
 	}
 	
-	public Menu(Game gameInput) {
+	public Menu(final Game gameInput) {
 		
 		this.game = gameInput;
 		
@@ -370,7 +370,7 @@ public class Menu extends JPanel {
 		optionsButtonColorPanel.setLayout(new GridLayout(1, 3, 3, 3));
 		optionsButtonColorPanel.setOpaque(false);
 		
-		JLabel optionsButtonColorLabel = new JLabel("Button Color:", SwingConstants.CENTER);
+		final JLabel optionsButtonColorLabel = new JLabel("Button Color:", SwingConstants.CENTER);
 		optionsButtonColorLabel.setFont(Options.bigFont);
 		optionsButtonColorLabel.setOpaque(true);
 		optionsButtonColorLabel.setBackground(Options.getButtonColor());
@@ -378,7 +378,7 @@ public class Menu extends JPanel {
 		JPanel optionsButtonColorSliders = new JPanel();
 		optionsButtonColorSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
-		JSlider optionsButtonColorSlider1 = new JSlider(0, 255, 16);
+		final JSlider optionsButtonColorSlider1 = new JSlider(0, 255, 16);
 		optionsButtonColorSlider1.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider1, Color.red));
 		optionsButtonColorSlider1.setBackground(Options.getButtonColor());
 		optionsButtonColorSlider1.setValue(optionsButtonColorLabel.getBackground().getRed());
@@ -393,7 +393,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		JSlider optionsButtonColorSlider2 = new JSlider(0, 255, 16);
+		final JSlider optionsButtonColorSlider2 = new JSlider(0, 255, 16);
 		optionsButtonColorSlider2.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider2, Color.green));
 		optionsButtonColorSlider2.setBackground(Options.getButtonColor());
 		optionsButtonColorSlider2.setValue(optionsButtonColorLabel.getBackground().getGreen());
@@ -408,7 +408,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		JSlider optionsButtonColorSlider3 = new JSlider(0, 255, 16);
+		final JSlider optionsButtonColorSlider3 = new JSlider(0, 255, 16);
 		optionsButtonColorSlider3.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider3, Color.blue));
 		optionsButtonColorSlider3.setBackground(Options.getButtonColor());
 		optionsButtonColorSlider3.setValue(optionsButtonColorLabel.getBackground().getBlue());
@@ -452,7 +452,7 @@ public class Menu extends JPanel {
 		optionsBackgroundColorLabelPanel.setLayout(new BorderLayout());
 		optionsBackgroundColorLabelPanel.setBackground(Options.getBackgroundColor());
 		
-		JLabel optionsBackgroundColorLabel = new JLabel("Background Color:", SwingConstants.CENTER);
+		final JLabel optionsBackgroundColorLabel = new JLabel("Background Color:", SwingConstants.CENTER);
 		optionsBackgroundColorLabel.setFont(Options.bigFont);
 		
 		optionsBackgroundColorLabelPanel.add(optionsBackgroundColorLabel, BorderLayout.CENTER);
@@ -460,7 +460,7 @@ public class Menu extends JPanel {
 		JPanel optionsBackgroundColorSliders = new JPanel();
 		optionsBackgroundColorSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
-		JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
+		final JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
 		optionsBackgroundColorSlider1.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider1, Color.red));
 		optionsBackgroundColorSlider1.setBackground(Options.getButtonColor());
 		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorLabelPanel.getBackground().getRed());
@@ -475,7 +475,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255, 16);
+		final JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255, 16);
 		optionsBackgroundColorSlider2.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider2, Color.green));
 		optionsBackgroundColorSlider2.setBackground(Options.getButtonColor());
 		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorLabelPanel.getBackground().getGreen());
@@ -490,7 +490,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255, 16);
+		final JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255, 16);
 		optionsBackgroundColorSlider3.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider3, Color.blue));
 		optionsBackgroundColorSlider3.setBackground(Options.getButtonColor());
 		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorLabelPanel.getBackground().getBlue());
@@ -529,12 +529,12 @@ public class Menu extends JPanel {
 		optionsTextureDirPanel.setLayout(new GridLayout(1, 2, 0, 0));
 		optionsTextureDirPanel.setOpaque(false);
 		
-		JLabel optionsTextureDirLabel = new JLabel("Texture Pack: ", SwingConstants.RIGHT);
+		JLabel optionsTextureDirLabel = new JLabel("Texture Pack: ", SwingConstants.CENTER);
 		optionsTextureDirLabel.setFont(Options.bigFont);
 		optionsTextureDirLabel.setBackground(Options.getButtonColor());
 		optionsTextureDirLabel.setOpaque(true);
 		
-		JComboBox<String> optionsTextureDirList = new JComboBox<String>();
+		final JComboBox<String> optionsTextureDirList = new JComboBox<String>();
 		optionsTextureDirList.setFont(Options.bigFont);
 		optionsTextureDirList.setBackground(Options.getButtonColor());
 		optionsTextureDirList.setFocusable(false);
@@ -546,7 +546,7 @@ public class Menu extends JPanel {
 		optionsTextureDirPanel.add(optionsTextureDirLabel);
 		optionsTextureDirPanel.add(optionsTextureDirList);	
 		
-		JToggleButton optionsPlayerArrowsButton = new JToggleButton();
+		final JToggleButton optionsPlayerArrowsButton = new JToggleButton();
 		optionsPlayerArrowsButton.setBackground(Options.getButtonColor());
 		if (Options.arePlayerArrowsShown()) {
 			optionsPlayerArrowsButton.setText("Player Arrows: Shown");
