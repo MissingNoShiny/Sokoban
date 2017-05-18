@@ -448,7 +448,7 @@ public class Menu extends JPanel {
 		optionsBackgroundColorPanel.setLayout(new GridLayout(1, 3, 3, 3));
 		optionsBackgroundColorPanel.setOpaque(false);
 		
-		JPanel optionsBackgroundColorLabelPanel = new JPanel();
+		final JPanel optionsBackgroundColorLabelPanel = new JPanel();
 		optionsBackgroundColorLabelPanel.setLayout(new BorderLayout());
 		optionsBackgroundColorLabelPanel.setBackground(Options.getBackgroundColor());
 		
