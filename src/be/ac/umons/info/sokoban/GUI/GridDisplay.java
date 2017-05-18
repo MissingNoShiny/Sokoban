@@ -46,8 +46,7 @@ public class GridDisplay extends JPanel {
 					grid.getPlayer().move(dir, true);
 				}
 			});
-			String path = "resources/" + Options.getTextureDir() + "/";
-			setIcon(new ImageIcon(path + resourcePath));
+			setIcon(new ImageIcon(resourcePath));
 		}
 	}
 	/**
@@ -102,10 +101,6 @@ public class GridDisplay extends JPanel {
 				case KeyEvent.VK_R:
 					grid.getTracker().reset();
 					break;
-				case KeyEvent.VK_ENTER:
-					System.out.println(grid.getPlayer().getX() + ", " + grid.getPlayer().getY());
-					System.out.println(grid.getPlayer().getDirection());
-					break;
 				case KeyEvent.VK_UP:
 					grid.getPlayer().setDirection(Direction.UP);
 					if (grid.getPlayer().canMove())
@@ -125,20 +120,6 @@ public class GridDisplay extends JPanel {
 					grid.getPlayer().setDirection(Direction.LEFT);
 					if (grid.getPlayer().canMove())
 						grid.getPlayer().move();
-					break;
-				case KeyEvent.VK_G:
-					Options.setButtonColor(Color.green);
-					break;
-				case KeyEvent.VK_O:
-					Options.setButtonColor(Color.orange);
-					break;
-				case KeyEvent.VK_1:
-					Options.setTextureDir("classic");
-					updateMap();
-					break;
-				case KeyEvent.VK_2:
-					Options.setTextureDir("test");
-					updateMap();
 					break;
 				}
 			}
@@ -216,23 +197,22 @@ public class GridDisplay extends JPanel {
 	private void addToMap(String componentName, String resourceName) {
 		Image sprite = null;
 		try {
-		    sprite = ImageIO.read(new File(resourceName));
+		    sprite = ImageIO.read(new File("resources/" + Options.getTextureDir() + "/" + resourceName));
 		} catch (IOException e) {
 		}
 		sprites.put(componentName, sprite);
 	}
 	
 	public void updateMap() {
-		String path = "resources/" + Options.getTextureDir() + "/";
-		addToMap("Ground", path + "ground.png");
-		addToMap("Crate", path + "crate.png");
-		addToMap("Wall", path + "wall.png");
-		addToMap("Goal", path + "goal.png");
-		addToMap("CrateOnGoal", path + "crateOnGoal.png");
-		addToMap("PlayerUP", path + "playerUp.png");
-		addToMap("PlayerRIGHT", path + "playerRight.png");
-		addToMap("PlayerDOWN", path + "playerDown.png");
-		addToMap("PlayerLEFT", path + "playerLeft.png");
+		addToMap("Ground", "ground.png");
+		addToMap("Crate", "crate.png");
+		addToMap("Wall", "wall.png");
+		addToMap("Goal", "goal.png");
+		addToMap("CrateOnGoal", "crateOnGoal.png");
+		addToMap("PlayerUP", "playerUp.png");
+		addToMap("PlayerRIGHT", "playerRight.png");
+		addToMap("PlayerDOWN", "playerDown.png");
+		addToMap("PlayerLEFT", "playerLeft.png");
 	}
 		
 	/**
