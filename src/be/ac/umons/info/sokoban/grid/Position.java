@@ -18,6 +18,8 @@ abstract class Position extends Point implements Component {
 	 */
 	Position(Grid grid, int xInput, int yInput) {
 		super(xInput, yInput);
+		if (xInput < 0 || xInput >= grid.getWidth() || yInput < 0 || yInput >= grid.getHeight())
+			throw new IllegalArgumentException();
 		this.grid = grid;
 	}
 

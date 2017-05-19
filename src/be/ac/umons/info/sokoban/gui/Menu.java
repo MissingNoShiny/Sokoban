@@ -261,10 +261,10 @@ public class Menu extends JPanel {
 		generatorParameters1.add(new DefaultLabel("Width"));
 		generatorParameters1.add(new DefaultLabel("Height"));
 		
-		final LocalSlider levelWidthSlider = new LocalSlider(5, 20, 5);
+		final LocalSlider levelWidthSlider = new LocalSlider(5, 25, 5);
 		generatorParameters1.add(levelWidthSlider);
 		
-		final LocalSlider levelHeightSlider = new LocalSlider(5, 20, 5);
+		final LocalSlider levelHeightSlider = new LocalSlider(5, 25, 5);
 		generatorParameters1.add(levelHeightSlider);
 		
 		

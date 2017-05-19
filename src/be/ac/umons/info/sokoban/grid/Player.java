@@ -4,7 +4,7 @@ package be.ac.umons.info.sokoban.grid;
  * A class used to manage a player.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public class Player extends Position {
+public final class Player extends Position {
 	
 	/**
 	 * The Direction the player is facing.

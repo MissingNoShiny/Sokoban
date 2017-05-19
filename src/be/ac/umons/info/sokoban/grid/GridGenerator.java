@@ -46,7 +46,7 @@ public final class GridGenerator {
 	 * @throws IllegalArgumentException If the parameters are out of set bounds
 	 */
 	public static Grid generateGrid(int width, int height, int cratesAmount, int difficulty) throws IllegalArgumentException{
-		if (width < 6 || height < 6 || width > 20 || height > 20 || cratesAmount < 2 || cratesAmount > ((width-2)*(height-2))/5+2 || difficulty > 20)
+		if (width < 6 || height < 6 || width > 25 || height > 25 || cratesAmount < 2 || cratesAmount > ((width-2)*(height-2))/5+2 || difficulty > 20)
 			throw new IllegalArgumentException();
 		
 		Boolean validGoalsDisposition;
