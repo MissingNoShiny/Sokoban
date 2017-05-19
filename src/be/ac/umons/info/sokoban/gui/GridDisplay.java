@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -34,7 +35,7 @@ public class GridDisplay extends JPanel {
 
 		private static final long serialVersionUID = 4616710500625962373L;
 		
-		public ArrowButton(final Direction dir, String resourcePath) {
+		public ArrowButton(final Direction dir, String resourceName) {
 			setFocusable(false);
 			setBounds(0, 0, 0, 0);
 			setBorderPainted(false);
@@ -46,7 +47,7 @@ public class GridDisplay extends JPanel {
 					grid.getPlayer().move(dir, true);
 				}
 			});
-			setIcon(new ImageIcon("resources/default/" + resourcePath));
+			setIcon((Icon) sprites.get(resourceName));
 		}
 	}
 	/**
@@ -133,20 +134,20 @@ public class GridDisplay extends JPanel {
 		setFocusable(true);
 		setOpaque(true);
 		setLayout(null);
-
-		buttonUp = new ArrowButton(Direction.UP, "arrowUp.png");
-		add(buttonUp);
-
-		buttonRight = new ArrowButton(Direction.RIGHT, "arrowRight.png");
-		add(buttonRight);
-		
-		buttonDown = new ArrowButton(Direction.DOWN, "arrowDown.png");
-		add(buttonDown);
-		
-		buttonLeft = new ArrowButton(Direction.LEFT, "arrowLeft.png");
-		add(buttonLeft);
 		
 		updateMap();
+
+		buttonUp = new ArrowButton(Direction.UP, "arrowUp");
+		add(buttonUp);
+
+		buttonRight = new ArrowButton(Direction.RIGHT, "arrowRight");
+		add(buttonRight);
+		
+		buttonDown = new ArrowButton(Direction.DOWN, "arrowDown");
+		add(buttonDown);
+		
+		buttonLeft = new ArrowButton(Direction.LEFT, "arrowLeft");
+		add(buttonLeft);
 	}
 	
 	@Override
@@ -155,7 +156,7 @@ public class GridDisplay extends JPanel {
 		setBackground(Options.getBackgroundColor());
 		
 		cellSize = 64;
-		while (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight())
+		while (cellSize > 1 && (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight()))
 			cellSize --;
 		if (Options.getBorderThickness() > cellSize)
 			borderThickness = cellSize;
@@ -164,6 +165,8 @@ public class GridDisplay extends JPanel {
 		x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
 		y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
 		updateArrowButtonsIconSize();
+		updateArrowButtonsLocation();
+		updateArrowButtonsVisibility();
 
 			
 		Graphics2D g2d = (Graphics2D) g;
@@ -181,8 +184,6 @@ public class GridDisplay extends JPanel {
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
 		if (grid.getTracker().hasMoved()) {
-			updateArrowButtonsLocation();
-			updateArrowButtonsVisibility();
 			if (grid.isWon())
 				((LevelDisplay) getParent()).displayVictoryScreen();
 		}
@@ -218,6 +219,10 @@ public class GridDisplay extends JPanel {
 		addToMap("PlayerRIGHT", "playerRight.png");
 		addToMap("PlayerDOWN", "playerDown.png");
 		addToMap("PlayerLEFT", "playerLeft.png");
+		addToMap("ArrowUp", "ArrowUp.png");
+		addToMap("ArrowRight", "ArrowRight.png");
+		addToMap("ArrowDown", "ArrowDown.png");
+		addToMap("ArrowLeft", "ArrowLeft.png");
 	}
 		
 	/**
@@ -285,9 +290,9 @@ public class GridDisplay extends JPanel {
 	 * Adapts the icon of the arrow buttons to the cell size.
 	 */
 	private void updateArrowButtonsIconSize() {
-		buttonUp.setIcon(new ImageIcon((((ImageIcon) buttonUp.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
-		buttonRight.setIcon(new ImageIcon((((ImageIcon) buttonRight.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
-		buttonDown.setIcon(new ImageIcon((((ImageIcon) buttonDown.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
-		buttonLeft.setIcon(new ImageIcon((((ImageIcon) buttonLeft.getIcon()).getImage().getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH))));
+		buttonUp.setIcon(new ImageIcon(sprites.get("ArrowUp").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+		buttonRight.setIcon(new ImageIcon(sprites.get("ArrowRight").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+		buttonDown.setIcon(new ImageIcon(sprites.get("ArrowDown").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+		buttonLeft.setIcon(new ImageIcon(sprites.get("ArrowLeft").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
 	}
 }
