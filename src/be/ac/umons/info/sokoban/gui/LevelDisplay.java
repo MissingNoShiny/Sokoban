@@ -161,32 +161,6 @@ public class LevelDisplay extends JPanel {
 		infoPanel.setOpaque(true);
 		add(infoPanel, BorderLayout.WEST);
 		
-		addComponentListener(new ComponentListener() {
-			@Override
-			public void componentHidden(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void componentResized(ComponentEvent arg0) {
-				buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
-				infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
-			}
-
-			@Override
-			public void componentShown(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
 		//If the level is a generated level.
 		if (levelIndex == -2) {
 			setEnabledButtons(false);
@@ -242,6 +216,35 @@ public class LevelDisplay extends JPanel {
 			
 			saveFrame.add(validateButton);
 			saveFrame.add(cancelButton);
+			
+			addComponentListener(new ComponentListener() {
+				@Override
+				public void componentHidden(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void componentMoved(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void componentResized(ComponentEvent arg0) {
+					buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
+					infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
+					displayGrid.updateArrowButtonsIconSize();
+					displayGrid.updateArrowButtonsLocation();
+					displayGrid.updateArrowButtonsVisibility();
+				}
+
+				@Override
+				public void componentShown(ComponentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 			
 			saveFrame.setVisible(true);
 		}

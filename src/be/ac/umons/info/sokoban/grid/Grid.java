@@ -105,7 +105,7 @@ public class Grid {
 	public boolean isWon(){
 		String comp;
 		for (int i = 0; i < crateList.size(); i++) {
-			comp = getComponentAt(crateList.get(i).getX(), crateList.get(i).getY()).getName();
+			comp = getComponentTypeAt(crateList.get(i).getX(), crateList.get(i).getY());
 			if  (! comp.equals("CrateOnGoal"))
 				return false;
 		}

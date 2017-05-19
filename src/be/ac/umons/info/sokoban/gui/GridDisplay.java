@@ -83,7 +83,7 @@ public class GridDisplay extends JPanel {
 	/**
 	 * The arrow buttons that allows the user to move the player using a mouse or touch screen.
 	 */
-	ArrowButton buttonUp, buttonRight, buttonDown, buttonLeft;
+	private ArrowButton buttonUp, buttonRight, buttonDown, buttonLeft;
 	
 	public GridDisplay (Grid gridInput) {
 		grid = gridInput;
@@ -135,7 +135,7 @@ public class GridDisplay extends JPanel {
 		setOpaque(true);
 		setLayout(null);
 		
-		updateMap();
+		setSpritesMap();
 
 		buttonUp = new ArrowButton(Direction.UP, "arrowUp");
 		add(buttonUp);
@@ -164,9 +164,6 @@ public class GridDisplay extends JPanel {
 			borderThickness = Options.getBorderThickness();
 		x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
 		y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
-		updateArrowButtonsIconSize();
-		updateArrowButtonsLocation();
-		updateArrowButtonsVisibility();
 
 			
 		Graphics2D g2d = (Graphics2D) g;
@@ -184,6 +181,9 @@ public class GridDisplay extends JPanel {
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
 		if (grid.getTracker().hasMoved()) {
+			updateArrowButtonsIconSize();
+			updateArrowButtonsLocation();
+			updateArrowButtonsVisibility();
 			if (grid.isWon())
 				((LevelDisplay) getParent()).displayVictoryScreen();
 		}
@@ -209,7 +209,7 @@ public class GridDisplay extends JPanel {
 	/**
 	 * Reloads all the textures.
 	 */
-	public void updateMap() {
+	private void setSpritesMap() {
 		addToMap("Ground", "ground.png");
 		addToMap("Crate", "crate.png");
 		addToMap("Wall", "wall.png");
@@ -269,7 +269,7 @@ public class GridDisplay extends JPanel {
 	/**
 	 * Updates the location of the arrow buttons.
 	 */
-	private void updateArrowButtonsLocation() {
+	public void updateArrowButtonsLocation() {
 		buttonLeft.setBounds(x0 + (grid.getPlayer().getX()-1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 		buttonRight.setBounds(x0 + (grid.getPlayer().getX()+1)*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize);
 		buttonUp.setBounds(x0 + grid.getPlayer().getX()*cellSize, y0 + (grid.getPlayer().getY()-1)*cellSize, cellSize, cellSize);
@@ -279,7 +279,7 @@ public class GridDisplay extends JPanel {
 	/**
 	 * Updates the visibility of the arrow buttons.
 	 */
-	private void updateArrowButtonsVisibility() {
+	public void updateArrowButtonsVisibility() {
 		buttonLeft.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.LEFT));
 		buttonRight.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.RIGHT));
 		buttonUp.setVisible(Options.arePlayerArrowsShown() && grid.getPlayer().canMove(Direction.UP));
@@ -289,7 +289,7 @@ public class GridDisplay extends JPanel {
 	/**
 	 * Adapts the icon of the arrow buttons to the cell size.
 	 */
-	private void updateArrowButtonsIconSize() {
+	public void updateArrowButtonsIconSize() {
 		buttonUp.setIcon(new ImageIcon(sprites.get("ArrowUp").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
 		buttonRight.setIcon(new ImageIcon(sprites.get("ArrowRight").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
 		buttonDown.setIcon(new ImageIcon(sprites.get("ArrowDown").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
