@@ -617,7 +617,7 @@ public final class GridGenerator {
 	private static boolean canPlayerPullCrate(Grid grid, int[][] tab, Crate crate, Direction dir) {
 		cleanTab(tab);
 		if (crate.canBePulled(dir)){
-			Point p = Direction.associateDirectionToNewPoint(crate.getX(), crate.getY(), dir);
+			Point p = Point.getNextPoint(crate, dir);
 			int x = p.getX();
 			int y = p.getY();
 			fillLee(grid, tab, x, y, grid.getPlayer().getX(), grid.getPlayer().getY());

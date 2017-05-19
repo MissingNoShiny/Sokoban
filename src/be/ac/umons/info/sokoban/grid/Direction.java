@@ -9,23 +9,4 @@ public enum Direction {
 	RIGHT,
 	DOWN,
 	LEFT;
-	
-	
-	public static Point associateDirectionToNewPoint(int x, int y, Direction dir) {
-		switch (dir) {
-		case UP:
-			y--; 
-			break;
-		case RIGHT:
-			x++;
-			break;
-		case DOWN:
-			y++;
-			break;
-		case LEFT:
-			x--;
-			break;
-		}
-		return new Point(x, y);
-	}
 }

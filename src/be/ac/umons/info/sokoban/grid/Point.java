@@ -41,4 +41,30 @@ public class Point {
 	public int getY(){
 		return y;
 	}
+	
+	/**
+	 * Gets the Point next to a specified Point in a specified Direction.
+	 * @param p The Point to start from
+	 * @param dir The Direction to go in
+	 * @return The next Point in specified Direction
+	 */
+	public static Point getNextPoint(Point p, Direction dir) {
+		int x = p.getX();
+		int y = p.getY();
+		switch (dir) {
+		case UP:
+			y--; 
+			break;
+		case RIGHT:
+			x++;
+			break;
+		case DOWN:
+			y++;
+			break;
+		case LEFT:
+			x--;
+			break;
+		}
+		return new Point(x, y);
+	}
 }

@@ -37,7 +37,7 @@ class Crate extends Position {
 	 * @return true if the Crate can move in that Direction, false else
 	 */
 	public boolean canMove(Direction dir) {
-		Point p = Direction.associateDirectionToNewPoint(x, y, dir);
+		Point p = getNextPoint(this, dir);
 		int newX = p.getX();
 		int newY = p.getY();
 		
@@ -54,8 +54,8 @@ class Crate extends Position {
 	 */
 	public boolean canBePulled(Direction dir) {
 		if (canMove(dir)) {
-			Point p = Direction.associateDirectionToNewPoint(x, y, dir);
-			p = Direction.associateDirectionToNewPoint(p.getX(), p.getY(), dir);
+			Point p = getNextPoint(this, dir);
+			p = getNextPoint(p, dir);
 			int newX = p.getX();
 			int newY = p.getY();
 			if (newX >= 0 && newX < grid.getWidth() && newY >= 0 && newY < grid.getHeight() && grid.getComponentAt(newX, newY).canBePassedThrough())
