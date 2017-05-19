@@ -27,14 +27,14 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * patternSize Must be an odd integer.
+	 * patternSize The size of the side of a pattern, in cells.
 	 */
 	private final static int patternSize = 5;
 	
 	/**
-	 * Used in the movePlayer method. An generation parameter.
+	 * The number of times a player will attempt to pull the same crate.
 	 */
-	private final static int playerTrialsOnSameCrate = 2;
+	private final static int playerTriesOnSameCrate = 2;
 	
 	/**
 	 * Generates a Grid.
@@ -57,9 +57,8 @@ public final class GridGenerator {
 			int numberIterations = 0;
 			validGoalsDisposition = false;
 			do {
-				grid = generateRoom(width, height);
-			}while(!isGroundConnected(grid, cratesAmount));
-			//System.out.println("Room generee");
+				grid = generateEmptyGrid(width, height);
+			}while(!areGroundsConnected(grid));
 			while (!validGoalsDisposition && numberIterations < seuilMaxIterations) {
 				validGoalsDisposition = true;
 				try {
@@ -80,12 +79,12 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Generates an empty room 
-	 * @param width
-	 * @param height
-	 * @return
+	 * Generates a grid containing only ground and wall Components.
+	 * @param width The width of the grid
+	 * @param height The height of the grid
+	 * @return The generated empty grid
 	 */
-	private static Grid generateRoom(int width, int height) {
+	private static Grid generateEmptyGrid(int width, int height) {
 		Grid grid = new Grid(width, height);
 		grid.fill(new Blank());
 		int step = patternSize/2+1;
@@ -99,8 +98,8 @@ public final class GridGenerator {
 					numberRotations = rand.nextInt(4);
 					for (int k = 0; k < numberRotations; k++)
 						rotatePattern(pattern);
-				}while (! canplaceHere(grid, i, j, pattern));
-				placeHere(grid, i, j, pattern);
+				}while (! canPlacePattern(grid, i, j, pattern));
+				placePattern(grid, i, j, pattern);
 			}
 		}
 		removeDeadEnds(grid);
@@ -151,8 +150,15 @@ public final class GridGenerator {
 		return tab;
 	}
 	
-
-	private static boolean canplaceHere(Grid grid, int x, int y, Component[][] pattern) {
+	/**
+	 * Checks if a pattern can be placed in a grid at a specified position.
+	 * @param grid The grid to attempt to place the pattern in
+	 * @param x The X-coordinate of the position
+	 * @param y The Y-coordinate of the position
+	 * @param pattern The pattern to place
+	 * @return true if the pattern can be placed, false else
+	 */
+	private static boolean canPlacePattern(Grid grid, int x, int y, Component[][] pattern) {
 		int half = patternSize/2;
 		for (int i = x-half; i <= x+half; i++){
 			for (int j = y-half; j <= y+half; j++){
@@ -170,7 +176,15 @@ public final class GridGenerator {
 	}
 	
 
-	private static void placeHere(Grid grid, int x, int y, Component[][] pattern){
+	/**
+	 * Places a pattern in a specified grid at a specified position.
+	 * The pattern will be centered around the position.
+	 * @param grid The grid to place the pattern in
+	 * @param x The X-coordinate of the position
+	 * @param y The Y-coordinate of the position
+	 * @param pattern The pattern to place
+	 */
+	private static void placePattern(Grid grid, int x, int y, Component[][] pattern){
 		int half = patternSize/2;
 		for (int i = x-half; i <= x+half; i++){
 			for (int j = y-half; j <= y+half; j++){
@@ -195,19 +209,15 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Je compte tous les "Ground", et je compare par rapport au nombre de "Ground" qu'on peut atteindre a
-	 * partir du premier "ground" trouve en passant uniquement par des Ground.
-	 * @param grid
-	 * @param numberCrates
-	 * @return
+	 * Checks if all ground Components in a grid are connected.
+	 * @param grid The grid to check the ground of
+	 * @return true if the ground Components are all connected, false else
 	 */
-	private static boolean isGroundConnected (Grid grid, int numberCrates) {
+	private static boolean areGroundsConnected (Grid grid) {
 		int numberGrounds, numberAdjacentGrounds;
 		numberGrounds = countAllGrounds(grid);
 		numberAdjacentGrounds = countAccessibleGrounds(grid);
-		if (numberGrounds < numberCrates+3 || numberGrounds != numberAdjacentGrounds)
-			return false;
-		return true;
+		return numberGrounds == numberAdjacentGrounds;
 	}
 	
 	/**
@@ -295,8 +305,8 @@ public final class GridGenerator {
 							int numberRotations = rand.nextInt(4);
 							for (int k = 0; k < numberRotations; k++)
 								rotatePattern(pattern);
-						}while (! canplaceHere(grid, xCenterPattern, yCenterPattern, pattern));
-						placeHere(grid, xCenterPattern, yCenterPattern, pattern);
+						}while (! canPlacePattern(grid, xCenterPattern, yCenterPattern, pattern));
+						placePattern(grid, xCenterPattern, yCenterPattern, pattern);
 						if (xCenterPattern > 2)
 							i = xCenterPattern - 2;
 						else
@@ -459,10 +469,12 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * 
-	 * @param grid
-	 * @param numberMoves
-	 * @throws InvalidDispositionException
+	 * Moves a player to generate a random starting situation from a finished level.
+	 * <p>The player will try to change its Direction a specified number of times, but if it can't
+	 * and at least 80% of the Crates have been moved, the number will be considered reached.
+	 * @param grid The grid to move the player of
+	 * @param numberMoves The number of direction changes the player will try to reach
+	 * @throws InvalidDispositionException If the player can't be moved enough in the current situation
 	 */
 	private static void movePlayer(Grid grid, int numberMoves) throws InvalidDispositionException {
 		Random rand = new Random();
@@ -524,7 +536,7 @@ public final class GridGenerator {
 					movedCratesList[i] = true;
 					player.pullCrate(directions[oldDirection]);
 					int trialsNumber = 0;
-					while (trialsNumber < playerTrialsOnSameCrate) {
+					while (trialsNumber < playerTriesOnSameCrate) {
 						do {
 							newDirection = rand.nextInt(4);
 						} while (newDirection == (oldDirection+2)%4);
@@ -556,13 +568,13 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Used to find the fastest way to join the source. 
-	 * @param grid
-	 * @param tab
-	 * @param xSource
-	 * @param ySource
-	 * @param xGoal	if the point specified by xGoal and yGoal is reached,  the filling is stopped 
-	 * @param yGoal
+	 * Finds the shortest path from a position to another.
+	 * @param grid The grid to find the path in
+	 * @param tab An int matrix used to determine the path
+	 * @param xSource The X-coordinate of the ending position
+	 * @param ySource The Y-coordinate of the ending position
+	 * @param xGoal	The X-coordinate of the starting position
+	 * @param yGoal The Y-coordinate of the starting position
 	 */
 	private static void fillLee(Grid grid, int[][] tab, int xSource, int ySource, int xGoal, int yGoal) {
 		boolean goalIsReach = false;
@@ -606,9 +618,9 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * 
-	 * @param grid
-	 * @param tab
+	 * Moves the player of a grid to the source of a filling.
+	 * @param grid The grid to move the player in
+	 * @param tab A int matrix obtained through filling
 	 */
 	private static void goToSource(Grid grid, int[][] tab) {
 		Player player = grid.getPlayer();

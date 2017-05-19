@@ -168,9 +168,9 @@ public class Game implements Runnable {
 	 */
 	public void loadLevel(String path, int levelIndex, String levelName) throws IOException, InvalidFileException {
 		if (levelIndex < 0)
-			grid = GridReader.loadGame(path, false);
+			grid = GridReader.loadLevel(path, false);
 		else
-			grid = GridReader.loadGame(path, true);
+			grid = GridReader.loadLevel(path, true);
 		level = new LevelDisplay(grid, this, levelIndex, levelName);
 		window.setContentPane(level);
 		level.displayGrid.requestFocusInWindow();

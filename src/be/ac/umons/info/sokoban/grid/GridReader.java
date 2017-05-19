@@ -112,11 +112,11 @@ public final class GridReader {
 	}
 	
 	/**
-	 * 
-	 * @param path
-	 * @param levelIndex
-	 * @param moves
-	 * @param pushes
+	 * Saves the best scores of a level and update campaign progress if necessary.
+	 * @param path The path of the file to save the scores to
+	 * @param levelIndex The index of the level
+	 * @param moves The moves score
+	 * @param pushes The pushes score
 	 */
 	public static void saveVictory(String path, int levelIndex, int moves, int pushes) {
 		BufferedWriter buff = null;
@@ -174,9 +174,9 @@ public final class GridReader {
 	
 	
 	/**
-	 * Return null if the level is not yet finished
-	 * @param path
-	 * @return a couple of int. The x is the best movesCount and the y is the best PushesCount
+	 * Gets the content of a score file.
+	 * @param path The path of the file
+	 * @return An array containing the best scores if the file exist, null else
 	 */
 	public static int[] getBestScores(String path) {
 		File file = new File(path);
@@ -205,14 +205,14 @@ public final class GridReader {
 	}
 	
 	/**
-	 * 
-	 * @param path
-	 * @param isCampaignLevel
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws InvalidFileException
+	 * Loads a .xsb file and its associated .mov file if it exists.
+	 * @param path The path of the filesto load (without the .xsb or .mov extension)
+	 * @param isCampaignLevel true if the level if part of the campaign, false else
+	 * @return The loaded grid
+	 * @throws FileNotFoundException if the path is invalid
+	 * @throws InvalidFileException if the file is invalid
 	 */
-    public static Grid loadGame(String path, boolean isCampaignLevel) throws FileNotFoundException, InvalidFileException {
+    public static Grid loadLevel(String path, boolean isCampaignLevel) throws FileNotFoundException, InvalidFileException {
     	Grid grid = readGrid(path + ".xsb");
     	try {
         	if (isCampaignLevel) {
@@ -229,11 +229,11 @@ public final class GridReader {
     }
     
     /**
-     * 
-     * @param path
-     * @return
-     * @throws FileNotFoundException
-     * @throws InvalidFileException
+     * Reads a .xsb file and translates its content into a grid
+     * @param path The path of the file to read
+     * @return The grid contained in the file
+     * @throws FileNotFoundException if the path is invalid
+     * @throws InvalidFileException if the file is invalid
      */
 	private static Grid readGrid(String path) throws FileNotFoundException, InvalidFileException {
 		File file = new File(path);
@@ -320,11 +320,12 @@ public final class GridReader {
 	}
 	
 	/**
-	 * 
-	 * @param grid
-	 * @param path
-	 * @throws FileNotFoundException
-	 * @throws InvalidFileException
+	 * Applies the moves in a .mov file to a specified grid.
+	 * @param grid The grid to apply the moves to
+	 * @param path The path of the .mov file
+	 * @param acceptImpossibleMoves true if attempting invalid moves is allowed, false else
+	 * @throws FileNotFoundException if the path is invalid
+	 * @throws InvalidFileException if the .mov file is invalid
 	 */
 	private static void applyMovesToGrid(Grid grid, String path, boolean acceptImpossibleMoves) throws FileNotFoundException, InvalidFileException {
 		grid.getTracker().readMov(path);
