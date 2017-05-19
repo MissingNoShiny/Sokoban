@@ -234,9 +234,8 @@ public class LevelDisplay extends JPanel {
 				public void componentResized(ComponentEvent arg0) {
 					buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
 					infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
-					displayGrid.updateArrowButtonsIconSize();
 					displayGrid.updateArrowButtonsLocation();
-					displayGrid.updateArrowButtonsVisibility();
+					displayGrid.updateArrowButtonsIconSize();
 				}
 
 				@Override

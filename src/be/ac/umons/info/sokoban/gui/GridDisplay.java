@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -47,7 +46,7 @@ public class GridDisplay extends JPanel {
 					grid.getPlayer().move(dir, true);
 				}
 			});
-			setIcon((Icon) sprites.get(resourceName));
+			setIcon(new ImageIcon(sprites.get(resourceName)));
 		}
 	}
 	/**
@@ -137,16 +136,16 @@ public class GridDisplay extends JPanel {
 		
 		setSpritesMap();
 
-		buttonUp = new ArrowButton(Direction.UP, "arrowUp");
+		buttonUp = new ArrowButton(Direction.UP, "ArrowUp");
 		add(buttonUp);
 
-		buttonRight = new ArrowButton(Direction.RIGHT, "arrowRight");
+		buttonRight = new ArrowButton(Direction.RIGHT, "ArrowRight");
 		add(buttonRight);
 		
-		buttonDown = new ArrowButton(Direction.DOWN, "arrowDown");
+		buttonDown = new ArrowButton(Direction.DOWN, "ArrowDown");
 		add(buttonDown);
 		
-		buttonLeft = new ArrowButton(Direction.LEFT, "arrowLeft");
+		buttonLeft = new ArrowButton(Direction.LEFT, "ArrowLeft");
 		add(buttonLeft);
 	}
 	
@@ -181,9 +180,9 @@ public class GridDisplay extends JPanel {
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
 		
 		if (grid.getTracker().hasMoved()) {
-			updateArrowButtonsIconSize();
 			updateArrowButtonsLocation();
 			updateArrowButtonsVisibility();
+			updateArrowButtonsIconSize();
 			if (grid.isWon())
 				((LevelDisplay) getParent()).displayVictoryScreen();
 		}
@@ -219,10 +218,10 @@ public class GridDisplay extends JPanel {
 		addToMap("PlayerRIGHT", "playerRight.png");
 		addToMap("PlayerDOWN", "playerDown.png");
 		addToMap("PlayerLEFT", "playerLeft.png");
-		addToMap("ArrowUp", "ArrowUp.png");
-		addToMap("ArrowRight", "ArrowRight.png");
-		addToMap("ArrowDown", "ArrowDown.png");
-		addToMap("ArrowLeft", "ArrowLeft.png");
+		addToMap("ArrowUp", "arrowUp.png");
+		addToMap("ArrowRight", "arrowRight.png");
+		addToMap("ArrowDown", "arrowDown.png");
+		addToMap("ArrowLeft", "arrowLeft.png");
 	}
 		
 	/**
@@ -290,9 +289,9 @@ public class GridDisplay extends JPanel {
 	 * Adapts the icon of the arrow buttons to the cell size.
 	 */
 	public void updateArrowButtonsIconSize() {
-		buttonUp.setIcon(new ImageIcon(sprites.get("ArrowUp").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
-		buttonRight.setIcon(new ImageIcon(sprites.get("ArrowRight").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
-		buttonDown.setIcon(new ImageIcon(sprites.get("ArrowDown").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
-		buttonLeft.setIcon(new ImageIcon(sprites.get("ArrowLeft").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
-	}
+	  	buttonUp.setIcon(new ImageIcon(sprites.get("ArrowUp").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+	  	buttonRight.setIcon(new ImageIcon(sprites.get("ArrowRight").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+	  	buttonDown.setIcon(new ImageIcon(sprites.get("ArrowDown").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+	  	buttonLeft.setIcon(new ImageIcon(sprites.get("ArrowLeft").getScaledInstance(cellSize, cellSize, Image.SCALE_SMOOTH)));
+	  	}
 }
