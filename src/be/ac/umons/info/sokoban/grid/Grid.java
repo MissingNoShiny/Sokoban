@@ -185,7 +185,7 @@ public class Grid {
 	public MovementTracker getTracker() {
 		return tracker;
 	}
-	
+
 	/**
 	 * Fills the grid with an instance of a chosen Component.
 	 * @param component The component to fill the grid with an instance of

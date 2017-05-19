@@ -30,6 +30,10 @@ import javax.swing.plaf.basic.BasicSliderUI;
 import be.ac.umons.info.sokoban.grid.GridReader;
 import be.ac.umons.info.sokoban.grid.InvalidFileException;
 
+/**
+ * 
+ * @author larci
+ */
 public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
@@ -363,7 +367,7 @@ public class Menu extends JPanel {
 		mainMenuPanel.add(exitButton);
 		
 		optionsPanel.setBackground(Options.getBackgroundColor());
-		optionsPanel.setLayout(new GridLayout(7, 1, 3, 3));
+		optionsPanel.setLayout(new GridLayout(8, 1, 3, 3));
 		
 		JLabel optionsPanelTitle = new JLabel("Options", SwingConstants.CENTER);
 		optionsPanelTitle.setFont(Options.titleFont);
@@ -380,7 +384,7 @@ public class Menu extends JPanel {
 		JPanel optionsButtonColorSliders = new JPanel();
 		optionsButtonColorSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
-		final JSlider optionsButtonColorSlider1 = new JSlider(0, 255, 16);
+		final JSlider optionsButtonColorSlider1 = new JSlider(0, 255);
 		optionsButtonColorSlider1.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider1, Color.red));
 		optionsButtonColorSlider1.setBackground(Options.getButtonColor());
 		optionsButtonColorSlider1.setValue(optionsButtonColorLabel.getBackground().getRed());
@@ -395,7 +399,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final JSlider optionsButtonColorSlider2 = new JSlider(0, 255, 16);
+		final JSlider optionsButtonColorSlider2 = new JSlider(0, 255);
 		optionsButtonColorSlider2.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider2, Color.green));
 		optionsButtonColorSlider2.setBackground(Options.getButtonColor());
 		optionsButtonColorSlider2.setValue(optionsButtonColorLabel.getBackground().getGreen());
@@ -410,7 +414,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final JSlider optionsButtonColorSlider3 = new JSlider(0, 255, 16);
+		final JSlider optionsButtonColorSlider3 = new JSlider(0, 255);
 		optionsButtonColorSlider3.setUI(new ColoredThumbSliderUI(optionsButtonColorSlider3, Color.blue));
 		optionsButtonColorSlider3.setBackground(Options.getButtonColor());
 		optionsButtonColorSlider3.setValue(optionsButtonColorLabel.getBackground().getBlue());
@@ -445,7 +449,6 @@ public class Menu extends JPanel {
 		optionsButtonColorPanel.add(optionsButtonColorSliders);
 		optionsButtonColorPanel.add(optionsButtonColorReset);
 		
-		
 		JPanel optionsBackgroundColorPanel = new JPanel();
 		optionsBackgroundColorPanel.setLayout(new GridLayout(1, 3, 3, 3));
 		optionsBackgroundColorPanel.setOpaque(false);
@@ -462,7 +465,7 @@ public class Menu extends JPanel {
 		JPanel optionsBackgroundColorSliders = new JPanel();
 		optionsBackgroundColorSliders.setLayout(new GridLayout(3, 1, 0, 0));
 		
-		final JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255, 16);
+		final JSlider optionsBackgroundColorSlider1 = new JSlider(0, 255);
 		optionsBackgroundColorSlider1.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider1, Color.red));
 		optionsBackgroundColorSlider1.setBackground(Options.getButtonColor());
 		optionsBackgroundColorSlider1.setValue(optionsBackgroundColorLabelPanel.getBackground().getRed());
@@ -477,7 +480,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255, 16);
+		final JSlider optionsBackgroundColorSlider2 = new JSlider(0, 255);
 		optionsBackgroundColorSlider2.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider2, Color.green));
 		optionsBackgroundColorSlider2.setBackground(Options.getButtonColor());
 		optionsBackgroundColorSlider2.setValue(optionsBackgroundColorLabelPanel.getBackground().getGreen());
@@ -492,7 +495,7 @@ public class Menu extends JPanel {
 			}
 		});
 		
-		final JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255, 16);
+		final JSlider optionsBackgroundColorSlider3 = new JSlider(0, 255);
 		optionsBackgroundColorSlider3.setUI(new ColoredThumbSliderUI(optionsBackgroundColorSlider3, Color.blue));
 		optionsBackgroundColorSlider3.setBackground(Options.getButtonColor());
 		optionsBackgroundColorSlider3.setValue(optionsBackgroundColorLabelPanel.getBackground().getBlue());
@@ -527,11 +530,35 @@ public class Menu extends JPanel {
 		optionsBackgroundColorPanel.add(optionsBackgroundColorSliders);
 		optionsBackgroundColorPanel.add(optionsBackgroundColorReset);
 		
+		JPanel optionsBorderThicknessPanel = new JPanel();
+		optionsBorderThicknessPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		
+		final JLabel optionsBorderThicknessLabel = new JLabel("Border Thickness: " + Options.getBorderThickness(), SwingConstants.CENTER);
+		optionsBorderThicknessLabel.setFont(Options.bigFont);
+		optionsBorderThicknessLabel.setBackground(Options.getButtonColor());
+		optionsBorderThicknessLabel.setOpaque(true);
+		
+		final JSlider optionsBorderThicknessSlider = new JSlider(0, 64);
+		optionsBorderThicknessSlider.setBackground(Options.getButtonColor());
+		optionsBorderThicknessSlider.setValue(Options.getBorderThickness());
+		optionsBorderThicknessSlider.setMinorTickSpacing(1);
+		optionsBorderThicknessSlider.setPaintTicks(true);
+		optionsBorderThicknessSlider.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				optionsBorderThicknessLabel.setText("Border Thickness: " + optionsBorderThicknessSlider.getValue());
+			}
+		});
+
+		optionsBorderThicknessPanel.add(optionsBorderThicknessLabel);
+		optionsBorderThicknessPanel.add(optionsBorderThicknessSlider);
+		
 		JPanel optionsTextureDirPanel = new JPanel();
 		optionsTextureDirPanel.setLayout(new GridLayout(1, 2, 0, 0));
 		optionsTextureDirPanel.setOpaque(false);
 		
-		JLabel optionsTextureDirLabel = new JLabel("Texture Pack: ", SwingConstants.CENTER);
+		JLabel optionsTextureDirLabel = new JLabel("Texture Pack:", SwingConstants.CENTER);
 		optionsTextureDirLabel.setFont(Options.bigFont);
 		optionsTextureDirLabel.setBackground(Options.getButtonColor());
 		optionsTextureDirLabel.setOpaque(true);
@@ -578,6 +605,7 @@ public class Menu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Options.setButtonColor(new Color(optionsButtonColorSlider1.getValue(), optionsButtonColorSlider2.getValue(), optionsButtonColorSlider3.getValue()));
 				Options.setBackgroundColor(new Color(optionsBackgroundColorSlider1.getValue(), optionsBackgroundColorSlider2.getValue(), optionsBackgroundColorSlider3.getValue()));
+				Options.setBorderThickness(optionsBorderThicknessSlider.getValue());
 				Options.setTextureDir((String) optionsTextureDirList.getSelectedItem());
 				Options.setPlayerArrowsShown(optionsPlayerArrowsButton.isSelected());
 				gameInput.updateOptions(getParent());
@@ -597,6 +625,7 @@ public class Menu extends JPanel {
 				optionsBackgroundColorSlider1.setValue(Options.getBackgroundColor().getRed());
 				optionsBackgroundColorSlider2.setValue(Options.getBackgroundColor().getGreen());
 				optionsBackgroundColorSlider3.setValue(Options.getBackgroundColor().getBlue());
+				optionsBorderThicknessSlider.setValue(Options.getBorderThickness());
 				optionsTextureDirList.setSelectedItem(Options.getTextureDir());
 				optionsPlayerArrowsButton.setSelected(Options.arePlayerArrowsShown());
 				cd.show(mainMenuPanel.getParent(), "mainMenuPanel");
@@ -609,6 +638,7 @@ public class Menu extends JPanel {
 		optionsPanel.add(optionsPanelTitle);
 		optionsPanel.add(optionsButtonColorPanel);
 		optionsPanel.add(optionsBackgroundColorPanel);
+		optionsPanel.add(optionsBorderThicknessPanel);
 		optionsPanel.add(optionsTextureDirPanel);
 		optionsPanel.add(optionsPlayerArrowsButton);
 		optionsPanel.add(new JLabel());
@@ -620,7 +650,7 @@ public class Menu extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Gets the save list
 	 * @return
 	 */
 	private static String[] getSavesList() {
@@ -644,12 +674,20 @@ public class Menu extends JPanel {
 		return savesList;
 	}
 	
+	/**
+	 * Enables/Disables the buttons in the mainMenuPanel.
+	 * @param arg The enabled state to put the buttons in
+	 */
 	private void setEnabledButtons(boolean arg) {
-		for (int i = 0; i < mainMenuPanel.getComponentCount(); i++) {
+		for (int i = 1; i < mainMenuPanel.getComponentCount(); i++) {
 			mainMenuPanel.getComponent(i).setEnabled(arg);
 		}
 	}
 	
+	/**
+	 * Gets the list of directories in the resources directory.
+	 * @return The list of directories in the resources directory
+	 */
 	private String[] getTexturePackList() {
 		File folder = new File("resources");
 		File[] texturePackFileList = folder.listFiles();

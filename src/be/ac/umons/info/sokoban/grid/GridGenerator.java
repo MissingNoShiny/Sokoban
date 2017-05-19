@@ -451,7 +451,7 @@ public final class GridGenerator {
 		ArrayList<Crate> crateList = grid.getCrateList();
 		boolean[] movedCratesList = new boolean[crateList.size()];
 		Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
-		while (grid.getTracker().getDistanceTraveled()<numberMoves) {
+		while (grid.getTracker().getDirectionChangesCount()<numberMoves) {
 			do {
 				iDep = rand.nextInt(crateList.size());
 			} while (iDep == indexPrecCrate);
@@ -498,7 +498,7 @@ public final class GridGenerator {
 			if (hasFoundPossibleCrate) {
 				indexPrecCrate = i%crateList.size();
 				goToSource(grid, tab);
-				if (grid.getTracker().getDistanceTraveled()<numberMoves) {
+				if (grid.getTracker().getDirectionChangesCount()<numberMoves) {
 					movedCratesList[i] = true;
 					player.pullCrate(directions[oldDirection], true);
 					int trialsNumber = 0;

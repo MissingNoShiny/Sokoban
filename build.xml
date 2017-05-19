@@ -17,6 +17,14 @@
 		<java classname="be.ac.umons.info.sokoban.gui.Game" classpath="${build.dir}" fork="true"/>
 	</target>
 	
+	<target name="consoleMode" depends="build">
+		<java classname="be.ac.umons.info.sokoban.gui.ConsoleMode" classpath="${build.dir}">
+			<arg value = "${arg0}"/>
+			<arg value = "${arg1}"/>
+			<arg value = "${arg2}"/>
+		</java>	
+	</target>
+	
 	<target name="test" depends="build">
 		<java classname="be.ac.umons.info.sokoban.gui.Tests" classpath="${build.dir}"/>
 	</target>

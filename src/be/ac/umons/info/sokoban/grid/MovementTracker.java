@@ -280,12 +280,10 @@ public class MovementTracker {
 	}
 	
 	/**
-	 * Retourne une notion de distance tenant compte de la complexite
-	 * Concretement, on ne compte pas comme un mouvement un deplacement quand la direction est inchangee par
-	 * rapport au mouvement precedent.
-	 * @return 
+	 * Gets the amount of direction changes the player has made.
+	 * @return The amount of direction changes
 	 */
-	public int getDistanceTraveled() {
+	public int getDirectionChangesCount() {
 		if (moves.size() == 0)
 			return 0;
 		int count = 1;

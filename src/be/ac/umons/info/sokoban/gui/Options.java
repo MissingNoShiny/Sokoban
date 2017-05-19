@@ -18,9 +18,11 @@ public class Options implements Serializable {
 	
 	public static final Color DEFAULT_BACKGROUND_COLOR = new Color(135, 206, 250);
 	
+	public static final int DEFAULT_BORDER_THICKNESS = 5;
+	
 	public static final String DEFAULT_TEXTURE_DIR = "default";
 	
-	public static String fontName = "Century";
+	public static String fontName = "century";
 
 	public static final Font smallFont  = new Font(fontName, 0, 40);
 	
@@ -31,14 +33,18 @@ public class Options implements Serializable {
 	private static Color buttonColor = DEFAULT_BUTTON_COLOR;
 	
 	private static Color backgroundColor = DEFAULT_BACKGROUND_COLOR;
+	
+	private static int borderThickness = DEFAULT_BORDER_THICKNESS;
 
-	private static boolean playerArrowsShown = false;
+	private static boolean playerArrowsShown = true;
 	
 	private static String textureDir = DEFAULT_TEXTURE_DIR;
-	
+
 	private Color buttonColorSave;
 	
 	private Color backgroundColorSave;
+	
+	private int borderThicknessSave;
 	
 	private boolean playerArrowsShownSave;
 	
@@ -57,6 +63,7 @@ public class Options implements Serializable {
 	public void save() {
 		buttonColorSave = buttonColor;
 		backgroundColorSave = backgroundColor;
+		borderThicknessSave = borderThickness;
 		playerArrowsShownSave = playerArrowsShown;
 		textureDirSave = textureDir;
 		try {
@@ -85,6 +92,7 @@ public class Options implements Serializable {
 				fileIn.close();
 				buttonColor = output.buttonColorSave;
 				backgroundColor = output.backgroundColorSave;
+				borderThickness = output.borderThicknessSave;
 				playerArrowsShown = output.playerArrowsShownSave;
 				textureDir = output.textureDirSave;
 			} catch (IOException i) {
@@ -114,6 +122,14 @@ public class Options implements Serializable {
 		Options.backgroundColor = backgroundColor;
 	}
 
+	public static int getBorderThickness() {
+		return borderThickness;
+	}
+
+	public static void setBorderThickness(int borderThickness) {
+		Options.borderThickness = borderThickness;
+	}
+	
 	public static boolean arePlayerArrowsShown() {
 		return playerArrowsShown;
 	}

@@ -363,10 +363,8 @@ public final class GridReader {
 	 * @throws IOException If any of the paths are invalid
 	 * @throws InvalidFileException
 	 */
-	public static void applyMovesToGrid(String gridInputPath, String movInputPath) throws IOException, InvalidFileException {
+	public static void applyMovesToGrid(String gridInputPath, String movInputPath, String gridOutputPath) throws IOException, InvalidFileException {
 		Grid grid = GridReader.readGrid(gridInputPath);
-		String gridName = gridInputPath.split("[.]")[0];
-		String gridOutputPath = gridName + "_output";
 		applyMovesToGrid(grid, movInputPath, true);
 		GridReader.saveGrid(grid, gridOutputPath);
 	}

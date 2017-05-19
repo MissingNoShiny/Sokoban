@@ -36,7 +36,8 @@ public final class Tests {
 				File file2 = new File(file1.getPath().split("[.]")[0] + ".mov");
 				if (file2.exists()) {
 					try {
-						GridReader.applyMovesToGrid(file1.getPath(), file2.getPath());
+						String gridOutputPath = file1.getPath().split("[.]")[0] + "_output";
+						GridReader.applyMovesToGrid(file1.getPath(), file2.getPath(), gridOutputPath);
 					} catch (IOException e) {
 						e.printStackTrace();
 					} catch (InvalidFileException e) {

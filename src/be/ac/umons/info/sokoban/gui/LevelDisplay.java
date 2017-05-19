@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -37,13 +39,13 @@ public class LevelDisplay extends JPanel {
 	
 	/**
 	 * The index of the level if the level belong to the campaign.
-	 * -1 if it is an loaded level.
-	 * -2 if it is an generatedLevel
+	 * -1 if it is a loaded level.
+	 * -2 if it is a generated level.
 	 */
 	private int levelIndex;
 	
 	/**
-	 * Used for the save
+	 * The name of the level.
 	 */
 	private String levelName;
 	
@@ -52,6 +54,10 @@ public class LevelDisplay extends JPanel {
 	 */
 	private Point bestScores = null;
 	
+	/**
+	 * 
+	 * @author Vincent Larcin, Joachim Sneessens
+	 */
 	private class InfoPanel extends JPanel{
 
 		private static final long serialVersionUID = 6195740163330975520L;
@@ -155,7 +161,33 @@ public class LevelDisplay extends JPanel {
 		infoPanel.setOpaque(true);
 		add(infoPanel, BorderLayout.WEST);
 		
-		//If the level is an generate level
+		addComponentListener(new ComponentListener() {
+			@Override
+			public void componentHidden(ComponentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+				buttonsPanel.setPreferredSize(new Dimension(game.getWindow().getWidth()/6, game.getWindow().getHeight()));
+				infoPanel.setPreferredSize(buttonsPanel.getPreferredSize());
+			}
+
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		//If the level is a generated level.
 		if (levelIndex == -2) {
 			setEnabledButtons(false);
 			

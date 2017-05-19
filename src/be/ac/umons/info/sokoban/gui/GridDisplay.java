@@ -62,17 +62,12 @@ public class GridDisplay extends JPanel {
 	/**
 	 * The size of each cell of the grid, in pixels.
 	 */
-	private int cellSize = 64;
-	
-	/**
-	 * A boolean value to keep track of whether the cell size has already been calculated.
-	 */
-	private boolean hasCellSizeBeenCalculated = false;
+	private int cellSize;
 	
 	/**
 	 * The thickness of the border around the level, in pixels.
 	 */
-	private int borderThickness = 0;
+	private int borderThickness;
 	
 	/**
 	 * The X-coordinate of the upper left corner of the grid.
@@ -154,18 +149,22 @@ public class GridDisplay extends JPanel {
 		updateMap();
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		setBackground(Options.getBackgroundColor());
 		
-		if (!hasCellSizeBeenCalculated) {
-			while (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight())
-				cellSize --;
-			x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
-			y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
-			updateArrowButtonsIconSize();
-			hasCellSizeBeenCalculated = true;
-		}
+		cellSize = 64;
+		while (grid.getWidth()*cellSize + 2*borderThickness > getWidth() || grid.getHeight()*cellSize + 2*borderThickness > getHeight())
+			cellSize --;
+		if (Options.getBorderThickness() > cellSize)
+			borderThickness = cellSize;
+		else
+			borderThickness = Options.getBorderThickness();
+		x0 = getWidth()/2 - (grid.getWidth()*cellSize)/2;
+		y0 = getHeight()/2 - (grid.getHeight()*cellSize)/2;
+		updateArrowButtonsIconSize();
+
 			
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(borderThickness));
@@ -175,8 +174,8 @@ public class GridDisplay extends JPanel {
 			for (int j = 0; j < grid.getHeight(); j++) {
 				g.drawImage(sprites.get(grid.getComponentTypeAt(i, j)), x0 + i*cellSize, y0 + j*cellSize, cellSize, cellSize, null);
 
-				//if (borderThickness > 0)
-					//drawBorder(i, j, g2d);
+				if (borderThickness > 0)
+					drawBorder(i, j, g2d);
 			}
 		}
 		g.drawImage(sprites.get(grid.getPlayer().getName()), x0 + grid.getPlayer().getX()*cellSize, y0 + grid.getPlayer().getY()*cellSize, cellSize, cellSize, null);
@@ -197,12 +196,18 @@ public class GridDisplay extends JPanel {
 	private void addToMap(String componentName, String resourceName) {
 		Image sprite = null;
 		try {
-		    sprite = ImageIO.read(new File("resources/" + Options.getTextureDir() + "/" + resourceName));
+			if (new File("resources/" + Options.getTextureDir() + "/" + resourceName).exists())
+				sprite = ImageIO.read(new File("resources/" + Options.getTextureDir() + "/" + resourceName));
+			else
+				sprite = ImageIO.read(new File("resources/default/" + resourceName));
 		} catch (IOException e) {
 		}
 		sprites.put(componentName, sprite);
 	}
 	
+	/**
+	 * Reloads all the textures.
+	 */
 	public void updateMap() {
 		addToMap("Ground", "ground.png");
 		addToMap("Crate", "crate.png");
