@@ -1,22 +1,39 @@
 package be.ac.umons.info.sokoban.grid;
 
 /**
- * A class used to manage the player.
+ * A class used to manage a player.
  * @author Vincent Larcin, Joachim Sneessens
  */
 public class Player extends Position {
 	
+	/**
+	 * The Direction the player is facing.
+	 */
 	private Direction direction;
 	
+	/**
+	 * Creates a new player in specified grid at specified coordinates.
+	 * @param grid The grid the player will be in
+	 * @param x The X-coordinate of the player
+	 * @param y The Y-coordinate of the player
+	 */
 	Player(Grid grid, int x, int y) {
 		super(grid, x, y);
 		direction = Direction.DOWN;
 	}
 	
+	/**
+	 * Sets the Direction of the player.
+	 * @param direction The new Direction
+	 */
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
 	
+	/**
+	 * Gets the Direction of the player
+	 * @return the Direction of the player
+	 */
 	public Direction getDirection() {
 		return direction;
 	}
@@ -37,16 +54,17 @@ public class Player extends Position {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Checks if the player can move in the Direction it's currently facing.
+	 * @return true if the player can move, false else
 	 */
 	public boolean canMove() {
 		return canMove(direction);
 	}
 	
 	/**
-	 * @param grid
-	 * @param dir
+	 * Checks if the player can move is specified Direction.
+	 * @param dir The Direction to move the player in
+	 * @return true if the player can move, false else
 	 */
 	public boolean canMove(Direction dir) {
 		
@@ -66,18 +84,25 @@ public class Player extends Position {
 		return test;
 	}
 	
+	/**
+	 * Moves the player in the Direction it's currently facing.
+	 */
 	public void move() {
 		move(direction, true);
 	}
 	
+	/**
+	 * Moves the player in the Direction it's currently facing.
+	 * @param isTracked Whether the move is tracked by the movementTracker
+	 */
 	public void move(boolean isTracked) {
 		move(direction, isTracked);
 	}
 	
 	/**
-	 * 
-	 * @param grid
-	 * @param dir
+	 * Moves the player in specified Direction.
+	 * @param dir The Direction to move the player in
+	 * @param isTracked Whether the move is tracked by the movementTracker
 	 */
 	public void move(Direction dir, boolean isTracked) {
 		Point p = getNextPoint(this, dir);
@@ -96,6 +121,11 @@ public class Player extends Position {
 		y = newY;
 	}
 	
+	/**
+	 * 
+	 * @param dir
+	 * @param isTracked
+	 */
 	void pullCrate(Direction dir, boolean isTracked) {
 		switch (dir) {
 		case UP:

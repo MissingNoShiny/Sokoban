@@ -20,14 +20,14 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Constructor is private to prevent instantiations
+	 * Constructor is private to prevent instantiations.
 	 */
 	private GridGenerator() {
 		
 	}
 	
 	/**
-	 * patternSize must be an impair int
+	 * patternSize Must be an odd integer.
 	 */
 	private final static int patternSize = 5;
 	
@@ -37,13 +37,13 @@ public final class GridGenerator {
 	private final static int playerTrialsOnSameCrate = 2;
 	
 	/**
-	 * 
-	 * @param width
-	 * @param height
-	 * @param cratesAmount
-	 * @param difficulty
-	 * @return
-	 * @throws IllegalArgumentException
+	 * Generates a Grid.
+	 * @param width The width of the grid to generate
+	 * @param height The height of the grid to generate
+	 * @param cratesAmount The amount of crates to place in the grid
+	 * @param difficulty An approximation of the difficulty of the grid (the higher this number is, the more moves will be done during generation)
+	 * @return The generated Grid
+	 * @throws IllegalArgumentException If the parameters are out of set bounds
 	 */
 	public static Grid generateGrid(int width, int height, int cratesAmount, int difficulty) throws IllegalArgumentException{
 		if (width < 6 || height < 6 || width > 20 || height > 20 || cratesAmount < 2 || cratesAmount > ((width-2)*(height-2))/5+2 || difficulty > 20)
@@ -80,7 +80,7 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Generate an empty room 
+	 * Generates an empty room 
 	 * @param width
 	 * @param height
 	 * @return
@@ -108,6 +108,11 @@ public final class GridGenerator {
 		return grid;
 	}
 	
+	/**
+	 * Gets the pattern of corresponding specified index.
+	 * @param numberPattern The index of the pattern
+	 * @return The pattern of specified index
+	 */
 	private static Component[][] getPattern(int numberPattern){
 		Component[][] tab = new Component[patternSize][patternSize];
 		BufferedReader buff = null;
@@ -221,7 +226,12 @@ public final class GridGenerator {
 		return count;
 	}
 	
-	
+	/**
+	 * Finds a ground Component.
+	 * Counts all the other ground Components that can be accessed from found ground.
+	 * @param grid The grid to count ground Components in
+	 * @return The amount of ground Components that can be accessed
+	 */
 	private static int countAccessibleGrounds (Grid grid) {
 		int count;
 		boolean[][] mat = new boolean[grid.getWidth()][grid.getHeight()];
@@ -236,6 +246,14 @@ public final class GridGenerator {
 		return 0;
 	}
 	
+	/**
+	 * Recursively counts all ground Components that can be accessed from a starting position.
+	 * @param grid The grid to count ground Components in
+	 * @param mat A boolean matrix used to avoid counting the same Component twice
+	 * @param x The X-coordinate of the starting position
+	 * @param y The Y-coordinate of the starting position
+	 * @return The amount of ground Components that can be accessed
+	 */
 	private static int countAccessibleGrounds (Grid grid, boolean[][] mat, int x, int y) {
 		int count = 0;
 		if (mat[x][y] == false && grid.getComponentAt(x, y).getName().equals("Ground")){
@@ -254,8 +272,8 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * 
-	 * @param grid
+	 * Removes all dead ends in a blank grid
+	 * @param grid The grid to remove the dead ends of
 	 */
 	private static void removeDeadEnds(Grid grid) {
 		for (int i = 1; i < grid.getWidth()-1; i++){
@@ -329,6 +347,10 @@ public final class GridGenerator {
 		}
 	}
 	
+	/**
+	 * Removes the walls which are useless to gameplay in a grid.
+	 * @param grid The grid to remove the useless walls of
+	 */
 	private static void removeUselessWall(Grid grid) {
 		boolean[][] mat = new boolean[grid.getWidth()][grid.getHeight()];
 		detectUselessWalls(grid, mat, grid.getPlayer().getX(), grid.getPlayer().getY());
@@ -352,11 +374,11 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Sets true on all blocks wich can be reach from the position specified by x and y.
-	 * @param grid
-	 * @param mat
-	 * @param x
-	 * @param y
+	 * Recursively detects the useless walls in a grid by flooding from specified position.
+	 * @param grid The grid to detect useless walls in.
+	 * @param mat A boolean matrix used to avoid detecting the same Component twice
+	 * @param x The X-coordinate of the starting position
+	 * @param y The Y-coordinate of the starting position
 	 */
 	private static void detectUselessWalls(Grid grid, boolean[][] mat, int x, int y) {
 		if (mat[x][y] == false) {
@@ -418,7 +440,7 @@ public final class GridGenerator {
 	}
 	
 	/**
-	 * Finds a valid starting location for the player of a grid.
+	 * Finds a random valid starting location for the player of a grid.
 	 * Sets the player coordinates to found location.
 	 * @param grid The grid to find a valid location for the player of
 	 */

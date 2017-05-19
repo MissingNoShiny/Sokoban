@@ -31,25 +31,47 @@ import be.ac.umons.info.sokoban.grid.GridReader;
 import be.ac.umons.info.sokoban.grid.InvalidFileException;
 
 /**
- * 
- * @author larci
+ * The class used to display the menu of the game.
+ * @author Vincent Larcin
  */
 public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 5237335232850181080L;
 	
+	/**
+	 * The amount of levels in the campaign.
+	 */
 	private static final int campaignLevelsAmount = 25;
 	
+	/**
+	 * The game this class is the menu of.
+	 */
 	private Game game;
 	
+	/**
+	 * An Option Pane used to display errors.
+	 */
 	private JOptionPane IOError = new JOptionPane();
 	
+	/**
+	 * The main JPanel of the menu.
+	 */
 	private JPanel mainMenuPanel;
 	
+	/**
+	 * The layout of the main JPanel of the menu.
+	 */
 	private CardLayout cd = new CardLayout();
 	
+	/**
+	 * The JPanel containing buttons for the campaign levels.
+	 */
 	private CampaignPanel campaignPanel = new CampaignPanel();
 	
+	/**
+	 * A JSlider used multiple times locally.
+	 * @author Joachim Sneessens
+	 */
 	private class LocalSlider extends JSlider{
 		private static final long serialVersionUID = -3599885387076371591L;
 		
@@ -63,11 +85,15 @@ public class Menu extends JPanel {
 			setFont(new Font(Options.fontName, 0 , 20));
 		}
 
-		public void adaptBounds(int value, int value2) {
-				
+		public void adaptBounds(int widthLevel, int heightLevel) {
+
 		}
 	}
 	
+	/**
+	 * The JPanel containing buttons for the campaign levels.
+	 * @author Vincent Larcin, Joachim Sneessens
+	 */
 	private class CampaignPanel extends JPanel {
 		
 		private static final long serialVersionUID = 1523939439467197461L;
@@ -111,6 +137,10 @@ public class Menu extends JPanel {
 		}
 	}
 	
+	/**
+	 * A Button used to load a campaign level.
+	 * @author Vincent Larcin, Joachim Sneessens
+	 */
 	private class CampaignButton extends Button {
 		private static final long serialVersionUID = 1259333880542050320L;
 				
@@ -134,7 +164,7 @@ public class Menu extends JPanel {
 	}
 	
 	/**
-	 * A class used to change the knob color of JSliders.
+	 * A class used to customize the knob of JSliders.
 	 * https://coderanch.com/t/338457/java/JSlider-knob-color
 	 * @author Gregg Bolinger
 	 */
@@ -172,6 +202,10 @@ public class Menu extends JPanel {
 	    }
 	}
 	
+	/**
+	 * Creates a new menu for the specified game.
+	 * @param gameInput The game to create a menu for
+	 */
 	public Menu(final Game gameInput) {
 		
 		this.game = gameInput;
@@ -645,6 +679,9 @@ public class Menu extends JPanel {
 		optionsPanel.add(optionsButtonsPanel);
 	}
 	
+	/**
+	 * Updates the campaignPanel.
+	 */
 	public void updateCampaignPanel() {
 		campaignPanel.update();
 	}
