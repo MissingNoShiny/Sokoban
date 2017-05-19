@@ -126,7 +126,7 @@ public class Player extends Position {
 	 * @param dir
 	 * @param isTracked
 	 */
-	void pullCrate(Direction dir, boolean isTracked) {
+	void pullCrate(Direction dir) {
 		switch (dir) {
 		case UP:
 			pullCrateUp();

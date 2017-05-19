@@ -522,7 +522,7 @@ public final class GridGenerator {
 				goToSource(grid, tab);
 				if (grid.getTracker().getDirectionChangesCount()<numberMoves) {
 					movedCratesList[i] = true;
-					player.pullCrate(directions[oldDirection], true);
+					player.pullCrate(directions[oldDirection]);
 					int trialsNumber = 0;
 					while (trialsNumber < playerTrialsOnSameCrate) {
 						do {
@@ -531,7 +531,7 @@ public final class GridGenerator {
 						trialsNumber++;
 						if (canPlayerPullCrate(grid, tab, crate, directions[newDirection])) {
 							goToSource(grid, tab);
-							player.pullCrate(directions[newDirection], true);
+							player.pullCrate(directions[newDirection]);
 							oldDirection = newDirection;
 							trialsNumber = 0;
 						}
