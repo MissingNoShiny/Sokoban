@@ -64,15 +64,6 @@ class Crate extends Position {
 		return false;
 	}
 	
-	/*
-	 * D'abord je dirige le pointeur du tableau de la case actuelle vers le component support de la caisse
-	 * Ensuite je dirige le pointeur de support vers le component de la case visee
-	 * Finalement je dirige le pointeur de la case du dessus vers la caisse
-	 * 
-	 * L'idee est d'ajouter cette methode a l'interface movable
-	 * Pour ca il faut adapter les move du Player. Pas evident
-	 * Peut etre ensuite faire en sorte que position implemente movable et faire passer les moveUp, etc. dans position
-	 */
 	
 	/**
 	 * Moves the Crate in specified Direction.

@@ -105,20 +105,22 @@ public class Player extends Position {
 	 * @param isTracked Whether the move is tracked by the movementTracker
 	 */
 	public void move(Direction dir, boolean isTracked) {
-		Point p = getNextPoint(this, dir);
-		int newX = p.getX();
-		int newY = p.getY();
-		
-		if (grid.hasCrateAt(newX, newY)) {
-			Crate crate = grid.getCrateAt(newX, newY);
-			crate.move(dir);
-			if (isTracked)
-				grid.getTracker().addPush(dir);
+		if (canMove(dir)) {
+			Point p = getNextPoint(this, dir);
+			int newX = p.getX();
+			int newY = p.getY();
+			
+			if (grid.hasCrateAt(newX, newY)) {
+				Crate crate = grid.getCrateAt(newX, newY);
+				crate.move(dir);
+				if (isTracked)
+					grid.getTracker().addPush(dir);
+			}
+			else if (isTracked)
+				grid.getTracker().addMove(dir);
+			x = newX;
+			y = newY;	
 		}
-		else if (isTracked)
-			grid.getTracker().addMove(dir);
-		x = newX;
-		y = newY;
 	}
 	
 	/**

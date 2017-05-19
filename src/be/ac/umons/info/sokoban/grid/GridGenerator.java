@@ -59,7 +59,7 @@ public final class GridGenerator {
 			do {
 				grid = generateRoom(width, height);
 			}while(!isGroundConnected(grid, cratesAmount));
-			System.out.println("Room generee");
+			//System.out.println("Room generee");
 			while (!validGoalsDisposition && numberIterations < seuilMaxIterations) {
 				validGoalsDisposition = true;
 				try {
@@ -67,15 +67,15 @@ public final class GridGenerator {
 				placePlayer(grid);
 				movePlayer(grid, cratesAmount*15*(int)Math.pow((difficulty+5),2/3));
 				}catch (InvalidDispositionException e) {
-					System.out.println("exception catch");
+					//System.out.println("disposition invalide");
 					validGoalsDisposition = false;
 				}
 				numberIterations++;
 			}			
 		} while(!validGoalsDisposition);
-		System.out.println("Room generee et tout place");
 		removeUselessWall(grid);
-		grid.getTracker().empty();
+		//if you want to see the moves in the generator, delete this line
+		//grid.getTracker().empty();
 		return grid;
 	}
 	
@@ -548,12 +548,11 @@ public final class GridGenerator {
 			}
 		}		
 		if (getMovedCratesAmount(movedCratesList) <= crateList.size()*3/4){
-			System.out.println("pas assez caisses bougees");
+			//System.out.println("pas assez caisses bougees");
 			grid.getTracker().empty();
 			throw new InvalidDispositionException();
 		}
-		System.out.println(crateList.size()+ "  "+ getMovedCratesAmount(movedCratesList));
-		//player.setDirection(Direction.DOWN);
+		player.setDirection(Direction.DOWN);
 	}
 	
 	/**

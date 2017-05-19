@@ -4,7 +4,7 @@ package be.ac.umons.info.sokoban.grid;
  * A substitute to awt's Point using int instead of double.
  * @author Vincent Larcin, Joachim Sneessens
  */
-public class Point {
+class Point {
 	
 	/*
 	 * The X-coordinate of the Point

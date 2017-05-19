@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import be.ac.umons.info.sokoban.grid.Grid;
 import be.ac.umons.info.sokoban.grid.GridReader;
 import be.ac.umons.info.sokoban.grid.InvalidFileException;
-import be.ac.umons.info.sokoban.grid.Point;
 
 public class LevelDisplay extends JPanel {
 
@@ -52,7 +51,7 @@ public class LevelDisplay extends JPanel {
 	/**
 	 * The x of the point is the best movesCount  and the y is the best pushesCount
 	 */
-	private Point bestScores = null;
+	private int[] bestScores = null;
 	
 	/**
 	 * A JPanel used to display information.
@@ -89,8 +88,8 @@ public class LevelDisplay extends JPanel {
 			
 			if (bestScores != null) {
 				add(new DefaultLabel("Best scores :", Options.getBackgroundColor()));
-				add(new DefaultLabel("Moves: "+bestScores.getX(), Options.getBackgroundColor()));
-				add(new DefaultLabel("Pushes: "+bestScores.getY(), Options.getBackgroundColor()));
+				add(new DefaultLabel("Moves: "+bestScores[0], Options.getBackgroundColor()));
+				add(new DefaultLabel("Pushes: "+bestScores[1], Options.getBackgroundColor()));
 			}
 		}
 		

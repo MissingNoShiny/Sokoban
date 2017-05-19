@@ -121,10 +121,10 @@ public final class GridReader {
 	public static void saveVictory(String path, int levelIndex, int moves, int pushes) {
 		BufferedWriter buff = null;
 		int bestMoves = moves + 1, bestPushes = pushes + 1;
-		Point bestScores = getBestScores(path);
+		int[] bestScores = getBestScores(path);
 		if (bestScores != null) {
-			bestMoves = bestScores.getX();
-			bestPushes = bestScores.getY();
+			bestMoves = bestScores[0];
+			bestPushes = bestScores[1];
 		}
 		
 		if ((bestMoves > moves) || (bestPushes > pushes)) {
@@ -178,7 +178,7 @@ public final class GridReader {
 	 * @param path
 	 * @return a couple of int. The x is the best movesCount and the y is the best PushesCount
 	 */
-	public static Point getBestScores(String path) {
+	public static int[] getBestScores(String path) {
 		File file = new File(path);
 		if (!file.exists()) 
 			return null;
@@ -200,7 +200,8 @@ public final class GridReader {
 				}
 			}
 	 	}
-		return new Point(moves, pushes);
+		int[] bestScores = {moves, pushes};
+		return bestScores;
 	}
 	
 	/**
