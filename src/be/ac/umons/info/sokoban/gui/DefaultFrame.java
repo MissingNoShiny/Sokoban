@@ -10,6 +10,12 @@ public class DefaultFrame extends JFrame {
 
 	private static final long serialVersionUID = 235522330751682721L;
 	
+	/**
+	 * Creates a Frame of specified title and dimensions.
+	 * @param title The title of the Frame
+	 * @param width The width of the Frame
+	 * @param height The height of the Frame
+	 */
 	public DefaultFrame(String title, int width, int height) {
 		super(title);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

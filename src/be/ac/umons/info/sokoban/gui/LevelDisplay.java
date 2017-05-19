@@ -55,7 +55,7 @@ public class LevelDisplay extends JPanel {
 	private Point bestScores = null;
 	
 	/**
-	 * 
+	 * A JPanel used to display information.
 	 * @author Vincent Larcin, Joachim Sneessens
 	 */
 	private class InfoPanel extends JPanel{
@@ -94,6 +94,7 @@ public class LevelDisplay extends JPanel {
 			}
 		}
 		
+		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			movesCount.setText("Moves: " + grid.getTracker().getMovesCount());

@@ -122,9 +122,8 @@ public class Player extends Position {
 	}
 	
 	/**
-	 * 
-	 * @param dir
-	 * @param isTracked
+	 * Moves the player in a specified Direction and pulls the crate at the opposite.
+	 * @param dir The Direction to move the Crate and the player in
 	 */
 	void pullCrate(Direction dir) {
 		switch (dir) {
@@ -142,26 +141,34 @@ public class Player extends Position {
 		}
 		grid.getTracker().addMove(dir);
 	}
+	
 	/**
-	 * The crate is under the player, and the player go up and pull the crate
-	 * ->En realite, je bouge la caisse puis le joueur. C'est pour ne pas devoir adapter les coordonnees a l'avance.
-	 * @param grid
+	 * Moves up the player and the crate below it.
 	 */
 	void pullCrateUp() {
 		grid.getCrateAt(x, y+1).move(Direction.UP);
 		y--;
 	}
 	
+	/**
+	 * Moves right the player and the crate to its left.
+	 */
 	void pullCrateRight() {
 		grid.getCrateAt(x-1, y).move(Direction.RIGHT);
 		x++;
 	}
 	
+	/**
+	 * Moves down the player and the crate above it.
+	 */
 	void pullCrateDown() {
 		grid.getCrateAt(x, y-1).move(Direction.DOWN);
 		y++;
 	}
 	
+	/**
+	 * Moves left the player and the crate to its right.
+	 */
 	void pullCrateLeft() {
 		grid.getCrateAt(x+1, y).move(Direction.LEFT);
 		x--;
