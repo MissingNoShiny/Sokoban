@@ -75,7 +75,7 @@ public final class GridGenerator {
 		} while(!validGoalsDisposition);
 		removeUselessWall(grid);
 		//if you want to see the moves in the generator, delete this line
-		//grid.getTracker().empty();
+		grid.getTracker().empty();
 		return grid;
 	}
 	
